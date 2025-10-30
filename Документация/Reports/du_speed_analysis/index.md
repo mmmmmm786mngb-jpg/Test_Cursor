@@ -31,8 +31,18 @@ date;scenario;minutes
 
 #### How to run
 
+Option A — extract from HTML automatically:
+
+```
+pwsh Скрипты/analytics/run_extract_du_from_html.ps1
+```
+
+This will read `Документы/ИзменениеСкоростиОбработки.htm` and write `data/du_tasks_times.csv`.
+
+Option B — provide CSV manually:
+
 1) Place your `du_tasks_times.csv` to `data/`.
-2) Run the PowerShell script:
+2) Run the analysis script:
 
 ```
 pwsh Скрипты/analytics/run_du_speed_analysis.ps1
