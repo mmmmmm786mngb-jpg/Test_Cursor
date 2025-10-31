@@ -1,0 +1,194 @@
+{
+  // Ассоциация файлов с языком BSL
+  "files.associations": {
+    "*.bsl": "bsl",
+    "*.os": "bsl"
+  },
+  // === НАСТРОЙКИ ЗАПУСКА BSL LANGUAGE SERVER ===
+  // Правильный стабильный вариант: запуск через JAR и указанную Java
+  "language-1c-bsl.server.mode": "java-jar",
+  "language-1c-bsl.java.executablePath": "C:\\Program Files\\Eclipse Adoptium\\jdk-17.0.16.8-hotspot\\bin\\java.exe",
+  "language-1c-bsl.server.jarPath": "C:\\bsl\\bsl-language-server.jar",
+  // Добавлено: корректная передача аргументов JVM
+  // Вместо старой конфликтной строки "language-1c-bsl.languageServerExternalJarJavaOpts": "-Xmx4g"
+  "language-1c-bsl.java.options": [
+    "-Xmx4g"
+  ],
+  // === ОТКЛЮЧЁННЫЕ (конфликтующие) НАСТРОЙКИ ===
+  // ⚠ Эти строки вызывали сбой "Unrecognized option: -" из-за двойного вызова Java
+  // "language-1c-bsl.languageServerExternalJarJavaOpts": "-Xmx4g",
+  // "language-1c-bsl.languageServerEnabled": true,
+  // "language-1c-bsl.downloadLanguageServer": false,
+  // "language-1c-bsl.languageServerExternalJar": true,
+  // "language-1c-bsl.languageServerExternalJarPath": "C:\\bsl\\bsl-language-server.jar",
+  // === ДОПОЛНИТЕЛЬНЫЕ НАСТРОЙКИ BSL ===
+  "language-1c-bsl.completion.enable": true,
+  "language-1c-bsl.format.enable": true,
+  "language-1c-bsl.diagnostics.enable": true,
+  "language-1c-bsl.diagnostics.lineLength": 120,
+  "language-1c-bsl.diagnostics.parameters": {
+    "queryParseMode": "Strict",
+    "computeDiagnostics": "onSave"
+  },
+  "language-1c-bsl.diagnostics.skipSupport": "never",
+  "language-1c-bsl.format.settings": {
+    "useSpaces": true,
+    "tabSize": 4,
+    "insertFinalNewline": true,
+    "trimTrailingWhitespace": true
+  },
+  // === НАСТРОЙКИ РЕДАКТОРА ===
+  "editor.tabSize": 4,
+  "editor.insertSpaces": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": false,
+  "editor.wordWrap": "on",
+  "editor.rulers": [
+    120
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit"
+  },
+  "editor.minimap.maxColumn": 120,
+  "editor.suggestSelection": "first",
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": false
+  },
+  "editor.suggest.snippetsPreventQuickSuggestions": false,
+  "editor.acceptSuggestionOnEnter": "on",
+  "editor.parameterHints.enabled": true,
+  "editor.largeFileOptimizations": false,
+  "diffEditor.maxFileSize": 0,
+  // === СИНТАКСИС И ПОДСВЕТКА ===
+  "language-1c-bsl.completion.showDeprecated": false,
+  "language-1c-bsl.completion.completeFunctionParameters": true,
+  "language-1c-bsl.highlighting.bracketPairs": true,
+  // === ВИЗУАЛЬНОЕ ОФОРМЛЕНИЕ ===
+  "workbench.colorTheme": "Visual Studio Light",
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": [
+          "keyword.control.bsl",
+          "keyword.operator.bsl"
+        ],
+        "settings": {
+          "foreground": "#D73A49",
+          "fontStyle": "bold"
+        }
+      },
+      {
+        "scope": "string.bsl",
+        "settings": {
+          "foreground": "#032F62"
+        }
+      },
+      {
+        "scope": "comment.bsl",
+        "settings": {
+          "foreground": "#6A9955",
+          "fontStyle": "italic"
+        }
+      },
+      {
+        "scope": "entity.name.function.bsl",
+        "settings": {
+          "foreground": "#795E26"
+        }
+      }
+    ]
+  },
+  // === ИНТЕРФЕЙС ===
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.preferredLightColorTheme": "Default Light Modern",
+  "workbench.editor.tabCloseButton": "right",
+  "workbench.activityBar.location": "top",
+  "workbench.sideBar.location": "left",
+  "window.titleBarStyle": "custom",
+  "editor.fontSize": 14,
+  "editor.fontFamily": "'Fira Code', 'Consolas', 'Courier New', monospace",
+  "editor.lineHeight": 1.6,
+  "[xml]": {
+    "editor.defaultFormatter": "redhat.vscode-xml",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2
+  },
+  // === АВТОСОХРАНЕНИЕ И ИСКЛЮЧЕНИЯ ===
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "files.exclude": {
+    "**/*.bak": true,
+    "**/*.tmp": true,
+    "**/DT-INF/**": true,
+    "**/.git": true
+  },
+  "files.encoding": "utf8",
+  "files.hotExit": "onExitAndWindowClose",
+  // === ПРОИЗВОДИТЕЛЬНОСТЬ ===
+  "editor.occurrencesHighlight": "singleFile",
+  "editor.renderWhitespace": "trailing",
+  "editor.smoothScrolling": true,
+  "editor.cursorSmoothCaretAnimation": "on",
+  "files.watcherExclude": {
+    "**/.git/**": true,
+    "**/node_modules/**": true,
+    "**/*.bak": true,
+    "**/*.tmp": true
+  },
+  "search.exclude": {
+    "**/.git": true,
+    "**/node_modules": true,
+    "**/*.bak": true
+  },
+  // === ЛОГИ И ОТЛАДКА ===
+  "language-1c-bsl.trace.client": "verbose",
+  "language-1c-bsl.diagnosticLanguage": "ru",
+  "language-1c-bsl.language": "ru",
+  "workbench.editor.tabActionLocation": "right",
+  "breadcrumbs.enabled": true,
+  "breadcrumbs.showFunctions": true,
+  "breadcrumbs.showModules": true,
+  "workbench.editor.untitled.hint": "text",
+  // === ПРОЧЕЕ ===
+  "vscode-office.openOutline": false,
+  "cursor.composer.textSizeScale": 1.15,
+  "git.autofetch": true,
+  "git.ignoreLimitWarning": true,
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true,
+  // === НАСТРОЙКИ ТЕРМИНАЛА ДЛЯ КИРИЛЛИЦЫ ===
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "terminal.integrated.env.windows": {
+    "PYTHONIOENCODING": "utf-8"
+  },
+  "terminal.integrated.profiles.windows": {
+    "PowerShell": {
+      "source": "PowerShell",
+      "args": [
+        "-NoExit",
+        "-Command",
+        "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; $OutputEncoding = [System.Text.Encoding]::UTF8; $env:PYTHONIOENCODING = 'utf-8'; chcp 65001 | Out-Null"
+      ]
+    }
+  },
+  // === ДОПОЛНИТЕЛЬНЫЕ НАСТРОЙКИ КОДИРОВКИ ===
+  "terminal.integrated.shellArgs.windows": [
+    "-NoExit",
+    "-Command",
+    "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; $OutputEncoding = [System.Text.Encoding]::UTF8; $env:PYTHONIOENCODING = 'utf-8'; chcp 65001 | Out-Null"
+  ],
+  "terminal.integrated.fontFamily": "Consolas, 'Courier New', monospace",
+  "terminal.integrated.fontSize": 14,
+  "terminal.integrated.cursorBlinking": true,
+  "terminal.integrated.cursorStyle": "line",
+  "terminal.integrated.scrollback": 10000,
+  "window.commandCenter": true,
+  "workbench.editorAssociations": {
+    "*.md": "default",
+    "*.htm": "cweijan.htmlViewer"
+  }
+}
+
+

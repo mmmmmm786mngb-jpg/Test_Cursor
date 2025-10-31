@@ -1,0 +1,247 @@
+{
+    // ====================================================================
+    // ОПТИМИЗИРОВАННЫЕ НАСТРОЙКИ CURSOR ДЛЯ РАБОТЫ С 1С:ENTERPRISE
+    // Версия: 3.0 (оптимизированная)
+    // Дата создания: 2025-01-27
+    // ====================================================================
+    // === АССОЦИАЦИИ ФАЙЛОВ ===
+    // Ассоциация файлов с языком BSL для правильной подсветки синтаксиса
+    "files.associations": {
+        "*.bsl": "bsl",
+        "*.os": "bsl"
+    },
+    // === НАСТРОЙКИ ЗАПУСКА BSL LANGUAGE SERVER ===
+    // Правильный стабильный вариант: запуск через JAR и указанную Java
+    "language-1c-bsl.server.mode": "java-jar",
+    "language-1c-bsl.java.executablePath": "C:\\Program Files\\Eclipse Adoptium\\jdk-17.0.16.8-hotspot\\bin\\java.exe",
+    "language-1c-bsl.server.jarPath": "C:\\bsl\\bsl-language-server.jar",
+    // Корректная передача аргументов JVM для оптимизации памяти
+    "language-1c-bsl.java.options": [
+        "-Xmx4g"
+    ],
+    // === ДОПОЛНИТЕЛЬНЫЕ НАСТРОЙКИ BSL ===
+    "language-1c-bsl.completion.enable": true,
+    "language-1c-bsl.format.enable": true,
+    "language-1c-bsl.diagnostics.enable": true,
+    // Унифицированная длина строки: 120 символов (используется везде)
+    "language-1c-bsl.diagnostics.lineLength": 120,
+    "language-1c-bsl.diagnostics.parameters": {
+        "queryParseMode": "Strict",
+        "computeDiagnostics": "onSave"
+    },
+    "language-1c-bsl.diagnostics.skipSupport": "never",
+    "language-1c-bsl.format.settings": {
+        "useSpaces": true,
+        "tabSize": 4,
+        "insertFinalNewline": true,
+        "trimTrailingWhitespace": true
+    },
+    // Оптимизированный уровень логирования (не verbose для производительности)
+    "language-1c-bsl.trace.client": "messages",
+    "language-1c-bsl.diagnosticLanguage": "ru",
+    "language-1c-bsl.language": "ru",
+    // === НАСТРОЙКИ РЕДАКТОРА ===
+    // Базовые настройки форматирования
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": false,
+    "editor.wordWrap": "on",
+    // Унифицированная длина строки: 120 символов
+    "editor.rulers": [
+        120
+    ],
+    "editor.minimap.maxColumn": 120,
+    // Автоматические действия при сохранении
+    "editor.codeActionsOnSave": {
+        "source.fixAll": "explicit"
+    },
+    // Настройки автодополнения
+    "editor.suggestSelection": "first",
+    "editor.quickSuggestions": {
+        "other": true,
+        "comments": false,
+        "strings": false
+    },
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "editor.acceptSuggestionOnEnter": "on",
+    "editor.parameterHints.enabled": true,
+    // Оптимизация производительности для больших файлов
+    "editor.largeFileOptimizations": true,
+    "files.maxMemoryForLargeFilesMB": 50,
+    "editor.occurrencesHighlight": "singleFile",
+    "editor.occurrencesHighlightDelay": 300,
+    // Ограничения для diff редактора (оптимизация производительности)
+    "diffEditor.maxFileSize": 50,
+    // Улучшения редактора из лучших практик
+    "editor.semanticHighlighting.enabled": true,
+    "editor.inlineSuggest.enabled": true,
+    "editor.stickyScroll.enabled": true,
+    "editor.stickyScroll.maxLines": 5,
+    "editor.guides.bracketPairs": true,
+    "editor.guides.highlightActiveIndentation": true,
+    "editor.linkedEditing": true,
+    "editor.renderWhitespace": "trailing",
+    "editor.smoothScrolling": true,
+    "editor.cursorSmoothCaretAnimation": "on",
+    // === СИНТАКСИС И ПОДСВЕТКА BSL ===
+    "language-1c-bsl.completion.showDeprecated": false,
+    "language-1c-bsl.completion.completeFunctionParameters": true,
+    "language-1c-bsl.highlighting.bracketPairs": true,
+    // === ВИЗУАЛЬНОЕ ОФОРМЛЕНИЕ ===
+    // Активная цветовая тема
+    "workbench.colorTheme": "Visual Studio Light",
+    // Резервная тема для светлого режима
+    "workbench.preferredLightColorTheme": "Visual Studio Light",
+    "workbench.preferredDarkColorTheme": "Visual Studio Dark",
+    // Кастомные цвета для BSL
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            {
+                "scope": [
+                    "keyword.control.bsl",
+                    "keyword.operator.bsl"
+                ],
+                "settings": {
+                    "foreground": "#D73A49",
+                    "fontStyle": "bold"
+                }
+            },
+            {
+                "scope": "string.bsl",
+                "settings": {
+                    "foreground": "#032F62"
+                }
+            },
+            {
+                "scope": "comment.bsl",
+                "settings": {
+                    "foreground": "#6A9955",
+                    "fontStyle": "italic"
+                }
+            },
+            {
+                "scope": "entity.name.function.bsl",
+                "settings": {
+                    "foreground": "#795E26"
+                }
+            }
+        ]
+    },
+    // Шрифты и отступы
+    "editor.fontSize": 14,
+    "editor.fontFamily": "'Fira Code', 'Consolas', 'Courier New', monospace",
+    "editor.lineHeight": 1.6,
+    // === ИНТЕРФЕЙС ===
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.editor.tabCloseButton": "right",
+    "workbench.activityBar.location": "top",
+    "workbench.sideBar.location": "left",
+    "window.titleBarStyle": "custom",
+    // Настройки для работы с несколькими файлами
+    "workbench.editor.enablePreview": true,
+    "workbench.editor.revealIfOpen": true,
+    "workbench.editor.restoreViewState": true,
+    "workbench.editor.limit.enabled": true,
+    "workbench.editor.limit.value": 10,
+    "workbench.editor.tabActionLocation": "right",
+    "workbench.editor.untitled.hint": "text",
+    // Breadcrumbs (хлебные крошки) для навигации
+    "breadcrumbs.enabled": true,
+    "breadcrumbs.showFunctions": true,
+    "breadcrumbs.showModules": true,
+    "breadcrumbs.filePath": "on",
+    // === НАСТРОЙКИ XML (для метаданных 1С) ===
+    "[xml]": {
+        "editor.defaultFormatter": "redhat.vscode-xml",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 2
+    },
+    "xml.format.maxLineWidth": 120,
+    "xml.tools.enabled": true,
+    "xml.server.workbench.enableCodeActions": true,
+    // === АВТОСОХРАНЕНИЕ И ИСКЛЮЧЕНИЯ ===
+    // Оптимизированная задержка автосохранения (2 секунды вместо 1)
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 2000,
+    "files.hotExit": "onExitAndWindowClose",
+    "files.encoding": "utf8",
+    // Объединенные паттерны исключений (без дублирования)
+    "files.exclude": {
+        "**/*.bak": true,
+        "**/*.tmp": true,
+        "**/DT-INF/**": true,
+        "**/.git": true,
+        "**/node_modules": true
+    },
+    "files.watcherExclude": {
+        "**/.git/**": true,
+        "**/node_modules/**": true,
+        "**/*.bak": true,
+        "**/*.tmp": true,
+        "**/DT-INF/**": true,
+        "**/.cursor/**": true
+    },
+    "search.exclude": {
+        "**/.git": true,
+        "**/node_modules": true,
+        "**/*.bak": true,
+        "**/DT-INF/**": true
+    },
+    // === УЛУЧШЕНИЯ ПОИСКА И НАВИГАЦИИ ===
+    "search.smartCase": true,
+    "search.useGlobalIgnoreFiles": true,
+    "search.collapseResults": "alwaysCollapse",
+    // === НАСТРОЙКИ ТЕРМИНАЛА ДЛЯ КИРИЛЛИЦЫ ===
+    // Исправлено: удален устаревший shellArgs.windows, используется только profiles.windows
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+    "terminal.integrated.env.windows": {
+        "PYTHONIOENCODING": "utf-8"
+    },
+    "terminal.integrated.profiles.windows": {
+        "PowerShell": {
+            "source": "PowerShell",
+            "args": [
+                "-NoExit",
+                "-Command",
+                "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; $OutputEncoding = [System.Text.Encoding]::UTF8; $env:PYTHONIOENCODING = 'utf-8'; chcp 65001 | Out-Null"
+            ]
+        }
+    },
+    "terminal.integrated.fontFamily": "Consolas, 'Courier New', monospace",
+    "terminal.integrated.fontSize": 14,
+    "terminal.integrated.cursorBlinking": true,
+    "terminal.integrated.cursorStyle": "line",
+    "terminal.integrated.scrollback": 10000,
+    "terminal.integrated.enablePersistentSessions": true,
+    "terminal.integrated.smoothScrolling": true,
+    "terminal.integrated.gpuAcceleration": "auto",
+    // === НАСТРОЙКИ CURSOR AI/COMPOSER ===
+    // Автопрокрутка вниз при генерации новых сообщений
+    "cursor.composer.autoScroll": true,
+    // Автоматическая индексация новых файлов
+    "cursor.indexing.enabled": true,
+    // Закрепление режима Agent для новых бесед
+    "cursor.composer.pinAgentMode": false,
+    // Масштаб текста в Composer
+    "cursor.composer.textSizeScale": 1.15,
+    // === НАСТРОЙКИ GIT ===
+    "git.autofetch": true,
+    "git.autofetchPeriod": 180,
+    "git.ignoreLimitWarning": true,
+    "git.confirmSync": false,
+    "git.enableSmartCommit": true,
+    "git.enableStatusBarSync": true,
+    "git.confirmEmptyCommits": false,
+    "git.autoRepositoryDetection": true,
+    // === НАСТРОЙКИ БЕЗОПАСНОСТИ ===
+    "security.workspace.trust.enabled": true,
+    "security.workspace.trust.startupPrompt": "once",
+    // === ПРОЧИЕ НАСТРОЙКИ ===
+    "vscode-office.openOutline": false,
+    "window.commandCenter": true,
+    "workbench.editorAssociations": {
+        "*.md": "default",
+        "*.htm": "cweijan.htmlViewer"
+    }
+}
