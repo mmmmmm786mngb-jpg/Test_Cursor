@@ -1,4 +1,30 @@
-# Тестовый Markdown файл
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Создание Markdown файла с кодировкой UTF-8 с BOM для Cursor
+"""
+
+import sys
+from pathlib import Path
+
+def create_md_file_with_bom(file_path, content):
+    """Создает markdown файл с кодировкой UTF-8 с BOM"""
+    file_path = Path(file_path)
+    file_path.parent.mkdir(parents=True, exist_ok=True)
+    
+    # 'utf-8-sig' автоматически добавляет BOM при записи
+    with open(file_path, 'w', encoding='utf-8-sig', newline='\n') as f:
+        f.write(content)
+    
+    print(f"✓ Файл создан: {file_path}")
+    print(f"  Кодировка: UTF-8 с BOM (utf-8-sig)")
+    return True
+
+if __name__ == '__main__':
+    base_dir = Path(__file__).parent.parent.resolve()
+    
+    # Создаем тестовый файл
+    content = """# Тестовый Markdown файл
 
 Это тестовый файл для проверки форматирования Markdown.
 
@@ -86,47 +112,8 @@ def hello_world():
 ## Цитаты
 
 > Это цитата. Она может содержать несколько строк.
->
+> 
 > И даже несколько абзацев.
-
----
-
-## Горизонтальная линия
-
----
-
-## Изображения
-
-![Альтернативный текст](путь/к/изображению.png)
-
----
-
-## Эмодзи
-
-:smile: :rocket: :computer: :fire:
-
----
-
-## HTML элементы
-
-<details>
-<summary>Раскрывающийся список</summary>
-
-Это содержимое раскрывается при клике.
-
-</details>
-
----
-
-## Математические формулы (если поддерживается)
-
-Inline формула: $E = mc^2$
-
-Блочная формула:
-
-$$
-\sum_{i=1}^{n} i = \frac{n(n+1)}{2}
-$$
 
 ---
 
@@ -138,16 +125,18 @@ $$
 
 ---
 
-## Смешанный контент
-
-**Пример комбинированного форматирования:**
-
-1. Первый пункт с `кодом` и **жирным текстом**
-2. Второй пункт со [ссылкой](https://example.com)
-3. Третий пункт с `inline кодом` и *курсивом*
-
----
-
 **Дата создания:** 2024-01-01  
 **Версия:** 1.0
+"""
+    
+    file_path = base_dir / 'Проекты' / 'test_full.md'
+    
+    if create_md_file_with_bom(file_path, content):
+        print("\n✓ Файл создан с правильной кодировкой UTF-8 с BOM")
+        print("  Теперь он должен открываться в Cursor Markdown Preview")
+        sys.exit(0)
+    else:
+        print("\n✗ Ошибка создания файла")
+        sys.exit(1)
+
 
