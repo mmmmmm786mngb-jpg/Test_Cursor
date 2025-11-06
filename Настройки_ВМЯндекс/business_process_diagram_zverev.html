@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Диаграмма бизнес-процесса разработки - Саша Зверев</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 50px;
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #2a5298;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header .subtitle {
+            font-size: 1.2em;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .diagram-container {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 2px solid #e0e0e0;
+            overflow-x: auto;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #1e3c72;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .section h3 {
+            color: #2a5298;
+            font-size: 1.4em;
+            margin: 25px 0 15px 0;
+        }
+
+        .section p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .section ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 15px 0;
+        }
+
+        .section li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            line-height: 1.8;
+            font-size: 1.05em;
+        }
+
+        .section li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #2a5298;
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .highlight-box h3 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .highlight-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .highlight-box li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .highlight-box li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .info-box h4 {
+            color: #1976d2;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .step-card {
+            background: #f5f5f5;
+            border-radius: 10px;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            border-color: #2a5298;
+        }
+
+        .step-card .step-number {
+            background: #2a5298;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+
+        .step-card h4 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 3px solid #e0e0e0;
+            color: #666;
+        }
+
+        .footer .emoji {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .section h2 {
+                font-size: 1.5em;
+            }
+
+            .process-steps {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .mermaid {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔐 Диаграмма бизнес-процесса разработки</h1>
+            <p class="subtitle">Безопасная разработка через GitLab и ВМ Яндекс с Cursor</p>
+            <p style="margin-top: 10px; color: #888;">Для: Саша Зверев</p>
+        </div>
+
+        <div class="section">
+            <h2>📊 Визуализация процесса</h2>
+            <div class="diagram-container">
+                <div class="mermaid">
+flowchart TB
+    subgraph РабочаяСреда["🖥️ Рабочий компьютер разработчика"]
+        Dev[Разработчик]
+        LocalRepo[Локальный репозиторий<br/>Git]
+        IDE[IDE / Cursor<br/>локально]
+    end
+
+    subgraph GitLabСервер["🔷 GitLab Server<br/>(gitlab.tech.nrb)"]
+        GitLabRepo[GitLab Repository<br/>Центральное хранилище]
+        GitLabCI[GitLab CI/CD<br/>Автоматизация]
+        SecurityLogs[Логи безопасности<br/>Аудит трафика]
+    end
+
+    subgraph Безопасность["🛡️ Служба безопасности"]
+        Monitor[Мониторинг трафика<br/>GitLab]
+        Audit[Аудит операций<br/>Логирование]
+        Alert[Система оповещений<br/>Аномалии]
+    end
+
+    subgraph ВМЯндекс["☁️ Виртуальная машина Яндекс"]
+        VMCursor[Cursor AI<br/>Разработка с AI]
+        VMRepo[Клонированный<br/>репозиторий]
+        VMTasks[Выполнение задач<br/>Кодирование]
+    end
+
+    %% Поток данных от разработчика к GitLab
+    Dev -->|1. git push| LocalRepo
+    LocalRepo -->|2. Отправка изменений| GitLabRepo
+    GitLabRepo -->|3. Синхронизация| SecurityLogs
+
+    %% Мониторинг безопасности
+    GitLabRepo -.->|4. Весь трафик| Monitor
+    Monitor --> Audit
+    Audit --> Alert
+
+    %% Поток в ВМ Яндекс
+    GitLabRepo -->|5. git clone/pull| VMRepo
+    VMRepo --> VMCursor
+    VMCursor -->|6. Разработка с AI| VMTasks
+    VMTasks -->|7. git commit| VMRepo
+    VMRepo -->|8. git push| GitLabRepo
+
+    %% Возврат на рабочую машину
+    GitLabRepo -->|9. git pull| LocalRepo
+    LocalRepo -->|10. Получение изменений| Dev
+
+    %% Стили
+    classDef devStyle fill:#4CAF50,stroke:#2E7D32,stroke-width:2px,color:#fff
+    classDef gitlabStyle fill:#FC6D26,stroke:#E24329,stroke-width:2px,color:#fff
+    classDef securityStyle fill:#FF9800,stroke:#F57C00,stroke-width:2px,color:#fff
+    classDef vmStyle fill:#2196F3,stroke:#1976D2,stroke-width:2px,color:#fff
+
+    class Dev,LocalRepo,IDE devStyle
+    class GitLabRepo,GitLabCI,SecurityLogs gitlabStyle
+    class Monitor,Audit,Alert securityStyle
+    class VMCursor,VMRepo,VMTasks vmStyle
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔄 Описание бизнес-процесса</h2>
+            
+            <div class="process-steps">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h4>Инициация работы</h4>
+                    <p>Разработчик создает изменения на рабочем компьютере, используя локальный Git-репозиторий</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h4>Отправка в GitLab</h4>
+                    <p>Изменения отправляются через <code>git push</code> в центральный репозиторий GitLab</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h4>Мониторинг безопасности</h4>
+                    <p>Служба безопасности автоматически отслеживает весь трафик GitLab, логирует операции</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h4>Клонирование в ВМ</h4>
+                    <p>Виртуальная машина Яндекс клонирует репозиторий из GitLab для работы с Cursor AI</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">5</div>
+                    <h4>Разработка с Cursor</h4>
+                    <p>В ВМ выполняется разработка с использованием Cursor AI для генерации и оптимизации кода</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">6</div>
+                    <h4>Возврат в GitLab</h4>
+                    <p>Готовый код коммитится и отправляется обратно в GitLab через <code>git push</code></p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">7</div>
+                    <h4>Синхронизация</h4>
+                    <p>Разработчик получает изменения на рабочую машину через <code>git pull</code></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🛡️ Безопасность и мониторинг</h2>
+            
+            <div class="highlight-box">
+                <h3>Механизмы безопасности</h3>
+                <ul>
+                    <li><strong>Мониторинг трафика:</strong> Все операции с GitLab логируются и отслеживаются службой безопасности</li>
+                    <li><strong>Аудит операций:</strong> Полная история коммитов, пушей и пуллов доступна для анализа</li>
+                    <li><strong>Контроль доступа:</strong> GitLab обеспечивает разграничение прав доступа к репозиториям</li>
+                    <li><strong>Шифрование:</strong> Все соединения с GitLab используют HTTPS/SSH с шифрованием</li>
+                    <li><strong>Обнаружение аномалий:</strong> Система оповещений предупреждает о подозрительной активности</li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <h4>📋 Что отслеживается службой безопасности:</h4>
+                <ul>
+                    <li>Все операции git push/pull/clone</li>
+                    <li>IP-адреса источников запросов</li>
+                    <li>Время и частота операций</li>
+                    <li>Размер передаваемых данных</li>
+                    <li>Пользователи, выполняющие операции</li>
+                    <li>Ветки и теги, с которыми работают</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🌍 Мировые практики и аналоги</h2>
+            
+            <h3>GitOps workflow</h3>
+            <p>Наш процесс основан на принципах <strong>GitOps</strong> - методологии, где Git является единственным источником истины для инфраструктуры и кода. Это стандартная практика в таких компаниях как:</p>
+            <ul>
+                <li><strong>Google Cloud Platform:</strong> Использует GitOps для управления Kubernetes кластерами</li>
+                <li><strong>Microsoft Azure:</strong> Azure DevOps с Git-репозиториями и виртуальными машинами для разработки</li>
+                <li><strong>Amazon AWS:</strong> CodeCommit + EC2 instances для удаленной разработки</li>
+                <li><strong>GitHub Codespaces:</strong> Прямой аналог - облачная разработка через Git-репозиторий</li>
+            </ul>
+
+            <h3>Remote Development Environments</h3>
+            <p>Использование виртуальных машин для разработки - это стандартная практика в крупных IT-компаниях:</p>
+            <ul>
+                <li><strong>GitHub Codespaces:</strong> Облачные окружения разработки, подключенные к Git-репозиториям</li>
+                <li><strong>Gitpod:</strong> Автоматизированные облачные среды разработки на базе Git</li>
+                <li><strong>JetBrains Space:</strong> Интеграция Git-репозиториев с облачными IDE</li>
+                <li><strong>Google Cloud Shell:</strong> Облачная среда разработки с доступом к Git-репозиториям</li>
+            </ul>
+
+            <h3>Security Monitoring в Git-системах</h3>
+            <p>Мониторинг трафика GitLab/GitHub - стандартная практика корпоративной безопасности:</p>
+            <ul>
+                <li><strong>GitLab Security Dashboard:</strong> Встроенные инструменты мониторинга и аудита</li>
+                <li><strong>GitHub Advanced Security:</strong> Анализ кода, зависимостей и секретов</li>
+                <li><strong>Azure DevOps Security:</strong> Аудит всех операций с репозиториями</li>
+                <li><strong>Bitbucket Data Center:</strong> Расширенное логирование и мониторинг</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>✅ Преимущества данного подхода</h2>
+            
+            <div class="process-steps">
+                <div class="step-card">
+                    <h4>🔒 Безопасность</h4>
+                    <p>Все операции проходят через контролируемый GitLab, что обеспечивает полную прозрачность для службы безопасности</p>
+                </div>
+
+                <div class="step-card">
+                    <h4>☁️ Гибкость</h4>
+                    <p>Разработка может вестись как на рабочей машине, так и в облачной ВМ, в зависимости от задач</p>
+                </div>
+
+                <div class="step-card">
+                    <h4>🤖 AI-ассистирование</h4>
+                    <p>Использование Cursor AI в ВМ позволяет ускорить разработку без установки на рабочие компьютеры</p>
+                </div>
+
+                <div class="step-card">
+                    <h4>📊 Аудит</h4>
+                    <p>Полная история всех изменений хранится в GitLab, что обеспечивает возможность отслеживания и отката</p>
+                </div>
+
+                <div class="step-card">
+                    <h4>🔄 Синхронизация</h4>
+                    <p>Автоматическая синхронизация между рабочими машинами и ВМ через GitLab</p>
+                </div>
+
+                <div class="step-card">
+                    <h4>⚡ Производительность</h4>
+                    <p>ВМ Яндекс обеспечивает мощные вычислительные ресурсы для работы с AI-инструментами</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📝 Технические детали</h2>
+            
+            <h3>Команды Git для работы с процессом</h3>
+            <div class="info-box">
+                <h4>На рабочем компьютере:</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+# Отправка изменений в GitLab
+git add .
+git commit -m "Описание изменений"
+git push origin main
+
+# Получение изменений из GitLab (после работы в ВМ)
+git pull origin main</pre>
+            </div>
+
+            <div class="info-box">
+                <h4>В виртуальной машине Яндекс:</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+# Клонирование репозитория
+git clone https://gitlab.tech.nrb/tech/achm_cursor.git
+cd achm_cursor
+
+# Работа с Cursor AI, внесение изменений
+# ... разработка ...
+
+# Отправка изменений обратно в GitLab
+git add .
+git commit -m "Изменения через Cursor AI"
+git push origin main</pre>
+            </div>
+
+            <h3>Настройка мониторинга безопасности</h3>
+            <p>Для отслеживания трафика GitLab служба безопасности может использовать:</p>
+            <ul>
+                <li><strong>GitLab Audit Events:</strong> Встроенная система аудита GitLab</li>
+                <li><strong>Webhook-уведомления:</strong> Автоматические уведомления о событиях в репозитории</li>
+                <li><strong>API мониторинг:</strong> Отслеживание через GitLab API</li>
+                <li><strong>Логи сервера:</strong> Анализ логов доступа к GitLab серверу</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <div class="emoji">🚀</div>
+            <p><strong>Безопасная и эффективная разработка</strong></p>
+            <p style="margin-top: 10px; font-size: 0.9em;">Документ создан: 2024</p>
+            <p style="margin-top: 5px; font-size: 0.9em;">Для: Саша Зверев</p>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#2a5298',
+                primaryTextColor: '#fff',
+                primaryBorderColor: '#1e3c72',
+                lineColor: '#2a5298',
+                secondaryColor: '#667eea',
+                tertiaryColor: '#f8f9fa'
+            },
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+    </script>
+</body>
+</html>
+
