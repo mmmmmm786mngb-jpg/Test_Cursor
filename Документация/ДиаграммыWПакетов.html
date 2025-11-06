@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Диаграммы работы с W пакетами</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2C3E50 0%, #34495E 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        nav {
+            background: #34495E;
+            padding: 20px 40px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.1);
+            display: inline-block;
+        }
+
+        nav a:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 60px;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .section.visible {
+            opacity: 1;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: #2C3E50;
+            font-size: 2em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            position: relative;
+        }
+
+        h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            animation: expand 1s ease-out;
+        }
+
+        @keyframes expand {
+            from { width: 0; }
+            to { width: 100px; }
+        }
+
+        .diagram-container {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .diagram-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .mermaid {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .mermaid:hover {
+            transform: scale(1.02);
+        }
+
+        .legend {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 40px;
+            border-left: 5px solid #667eea;
+        }
+
+        .legend h3 {
+            color: #2C3E50;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            transition: transform 0.2s ease;
+        }
+
+        .legend-item:hover {
+            transform: translateX(10px);
+        }
+
+        .color-box {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            margin-right: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .info-box h3 {
+            margin-bottom: 10px;
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            z-index: 1000;
+            transition: width 0.1s ease;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-indicator" id="scrollIndicator"></div>
+    
+    <div class="container">
+        <header>
+            <h1>Диаграммы работы с W пакетами</h1>
+            <div class="subtitle">Загрузка и отправка W пакетов через файловый шлюз НРД</div>
+        </header>
+
+        <nav>
+            <ul>
+                <li><a href="#section1">Общий поток</a></li>
+                <li><a href="#section2">Загрузка W пакетов</a></li>
+                <li><a href="#section3">Обработка вложений</a></li>
+                <li><a href="#section4">Архивация</a></li>
+                <li><a href="#section5">Отправка</a></li>
+                <li><a href="#section6">Квитанции</a></li>
+                <li><a href="#section7">Структура</a></li>
+                <li><a href="#legend">Легенда</a></li>
+            </ul>
+        </nav>
+
+        <div class="content">
+            <div class="info-box">
+                <h3>📋 Информация о документе</h3>
+                <p><strong>Задача:</strong> NRB-2643 - Регистрация выписок из Регистраторов</p>
+                <p><strong>Тип:</strong> W пакеты (файловый шлюз НРД)</p>
+                <p><strong>Дата создания:</strong> 2025</p>
+            </div>
+
+            <div id="section1" class="section">
+                <h2>1. Верхнеуровневая диаграмма: Общий поток работы с W пакетами</h2>
+                <div class="diagram-container">
+                    <div class="mermaid">
+flowchart TB
+    subgraph Входящие["Входящие W пакеты (Загрузка)"]
+        A1[Поступление W пакетов<br/>в каталог inbox] --> B1[Обработка.ЗагрузкаКДИзДепозитария<br/>ОбработатьISOФайл]
+        B1 --> C1[Обработка.ФайлыНРД<br/>ВременныеФайлыНРД]
+        C1 --> D1[ПрочитатьКаталогиW<br/>Чтение winf.xml]
+        D1 --> E1[Обработка содержимого<br/>DOC вложения]
+        E1 --> F1[Создание документов 1С<br/>ВходящийПакет, Входящий]
+        F1 --> G1[Архивация W пакетов]
+    end
+    
+    subgraph Исходящие["Исходящие W пакеты (Отправка)"]
+        A2[Создание ТехническаяОперация<br/>или другого документа-основания] --> B2[Формирование W пакета<br/>winf.xml + документы]
+        B2 --> C2[Создание каталога W*<br/>в outbox]
+        C2 --> D2[Копирование файлов<br/>в каталог W*]
+        D2 --> E2[Отправка через<br/>файловый шлюз НРД]
+        E2 --> F2[Ожидание квитанции<br/>о доставке]
+    end
+    
+    F2 -.->|Квитанция| A1
+    
+    style A1 fill:#e1f5ff
+    style F1 fill:#e8f5e9
+    style A2 fill:#fff4e1
+    style E2 fill:#e8f5e9
+    style F2 fill:#fff4e1
+                    </div>
+                </div>
+            </div>
+
+            <div id="section2" class="section">
+                <h2>2. Детальная диаграмма: Загрузка W пакетов (полный алгоритм)</h2>
+                <div class="diagram-container">
+                    <div class="mermaid">
+flowchart TD
+    A[Обработка.ЗагрузкаКДИзДепозитария<br/>Процедура ОбработатьISOФайл] --> B[Инициализация соединения<br/>с Обработка.ФайлыНРД]
+    B --> C[Вызов ВременныеФайлыНРД<br/>ПутьККаталогу]
+    
+    C --> D[Определение каталога inbox<br/>ПутьККаталогу + \inbox]
+    D --> E[Поиск каталогов W*<br/>НайтиФайлы, W*]
+    E --> F{Найдены<br/>W каталоги?}
+    
+    F -->|Нет| Z1[Конец обработки W]
+    F -->|Да| G[Процедура ПрочитатьКаталогиW]
+    
+    G --> H[Цикл по каждому<br/>каталогу W]
+    H --> I{Файл winf.xml<br/>существует?}
+    
+    I -->|Нет| H
+    I -->|Да| J[Чтение XML winf.xml<br/>кодировка: windows-1251]
+    J --> K[Парсинг через XDTO<br/>Тип: COVERING_LETTER]
+    K --> L[Проверка корневого элемента<br/>COVERING_LETTER]
+    
+    L --> M{Корневой элемент<br/>COVERING_LETTER?}
+    M -->|Нет| H
+    M -->|Да| N[Извлечение свойств:<br/>PROCESSING_MODE, TRANSIT]
+    
+    N --> O[Определение типа пакета:<br/>ПакетНеТестовый = PROCESSING_MODE = LIVE<br/>ПакетТранзитный = TRANSIT = YES]
+    
+    O --> P[Процедура ОбработатьКлючевыеОперацииИСвойства]
+    P --> Q[Функция ПакетКОбработке]
+    Q --> R{Тип пакета?}
+    
+    R -->|Квитанция<br/>STATE = NDC_TO_ORIG<br/>или RECIP_TO_NDC| S[Обработка квитанции<br/>ОбработатьКвитанцию]
+    R -->|Входящий пакет<br/>STATE = NDC_TO_RECIP| T[Обработка вложений DOC]
+    
+    S --> U[Обновление статуса<br/>ТехническаяОперация]
+    U --> V[Формирование структуры<br/>ИнформацияДляАрхивации]
+    
+    T --> W[Цикл по вложениям DOC]
+    W --> X[Процедура ОбработатьВложениеDoc]
+    X --> Y{Тип документа?}
+    
+    Y -->|DOC_TYPE = TRZT_PRM<br/>IDENT_CODE = 5RESTR59/60| Y1[Раскрытие списков<br/>владельцев]
+    Y -->|DOC_TYPE = TRZT_PRM<br/>IDENT_CODE = 5RESTR03| Y2[Выписка от регистратора<br/>НОВАЯ ОБРАБОТКА]
+    Y -->|Другое| H
+    
+    Y1 --> Z[Проверка валидности пакета:<br/>ПакетНеТестовый И<br/>ПакетТранзитный И<br/>ДокументТипизирован]
+    Y2 --> Z
+    
+    Z --> AA{Пакет валиден?}
+    AA -->|Нет| H
+    AA -->|Да| AB[Копирование XML файла<br/>во временный каталог]
+    AB --> AC[Добавление в массив Файлы]
+    
+    AC --> AD{Документ является<br/>выпиской?}
+    AD -->|Да| AE[Функция ИмяРегистратораИзВыписки<br/>НОВАЯ ФУНКЦИЯ]
+    AD -->|Нет| AF[ИмяРегистратора = пустая строка]
+    
+    AE --> AG[Чтение XML выписки<br/>кодировка: windows-1251]
+    AG --> AH[Парсинг через XDTO<br/>STATEMENT_OF_HOLDINGS]
+    AH --> AI[Извлечение ОГРН<br/>REGISTRAR.PARTY_DTLS.OGRN]
+    AI --> AJ{ОГРН заполнен?}
+    
+    AJ -->|Да| AK[Поиск МХ по ОГРН<br/>Справочники.МестаХранения]
+    AJ -->|Нет| AL[Использование имени из XML]
+    
+    AK --> AM{МХ найден?}
+    AM -->|Да| AN[ИмяРегистратора = МХ.Наименование]
+    AM -->|Нет| AL
+    
+    AL --> AO[ИмяРегистратора =<br/>REGISTRAR.PARTY_DTLS.NAME]
+    AN --> AP[Замена недопустимых символов<br/>в имени файла]
+    AO --> AP
+    AF --> AP
+    
+    AP --> AQ[Установка<br/>ПринудительноАрхивироватьКаталог = Истина]
+    AQ --> V
+    
+    V --> AR{ЭтоКвитанция ИЛИ<br/>ПринудительноАрхивироватьКаталог?}
+    AR -->|Да| AS[Создание структуры<br/>ИнформацияДляАрхивации]
+    AR -->|Нет| H
+    
+    AS --> AT[Вставка полей:<br/>КаталогW, ИмяРегистратора]
+    AT --> AU[Добавление в массив<br/>КаталогиКвитанцийКУдалению]
+    AU --> H
+    
+    H --> AV{Есть еще<br/>каталоги W?}
+    AV -->|Да| H
+    AV -->|Нет| AW[Возврат структуры:<br/>Файлы, КаталогиКвитанцийКУдалению]
+    
+    AW --> AX[Обработка временных файлов<br/>ПолучитьДанныеИзФайла]
+    AX --> AY[Обработка данных<br/>ОбработатьДанные]
+    AY --> AZ[Удаление временных файлов]
+    
+    AZ --> BA[Цикл по КаталогиКвитанцийКУдалению]
+    BA --> BB{ИмяРегистратора<br/>заполнено?}
+    
+    BB -->|Да| BC[АрхивироватьВыпискиОтРегистраторов<br/>НОВАЯ ПРОЦЕДУРА]
+    BB -->|Нет| BD[ПеренестиКаталогВАрхив<br/>стандартная архивация]
+    
+    BC --> BE[Получение параметров<br/>внешнего источника]
+    BE --> BF{Папка архива<br/>настроена?}
+    BF -->|Нет| BD
+    BF -->|Да| BG[Формирование пути архива:<br/>Папка + ИмяРегистратора]
+    
+    BG --> BH[ОбщийКаталогПеремещаемогоФайлаВАрхив<br/>ТолькоКаталогАрхиваНаДату = Истина]
+    BH --> BI[Создание каталога архива:<br/>Год\Месяц\День\ИмяКаталога]
+    BI --> BJ[КлонироватьСтруктуруКаталоговВНовойПапке]
+    BJ --> BK[ПеренестиФайлыВСтруктуреКаталогов<br/>УдалятьВИсточнике = Ложь]
+    BK --> BD
+    
+    BD --> BL[ОбщийКаталогПеремещаемогоФайлаВАрхив<br/>стандартный путь]
+    BL --> BM[Создание каталога архива:<br/>Год\Месяц\День\Депо\W]
+    BM --> BN[КлонироватьСтруктуруКаталоговВНовойПапке]
+    BN --> BO[ПеренестиФайлыВСтруктуреКаталогов<br/>УдалятьВИсточнике = Истина]
+    BO --> BP[Удаление исходного каталога]
+    
+    BP --> BQ{Есть еще<br/>каталоги?}
+    BQ -->|Да| BA
+    BQ -->|Нет| Z1
+    
+    style A fill:#e1f5ff
+    style AE fill:#fff4e1
+    style BC fill:#e8f5e9
+    style Y2 fill:#fff4e1
+    style BK fill:#e8f5e9
+    style BO fill:#ffebee
+                    </div>
+                </div>
+            </div>
+
+            <div id="section3" class="section">
+                <h2>3. Детальная диаграмма: Обработка вложений DOC в W пакете</h2>
+                <div class="diagram-container">
+                    <div class="mermaid">
+flowchart TD
+    A[Процедура ОбработатьВложениеDoc<br/>ВложениеDoc, Файлы, КаталогW, ...] --> B[Получение свойств документа<br/>ВложениеDoc.Свойства]
+    
+    B --> C[Определение типа документа:<br/>DOC_TYPE, IDENT_CODE]
+    C --> D{Документ типизирован?<br/>DOC_TYPE равен TRZT_PRM}
+    
+    D -->|Нет| Z[Конец]
+    D -->|Да| E{IDENT_CODE?}
+    
+    E -->|5RESTR59 или 5RESTR60| F[ДокументЯвляетсяРаскрытием: Истина]
+    E -->|5RESTR03| G[ДокументЯвляетсяВыпиской: Истина<br/>НОВАЯ ПРОВЕРКА]
+    E -->|Другое| Z
+    
+    F --> H[Проверка валидности пакета]
+    G --> H
+    
+    H --> I{ПакетВалиден:<br/>ПакетНеТестовый И<br/>ПакетТранзитный И<br/>ДокументТипизирован И<br/>ДокументЯвляетсяРаскрытием ИЛИ<br/>ДокументЯвляетсяВыпиской}
+    
+    I -->|Нет| J[ПринудительноАрхивироватьКаталог: Ложь]
+    I -->|Да| K[Получение имени файла<br/>ВложениеDoc.ORIGINAL_FILE_NAME]
+    
+    K --> L[Проверка существования файла<br/>в каталоге W]
+    L --> M{Файл существует?}
+    
+    M -->|Нет| N[Сообщение пользователю<br/>об ошибке]
+    M -->|Да| O[Создание временного файла<br/>ПолучитьИмяВременногоФайла]
+    
+    O --> P[Копирование XML файла<br/>во временный каталог]
+    P --> Q[Добавление в массив Файлы]
+    
+    Q --> R{Документ является<br/>выпиской?<br/>ДокументЯвляетсяВыпиской}
+    
+    R -->|Да| S[Вызов ИмяРегистратораИзВыписки<br/>НОВАЯ ФУНКЦИЯ]
+    R -->|Нет| T[ИмяРегистратора: пустая строка]
+    
+    S --> U[Чтение XML выписки<br/>ЧтениеXML.ОткрытьФайл<br/>кодировка: windows-1251]
+    U --> V{ЧтениеXML.Прочитать<br/>успешно?}
+    
+    V -->|Нет| W[ЧтениеXML.Закрыть]
+    V -->|Да| X[Определение пространства имен<br/>FCDR_2017_02 2019v3]
+    
+    X --> Y[Создание типа XDTO<br/>STATEMENT_OF_HOLDINGS]
+    Y --> Z1[Прочитать XML через XDTO<br/>ФабрикаXDTO.ПрочитатьXML]
+    
+    Z1 --> AA[Извлечение ОГРН<br/>ОтчетНРД.REGISTRAR.PARTY_DTLS.OGRN]
+    AA --> AB{ОГРН заполнен?<br/>ЗначениеЗаполнено}
+    
+    AB -->|Да| AC[Найти МХ по реквизиту<br/>Справочники.МестаХранения<br/>НайтиПоРеквизиту<br/>НомерГосударственнойРегистрации]
+    AB -->|Нет| AD[Использовать имя из XML]
+    
+    AC --> AE{МХ найден?<br/>ЗначениеЗаполнено МХ}
+    AE -->|Да| AF[ИмяРегистратора: МХ.Наименование<br/>СокрЛП]
+    AE -->|Нет| AD
+    
+    AD --> AG[ИмяРегистратора:<br/>ОтчетНРД.registrar.party_dtls.name]
+    AF --> AH[Заменить недопустимые символы<br/>ОбщегоНазначенияКлиентСервер<br/>ЗаменитьНедопустимыеСимволыВИмениФайла]
+    AG --> AH
+    
+    AH --> AI[ЧтениеXML.Закрыть]
+    AI --> AJ[Возврат ИмяРегистратора]
+    W --> AK[Возврат пустая строка]
+    T --> AL[ПринудительноАрхивироватьКаталог: Истина]
+    AJ --> AL
+    AK --> AL
+    N --> Z
+    J --> Z
+    AL --> Z
+    
+    style G fill:#fff4e1
+    style S fill:#fff4e1
+    style AC fill:#e1f5ff
+    style AH fill:#e8f5e9
+                    </div>
+                </div>
+            </div>
+
+            <div id="section4" class="section">
+                <h2>4. Детальная диаграмма: Архивация W пакетов</h2>
+                <div class="diagram-container">
+                    <div class="mermaid">
+flowchart TD
+    A[Цикл по КаталогиКвитанцийКУдалению<br/>ИнформацияДляАрхивации] --> B{ИмяРегистратора<br/>заполнено?}
+    
+    B -->|Да| C[Процедура АрхивироватьВыпискиОтРегистраторов<br/>НОВАЯ ПРОЦЕДУРА]
+    B -->|Нет| D[Процедура ПеренестиКаталогВАрхив<br/>стандартная архивация]
+    
+    C --> E[Получить параметры внешнего источника<br/>ПВХ.ВнешниеИсточники<br/>КаталогВыписокОтРегистраторов]
+    E --> F{Папка архива<br/>настроена?<br/>ПараметрыИсточника.Папка <> ""}
+    
+    F -->|Нет| D
+    F -->|Да| G[Формирование пути архива:<br/>Папка + \ + ИмяРегистратора]
+    
+    G --> H[Вызов ОбщийКаталогПеремещаемогоФайлаВАрхив<br/>Параметр: ТолькоКаталогАрхиваНаДату = Истина]
+    H --> I[Формирование каталога по дате:<br/>ТекущийГод\ТекущийМесяц\ТекущийДень]
+    I --> J[Проверка и создание каталогов<br/>ПроверитьНаличиеКаталоговВСтруктуре]
+    J --> K[КаталогАрхива =<br/>ПутьАрхива\Год\Месяц\День\ИмяКаталога]
+    
+    K --> L[СоздатьКаталог<br/>КаталогАрхива]
+    L --> M[КлонироватьСтруктуруКаталоговВНовойПапке<br/>ИсходныйКаталог, КаталогАрхива]
+    M --> N[Установить УдалятьВИсточнике = Ложь]
+    N --> O[ПеренестиФайлыВСтруктуреКаталогов<br/>ИсходныйКаталог, КаталогАрхива, УдалятьВИсточнике]
+    O --> P[Файлы скопированы<br/>в архив регистратора]
+    P --> D
+    
+    D --> Q[Формирование пути стандартного архива:<br/>ПутьККаталогу + \Archive]
+    Q --> R[Вызов ОбщийКаталогПеремещаемогоФайлаВАрхив<br/>БЕЗ параметра ТолькоКаталогАрхиваНаДату]
+    R --> S[Формирование полного пути:<br/>Год\Месяц\День\Депо\W]
+    S --> T[Проверка и создание каталогов<br/>ПроверитьНаличиеКаталоговВСтруктуре]
+    T --> U[КаталогАрхива =<br/>ПутьАрхива\Год\Месяц\День\Депо\W\ИмяКаталога]
+    
+    U --> V[СоздатьКаталог<br/>КаталогАрхива]
+    V --> W[КлонироватьСтруктуруКаталоговВНовойПапке<br/>ИсходныйКаталог, КаталогАрхива]
+    W --> X[ПеренестиФайлыВСтруктуреКаталогов<br/>ИсходныйКаталог, КаталогАрхива<br/>УдалятьВИсточнике = Истина]
+    
+    X --> Y[Файлы перемещены<br/>в стандартный архив]
+    Y --> Z[Запись в журнал регистрации<br/>об архивации]
+    Z --> AA[Попытка удалить<br/>исходный каталог]
+    
+    AA --> AB{Удаление<br/>успешно?}
+    AB -->|Да| AC[Каталог удален]
+    AB -->|Нет| AD[Сообщение об ошибке<br/>ОписаниеОшибки]
+    
+    AC --> AE{Есть еще<br/>каталоги?}
+    AD --> AE
+    AE -->|Да| A
+    AE -->|Нет| Z1[Конец архивации]
+    
+    style C fill:#e8f5e9
+    style H fill:#e1f5ff
+    style K fill:#fff4e1
+    style O fill:#e8f5e9
+    style X fill:#ffebee
+    style AA fill:#fff4e1
+                    </div>
+                </div>
+            </div>
+
+            <div id="section5" class="section">
+                <h2>5. Верхнеуровневая диаграмма: Отправка W пакетов</h2>
+                <div class="diagram-container">
+                    <div class="mermaid">
+flowchart TD
+    A[Создание документа-основания<br/>ТехническаяОперация<br/>или другой документ] --> B[Формирование данных<br/>для отправки в НРД]
+    
+    B --> C[Создание документа<br/>ВходящийПакетИзФайловогоШлюза<br/>или ИсходящийПакет]
+    
+    C --> D[Заполнение реквизитов пакета:<br/>- ДокументОснование<br/>- Дата<br/>- СодержимоеФайла]
+    
+    D --> E[Формирование структуры<br/>COVERING_LETTER<br/>через XDTO]
+    
+    E --> F[Заполнение свойств<br/>COVERING_LETTER:<br/>- PROCESSING_MODE = LIVE<br/>- TRANSIT = YES<br/>- STATE = NDC_TO_RECIP<br/>- DOC вложения]
+    
+    F --> G[Сериализация в XML<br/>winf.xml]
+    
+    G --> H[Создание каталога W*<br/>в outbox<br/>уникальное имя]
+    
+    H --> I[Копирование winf.xml<br/>в каталог W*]
+    
+    I --> J[Копирование XML документов<br/>в каталог W*<br/>согласно DOC вложениям]
+    
+    J --> K[Отправка через<br/>файловый шлюз НРД]
+    
+    K --> L[Ожидание квитанции<br/>о доставке]
+    
+    L --> M{Получена<br/>квитанция?}
+    
+    M -->|Да| N[Обработка квитанции<br/>обновление статуса]
+    M -->|Нет| O[Повторная отправка<br/>или обработка ошибки]
+    
+    N --> P[Архивация отправленного<br/>W пакета]
+    
+    style A fill:#e1f5ff
+    style E fill:#fff4e1
+    style G fill:#fff4e1
+    style K fill:#e8f5e9
+    style N fill:#e8f5e9
+    style O fill:#ffebee
+                    </div>
+                </div>
+            </div>
+
+            <div id="section6" class="section">
+                <h2>6. Детальная диаграмма: Обработка квитанций W пакетов</h2>
+                <div class="diagram-container">
+                    <div class="mermaid">
+flowchart TD
+    A[Процедура ОбработатьКвитанцию<br/>СтатусКвитанции, SERVICE_MARKS, STATE] --> B[Извлечение GUID<br/>SERVICE_MARKS.LETTER_ID]
+    
+    B --> C[Поиск ТехническаяОперация<br/>по GUID<br/>УникальныйИдентификатор]
+    
+    C --> D{ТехническаяОперация<br/>найдена?}
+    
+    D -->|Нет| E[Запись в журнал регистрации<br/>об ошибке:<br/>Не найдена техническая операция]
+    D -->|Да| F[Процедура СтатусКвитанцииВДокументы]
+    
+    F --> G[Извлечение комментария<br/>из ТехническаяОперация]
+    G --> H[Удаление старого статуса<br/>из комментария<br/>теги со звездочками]
+    
+    H --> I{СтатусКвитанции<br/>пустой?}
+    
+    I -->|Да| J[ИнформацияВКомментарий:<br/>STATE + УСПЕШНО ДОСТАВЛЕНО]
+    I -->|Нет| K[ИнформацияВКомментарий:<br/>STATE + ОШИБКА ДОСТАВКИ + СтатусКвитанции]
+    
+    J --> L[Добавление информации<br/>в комментарий<br/>с тегами со звездочками]
+    K --> L
+    
+    L --> M[Обновление комментария<br/>ТехническаяОперация]
+    M --> N[Запись ТехническаяОперация]
+    
+    N --> O{СтатусКвитанции<br/>не пустой?<br/>есть ошибки}
+    
+    O -->|Да| P[Обновление статуса<br/>документа-основания<br/>Статус: Ошибка]
+    O -->|Нет| Q[Квитанция обработана<br/>успешно]
+    
+    P --> R[Запись документа-основания]
+    R --> Q
+    
+    E --> S[Конец обработки]
+    Q --> S
+    
+    style A fill:#e1f5ff
+    style C fill:#fff4e1
+    style J fill:#e8f5e9
+    style K fill:#ffebee
+    style P fill:#ffebee
+                    </div>
+                </div>
+            </div>
+
+            <div id="section7" class="section">
+                <h2>7. Структура W пакета</h2>
+                <div class="diagram-container">
+                    <div class="mermaid">
+graph TB
+    subgraph WПакет["W пакет каталог W"]
+        A[winf.xml<br/>COVERING_LETTER] --> B[Структура COVERING_LETTER]
+        B --> C[PROCESSING_MODE: LIVE/TEST]
+        B --> D[TRANSIT: YES/NO]
+        B --> E[STATE:<br/>NDC_TO_RECIP - входящий<br/>NDC_TO_ORIG - квитанция<br/>RECIP_TO_NDC - квитанция]
+        B --> F[SERVICE_MARKS:<br/>LETTER_ID - GUID]
+        B --> G[DOC - массив вложений]
+        
+        G --> H["DOC элемент 0:<br/>DOC_TYPE: TRZT_PRM<br/>IDENT_CODE: 5RESTR03/59/60<br/>ORIGINAL_FILE_NAME"]
+        
+        H --> I[XML файл документа<br/>в каталоге W]
+    end
+    
+    style A fill:#e1f5ff
+    style B fill:#fff4e1
+    style G fill:#e8f5e9
+    style I fill:#fff4e1
+                    </div>
+                </div>
+            </div>
+
+            <div id="legend" class="section">
+                <div class="legend">
+                    <h3>Условные обозначения</h3>
+                    <div class="legend-item">
+                        <div class="color-box" style="background: #e1f5ff;"></div>
+                        <span><strong>Синий фон</strong> - инициализация/подготовка данных</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="color-box" style="background: #fff4e1;"></div>
+                        <span><strong>Желтый фон</strong> - создание/изменение объектов</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="color-box" style="background: #e8f5e9;"></div>
+                        <span><strong>Зеленый фон</strong> - успешное завершение операции</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="color-box" style="background: #ffebee;"></div>
+                        <span><strong>Красный фон</strong> - обработка ошибок или удаление данных</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="color-box" style="background: #f5f5f5; border: 2px solid #333;"></div>
+                        <span><strong>НОВАЯ</strong> - новый объект/процедура/функция (NRB-2643)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="color-box" style="background: #f5f5f5; border: 2px dashed #333;"></div>
+                        <span><strong>ИЗМЕНЕНА</strong> - изменена существующая процедура/функция</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="back-to-top" id="backToTop">↑</div>
+
+    <script>
+        // Инициализация Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+
+        // Плавная прокрутка к секциям
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Анимация появления секций при прокрутке
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Индикатор прокрутки
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.getElementById('scrollIndicator').style.width = scrollPercent + '%';
+        });
+
+        // Кнопка "Наверх"
+        const backToTop = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Анимация диаграмм при наведении
+        document.querySelectorAll('.mermaid').forEach(diagram => {
+            diagram.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.02)';
+            });
+            
+            diagram.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        // Подсветка активной секции в навигации
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('nav a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.style.background = 'rgba(255,255,255,0.1)';
+                if (link.getAttribute('href') === '#' + current) {
+                    link.style.background = 'rgba(255,255,255,0.3)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
