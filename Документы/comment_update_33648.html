@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Комментарий по задаче IMAPPS-33648</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            line-height: 1.6;
+            color: #2f3944;
+            margin: 24px;
+            background: linear-gradient(135deg, #fef9f5 0%, #f3f7fb 100%);
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(47, 57, 68, 0.08);
+            padding: 32px;
+            max-width: 860px;
+            margin: auto;
+        }
+        .procedure {
+            color: #a7572a;
+            font-weight: 600;
+        }
+        .module {
+            color: #297a57;
+            font-weight: 600;
+        }
+        .error-text {
+            color: #b12b4a;
+            font-weight: 600;
+        }
+        h1 {
+            font-size: 22px;
+            margin-bottom: 16px;
+            color: #405b73;
+        }
+        h2 {
+            font-size: 18px;
+            margin-top: 24px;
+            margin-bottom: 10px;
+            color: #54718a;
+        }
+        p {
+            margin: 10px 0;
+        }
+        ul {
+            margin: 10px 0 10px 22px;
+        }
+        li {
+            margin-bottom: 6px;
+        }
+        .highlight {
+            background-color: rgba(189, 224, 254, 0.35);
+            border-left: 4px solid #76a8d8;
+            padding: 12px 16px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Комментарий по решению задачи</h1>
+
+        <p>
+            При исполнении регламентной операции «Сделка с ц/б» запускался большой пакет сделок; 55 из них
+            были без остатка по одному активу и завершались ошибкой <span class="error-text">Не удалось провести "Сделка с ц/б"</span>.
+            Штатная процедура <span class="procedure">ПовторитьПопыткуВыполненияЗадачи</span> (модуль <span class="module">Аванкор</span>) всё равно запускала до шести повторов
+            с паузой 5 секунд, из-за чего весь пакет ожидал завершения каждого цикла повторов и время обработки заметно росло.
+        </p>
+
+        <h2>Что реализовано</h2>
+        <ul>
+            <li>
+                Процедура <span class="procedure">ВТБ_ВыполнитьНаборЗадачПоСделкамТn</span> переведена на новую функцию в общем модуле расширения ВТБ
+                <span class="module">БизнесПроцессыИЗадачи</span> вместо штатного вызова <span class="procedure">ПовторитьПопыткуВыполненияЗадачи</span>.
+            </li>
+            <li>
+                Новая логика анализирует текст ошибки:
+                <ul>
+                    <li>если встречается сообщение <span class="error-text">Не удалось провести "Сделка с ц/б"</span>, дополнительные повторы не выполняются — обработка сразу переходит к следующей задаче;</li>
+                    <li>для остальных ошибок выполняется максимум две попытки с паузой 2 секунды.</li>
+                </ul>
+            </li>
+            <li>
+                В описании изменений зафиксировано, что повторные вызовы ограничены и такие “непроводимые” сделки больше не блокируют очередь.
+            </li>
+        </ul>
+
+        <h2>Результат</h2>
+        <p class="highlight">
+            Проблемные 55 сделок больше не тормозят поток, и время исполнения возвращено к нормальному — такому же,
+            как у сделок без ошибок.
+        </p>
+    </div>
+</body>
+</html>
+
