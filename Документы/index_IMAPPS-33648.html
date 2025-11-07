@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Тезисы комментария IMAPPS-33648</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            line-height: 1.6;
+            color: #2f3944;
+            margin: 32px;
+            background: linear-gradient(135deg, #fefefe 0%, #f3f7fb 100%);
+        }
+        h1 {
+            font-size: 22px;
+            margin-bottom: 18px;
+            color: #405b73;
+        }
+        ul {
+            padding-left: 22px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .keyword {
+            font-weight: 600;
+            color: #2a6ebd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ключевые тезисы комментария IMAPPS-33648</h1>
+    <ul>
+        <li>Регламентная операция «Сделка с ц/б» запускала крупный пакет задач; 55 сделок без остатка завершались ошибкой <span class="keyword">«Не удалось провести "Сделка с ц/б"»</span>.</li>
+        <li>Штатная процедура <span class="keyword">ПовторитьПопыткуВыполненияЗадачи</span> из модуля <span class="keyword">Аванкор</span> выполняла до шести повторов с паузой 5 секунд, значительно увеличивая время обработки.</li>
+        <li>Процедура <span class="keyword">ВТБ_ВыполнитьНаборЗадачПоСделкамТn</span> переведена на новую функцию общего модуля расширения ВТБ <span class="keyword">БизнесПроцессыИЗадачи</span>.</li>
+        <li>Новая логика отключает повторные попытки для ошибки <span class="keyword">«Не удалось провести "Сделка с ц/б"»</span> и ограничивает другие ошибки двумя повторами с паузой 2 секунды.</li>
+        <li>В результате проблемные сделки больше не блокируют очередь, а длительность обработки вернулась к нормальному уровню.</li>
+    </ul>
+</body>
+</html>
+
