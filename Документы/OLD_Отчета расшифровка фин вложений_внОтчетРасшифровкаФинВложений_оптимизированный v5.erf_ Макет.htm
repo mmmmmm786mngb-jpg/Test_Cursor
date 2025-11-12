@@ -1,0 +1,633 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=utf-8"/>
+<TITLE></TITLE>
+<STYLE TYPE="text/css">
+body { background: #ffffff; margin: 0; font-family: Arial; font-size: 8pt; font-style: normal; }
+tr.R0{ height: 15px; }
+tr.R0 td.R0C0{ font-family: Arial; font-size: 8pt; font-style: normal; text-align: left; }
+tr.R0 td.R0C4{ text-align: left; }
+tr.R0 td.R13C0{ font-family: Arial; font-size: 8pt; font-style: normal; font-weight: bold; text-align: left; vertical-align: bottom; overflow: visible;border-left: #000000 1px solid; border-top: #000000 1px solid; border-bottom: #000000 1px solid; }
+tr.R0 td.R13C1{ font-family: Arial; font-size: 8pt; font-style: normal; font-weight: bold; text-align: left; vertical-align: bottom; overflow: visible;border-top: #000000 1px solid; border-bottom: #000000 1px solid; }
+tr.R0 td.R13C20{ text-align: left; border-top: #000000 1px solid; border-bottom: #000000 1px solid; }
+tr.R0 td.R13C4{ font-family: Arial; font-size: 8pt; font-style: normal; font-weight: bold; text-align: left; border-top: #000000 1px solid; border-bottom: #000000 1px solid; border-right: #000000 1px solid; }
+tr.R0 td.R13C9{ font-family: Arial; font-size: 8pt; font-style: normal; font-weight: bold; text-align: left; border-top: #000000 1px solid; border-bottom: #000000 1px solid; }
+tr.R0 td.R15C0{ text-align: left; border-left: #000000 1px solid; border-top: #000000 1px solid; border-bottom: #000000 1px solid; }
+tr.R0 td.R15C1{ font-family: Arial; font-size: 8pt; font-style: normal; font-weight: bold; text-align: right; vertical-align: bottom; overflow: visible;border-top: #000000 1px solid; border-bottom: #000000 1px solid; }
+tr.R0 td.R15C4{ text-align: left; border-left: #000000 1px solid; border-top: #000000 1px solid; border-bottom: #000000 1px solid; border-right: #000000 1px solid; }
+tr.R0 td.R15C7{ font-family: Arial; font-size: 8pt; font-style: normal; font-weight: bold; text-align: right; vertical-align: bottom; overflow: visible;border-top: #000000 1px solid; border-bottom: #000000 1px solid; border-right: #000000 1px solid; }
+tr.R0 td.R15C9{ font-family: Arial; font-size: 8pt; font-style: normal; font-weight: bold; text-align: right; vertical-align: bottom; overflow: visible;border-left: #000000 1px solid; border-top: #000000 1px solid; border-bottom: #000000 1px solid; border-right: #000000 1px solid; }
+tr.R0 td.R2C0{ font-family: Arial; font-size: 8pt; font-style: normal; font-weight: bold; text-align: left; }
+tr.R0 td.R9C0{ font-family: Arial; font-size: 8pt; font-style: normal; text-align: left; vertical-align: bottom; overflow: visible;border-left: #000000 1px solid; border-top: #000000 1px solid; border-bottom: #000000 1px solid; border-right: #000000 1px solid; }
+tr.R0 td.R9C2{ font-family: Arial; font-size: 8pt; font-style: normal; text-align: center; vertical-align: bottom; overflow: visible;border-left: #000000 1px solid; border-top: #000000 1px solid; border-bottom: #000000 1px solid; border-right: #000000 1px solid; }
+tr.R0 td.R9C4{ text-align: right; border-left: #000000 1px solid; border-top: #000000 1px solid; border-bottom: #000000 1px solid; border-right: #000000 1px solid; }
+tr.R0 td.R9C5{ font-family: Arial; font-size: 8pt; font-style: normal; text-align: right; vertical-align: bottom; overflow: visible;border-left: #000000 1px solid; border-top: #000000 1px solid; border-bottom: #000000 1px solid; border-right: #000000 1px solid; }
+tr.R17{ font-family: Arial; font-size: 8pt; font-style: italic; height: 15px; }
+tr.R17 td.R17C0{ text-align: left; border-left: #000000 1px solid; border-top: #000000 1px solid; border-bottom: #000000 1px solid; }
+tr.R17 td.R17C1{ font-family: Arial; font-size: 8pt; font-style: italic; font-weight: bold; text-align: right; vertical-align: bottom; overflow: visible;border-top: #000000 1px solid; border-bottom: #000000 1px solid; }
+tr.R17 td.R17C4{ text-align: left; border-left: #000000 1px solid; border-top: #000000 1px solid; border-bottom: #000000 1px solid; border-right: #000000 1px solid; }
+tr.R17 td.R17C7{ font-family: Arial; font-size: 8pt; font-style: italic; font-weight: bold; text-align: right; vertical-align: bottom; overflow: visible;border-top: #000000 1px solid; border-bottom: #000000 1px solid; border-right: #000000 1px solid; }
+tr.R17 td.R17C9{ font-family: Arial; font-size: 8pt; font-style: italic; font-weight: bold; text-align: right; vertical-align: bottom; overflow: visible;border-left: #000000 1px solid; border-top: #000000 1px solid; border-bottom: #000000 1px solid; border-right: #000000 1px solid; }
+tr.R6{ font-family: Arial; font-size: 8pt; font-style: normal; font-weight: bold; height: 15px; }
+tr.R6 td.R6C0{ font-family: Arial; font-size: 8pt; font-style: normal; text-align: left; vertical-align: bottom; overflow: visible;}
+tr.R6 td.R6C4{ text-align: left; }
+tr.R6 td.R6C5{ font-family: Arial; font-size: 8pt; font-style: normal; text-align: left; vertical-align: bottom; }
+tr.R7{ height: 57px; }
+tr.R7 td.R7C0{ font-family: Arial; font-size: 8pt; font-style: normal; font-weight: bold; text-align: center; vertical-align: middle; overflow: visible;border-left: #000000 1px solid; border-top: #000000 1px solid; border-bottom: #000000 1px solid; border-right: #000000 1px solid; }
+tr.R7 td.R7C4{ font-family: Arial; font-size: 8pt; font-style: normal; font-weight: bold; text-align: center; vertical-align: middle; border-left: #000000 1px solid; border-top: #000000 1px solid; border-bottom: #000000 1px solid; border-right: #000000 1px solid; }
+table {table-layout: fixed; padding: 0; padding-left: 2px; vertical-align:bottom; border-collapse:collapse;width: 100%; font-family: Arial; font-size: 8pt; font-style: normal; }
+td { padding: 0; padding-left: 2px; overflow:hidden; vertical-align: bottom;}
+</STYLE>
+</HEAD>
+<BODY STYLE="background: #ffffff; margin: 0; font-family: Arial; font-size: 8pt; font-style: normal; ">
+<TABLE style="width:100%; height:0px; " CELLSPACING=0>
+<COL WIDTH=72>
+<COL WIDTH=154>
+<COL WIDTH=93>
+<COL WIDTH=92>
+<COL WIDTH=91>
+<COL WIDTH=80>
+<COL WIDTH=84>
+<COL WIDTH=84>
+<COL WIDTH=84>
+<COL WIDTH=98>
+<COL WIDTH=103>
+<COL WIDTH=106>
+<COL WIDTH=84>
+<COL WIDTH=84>
+<COL WIDTH=84>
+<COL WIDTH=84>
+<COL WIDTH=102>
+<COL WIDTH=93>
+<COL WIDTH=98>
+<COL WIDTH=98>
+<COL WIDTH=72>
+<COL WIDTH=98>
+<COL WIDTH=126>
+<COL WIDTH=84>
+<COL WIDTH=71>
+<COL WIDTH=82>
+<COL WIDTH=78>
+<COL>
+<TR CLASS=R0>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C4"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD>&nbsp;</TD>
+</TR>
+<TR CLASS=R0>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C4"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD>&nbsp;</TD>
+</TR>
+<TR CLASS=R0>
+<TD CLASS="R2C0"><SPAN STYLE="white-space:nowrap;max-width:0px;">Расчет</SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C4"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R0>
+<TD CLASS="R2C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C4"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD>&nbsp;</TD>
+</TR>
+<TR CLASS=R0>
+<TD CLASS="R2C0"><SPAN STYLE="white-space:nowrap;max-width:0px;">Портфель</SPAN></TD>
+<TD CLASS="R0C0"><SPAN STYLE="white-space:nowrap;max-width:0px;">Портфель</SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C4"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R0>
+<TD CLASS="R2C0"><SPAN STYLE="white-space:nowrap;max-width:0px;">Дата&nbsp;отчета:</SPAN></TD>
+<TD CLASS="R0C0"><SPAN STYLE="white-space:nowrap;max-width:0px;">НаДату</SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C4"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R6>
+<TD CLASS="R6C0"><SPAN></SPAN></TD>
+<TD CLASS="R6C0"><SPAN></SPAN></TD>
+<TD CLASS="R6C0"><SPAN></SPAN></TD>
+<TD CLASS="R6C0"><SPAN></SPAN></TD>
+<TD CLASS="R6C4"><SPAN></SPAN></TD>
+<TD CLASS="R6C5"><SPAN></SPAN></TD>
+<TD CLASS="R6C5"><SPAN></SPAN></TD>
+<TD CLASS="R6C5"><SPAN></SPAN></TD>
+<TD CLASS="R6C5"><SPAN></SPAN></TD>
+<TD CLASS="R6C5"><SPAN></SPAN></TD>
+<TD CLASS="R6C5"><SPAN></SPAN></TD>
+<TD CLASS="R6C5"><SPAN></SPAN></TD>
+<TD CLASS="R6C5"><SPAN></SPAN></TD>
+<TD CLASS="R6C5"><SPAN></SPAN></TD>
+<TD CLASS="R6C5"><SPAN></SPAN></TD>
+<TD CLASS="R6C5"><SPAN></SPAN></TD>
+<TD CLASS="R6C5"><SPAN></SPAN></TD>
+<TD CLASS="R6C5"><SPAN></SPAN></TD>
+<TD CLASS="R6C5"><SPAN></SPAN></TD>
+<TD CLASS="R6C5"><SPAN></SPAN></TD>
+<TD CLASS="R6C5"><SPAN></SPAN></TD>
+<TD CLASS="R6C5"><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD>&nbsp;</TD>
+</TR>
+<TR CLASS=R7>
+<TD CLASS="R7C0"><SPAN STYLE="white-space:nowrap;max-width:0px;">Тип&nbsp;актива</SPAN></TD>
+<TD CLASS="R7C0"><SPAN STYLE="white-space:nowrap;max-width:0px;">Эмитент</SPAN></TD>
+<TD CLASS="R7C0"><SPAN STYLE="white-space:nowrap;max-width:0px;">Номер&nbsp;гос.&nbsp;рег.</SPAN></TD>
+<TD CLASS="R7C0"><SPAN STYLE="white-space:nowrap;max-width:0px;">ISIN</SPAN></TD>
+<TD CLASS="R7C4">Количество в выпуске</TD>
+<TD CLASS="R7C4">Номинал </TD>
+<TD CLASS="R7C4">Дата партии</TD>
+<TD CLASS="R7C4">Номер партии</TD>
+<TD CLASS="R7C4">Количество</TD>
+<TD CLASS="R7C4">Первонач. стоимость (расходы на приобретение)</TD>
+<TD CLASS="R7C4">Приобретенный дисконт</TD>
+<TD CLASS="R7C4">Приобретенная премия</TD>
+<TD CLASS="R7C4">УКД</TD>
+<TD CLASS="R7C4">Амортизация дисконта</TD>
+<TD CLASS="R7C4">Амортизация премии</TD>
+<TD CLASS="R7C4">НКД</TD>
+<TD CLASS="R7C4">Сумма на счете положительной корректировки</TD>
+<TD CLASS="R7C4">Сумма на счете отрицательной корректировки</TD>
+<TD CLASS="R7C4">Сумма на счете положительной переоценки</TD>
+<TD CLASS="R7C4">Сумма на счете отрицательной переоценки</TD>
+<TD CLASS="R7C4">Доход от индексации номинала ОФЗ-ИН</TD>
+<TD CLASS="R7C4">Итого балансовая стоимость</TD>
+<TD CLASS="R7C0"><SPAN STYLE="white-space:nowrap;max-width:0px;">ЭСП</SPAN></TD>
+<TD CLASS="R7C4">Дата погашения</TD>
+<TD CLASS="R7C4">Дней, до погашения</TD>
+<TD CLASS="R7C4">Дата ближайшей оферты</TD>
+<TD CLASS="R7C4">Дней, до оферты</TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R0>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C4"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD CLASS="R0C4"><SPAN></SPAN></TD>
+<TD CLASS="R0C4"><SPAN></SPAN></TD>
+<TD CLASS="R0C4"><SPAN></SPAN></TD>
+<TD CLASS="R0C4"><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD>&nbsp;</TD>
+</TR>
+<TR CLASS=R0>
+<TD CLASS="R9C0"><SPAN STYLE="white-space:nowrap;max-width:0px;">ТипАктива</SPAN></TD>
+<TD CLASS="R9C0"><SPAN STYLE="white-space:nowrap;max-width:0px;">Эмитент</SPAN></TD>
+<TD CLASS="R9C2"><SPAN STYLE="white-space:nowrap;max-width:0px;">НомерГосРег</SPAN></TD>
+<TD CLASS="R9C2"><SPAN STYLE="white-space:nowrap;max-width:0px;">ISIN</SPAN></TD>
+<TD CLASS="R9C4"><SPAN STYLE="white-space:nowrap;max-width:0px;">печКолВоВыпуск</SPAN></TD>
+<TD CLASS="R9C5"><SPAN STYLE="white-space:nowrap;max-width:0px;">Номинал</SPAN></TD>
+<TD CLASS="R9C2"><SPAN STYLE="white-space:nowrap;max-width:0px;">ПартияДата</SPAN></TD>
+<TD CLASS="R9C2"><SPAN STYLE="white-space:nowrap;max-width:0px;">ПартияНомер</SPAN></TD>
+<TD CLASS="R9C5"><SPAN STYLE="white-space:nowrap;max-width:0px;">КоличествоОстаток</SPAN></TD>
+<TD CLASS="R9C5"><SPAN STYLE="white-space:nowrap;max-width:0px;">СуммаНоминал</SPAN></TD>
+<TD CLASS="R9C5"><SPAN STYLE="white-space:nowrap;max-width:0px;">Дисконт</SPAN></TD>
+<TD CLASS="R9C5"><SPAN STYLE="white-space:nowrap;max-width:0px;">Премия</SPAN></TD>
+<TD CLASS="R9C5"><SPAN STYLE="white-space:nowrap;max-width:0px;">УКД</SPAN></TD>
+<TD CLASS="R9C5"><SPAN STYLE="white-space:nowrap;max-width:0px;">АмортДисконт</SPAN></TD>
+<TD CLASS="R9C5"><SPAN STYLE="white-space:nowrap;max-width:0px;">АмортПремия</SPAN></TD>
+<TD CLASS="R9C5"><SPAN STYLE="white-space:nowrap;max-width:0px;">НКД</SPAN></TD>
+<TD CLASS="R9C5"><SPAN STYLE="white-space:nowrap;max-width:0px;">СуммаПоложитКорректировки</SPAN></TD>
+<TD CLASS="R9C5"><SPAN STYLE="white-space:nowrap;max-width:0px;">СуммаОтрицательнойКорректировки</SPAN></TD>
+<TD CLASS="R9C5"><SPAN STYLE="white-space:nowrap;max-width:0px;">суммаПоложительнойПереоценки</SPAN></TD>
+<TD CLASS="R9C5"><SPAN STYLE="white-space:nowrap;max-width:0px;">СуммаОтрицательнойПереоценки</SPAN></TD>
+<TD CLASS="R9C5"><SPAN STYLE="white-space:nowrap;max-width:0px;">ИндексацияНоминала_Доход_СуммаОборотКт</SPAN></TD>
+<TD CLASS="R9C5"><SPAN STYLE="white-space:nowrap;max-width:0px;">ИтБаланс</SPAN></TD>
+<TD CLASS="R9C4"><SPAN STYLE="white-space:nowrap;max-width:0px;">ЭСП</SPAN></TD>
+<TD CLASS="R9C4"><SPAN STYLE="white-space:nowrap;max-width:0px;">печДатаПогашения</SPAN></TD>
+<TD CLASS="R9C4"><SPAN STYLE="white-space:nowrap;max-width:0px;">печДнейДоПогашения</SPAN></TD>
+<TD CLASS="R9C4"><SPAN STYLE="white-space:nowrap;max-width:0px;">печДатаОферты</SPAN></TD>
+<TD CLASS="R9C4"><SPAN STYLE="white-space:nowrap;max-width:0px;">печДнейДоОферты</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R0>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C4"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD CLASS="R0C4"><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD CLASS="R0C4"><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD>&nbsp;</TD>
+</TR>
+<TR CLASS=R0>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C4"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD CLASS="R0C4"><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD CLASS="R0C4"><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD>&nbsp;</TD>
+</TR>
+<TR CLASS=R0>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C4"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD CLASS="R0C4"><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD CLASS="R0C4"><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD>&nbsp;</TD>
+</TR>
+<TR CLASS=R0>
+<TD CLASS="R13C0"><SPAN STYLE="white-space:nowrap;max-width:0px;">ТипАктива</SPAN></TD>
+<TD CLASS="R13C1"><SPAN></SPAN></TD>
+<TD CLASS="R13C1"><SPAN></SPAN></TD>
+<TD CLASS="R13C1"><SPAN></SPAN></TD>
+<TD CLASS="R13C4"><SPAN></SPAN></TD>
+<TD CLASS="R13C1"><SPAN></SPAN></TD>
+<TD CLASS="R13C1"><SPAN></SPAN></TD>
+<TD CLASS="R13C1"><SPAN></SPAN></TD>
+<TD CLASS="R13C1"><SPAN></SPAN></TD>
+<TD CLASS="R13C9"><SPAN></SPAN></TD>
+<TD CLASS="R13C9"><SPAN></SPAN></TD>
+<TD CLASS="R13C9"><SPAN></SPAN></TD>
+<TD CLASS="R13C9"><SPAN></SPAN></TD>
+<TD CLASS="R13C9"><SPAN></SPAN></TD>
+<TD CLASS="R13C9"><SPAN></SPAN></TD>
+<TD CLASS="R13C9"><SPAN></SPAN></TD>
+<TD CLASS="R13C9"><SPAN></SPAN></TD>
+<TD CLASS="R13C9"><SPAN></SPAN></TD>
+<TD CLASS="R13C9"><SPAN></SPAN></TD>
+<TD CLASS="R13C9"><SPAN></SPAN></TD>
+<TD CLASS="R13C20"><SPAN></SPAN></TD>
+<TD CLASS="R13C20"><SPAN></SPAN></TD>
+<TD CLASS="R13C4"><SPAN></SPAN></TD>
+<TD CLASS="R13C4"><SPAN></SPAN></TD>
+<TD CLASS="R13C4"><SPAN></SPAN></TD>
+<TD CLASS="R13C4"><SPAN></SPAN></TD>
+<TD CLASS="R13C4"><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R0>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C4"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD CLASS="R0C0"><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD CLASS="R0C4"><SPAN></SPAN></TD>
+<TD CLASS="R0C4"><SPAN></SPAN></TD>
+<TD CLASS="R0C4"><SPAN></SPAN></TD>
+<TD CLASS="R0C4"><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD>&nbsp;</TD>
+</TR>
+<TR CLASS=R0>
+<TD CLASS="R15C0"><SPAN></SPAN></TD>
+<TD CLASS="R15C1"><SPAN></SPAN></TD>
+<TD CLASS="R15C1"><SPAN></SPAN></TD>
+<TD CLASS="R15C1"><SPAN></SPAN></TD>
+<TD CLASS="R15C4"><SPAN></SPAN></TD>
+<TD CLASS="R15C1"><SPAN></SPAN></TD>
+<TD CLASS="R15C1"><SPAN STYLE="white-space:nowrap;max-width:0px;">ТипАктива</SPAN></TD>
+<TD CLASS="R15C7"><SPAN></SPAN></TD>
+<TD CLASS="R15C1"><SPAN></SPAN></TD>
+<TD CLASS="R15C9"><SPAN STYLE="white-space:nowrap;max-width:0px;">СуммаНоминал</SPAN></TD>
+<TD CLASS="R15C9"><SPAN STYLE="white-space:nowrap;max-width:0px;">Дисконт</SPAN></TD>
+<TD CLASS="R15C9"><SPAN STYLE="white-space:nowrap;max-width:0px;">Премия</SPAN></TD>
+<TD CLASS="R15C9"><SPAN STYLE="white-space:nowrap;max-width:0px;">УКД</SPAN></TD>
+<TD CLASS="R15C9"><SPAN STYLE="white-space:nowrap;max-width:0px;">АмортДисконт</SPAN></TD>
+<TD CLASS="R15C9"><SPAN STYLE="white-space:nowrap;max-width:0px;">АмортПремия</SPAN></TD>
+<TD CLASS="R15C9"><SPAN STYLE="white-space:nowrap;max-width:0px;">НКД</SPAN></TD>
+<TD CLASS="R15C9"><SPAN STYLE="white-space:nowrap;max-width:0px;">СуммаПоложитКорректировки</SPAN></TD>
+<TD CLASS="R15C9"><SPAN STYLE="white-space:nowrap;max-width:0px;">СуммаОтрицательнойКорректировки</SPAN></TD>
+<TD CLASS="R15C9"><SPAN STYLE="white-space:nowrap;max-width:0px;">суммаПоложительнойПереоценки</SPAN></TD>
+<TD CLASS="R15C9"><SPAN STYLE="white-space:nowrap;max-width:0px;">СуммаОтрицательнойПереоценки</SPAN></TD>
+<TD CLASS="R15C9"><SPAN STYLE="white-space:nowrap;max-width:0px;">ИндексацияНоминала_Доход_СуммаОборотКт</SPAN></TD>
+<TD CLASS="R15C9"><SPAN STYLE="white-space:nowrap;max-width:0px;">ИтБаланс</SPAN></TD>
+<TD CLASS="R15C4"><SPAN></SPAN></TD>
+<TD CLASS="R15C4"><SPAN></SPAN></TD>
+<TD CLASS="R15C4"><SPAN></SPAN></TD>
+<TD CLASS="R15C4"><SPAN></SPAN></TD>
+<TD CLASS="R15C4"><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R0>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD>&nbsp;</TD>
+</TR>
+<TR CLASS=R17>
+<TD CLASS="R17C0"><SPAN></SPAN></TD>
+<TD CLASS="R17C1"><SPAN></SPAN></TD>
+<TD CLASS="R17C1"><SPAN></SPAN></TD>
+<TD CLASS="R17C1"><SPAN></SPAN></TD>
+<TD CLASS="R17C4"><SPAN></SPAN></TD>
+<TD CLASS="R17C1"><SPAN></SPAN></TD>
+<TD CLASS="R17C1"><SPAN STYLE="white-space:nowrap;max-width:0px;">ТипАктива</SPAN></TD>
+<TD CLASS="R17C7"><SPAN></SPAN></TD>
+<TD CLASS="R17C1"><SPAN></SPAN></TD>
+<TD CLASS="R17C9"><SPAN STYLE="white-space:nowrap;max-width:0px;">итСуммаНоминал</SPAN></TD>
+<TD CLASS="R17C9"><SPAN STYLE="white-space:nowrap;max-width:0px;">итДисконт</SPAN></TD>
+<TD CLASS="R17C9"><SPAN STYLE="white-space:nowrap;max-width:0px;">итПремия</SPAN></TD>
+<TD CLASS="R17C9"><SPAN STYLE="white-space:nowrap;max-width:0px;">итУКД</SPAN></TD>
+<TD CLASS="R17C9"><SPAN STYLE="white-space:nowrap;max-width:0px;">итАмортДисконт</SPAN></TD>
+<TD CLASS="R17C9"><SPAN STYLE="white-space:nowrap;max-width:0px;">итАмортПремия</SPAN></TD>
+<TD CLASS="R17C9"><SPAN STYLE="white-space:nowrap;max-width:0px;">итНКД</SPAN></TD>
+<TD CLASS="R17C9"><SPAN STYLE="white-space:nowrap;max-width:0px;">итСуммаПоложитКорректировки</SPAN></TD>
+<TD CLASS="R17C9"><SPAN STYLE="white-space:nowrap;max-width:0px;">итСуммаОтрицательнойКорректировки</SPAN></TD>
+<TD CLASS="R17C9"><SPAN STYLE="white-space:nowrap;max-width:0px;">итСуммаПоложительнойПереоценки</SPAN></TD>
+<TD CLASS="R17C9"><SPAN STYLE="white-space:nowrap;max-width:0px;">итСуммаОтрицательнойПереоценки</SPAN></TD>
+<TD CLASS="R17C9"><SPAN STYLE="white-space:nowrap;max-width:0px;">итИндексацияНоминала_Доход_СуммаОборотКт</SPAN></TD>
+<TD CLASS="R17C9"><SPAN STYLE="white-space:nowrap;max-width:0px;">ИтВсегоБаланс</SPAN></TD>
+<TD CLASS="R17C4"><SPAN></SPAN></TD>
+<TD CLASS="R17C4"><SPAN></SPAN></TD>
+<TD CLASS="R17C4"><SPAN></SPAN></TD>
+<TD CLASS="R17C4"><SPAN></SPAN></TD>
+<TD CLASS="R17C4"><SPAN></SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>
