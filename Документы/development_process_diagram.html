@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Диаграмма бизнес-процесса разработки с GitLab и ВМ Яндекс</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 50px;
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #2a5298;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header .subtitle {
+            font-size: 1.2em;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .diagram-container {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 2px solid #e0e0e0;
+            overflow-x: auto;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #1e3c72;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .section h3 {
+            color: #2a5298;
+            font-size: 1.4em;
+            margin: 25px 0 15px 0;
+        }
+
+        .section p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .section ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 15px 0;
+        }
+
+        .section li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            line-height: 1.8;
+            font-size: 1.05em;
+        }
+
+        .section li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #2a5298;
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .highlight-box h3 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .highlight-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .highlight-box li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .highlight-box li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .info-box h4 {
+            color: #1976d2;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .step-card {
+            background: #f5f5f5;
+            border-radius: 10px;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            border-color: #2a5298;
+        }
+
+        .step-card .step-number {
+            background: #2a5298;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+
+        .step-card h4 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 3px solid #e0e0e0;
+            color: #666;
+        }
+
+        .footer .emoji {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .section h2 {
+                font-size: 1.5em;
+            }
+
+            .process-steps {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .mermaid {
+            text-align: center;
+        }
+
+        /* Стили для улучшения видимости subgraph заголовков */
+        .mermaid .cluster rect {
+            fill-opacity: 0.3 !important;
+            stroke-width: 3px !important;
+        }
+
+        .mermaid .cluster-label {
+            font-weight: bold !important;
+            font-size: 16px !important;
+            fill: #1e3c72 !important;
+        }
+
+        /* Пастельные цвета для разных subgraph */
+        .mermaid .cluster:nth-of-type(1) rect {
+            fill: #E3F2FD !important; /* Светло-синий для рабочего места */
+            stroke: #1976D2 !important;
+        }
+
+        .mermaid .cluster:nth-of-type(2) rect {
+            fill: #E8F5E9 !important; /* Светло-зеленый для центрального хранилища */
+            stroke: #2E7D32 !important;
+        }
+
+        .mermaid .cluster:nth-of-type(3) rect {
+            fill: #FFF3E0 !important; /* Светло-оранжевый для ВМ Яндекс */
+            stroke: #FF6F00 !important;
+        }
+
+        .mermaid .cluster:nth-of-type(4) rect {
+            fill: #FFFDE7 !important; /* Светло-желтый для синхронизации */
+            stroke: #FFC107 !important;
+        }
+
+
+        /* Вложенные subgraph */
+        .mermaid .cluster .cluster rect {
+            fill-opacity: 0.2 !important;
+            stroke-width: 2px !important;
+        }
+
+        /* Улучшение отступов и видимости */
+        .mermaid svg {
+            padding: 30px !important;
+        }
+
+        .mermaid .cluster {
+            padding: 15px !important;
+        }
+
+        /* Улучшение видимости текста в заголовках */
+        .mermaid .cluster-label text {
+            font-weight: bold !important;
+            font-size: 18px !important;
+            fill: #1e3c72 !important;
+            stroke: none !important;
+        }
+
+        /* Дополнительные отступы для элементов внутри subgraph */
+        .mermaid .node {
+            margin: 10px !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔐 Диаграмма бизнес-процесса разработки</h1>
+            <p class="subtitle">Безопасная разработка через GitLab и ВМ Яндекс с Cursor AI</p>
+        </div>
+
+        <div class="section">
+            <h2>📊 Визуализация процесса</h2>
+            
+            <div class="info-box">
+                <h4>📌 Архитектура системы:</h4>
+                <p>Система состоит из <strong>трех уровней хранилищ</strong>:</p>
+                <ul>
+                    <li><strong>GitLab Repository Центрального хранилища</strong> - главное хранилище всех репозиториев в банковской сети (Dev/QA/UAT и Релизный)</li>
+                    <li><strong>GitLab Repository сервера ВМ Яндекс</strong> - промежуточное хранилище для работы с виртуальной машиной</li>
+                    <li><strong>Локальные репозитории GIT</strong> - на рабочем компьютере (Dev/QA/UAT и Релизный) и в ВМ (только Dev/QA/UAT)</li>
+                </ul>
+                <p style="margin-top: 10px;"><strong>Автоматическая синхронизация</strong> между GitLab Repository сервера ВМ Яндекс и Центральным хранилищем (Dev/QA/UAT) происходит автоматически.</p>
+            </div>
+
+            <div class="highlight-box" style="background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%); color: #333; margin-top: 20px;">
+                <h3 style="color: #1e3c72; margin-bottom: 15px;">🎨 Цветовая схема безопасности:</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div style="background: #2E7D32; color: white; padding: 10px; border-radius: 5px;">
+                        <strong>🟢 Безопасно</strong><br/>
+                        Банковская сеть<br/>
+                        Центральное хранилище
+                    </div>
+                    <div style="background: #1976D2; color: white; padding: 10px; border-radius: 5px;">
+                        <strong>🔵 Нейтрально</strong><br/>
+                        Рабочее место<br/>
+                        разработчика
+                    </div>
+                    <div style="background: #FF6F00; color: white; padding: 10px; border-radius: 5px;">
+                        <strong>🟠 Внимание</strong><br/>
+                        ВМ Яндекс<br/>
+                        Внешние сервисы
+                    </div>
+                    <div style="background: #FFFDE7; color: #000; padding: 10px; border-radius: 5px;">
+                        <strong>🟡 Процесс синхронизации</strong><br/>
+                        Автоматическая<br/>
+                        синхронизация данных
+                    </div>
+                </div>
+            </div>
+            
+            <div class="diagram-container">
+                <div class="mermaid">
+flowchart TB
+    subgraph РабочаяСреда["<b>🖥️ Рабочий компьютер разработчика</b>"]
+        direction TB
+        Dev[Разработчик]
+        subgraph LocalRepos["<b>📦 Локальные репозитории GIT</b>"]
+            LocalRepoDev[Локальный репозиторий GIT<br/>Dev / QA / UAT]
+            LocalRepoRelease[Локальный репозиторий GIT<br/>Релизный]
+        end
+    end
+
+    subgraph ЦентральноеХранилище["<b>🏦 GitLab Repository<br/>Центрального хранилища<br/>(Банковская сеть)</b>"]
+        direction TB
+        CentralRepoDev[GitLab Repository<br/>Dev / QA / UAT]
+        CentralRepoRelease[GitLab Repository<br/>Релизный]
+    end
+
+    subgraph Синхронизация["<b>🔄 Процесс синхронизации</b>"]
+        direction TB
+        SyncProcess[Автоматическая<br/>синхронизация<br/>репозиториев по наименованию]
+    end
+
+    subgraph ИнфоБезопасность["<b>🛡️ Служба информационной безопасности</b>"]
+        direction TB
+        SecurityCheck[Проверка данных<br/>при синхронизации]
+    end
+
+    subgraph ВМЯндекс["<b>☁️ Виртуальная машина Яндекс</b>"]
+        direction TB
+        VMStorage[GitLab Repository<br/>сервера ВМ Яндекс]
+        VMCursor[Cursor AI<br/>Разработка с AI]
+        VMTasks[Выполнение задач<br/>Кодирование]
+        subgraph VMRepos["<b>📦 Локальные репозитории GIT</b>"]
+            VMRepoDev[Локальный репозиторий GIT<br/>Dev / QA / UAT]
+        end
+    end
+
+    Dev -->|1. Работа с кодом| LocalRepoDev
+    Dev -->|1. Работа с кодом| LocalRepoRelease
+    LocalRepoDev -->|2. git push| CentralRepoDev
+    LocalRepoRelease -->|2. git push| CentralRepoRelease
+    CentralRepoDev <--> SyncProcess
+    VMStorage <--> SyncProcess
+    SyncProcess -->|Данные для проверки| SecurityCheck
+    SecurityCheck -->|Результат проверки| SyncProcess
+    VMStorage -->|3. git clone/pull| VMRepoDev
+    VMRepoDev -->|4. Работа с кодом| VMCursor
+    VMCursor -->|5. Разработка с AI| VMTasks
+    VMTasks -->|6. git commit| VMRepoDev
+    VMRepoDev -->|7. git push| VMStorage
+    CentralRepoDev -->|8. git pull| LocalRepoDev
+    CentralRepoRelease -->|8. git pull| LocalRepoRelease
+    LocalRepoDev -->|9. Получение изменений| Dev
+    LocalRepoRelease -->|9. Получение изменений| Dev
+
+    classDef devStyle fill:#1976D2,stroke:#1565C0,stroke-width:2px,color:#fff
+    classDef safeCentralStyle fill:#2E7D32,stroke:#1B5E20,stroke-width:3px,color:#fff
+    classDef safeCentralReleaseStyle fill:#388E3C,stroke:#2E7D32,stroke-width:3px,color:#fff
+    classDef warningVMStyle fill:#FF6F00,stroke:#E65100,stroke-width:3px,color:#fff
+    classDef warningStorageStyle fill:#FF8F00,stroke:#E65100,stroke-width:3px,color:#fff
+    classDef warningRepoStyle fill:#FFA726,stroke:#FF8F00,stroke-width:2px,color:#fff
+    classDef repoDevStyle fill:#42A5F5,stroke:#1976D2,stroke-width:2px,color:#fff
+    classDef repoReleaseStyle fill:#7B1FA2,stroke:#6A1B9A,stroke-width:2px,color:#fff
+    classDef syncStyle fill:#FFC107,stroke:#FFA000,stroke-width:2px,color:#000
+    classDef securityStyle fill:#FF9800,stroke:#F57C00,stroke-width:3px,color:#fff
+
+    class Dev devStyle
+    class CentralRepoDev safeCentralStyle
+    class CentralRepoRelease safeCentralReleaseStyle
+    class VMCursor,VMTasks warningVMStyle
+    class LocalRepoDev repoDevStyle
+    class LocalRepoRelease repoReleaseStyle
+    class VMRepoDev warningRepoStyle
+    class VMStorage warningStorageStyle
+    class SyncProcess syncStyle
+    class SecurityCheck securityStyle
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔄 Описание бизнес-процесса</h2>
+            
+            <div class="process-steps">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h4>Инициация работы</h4>
+                    <p>Разработчик создает изменения на рабочем компьютере, используя локальные репозитории GIT (Dev/QA/UAT или Релизный)</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h4>Отправка в Центральное хранилище</h4>
+                    <p>Изменения отправляются через <code>git push</code> в GitLab Repository Центрального хранилища (Dev/QA/UAT или Релизный)</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h4>Инициация синхронизации</h4>
+                    <p>Центральное хранилище (Dev/QA/UAT) или GitLab Repository сервера ВМ Яндекс инициируют процесс автоматической синхронизации</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h4>Процесс синхронизации</h4>
+                    <p>Выполняется автоматическая синхронизация репозиториев между хранилищами</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">5</div>
+                    <h4>Локальные репозитории в ВМ</h4>
+                    <p>Виртуальная машина Яндекс получает изменения из GitLab Repository сервера ВМ через <code>git clone/pull</code> в локальные репозитории GIT (Dev/QA/UAT) для работы с Cursor AI</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">6</div>
+                    <h4>Разработка с Cursor</h4>
+                    <p>В ВМ выполняется разработка с использованием Cursor AI для генерации и оптимизации кода</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">7</div>
+                    <h4>Возврат в хранилище ВМ</h4>
+                    <p>Готовый код коммитится и отправляется в GitLab Repository сервера ВМ Яндекс через <code>git push</code></p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">8</div>
+                    <h4>Повторная синхронизация</h4>
+                    <p>После изменений в хранилище ВМ запускается процесс обратной синхронизации с Центральным хранилищем (Dev/QA/UAT)</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">9</div>
+                    <h4>Синхронизация на рабочую машину</h4>
+                    <p>Разработчик получает изменения на рабочую машину из Центрального хранилища через <code>git pull</code> в соответствующие локальные репозитории (Dev/QA/UAT или Релизный)</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📦 Структура хранилищ и репозиториев</h2>
+            
+            <div class="highlight-box">
+                <h3>Архитектура хранилищ</h3>
+                <ul>
+                    <li><strong>GitLab Repository Центрального хранилища:</strong> Главное хранилище всех репозиториев в банковской сети (Dev/QA/UAT и Релизный)</li>
+                    <li><strong>GitLab Repository сервера ВМ Яндекс:</strong> Промежуточное хранилище для работы с ВМ (только Dev/QA/UAT)</li>
+                    <li><strong>На рабочем компьютере:</strong> Локальные репозитории GIT (Dev/QA/UAT и Релизный)</li>
+                    <li><strong>В ВМ Яндекс:</strong> Только локальные репозитории GIT (Dev/QA/UAT), релизный репозиторий отсутствует</li>
+                    <li><strong>Процесс синхронизации:</strong> Отдельный процесс автоматической синхронизации между GitLab Repository сервера ВМ Яндекс и Центральным хранилищем (Dev/QA/UAT)</li>
+                    <li><strong>Типы репозиториев:</strong> Dev (разработка), QA (тестирование), UAT (приемочное тестирование), Релизный (production)</li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <h4>📋 Преимущества множественных репозиториев:</h4>
+                <ul>
+                    <li><strong>Параллельная разработка:</strong> Одновременная работа над разными ветками (develop, main) без конфликтов</li>
+                    <li><strong>Изоляция окружений:</strong> Четкое разделение Dev/QA/UAT и Production репозиториев обеспечивает безопасность релизных версий</li>
+                    <li><strong>Гибкость переключения:</strong> Быстрое переключение между задачами через отдельные локальные репозитории</li>
+                    <li><strong>Централизованная синхронизация:</strong> Единая точка синхронизации через Центральное хранилище в банковской сети</li>
+                    <li><strong>Безопасность данных:</strong> Проверка службой информационной безопасности при каждой синхронизации</li>
+                    <li><strong>Резервное копирование:</strong> Автоматическое резервное копирование через Центральное хранилище в защищенной банковской сети</li>
+                    <li><strong>Полная история:</strong> Независимая история изменений для каждого типа репозитория (Dev/QA/UAT и Release)</li>
+                    <li><strong>Автоматизация:</strong> Синхронизация по наименованию репозиториев между хранилищами без ручного вмешательства</li>
+                    <li><strong>Удаленная разработка:</strong> Возможность работы в облачной ВМ с сохранением всех преимуществ локальной разработки</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🌍 Мировые практики и аналоги</h2>
+            
+            <h3>GitLab Flow с окружениями и автоматической синхронизацией</h3>
+            <p>Наша схема соответствует <strong>GitLab Flow</strong> - стандартной практике разделения репозиториев по окружениям (Dev/QA/UAT/Production) с автоматической синхронизацией между ними. Это широко используется в enterprise-разработке:</p>
+            <ul>
+                <li><strong>GitLab Repository Mirroring:</strong> Встроенная функция GitLab для автоматической синхронизации репозиториев по наименованию между различными инстансами (центральное хранилище ↔ промежуточное хранилище)</li>
+                <li><strong>Environment-based Promotion:</strong> Стандартная практика продвижения кода через окружения (Dev → QA → UAT → Production) с автоматической синхронизацией и проверкой безопасности на каждом этапе</li>
+                <li><strong>GitLab Security Scanning:</strong> Автоматическое сканирование кода (SAST, DAST) при синхронизации репозиториев, встроенное в GitLab Ultimate и Premium</li>
+            </ul>
+
+            <h3>DevSecOps в финансовом секторе</h3>
+            <p>Проверка безопасности при синхронизации репозиториев - обязательная практика в банковском секторе, соответствующая стандартам PCI DSS и требованиям регуляторов:</p>
+            <ul>
+                <li><strong>Shift-Left Security:</strong> Ранняя проверка безопасности на этапе синхронизации (практика крупных банков: JPMorgan Chase, Bank of America, Citibank)</li>
+                <li><strong>Policy as Code:</strong> Автоматическая проверка соответствия политикам безопасности при каждой синхронизации через GitLab Security Policies</li>
+                <li><strong>Compliance Automation:</strong> Автоматическая проверка соответствия стандартам (PCI DSS, SOC 2) при синхронизации через GitLab Compliance Management</li>
+            </ul>
+
+            <h3>Облачная разработка с синхронизацией</h3>
+            <p>Использование облачных виртуальных машин для разработки с автоматической синхронизацией репозиториев - стандартная практика в крупных организациях:</p>
+            <ul>
+                <li><strong>GitHub Codespaces:</strong> Облачные окружения разработки с автоматической синхронизацией репозиториев и встроенной проверкой безопасности через GitHub Advanced Security</li>
+                <li><strong>GitLab Remote Development:</strong> Работа в облачных ВМ с автоматической синхронизацией через GitLab Repository Mirroring и проверкой безопасности</li>
+                <li><strong>Azure DevOps + Cloud Shell:</strong> Облачная разработка с синхронизацией репозиториев через Azure Repos и автоматической проверкой через Azure Security Center</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>✅ Преимущества данного подхода</h2>
+            
+            <div class="process-steps">
+                <div class="step-card">
+                    <h4>📦 Множественные репозитории</h4>
+                    <p>Разработческие (Dev/QA/UAT) и релизные локальные репозитории GIT на рабочем месте и в ВМ обеспечивают изоляцию окружений и гибкость работы</p>
+                </div>
+
+                <div class="step-card">
+                    <h4>🛡️ Безопасность</h4>
+                    <p>Автоматическая проверка службой информационной безопасности при каждой синхронизации обеспечивает соответствие политикам безопасности и стандартам</p>
+                </div>
+
+                <div class="step-card">
+                    <h4>🔄 Автоматическая синхронизация</h4>
+                    <p>Синхронизация по наименованию репозиториев между хранилищами происходит автоматически без ручного вмешательства, обеспечивая актуальность данных</p>
+                </div>
+
+                <div class="step-card">
+                    <h4>☁️ Гибкость разработки</h4>
+                    <p>Разработка может вестись как на рабочей машине, так и в облачной ВМ Яндекс, в зависимости от задач и требований к ресурсам</p>
+                </div>
+
+                <div class="step-card">
+                    <h4>🤖 AI-ассистирование</h4>
+                    <p>Использование Cursor AI в ВМ позволяет ускорить разработку с мощными вычислительными ресурсами без установки на рабочие компьютеры</p>
+                </div>
+
+                <div class="step-card">
+                    <h4>📊 Полная история</h4>
+                    <p>Независимая история всех изменений хранится в GitLab для каждого типа репозитория, обеспечивая возможность отслеживания и отката</p>
+                </div>
+
+                <div class="step-card">
+                    <h4>🏦 Централизованное хранилище</h4>
+                    <p>Единое Центральное хранилище в банковской сети обеспечивает резервное копирование, контроль доступа и соответствие требованиям безопасности</p>
+                </div>
+
+                <div class="step-card">
+                    <h4>⚡ Производительность</h4>
+                    <p>ВМ Яндекс обеспечивает мощные вычислительные ресурсы для работы с AI-инструментами и параллельной обработки задач</p>
+                </div>
+
+                <div class="step-card">
+                    <h4>🔐 Соответствие стандартам</h4>
+                    <p>Встроенная проверка безопасности при синхронизации обеспечивает соответствие требованиям финансового сектора и корпоративным политикам</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📝 Технические детали</h2>
+            
+            <h3>Команды Git для работы с процессом</h3>
+            <div class="info-box">
+                <h4>На рабочем компьютере (локальные репозитории GIT):</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+# Работа с репозиториями Dev/QA/UAT
+cd achm_cursor_dev
+git checkout develop
+git add .
+git commit -m "Описание изменений"
+git push origin develop  # Отправка в Центральное хранилище (Dev/QA/UAT)
+git pull origin develop  # Получение из Центрального хранилища
+
+# Работа с релизным репозиторием
+cd achm_cursor_release
+git checkout main
+git add .
+git commit -m "Описание изменений"
+git push origin main  # Отправка в Центральное хранилище (Релизный)
+git pull origin main  # Получение из Центрального хранилища</pre>
+            </div>
+
+            <div class="info-box">
+                <h4>В виртуальной машине Яндекс (локальные репозитории GIT - только Dev/QA/UAT):</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+# Создание локального репозитория Dev/QA/UAT из GitLab Repository сервера ВМ
+git clone [GitLab_Repository_ВМ_Яндекс]/achm_cursor.git achm_cursor_dev
+cd achm_cursor_dev
+git checkout develop
+
+# Работа с Cursor AI, внесение изменений
+# ... разработка в репозитории Dev/QA/UAT ...
+
+# Отправка изменений в GitLab Repository сервера ВМ
+# (далее автоматическая синхронизация с Центральным хранилищем Dev/QA/UAT)
+git add .
+git commit -m "Изменения через Cursor AI"
+git push origin develop</pre>
+            </div>
+
+            <div class="info-box">
+                <h4>Автоматическая синхронизация по наименованию:</h4>
+                <p>Синхронизация между GitLab Repository сервера ВМ Яндекс и GitLab Repository Центрального хранилища (Dev/QA/UAT) происходит автоматически в обоих направлениях по наименованию репозиториев. При каждой синхронизации служба информационной безопасности проверяет данные на соответствие политикам безопасности.</p>
+            </div>
+
+            <h3>Управление множественными репозиториями</h3>
+            <p>Для эффективной работы с множественными локальными репозиториями следуйте best practices:</p>
+            <ul>
+                <li><strong>Именование:</strong> Используйте понятные и согласованные имена для разработческих и релизных репозиториев (например, <code>achm_cursor_dev</code>, <code>achm_cursor_release</code>)</li>
+                <li><strong>Синхронизация:</strong> Регулярно выполняйте <code>git pull</code> для получения актуальных изменений из Центрального хранилища</li>
+                <li><strong>Ветки:</strong> Строго следите за тем, в какой ветке вы работаете (<code>develop</code> для разработки, <code>main</code> для релиза)</li>
+                <li><strong>Коммиты:</strong> Делайте понятные коммиты с описанием изменений согласно <a href="https://www.conventionalcommits.org/" target="_blank">Conventional Commits</a></li>
+                <li><strong>Перед синхронизацией:</strong> Убедитесь, что все изменения закоммичены и отправлены в соответствующий репозиторий</li>
+                <li><strong>Проверка безопасности:</strong> Помните, что все данные проходят проверку службой информационной безопасности при синхронизации</li>
+                <li><strong>Изоляция окружений:</strong> Не смешивайте код из Dev/QA/UAT и Release репозиториев - используйте отдельные локальные копии</li>
+            </ul>
+
+            <h3>Безопасность и соответствие стандартам</h3>
+            <p>Процесс разработан с учетом требований безопасности финансового сектора:</p>
+            <ul>
+                <li><strong>Автоматическая проверка:</strong> Каждая синхронизация проверяется службой информационной безопасности</li>
+                <li><strong>Аудит:</strong> Все операции синхронизации логируются для аудита и соответствия требованиям</li>
+                <li><strong>Изоляция:</strong> Разделение Dev/QA/UAT и Production репозиториев обеспечивает защиту критических данных</li>
+                <li><strong>Централизованное хранилище:</strong> Все данные хранятся в защищенной банковской сети с соответствующими уровнями доступа</li>
+                <li><strong>Резервное копирование:</strong> Автоматическое резервное копирование через Центральное хранилище</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <div class="emoji">🚀</div>
+            <p><strong>Безопасная и эффективная разработка</strong></p>
+            <p style="margin-top: 10px; font-size: 0.9em;">Документ создан: 2025</p>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#2a5298',
+                primaryTextColor: '#fff',
+                primaryBorderColor: '#1e3c72',
+                lineColor: '#2a5298',
+                secondaryColor: '#667eea',
+                tertiaryColor: '#f8f9fa',
+                // Настройки для subgraph
+                clusterBkg: '#E3F2FD',
+                clusterBorder: '#1976D2',
+                defaultLinkColor: '#2a5298',
+                titleColor: '#1e3c72',
+                mainBkg: '#ffffff',
+                secondBkg: '#f8f9fa'
+            },
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis',
+                padding: 20,
+                nodeSpacing: 50,
+                rankSpacing: 80
+            }
+        });
+
+        // Дополнительная настройка после рендеринга
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                // Улучшаем видимость заголовков subgraph
+                const clusters = document.querySelectorAll('.mermaid .cluster');
+                clusters.forEach(function(cluster, index) {
+                    const label = cluster.querySelector('.cluster-label');
+                    if (label) {
+                        label.style.fontWeight = 'bold';
+                        label.style.fontSize = '16px';
+                        label.style.fill = '#1e3c72';
+                    }
+                });
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
+
