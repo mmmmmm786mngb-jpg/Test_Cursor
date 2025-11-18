@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вариант 6.3: Сегментная сетка - Анимированная рамка</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .legend {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 4px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+            border: 1px solid #ddd;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        th {
+            background: #e9ecef;
+            padding: 12px 8px;
+            text-align: center;
+            font-weight: 600;
+            color: #495057;
+            border: 1px solid #dee2e6;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        th.employee-col {
+            text-align: left;
+            min-width: 220px;
+            position: sticky;
+            left: 0;
+            z-index: 11;
+            background: #e9ecef;
+        }
+
+        th.status-col {
+            min-width: 280px;
+            position: sticky;
+            left: 220px;
+            z-index: 11;
+            background: #e9ecef;
+        }
+
+        td {
+            padding: 8px 4px;
+            border: 1px solid #dee2e6;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        td.employee-cell {
+            text-align: left;
+            font-weight: 500;
+            position: sticky;
+            left: 0;
+            z-index: 5;
+            background: white;
+            padding: 12px;
+        }
+
+        td.status-cell {
+            position: sticky;
+            left: 220px;
+            z-index: 5;
+            background: white;
+            font-size: 12px;
+            color: #6c757d;
+            padding: 12px;
+        }
+
+        .month-cell {
+            min-width: 250px;
+            padding: 8px 4px;
+        }
+
+        .segments-container {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            min-height: 50px;
+        }
+
+        .segments-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+            min-height: 28px;
+            width: 100%;
+        }
+
+        .month-scale {
+            display: flex;
+            gap: 2px;
+            align-items: flex-end;
+            height: 20px;
+            margin-top: 6px;
+            padding: 2px 0;
+        }
+
+        .scale-day {
+            flex: 1;
+            height: 12px;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 2px;
+            position: relative;
+            min-width: 2px;
+            transition: all 0.2s;
+        }
+
+        .scale-day.has-vacation {
+            background: #FFC107;
+            border-color: #FF9800;
+            border-width: 2px;
+            height: 18px;
+            transform: scaleY(1.4);
+            box-shadow: 0 2px 6px rgba(255, 193, 7, 0.5);
+            z-index: 5;
+            cursor: pointer;
+        }
+
+        .scale-day.has-vacation:hover {
+            transform: scaleY(1.6);
+            box-shadow: 0 3px 8px rgba(255, 193, 7, 0.7);
+        }
+
+        .scale-day.has-vacation.vacation-blue {
+            background: #17A2B8;
+            border-color: #138496;
+            box-shadow: 0 2px 6px rgba(23, 162, 184, 0.5);
+        }
+
+        .scale-day.has-vacation.vacation-blue:hover {
+            box-shadow: 0 3px 8px rgba(23, 162, 184, 0.7);
+        }
+
+        .scale-day.has-vacation.vacation-green {
+            background: #28A745;
+            border-color: #1e7e34;
+            box-shadow: 0 2px 6px rgba(40, 167, 69, 0.5);
+        }
+
+        .scale-day.has-vacation.vacation-green:hover {
+            box-shadow: 0 3px 8px rgba(40, 167, 69, 0.7);
+        }
+
+        .scale-day.has-vacation.vacation-red {
+            background: #DC3545;
+            border-color: #c82333;
+            box-shadow: 0 2px 6px rgba(220, 53, 69, 0.5);
+        }
+
+        .scale-day.has-vacation.vacation-red:hover {
+            box-shadow: 0 3px 8px rgba(220, 53, 69, 0.7);
+        }
+
+        @keyframes pulse-border {
+            0%, 100% {
+                border-color: #DC3545;
+                box-shadow: 0 0 0 1px rgba(220, 53, 69, 0.4), 0 2px 6px rgba(220, 53, 69, 0.4);
+            }
+            50% {
+                border-color: #FF6B6B;
+                box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.6), 0 2px 8px rgba(220, 53, 69, 0.6);
+            }
+        }
+
+        .scale-day.has-intersection {
+            border: 1px solid #DC3545 !important;
+            animation: pulse-border 2s ease-in-out infinite;
+        }
+
+        .segment.has-intersection {
+            border: 1px solid #DC3545;
+            animation: pulse-border 2s ease-in-out infinite;
+            box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2);
+        }
+
+        .scale-day-label {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 8px;
+            color: #999;
+            white-space: nowrap;
+            display: none;
+        }
+
+        .month-scale:hover .scale-day-label {
+            display: block;
+        }
+
+        .segment {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 28px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            font-size: 11px;
+            font-weight: 500;
+            padding: 0 8px;
+            white-space: nowrap;
+            min-width: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            background: white;
+        }
+
+        .segment:hover {
+            transform: scale(1.1);
+            z-index: 20;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+
+        .segment.vacation-yellow {
+            background-color: white;
+        }
+
+        .segment.vacation-blue {
+            background-color: white;
+        }
+
+        .segment.vacation-green {
+            background-color: white;
+        }
+
+        .segment.vacation-red {
+            background-color: white;
+        }
+
+        .segment-label {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .segment-dates {
+            font-size: 10px;
+            white-space: nowrap;
+            font-weight: 600;
+            color: #212529;
+        }
+
+        .segment-dots {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            margin-left: 4px;
+        }
+
+        .segment-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.6);
+            box-shadow: 0 1px 2px rgba(255,255,255,0.5);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            transition: all 0.2s;
+        }
+
+        .segment:hover .segment-dot {
+            transform: scale(1.2);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .employee-name {
+            font-weight: 500;
+            color: #212529;
+        }
+
+        .status-text {
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .tooltip {
+            position: fixed;
+            background: #333;
+            color: white;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .tooltip.show {
+            opacity: 1;
+        }
+
+        .tooltip-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .tooltip-content {
+            font-size: 11px;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Вариант 6.3: Сегментная сетка - Анимированная рамка</h1>
+        <p class="subtitle">Пересечения отпусков выделены пульсирующей анимированной рамкой</p>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color vacation-yellow"></div>
+                <span>Согласование непосредственным руководителем</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color vacation-blue"></div>
+                <span>Заполнение сотрудником</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color vacation-green"></div>
+                <span>Согласовано</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color vacation-red"></div>
+                <span>Отклонено</span>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table id="vacationTable">
+                <thead>
+                    <tr>
+                        <th class="employee-col">Сотрудник</th>
+                        <th class="status-col">Статус</th>
+                        <th>Январь</th>
+                        <th>Февраль</th>
+                        <th>Март</th>
+                        <th>Апрель</th>
+                        <th>Май</th>
+                        <th>Июнь</th>
+                        <th>Июль</th>
+                        <th>Август</th>
+                        <th>Сентябрь</th>
+                        <th>Октябрь</th>
+                        <th>Ноябрь</th>
+                        <th>Декабрь</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="tooltip" class="tooltip">
+        <div class="tooltip-title"></div>
+        <div class="tooltip-content"></div>
+    </div>
+
+    <script>
+        const vacationData = [
+            {
+                employee: "Чмыхалов Алексей Анатольевич",
+                status: "Согласование непосредственным руководителем",
+                statusColor: "yellow",
+                vacations: [
+                    { start: "2026-02-24", end: "2026-03-07" },
+                    { start: "2026-07-30", end: "2026-08-14" },
+                    { start: "2026-12-28", end: "2026-12-30" }
+                ]
+            },
+            {
+                employee: "Савельев Максим Николаевич",
+                status: "Заполнение сотрудником",
+                statusColor: "blue",
+                vacations: [
+                    { start: "2026-02-19", end: "2026-02-20" },
+                    { start: "2026-03-10", end: "2026-03-13" },
+                    { start: "2026-06-01", end: "2026-06-06" },
+                    { start: "2026-08-10", end: "2026-08-14" },
+                    { start: "2026-10-19", end: "2026-11-01" }
+                ]
+            },
+            {
+                employee: "Солопова Елена Алишеровна",
+                status: "Согласование непосредственным руководителем",
+                statusColor: "yellow",
+                vacations: [
+                    { start: "2026-01-29", end: "2026-01-30" },
+                    { start: "2026-04-22", end: "2026-04-29" },
+                    { start: "2026-06-15", end: "2026-06-21" },
+                    { start: "2026-09-28", end: "2026-10-11" }
+                ]
+            }
+        ];
+
+        function formatDate(date) {
+            const d = new Date(date);
+            return d.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' });
+        }
+
+        function calculateDays(start, end) {
+            const startDate = new Date(start);
+            const endDate = new Date(end);
+            const diffTime = Math.abs(endDate - startDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+            return diffDays;
+        }
+
+        function getVacationSegmentsForMonth(vacations, year, month) {
+            const segments = [];
+            const monthStart = new Date(year, month - 1, 1);
+            const monthEnd = new Date(year, month, 0);
+
+            vacations.forEach(vacation => {
+                const vacStart = new Date(vacation.start);
+                const vacEnd = new Date(vacation.end);
+
+                const vacStartMonth = vacStart.getMonth() + 1;
+                const vacStartYear = vacStart.getFullYear();
+                
+                if (vacStartMonth === month && vacStartYear === year) {
+                    const displayStart = vacStart;
+                    const displayEnd = vacEnd > monthEnd ? monthEnd : vacEnd;
+                    
+                    const daysInMonth = calculateDays(displayStart, displayEnd);
+                    const totalDays = calculateDays(vacation.start, vacation.end);
+                    
+                    segments.push({
+                        start: displayStart,
+                        end: displayEnd,
+                        fullStart: vacStart,
+                        fullEnd: vacEnd,
+                        daysInMonth: daysInMonth,
+                        totalDays: totalDays
+                    });
+                }
+            });
+
+            return segments;
+        }
+
+        function normalizeDate(date) {
+            const d = new Date(date);
+            d.setHours(0, 0, 0, 0);
+            return d;
+        }
+
+        function getIntersectionDays(year, month, allEmployeesVacations) {
+            const daysInMonth = new Date(year, month, 0).getDate();
+            const intersectionDays = new Set();
+            
+            for (let day = 1; day <= daysInMonth; day++) {
+                const currentDate = normalizeDate(new Date(year, month - 1, day));
+                let employeesOnVacation = 0;
+                
+                allEmployeesVacations.forEach(employee => {
+                    employee.vacations.forEach(vacation => {
+                        const vacStart = normalizeDate(new Date(vacation.start));
+                        const vacEnd = normalizeDate(new Date(vacation.end));
+                        
+                        if (currentDate >= vacStart && currentDate <= vacEnd) {
+                            employeesOnVacation++;
+                        }
+                    });
+                });
+                
+                if (employeesOnVacation > 1) {
+                    intersectionDays.add(day);
+                }
+            }
+            
+            return intersectionDays;
+        }
+
+        function checkSegmentIntersection(segment, year, month, allEmployeesVacations, currentEmployee) {
+            const monthStart = normalizeDate(new Date(year, month - 1, 1));
+            const monthEnd = normalizeDate(new Date(year, month, 0));
+            
+            const segmentStart = normalizeDate(segment.fullStart < monthStart ? monthStart : segment.fullStart);
+            const segmentEnd = normalizeDate(segment.fullEnd > monthEnd ? monthEnd : segment.fullEnd);
+            
+            for (let d = new Date(segmentStart); d <= segmentEnd; d.setDate(d.getDate() + 1)) {
+                const currentDay = normalizeDate(d);
+                let employeesOnVacation = 0;
+                
+                allEmployeesVacations.forEach(employee => {
+                    if (employee.employee === currentEmployee.employee) {
+                        return;
+                    }
+                    
+                    employee.vacations.forEach(vacation => {
+                        const vacStart = normalizeDate(new Date(vacation.start));
+                        const vacEnd = normalizeDate(new Date(vacation.end));
+                        
+                        if (currentDay >= vacStart && currentDay <= vacEnd) {
+                            employeesOnVacation++;
+                        }
+                    });
+                });
+                
+                if (employeesOnVacation > 0) {
+                    return true;
+                }
+            }
+            
+            return false;
+        }
+
+        function showTooltip(event, employee, segment) {
+            const tooltip = document.getElementById('tooltip');
+            const title = tooltip.querySelector('.tooltip-title');
+            const content = tooltip.querySelector('.tooltip-content');
+
+            title.textContent = employee.employee;
+            content.innerHTML = `
+                <div>Период: ${formatDate(segment.fullStart)} - ${formatDate(segment.fullEnd)}</div>
+                <div>Дней: ${segment.totalDays}</div>
+                <div>Статус: ${employee.status}</div>
+            `;
+
+            tooltip.classList.add('show');
+            
+            const rect = event.target.getBoundingClientRect();
+            tooltip.style.left = (rect.left + rect.width / 2 - tooltip.offsetWidth / 2) + 'px';
+            tooltip.style.top = (rect.top - tooltip.offsetHeight - 10) + 'px';
+        }
+
+        function hideTooltip() {
+            const tooltip = document.getElementById('tooltip');
+            tooltip.classList.remove('show');
+        }
+
+        function createSegment(segment, statusColor, employee, hasIntersection) {
+            const segmentDiv = document.createElement('div');
+            segmentDiv.className = `segment vacation-${statusColor}`;
+            
+            if (hasIntersection) {
+                segmentDiv.classList.add('has-intersection');
+            }
+            
+            const label = document.createElement('div');
+            label.className = 'segment-label';
+            
+            const datesSpan = document.createElement('span');
+            datesSpan.className = 'segment-dates';
+            datesSpan.textContent = `${formatDate(segment.fullStart)}-${formatDate(segment.fullEnd)}`;
+            label.appendChild(datesSpan);
+            
+            const dotsContainer = document.createElement('div');
+            dotsContainer.className = 'segment-dots';
+            
+            const maxDots = 15;
+            const dotsToShow = Math.min(segment.totalDays, maxDots);
+            
+            for (let i = 0; i < dotsToShow; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'segment-dot';
+                dotsContainer.appendChild(dot);
+            }
+            
+            if (segment.totalDays > maxDots) {
+                const moreDot = document.createElement('div');
+                moreDot.className = 'segment-dot';
+                moreDot.style.opacity = '0.5';
+                dotsContainer.appendChild(moreDot);
+            }
+            
+            label.appendChild(dotsContainer);
+            segmentDiv.appendChild(label);
+            
+            segmentDiv.addEventListener('mouseenter', (e) => {
+                showTooltip(e, employee, segment);
+            });
+            
+            segmentDiv.addEventListener('mouseleave', hideTooltip);
+            
+            return segmentDiv;
+        }
+
+        function createMonthScale(year, month, segments, statusColor, allVacations, intersectionDays) {
+            const daysInMonth = new Date(year, month, 0).getDate();
+            const scaleContainer = document.createElement('div');
+            scaleContainer.className = 'month-scale';
+            
+            const monthStart = new Date(year, month - 1, 1);
+            const monthEnd = new Date(year, month, 0);
+            
+            const vacationDays = new Map();
+            
+            if (allVacations) {
+                allVacations.forEach(vacation => {
+                    const vacStart = new Date(vacation.start);
+                    const vacEnd = new Date(vacation.end);
+                    
+                    if (vacStart <= monthEnd && vacEnd >= monthStart) {
+                        const displayStart = vacStart < monthStart ? 1 : vacStart.getDate();
+                        const displayEnd = vacEnd > monthEnd ? daysInMonth : vacEnd.getDate();
+                        
+                        for (let day = displayStart; day <= displayEnd; day++) {
+                            vacationDays.set(day, statusColor);
+                        }
+                    }
+                });
+            } else {
+                segments.forEach(segment => {
+                    const startDay = segment.start.getDate();
+                    const endDay = segment.end.getDate();
+                    for (let day = startDay; day <= endDay; day++) {
+                        vacationDays.set(day, statusColor);
+                    }
+                });
+            }
+            
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayDiv = document.createElement('div');
+                dayDiv.className = 'scale-day';
+                
+                if (vacationDays.has(day)) {
+                    dayDiv.classList.add('has-vacation', `vacation-${vacationDays.get(day)}`);
+                }
+                
+                if (intersectionDays && intersectionDays.has(day)) {
+                    dayDiv.classList.add('has-intersection');
+                }
+                
+                const label = document.createElement('span');
+                label.className = 'scale-day-label';
+                label.textContent = day;
+                dayDiv.appendChild(label);
+                
+                scaleContainer.appendChild(dayDiv);
+            }
+            
+            return scaleContainer;
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            const year = 2026;
+
+            vacationData.forEach(employee => {
+                const row = document.createElement('tr');
+
+                const employeeCell = document.createElement('td');
+                employeeCell.className = 'employee-cell employee-name';
+                employeeCell.textContent = employee.employee;
+                row.appendChild(employeeCell);
+
+                const statusCell = document.createElement('td');
+                statusCell.className = 'status-cell status-text';
+                statusCell.textContent = employee.status;
+                row.appendChild(statusCell);
+
+                for (let month = 1; month <= 12; month++) {
+                    const monthCell = document.createElement('td');
+                    monthCell.className = 'month-cell';
+
+                    const container = document.createElement('div');
+                    container.className = 'segments-container';
+
+                    const segments = getVacationSegmentsForMonth(employee.vacations, year, month);
+                    const intersectionDays = getIntersectionDays(year, month, vacationData);
+                    
+                    const segmentsRow = document.createElement('div');
+                    segmentsRow.className = 'segments-row';
+                    
+                    if (segments.length > 0) {
+                        segments.forEach(segment => {
+                            const hasIntersection = checkSegmentIntersection(segment, year, month, vacationData, employee);
+                            const segmentDiv = createSegment(segment, employee.statusColor, employee, hasIntersection);
+                            segmentsRow.appendChild(segmentDiv);
+                        });
+                    }
+                    
+                    container.appendChild(segmentsRow);
+                    
+                    const scale = createMonthScale(year, month, segments, employee.statusColor, employee.vacations, intersectionDays);
+                    container.appendChild(scale);
+
+                    monthCell.appendChild(container);
+                    row.appendChild(monthCell);
+                }
+
+                tbody.appendChild(row);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', renderTable);
+    </script>
+</body>
+</html>
+
