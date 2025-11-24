@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Таблица расчета идентификаторов для формы 444</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .warning strong {
+            color: #856404;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+            border: 1px solid #2980b9;
+        }
+        td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            vertical-align: top;
+        }
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        tr:hover {
+            background-color: #e8f4f8;
+        }
+        .condition {
+            background-color: #e3f2fd;
+            font-weight: bold;
+        }
+        .result {
+            background-color: #c8e6c9;
+            font-family: 'Courier New', monospace;
+        }
+        .formula {
+            font-family: 'Courier New', monospace;
+            background-color: #fff9c4;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        .note {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 12px;
+        }
+        .tech-name {
+            font-style: italic;
+            color: #95a5a6;
+            font-size: 0.9em;
+            font-weight: normal;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Таблица расчета полей ИдентификаторКонтрагента и ИдентификаторДепонента для формы 444</h1>
+        
+        <div class="warning">
+            <strong>ВАЖНО: Особенность наименования поля!</strong><br>
+            На форме карточки Контрагента отображается поле <strong>"Нерезидент по паспорту / учредит.документам"</strong> <span class="tech-name">(в конфигураторе: Резидент)</span>.<br>
+            Логика работы: <strong>Резидент РФ</strong> <span class="tech-name">(НЕ Резидент)</span> - когда флаг "Нерезидент по паспорту / учредит.документам" НЕ установлен, <strong>Нерезидент</strong> <span class="tech-name">(Резидент)</span> - когда флаг "Нерезидент по паспорту / учредит.документам" установлен.
+        </div>
+
+        <div class="section">
+            <h2>1. ИдентификаторКонтрагента</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 15%;">Условие</th>
+                        <th style="width: 15%;">Тип лица</th>
+                        <th style="width: 20%;">Дополнительные условия</th>
+                        <th style="width: 50%;">Формула расчета</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="condition" rowspan="4"><strong>Резидент РФ</strong><br><span class="note">флаг "Нерезидент по паспорту / учредит.документам" НЕ установлен</span><br><span class="tech-name">(НЕ Резидент)</span></td>
+                        <td rowspan="2">Юр. лицо</td>
+                        <td>ИНН заполнен</td>
+                        <td class="result">"643" + "_" + ИНН<sup>*</sup> + "_" + ОГРН<sup>*</sup> (если заполнен) + "_" + КПП<sup>*</sup> (если заполнен)</td>
+                    </tr>
+                    <tr>
+                        <td>ИНН не заполнен</td>
+                        <td class="result">"643" + "_" + ОГРН<sup>*</sup> (если заполнен) + "_" + КПП<sup>*</sup> (если заполнен)</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">Физ. лицо</td>
+                        <td>ИНН или СНПФР заполнен</td>
+                        <td class="result">"643" + "_" + ИНН<sup>*</sup> (если заполнен) + "_" + СтраховойНомерПФР<sup>*</sup> (если заполнен)</td>
+                    </tr>
+                    <tr>
+                        <td>ИНН и СНПФР не заполнены</td>
+                        <td class="result">"643" + "_00000_" + Наименование<sup>*</sup></td>
+                    </tr>
+                    <tr>
+                        <td class="condition" rowspan="4"><strong>"Нерезидент по паспорту / учредит.документам"</strong><br><span class="note">флаг установлен = нерезидент, иностранец</span><br><span class="tech-name">(Резидент)</span></td>
+                        <td rowspan="2">Юр. лицо</td>
+                        <td>TIN заполнен</td>
+                        <td class="result">Страна.Код<sup>*</sup> + "_" + TIN<sup>*</sup></td>
+                    </tr>
+                    <tr>
+                        <td>TIN не заполнен</td>
+                        <td class="result">Страна.Код<sup>*</sup> + "_000_" + Наименование<sup>*</sup></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">Физ. лицо</td>
+                        <td>ИНН заполнен</td>
+                        <td class="result">СтранаФизЛица.Код<sup>**</sup> + ИНН<sup>*</sup></td>
+                    </tr>
+                    <tr>
+                        <td>ИНН не заполнен</td>
+                        <td class="result">СтранаФизЛица.Код<sup>**</sup> + "_00000_" + Наименование<sup>*</sup></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p style="margin-top: 10px; font-size: 12px; color: #7f8c8d;">
+                <sup>*</sup> - поле из связанного объекта <strong>ЮридическиеФизическиеЛица</strong><br>
+                <sup>**</sup> - поле из <strong>ОбработанныеДанные</strong> (не из карточки Контрагента напрямую)
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>2. ИдентификаторДепонента</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 15%;">Условие</th>
+                        <th style="width: 15%;">Тип лица</th>
+                        <th style="width: 20%;">Дополнительные условия</th>
+                        <th style="width: 50%;">Формула расчета</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="condition" rowspan="4"><strong>Резидент РФ</strong><br><span class="note">флаг "Нерезидент по паспорту / учредит.документам" НЕ установлен</span><br><span class="tech-name">(НЕ Резидент)</span></td>
+                        <td rowspan="2">Юр. лицо</td>
+                        <td>ИНН заполнен</td>
+                        <td class="result">"643" + "_" + ИНН<sup>*</sup> + "_" + ОГРН<sup>*</sup> (если заполнен) + "_" + КПП<sup>*</sup> (если заполнен)</td>
+                    </tr>
+                    <tr>
+                        <td>ИНН не заполнен</td>
+                        <td class="result">"643" + "_" + ОГРН<sup>*</sup> (если заполнен) + "_" + КПП<sup>*</sup> (если заполнен)</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">Физ. лицо</td>
+                        <td>ИНН или СНПФР заполнен</td>
+                        <td class="result">"643" + "_" + ИНН<sup>*</sup> (если заполнен) + "_" + СтраховойНомерПФР<sup>*</sup> (если заполнен)</td>
+                    </tr>
+                    <tr>
+                        <td>ИНН и СНПФР не заполнены</td>
+                        <td class="result">"643" + "_00000_" + Наименование<sup>*</sup></td>
+                    </tr>
+                    <tr>
+                        <td class="condition" rowspan="4"><strong>"Нерезидент по паспорту / учредит.документам"</strong><br><span class="note">флаг установлен = нерезидент, иностранец</span><br><span class="tech-name">(Резидент)</span></td>
+                        <td rowspan="2">Юр. лицо</td>
+                        <td>TIN заполнен</td>
+                        <td class="result">Страна.Код<sup>*</sup> + "_" + TIN<sup>*</sup></td>
+                    </tr>
+                    <tr>
+                        <td>TIN не заполнен</td>
+                        <td class="result">Страна.Код<sup>*</sup> + "_000_" + Наименование<sup>*</sup></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">Физ. лицо</td>
+                        <td>ИНН заполнен</td>
+                        <td class="result">СтранаФизЛица.Код<sup>**</sup> + ИНН<sup>*</sup></td>
+                    </tr>
+                    <tr>
+                        <td>ИНН не заполнен</td>
+                        <td class="result">СтранаФизЛица.Код<sup>**</sup> + "_00000_" + Наименование<sup>*</sup></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p style="margin-top: 10px; font-size: 12px; color: #7f8c8d;">
+                <sup>*</sup> - поле из связанного объекта <strong>ЮридическиеФизическиеЛица</strong><br>
+                <sup>**</sup> - поле из <strong>ОбработанныеДанные</strong> (не из карточки Депонента напрямую)
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>3. Примеры расчета</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">Сценарий</th>
+                        <th style="width: 20%;">Поле</th>
+                        <th style="width: 60%;">Результат</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Резидент РФ, юр. лицо, ИНН=1234567890, ОГРН=1234567890123, КПП=123456789</td>
+                        <td>ИдентификаторКонтрагента</td>
+                        <td class="result">643_1234567890_1234567890123_123456789</td>
+                    </tr>
+                    <tr>
+                        <td>Резидент РФ, физ. лицо, ИНН=123456789012, СНПФР=123-456-789 01</td>
+                        <td>ИдентификаторДепонента</td>
+                        <td class="result">643_123456789012_123-456-789 01</td>
+                    </tr>
+                    <tr>
+                        <td>Нерезидент, юр. лицо, TIN=US123456789, Страна.Код=840</td>
+                        <td>ИдентификаторКонтрагента</td>
+                        <td class="result">840_US123456789</td>
+                    </tr>
+                    <tr>
+                        <td>Нерезидент, юр. лицо, TIN пустой, Страна.Код=840, Наименование="ABC Corp"</td>
+                        <td>ИдентификаторДепонента</td>
+                        <td class="result">840_000_ABC Corp</td>
+                    </tr>
+                    <tr>
+                        <td>Нерезидент, физ. лицо, ИНН=DE123456789, СтранаФизЛица.Код=276</td>
+                        <td>ИдентификаторКонтрагента</td>
+                        <td class="result">276DE123456789</td>
+                    </tr>
+                    <tr>
+                        <td>Нерезидент, физ. лицо, ИНН пустой, СтранаФизЛица.Код=276, Наименование="John Doe"</td>
+                        <td>ИдентификаторДепонента</td>
+                        <td class="result">276_00000_John Doe</td>
+                    </tr>
+                    <tr>
+                        <td>Резидент РФ, физ. лицо, ИНН и СНПФР пустые, Наименование="Иванов Иван"</td>
+                        <td>ИдентификаторКонтрагента</td>
+                        <td class="result">643_00000_Иванов Иван</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p style="margin-top: 10px; font-size: 12px; color: #7f8c8d;">
+                <sup>*</sup> - поле из связанного объекта <strong>ЮридическиеФизическиеЛица</strong><br>
+                <sup>**</sup> - поле из <strong>ОбработанныеДанные</strong> (не из карточки Контрагента напрямую)
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>4. Источники полей данных</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 30%;">Поле в формуле</th>
+                        <th style="width: 70%;">Источник данных</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>"Нерезидент по паспорту / учредит.документам"</strong> <span class="tech-name">(Резидент)</span></td>
+                        <td>Из карточки <strong>Контрагент</strong>: <code>Контрагент.Резидент</code> <span class="tech-name">(техническое название в конфигураторе)</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>ЮрФизЛицо</strong></td>
+                        <td>Из карточки <strong>Контрагент</strong>: <code>Контрагент.ЮрФизЛицо</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>ИНН</strong></td>
+                        <td>Из связанного объекта <strong>ЮридическиеФизическиеЛица</strong>: <code>Контрагент.ЮридическиеФизическиеЛица.ИНН</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>ОГРН</strong></td>
+                        <td>Из связанного объекта <strong>ЮридическиеФизическиеЛица</strong>: <code>Контрагент.ЮридическиеФизическиеЛица.ОГРН</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>КПП</strong></td>
+                        <td>Из связанного объекта <strong>ЮридическиеФизическиеЛица</strong>: <code>Контрагент.ЮридическиеФизическиеЛица.КПП</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>СтраховойНомерПФР</strong></td>
+                        <td>Из связанного объекта <strong>ЮридическиеФизическиеЛица</strong>: <code>Контрагент.ЮридическиеФизическиеЛица.СтраховойНомерПФР</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>TIN</strong></td>
+                        <td>Из связанного объекта <strong>ЮридическиеФизическиеЛица</strong>: <code>Контрагент.ЮридическиеФизическиеЛица.TIN</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Наименование</strong></td>
+                        <td>Из связанного объекта <strong>ЮридическиеФизическиеЛица</strong>: <code>Контрагент.ЮридическиеФизическиеЛица.Наименование</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Страна.Код</strong></td>
+                        <td>Из связанного объекта <strong>ЮридическиеФизическиеЛица</strong>: <code>Контрагент.ЮридическиеФизическиеЛица.Страна.Код</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>СтранаФизЛица.Код</strong></td>
+                        <td>Отдельное поле из <strong>ОбработанныеДанные</strong>: <code>ОбработанныеДанные.СтранаФизЛица.Код</code> (не из карточки Контрагента напрямую)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p style="margin-top: 15px; font-style: italic; color: #7f8c8d;">
+                <strong>Примечание:</strong> Для поля <strong>Депонент</strong> источники полей аналогичны, но берутся из карточки <strong>Депонент</strong> вместо <strong>Контрагент</strong>.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>5. Примечания</h2>
+            <ul>
+                <li><strong>Поле "Нерезидент по паспорту / учредит.документам"</strong> <span class="tech-name">(в конфигураторе: Резидент)</span> - на форме карточки Контрагента отображается как "Нерезидент по паспорту / учредит.документам". Когда флаг установлен = нерезидент (иностранец), когда НЕ установлен = резидент РФ.</li>
+                <li><strong>Код страны "643"</strong> - это код России по ISO 3166-1 numeric</li>
+                <li><strong>TIN</strong> (Tax Identification Number) - используется для нерезидентов (иностранцев)</li>
+                <li><strong>ИНН</strong> - используется для резидентов РФ</li>
+                <li><strong>ОГРН</strong> - основной государственный регистрационный номер (только для юр. лиц РФ)</li>
+                <li><strong>КПП</strong> - код причины постановки на учет (только для юр. лиц РФ)</li>
+                <li><strong>СтраховойНомерПФР</strong> - используется для физ. лиц РФ</li>
+                <li>При отсутствии идентификаторов используются заполнители: <code>_000_</code> для юр. лиц и <code>_00000_</code> для физ. лиц</li>
+                <li>Все части идентификатора разделяются символом подчеркивания <code>_</code>, кроме случая СтранаФизЛица.Код + ИНН (без разделителя)</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
