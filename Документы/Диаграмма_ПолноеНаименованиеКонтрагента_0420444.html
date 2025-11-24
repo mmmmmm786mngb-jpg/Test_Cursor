@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Диаграмма источников данных - Полное наименование депонента-контрагента (0420444)</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        .diagram-container {
+            background-color: #fafafa;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow-x: auto;
+            min-height: 600px;
+        }
+        .mermaid {
+            text-align: center;
+        }
+        .description-section {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .code-info {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            border-radius: 3px;
+            margin: 15px 0;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        .legend {
+            background-color: #e8f5e9;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .legend-item {
+            display: inline-block;
+            margin: 5px 15px;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+        .legend-source { background-color: #e1f5ff; }
+        .legend-result { background-color: #c8e6c9; }
+        .legend-output { background-color: #fff9c4; }
+        .legend-default { background-color: #ffcdd2; }
+        .legend-constant { background-color: #f3e5f5; }
+        .legend-document { background-color: #e8f5e9; }
+        .legend-emitter { background-color: #fff3e0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Диаграмма источников данных для "Полное наименование депонента-контрагента"</h1>
+        <p><strong>Отчет:</strong> 0420444 «Отчет об операциях по счету депо за период»</p>
+        
+        <div class="legend">
+            <strong>Легенда цветов:</strong><br>
+            <span class="legend-item legend-source">Источник данных</span>
+            <span class="legend-item legend-constant">Константы</span>
+            <span class="legend-item legend-document">Документы</span>
+            <span class="legend-item legend-emitter">Эмитенты</span>
+            <span class="legend-item legend-result">Результат обработки</span>
+            <span class="legend-item legend-output">Итоговый вывод</span>
+            <span class="legend-item legend-default">Значение по умолчанию</span>
+        </div>
+
+        <h2>Диаграмма потока данных</h2>
+        <div class="diagram-container">
+            <div class="mermaid">
+flowchart TD
+    Start([РегистрНакопления<br/>ОстаткиЦБ.ОстаткиИОбороты]) --> Determine[Определение Контрагента<br/>по типу Регистратора]
+    
+    Determine --> Check1{Регистратор.ДокументОснование<br/>ССЫЛКА<br/>Документ.иц_СводноеПоручение?}
+    Check1 -->|Да| Const1[Константа<br/>МосковскаяБиржа]
+    
+    Check1 -->|Нет| Check2{Регистратор ССЫЛКА<br/>Документ.ПогашениеЦБ?}
+    Check2 -->|Да| Const2[Константа<br/>НРД]
+    
+    Check2 -->|Нет| Check3{Регистратор ССЫЛКА<br/>Документ.ОперацииЦБ?}
+    Check3 -->|Да| Doc1[Документ.ОперацииЦБ<br/>.Контрагент]
+    
+    Check3 -->|Нет| Check4{Регистратор ССЫЛКА<br/>Документ.ГлобальнаяОперация<br/>И ВидОперации = Конвертация?}
+    Check4 -->|Да| Check4a{ЦБ.ТипЦБ =<br/>ДепозитарнаяРасписка?}
+    Check4a -->|Да| Emit1[ЦБ.БазовыйАктив<br/>.Эмитент]
+    Check4a -->|Нет| Emit2[ЦБ.Эмитент]
+    
+    Check4 -->|Нет| Check5{Регистратор ССЫЛКА<br/>Документ.ГлобальнаяОперация<br/>И ВидОперации ≠ Конвертация?}
+    Check5 -->|Да| Const3[Константа<br/>МосковскаяБиржа]
+    
+    Check5 -->|Нет| Check6{Регистратор ССЫЛКА<br/>Документ.КонвертацияЦБ?}
+    Check6 -->|Да| Check6a{ЦБ.ТипЦБ =<br/>ДепозитарнаяРасписка?}
+    Check6a -->|Да| Emit3[ЦБ.БазовыйАктив<br/>.Эмитент]
+    Check6a -->|Нет| Emit4[ЦБ.Эмитент]
+    
+    Check6 -->|Нет| Check7{Регистратор ССЫЛКА<br/>Документ.ЦБВПути?}
+    Check7 -->|Да| Doc2[Документ.ЦБВПути<br/>.Контрагент]
+    
+    Check7 -->|Нет| Default["#"]
+    
+    Const1 --> Intermediate[втОстаткиОборотыЦБ<br/>.Контрагент]
+    Const2 --> Intermediate
+    Doc1 --> Intermediate
+    Emit1 --> Intermediate
+    Emit2 --> Intermediate
+    Const3 --> Intermediate
+    Emit3 --> Intermediate
+    Emit4 --> Intermediate
+    Doc2 --> Intermediate
+    Default --> Intermediate
+    
+    Intermediate --> SourceData[ИсходныеДанные<br/>.Контрагент]
+    
+    SourceData --> ProcessedData[ОбработанныеДанные<br/>.Контрагент]
+    
+    ProcessedData --> FinalCheck{Контрагент.ЮрФизЛицо =<br/>ЗНАЧЕНИЕ<br/>Перечисление.ЮрФизЛицо.ЮрЛицо?}
+    
+    FinalCheck -->|Да| FullName[Контрагент<br/>.ЮридическиеФизическиеЛица<br/>.ПолноеНаименование<br/>ВЫРАЗИТЬ КАК СТРОКА 255]
+    
+    FinalCheck -->|Нет| ShortName[Контрагент<br/>.ЮридическиеФизическиеЛица<br/>.Наименование]
+    
+    FullName --> Result[ПолноеНаименованиеКонтрагента]
+    ShortName --> Result
+    
+    Result --> Output([Результат отчета<br/>Колонка:<br/>Полное наименование<br/>депонента-контрагента])
+    
+    style Start fill:#e1f5ff
+    style Result fill:#c8e6c9
+    style Output fill:#fff9c4
+    style Default fill:#ffcdd2
+    style Const1 fill:#f3e5f5
+    style Const2 fill:#f3e5f5
+    style Const3 fill:#f3e5f5
+    style Doc1 fill:#e8f5e9
+    style Doc2 fill:#e8f5e9
+    style Emit1 fill:#fff3e0
+    style Emit2 fill:#fff3e0
+    style Emit3 fill:#fff3e0
+    style Emit4 fill:#fff3e0
+    style FullName fill:#c8e6c9
+    style ShortName fill:#c8e6c9
+            </div>
+        </div>
+
+        <h2>Описание источников данных</h2>
+        
+        <div class="description-section">
+            <h3>1. Определение Контрагента (запрос втОстаткиОборотыЦБ)</h3>
+            <p>Контрагент определяется в зависимости от типа документа-регистратора операции:</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Условие</th>
+                        <th>Источник Контрагента</th>
+                        <th>Описание</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>Документ.иц_СводноеПоручение</code></td>
+                        <td>Константа <code>МосковскаяБиржа</code></td>
+                        <td>Для операций по сводным поручениям</td>
+                    </tr>
+                    <tr>
+                        <td><code>Документ.ПогашениеЦБ</code></td>
+                        <td>Константа <code>НРД</code></td>
+                        <td>Для операций погашения ценных бумаг</td>
+                    </tr>
+                    <tr>
+                        <td><code>Документ.ОперацииЦБ</code></td>
+                        <td><code>Документ.ОперацииЦБ.Контрагент</code></td>
+                        <td>Контрагент из документа операций</td>
+                    </tr>
+                    <tr>
+                        <td><code>Документ.ГлобальнаяОперация</code><br/>(ВидОперации = Конвертация)</td>
+                        <td><code>ЦБ.Эмитент</code> или<br/><code>ЦБ.БазовыйАктив.Эмитент</code></td>
+                        <td>Для конвертации: эмитент базового актива (для ДР) или самой ЦБ</td>
+                    </tr>
+                    <tr>
+                        <td><code>Документ.ГлобальнаяОперация</code><br/>(ВидОперации ≠ Конвертация)</td>
+                        <td>Константа <code>МосковскаяБиржа</code></td>
+                        <td>Для других глобальных операций</td>
+                    </tr>
+                    <tr>
+                        <td><code>Документ.КонвертацияЦБ</code></td>
+                        <td><code>ЦБ.Эмитент</code> или<br/><code>ЦБ.БазовыйАктив.Эмитент</code></td>
+                        <td>Для конвертации: эмитент базового актива (для ДР) или самой ЦБ</td>
+                    </tr>
+                    <tr>
+                        <td><code>Документ.ЦБВПути</code></td>
+                        <td><code>Документ.ЦБВПути.Контрагент</code></td>
+                        <td>Контрагент из документа "ЦБ в пути"</td>
+                    </tr>
+                    <tr>
+                        <td>Иначе</td>
+                        <td><code>"#"</code></td>
+                        <td>Значение по умолчанию</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="description-section">
+            <h3>2. Получение наименования (финальный запрос)</h3>
+            <p>После определения контрагента наименование берется из справочника <code>Контрагенты</code>:</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Тип контрагента</th>
+                        <th>Источник наименования</th>
+                        <th>Описание</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Юридическое лицо</strong><br/>(<code>ЮрФизЛицо = ЮрЛицо</code>)</td>
+                        <td><code>Контрагент.ЮридическиеФизическиеЛица<br/>.ПолноеНаименование</code></td>
+                        <td>Полное наименование юридического лица<br/>Преобразуется в строку длиной 255 символов</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Физическое лицо</strong></td>
+                        <td><code>Контрагент.ЮридическиеФизическиеЛица<br/>.Наименование</code></td>
+                        <td>Наименование (ФИО) физического лица</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="code-info">
+            <h3>Техническая информация</h3>
+            <p><strong>Файл отчета:</strong> <code>НерегулярныйОтчет_7119_У_Форма_0420444_7_1/Templates/ОсновнаяСхемаКомпоновкиДанных/Ext/Template.xml</code></p>
+            <p><strong>Определение Контрагента:</strong> строки 424-450 (запрос втОстаткиОборотыЦБ)</p>
+            <p><strong>Формирование ПолноеНаименованиеКонтрагента:</strong> строки 839-843 (финальный запрос)</p>
+        </div>
+
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #ecf0f1; color: #7f8c8d; font-size: 0.9em;">
+            <p><strong>Примечание:</strong> Диаграмма интерактивна - можно увеличивать/уменьшать масштаб и перемещаться по ней.</p>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+    </script>
+</body>
+</html>
+
