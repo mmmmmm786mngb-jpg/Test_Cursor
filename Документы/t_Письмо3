@@ -1,0 +1,238 @@
+Раньше лет 5 назад так и было, ручное копирование источников и постоянные проблемы с неработающими тестами.
+Потом Сережа Крайнев создал систему автоматического переноса настроек с Прод на Тест.
+Там могут быть небольшие доработки к ней, но не думаю что ручное добавление это выход.
+Есть такие настройки которые никто не помнит и незнает, а они где-то нужны, и будет долго аналитик или пользователь искать почему что не работает.
+Или как варинт кто-то просто начнет руками копировать продовские настройки на тест чтобы не заводит заново, и станет еще хуже.
+
+
+ALEKSEI CHMYKHALOV
+Lead senior developer
+Cross-functional team (SBB, WIM)
+
+
+IT | ООО CБ-Брокер
+Tel.: +7 (495) 380-07-93 (ext.266929)
+Aleksey.Chmykhalov@mncap.ru
+
+From: Saveliev, Maxim <Maxim.Saveliev@mncap.ru> 
+Sent: Tuesday, November 25, 2025 10:34 AM
+To: Kamnev, Artem <Artem.Kamnev@mncap.ru>; Chmykhalov, Aleksey <Aleksey.Chmykhalov@mncap.ru>; Khominich, Elena [EXT] <Elena.Khominich@mncap.ru>; Solopova, Elena <Elena.Sorokina@mncap.ru>; Bagmanov, Ilshat [EXT] <Ilshat.Bagmanov@mncap.ru>
+Cc: Navoynikova, Yulia [EXT] <Yulia.Navoynikova@mncap.ru>; Orynbaev, Ruslan [EXT] <Ruslan.Orynbaev@mncap.ru>
+Subject: RE: Пропал доступ к модулю «Точки доступа» (Депо ↔ ИЦ) после восстановления УАТ-2 из Прод
+
+
++ Лена и Ильшат
+
+From: Kamnev, Artem <Artem.Kamnev@mncap.ru> 
+Sent: Tuesday, November 25, 2025 10:16 AM
+To: Chmykhalov, Aleksey <Aleksey.Chmykhalov@mncap.ru>; Khominich, Elena [EXT] <Elena.Khominich@mncap.ru>; Saveliev, Maxim <Maxim.Saveliev@mncap.ru>
+Cc: Navoynikova, Yulia [EXT] <Yulia.Navoynikova@mncap.ru>; Orynbaev, Ruslan [EXT] <Ruslan.Orynbaev@mncap.ru>
+Subject: RE: Пропал доступ к модулю «Точки доступа» (Депо ↔ ИЦ) после восстановления УАТ-2 из Прод
+
+Коллеги, привет,
+
+Внешние источники не восстанавливаются после восстановления БД после внедрения задачи: https://jira/browse/ACCOUNTING-16251 
+Настройка внешних источников по задачам для целей тестирования остается на аналитика и/или разработчика (по договоренности).
+
+
+Best regards,
+Artem Kamnev
+
+From: Chmykhalov, Aleksey <Aleksey.Chmykhalov@mncap.ru> 
+Sent: Tuesday, November 25, 2025 6:40 AM
+To: Kamnev, Artem <Artem.Kamnev@mncap.ru>; Khominich, Elena [EXT] <Elena.Khominich@mncap.ru>; Saveliev, Maxim <Maxim.Saveliev@mncap.ru>
+Cc: Navoynikova, Yulia [EXT] <Yulia.Navoynikova@mncap.ru>; Orynbaev, Ruslan [EXT] <Ruslan.Orynbaev@mncap.ru>
+Subject: RE: Пропал доступ к модулю «Точки доступа» (Депо ↔ ИЦ) после восстановления УАТ-2 из Прод
+
+Я сразу основное замечание напишу:
+Ведь не только отчеты не будут работать но и другие модули тоже.
+
+Сейчас в восстановленной базе УАТ-2 ДЕПО  (возможно в ИЦ тоже самое, не смотрел) практически нет внешних источников:
+ 
+
+
+Хотя например источнике в базе УАТ-3 ДЕПО:
+ 
+
+Понятно, что отсутствие заполненных источников в том числе не дает возможности работы с web, файловыми шлюзами и т.п.
+
+
+ALEKSEI CHMYKHALOV
+Lead senior developer
+Cross-functional team (SBB, WIM)
+
+
+IT | ООО CБ-Брокер
+Tel.: +7 (495) 380-07-93 (ext.266929)
+Aleksey.Chmykhalov@mncap.ru
+
+From: Chmykhalov, Aleksey 
+Sent: Tuesday, November 25, 2025 6:23 AM
+To: Kamnev, Artem <Artem.Kamnev@mncap.ru>; Khominich, Elena [EXT] <Elena.Khominich@mncap.ru>; Saveliev, Maxim <Maxim.Saveliev@mncap.ru>
+Cc: Navoynikova, Yulia [EXT] <Yulia.Navoynikova@mncap.ru>; Orynbaev, Ruslan [EXT] <Ruslan.Orynbaev@mncap.ru>
+Subject: Пропал доступ к модулю «Точки доступа» (Депо ↔ ИЦ) после восстановления УАТ-2 из Прод
+
+Привет, коллеги! 😊
+
+После восстановления базы УАТ-2 из Прод у меня, а также, судя по всему, и у других коллег, пропал доступ к модулю «Точки доступа» (раздел между Депо и ИЦ). Все остальные отчёты и разделы работают корректно, но этот модуль выдаёт ошибку доступа.
+
+Хотелось бы уточнить:
+
+Была ли оформлена задача в Jira на восстановление базы?
+Если да — подскажите, пожалуйста, номер тикета, чтобы можно было оставлять комментарии и отслеживать прогресс.
+
+Если задачи пока нет, будет здорово её создать, чтобы все необходимые корректировки (восстановление прав на модуль, проверка внешних источников, дополнительные настройки и т.д.) были учтены и закрыты только после полного восстановления доступа.
+
+Сейчас просто «залить» базу недостаточно — доступ к модулю отсутствует, и работа с точками доступа фактически остановилась.
+
+Буду очень признателен за помощь и за ссылку на задачу, куда можно писать детали.
+
+Спасибо заранее и отличного дня! 😊
+
+ALEKSEI CHMYKHALOV
+Lead senior developer
+Cross-functional team (SBB, WIM)
+
+
+IT | ООО CБ-Брокер
+Tel.: +7 (495) 380-07-93 (ext.266929)
+Aleksey.Chmykhalov@mncap.ru
+
+From: Kamnev, Artem <Artem.Kamnev@mncap.ru> 
+Sent: Monday, November 24, 2025 5:18 PM
+To: Khominich, Elena [EXT] <Elena.Khominich@mncap.ru>; Saveliev, Maxim <Maxim.Saveliev@mncap.ru>
+Cc: Chmykhalov, Aleksey <Aleksey.Chmykhalov@mncap.ru>; Navoynikova, Yulia [EXT] <Yulia.Navoynikova@mncap.ru>; Orynbaev, Ruslan [EXT] <Ruslan.Orynbaev@mncap.ru>
+Subject: RE: Таксономия 7.1
+
+Елена, не знаю что я могу проверить по данной ошибке
+
+Настройку внешних источников для задач выполняют аналитик или разработчик по задаче, я могу выполнить конкретное описанное действие, т.к. не владею тонкостями реализации задачи
+
+Best regards,
+Artem Kamnev
+
+From: Khominich, Elena [EXT] <Elena.Khominich@mncap.ru> 
+Sent: Monday, November 24, 2025 5:14 PM
+To: Kamnev, Artem <Artem.Kamnev@mncap.ru>; Saveliev, Maxim <Maxim.Saveliev@mncap.ru>
+Cc: Chmykhalov, Aleksey <Aleksey.Chmykhalov@mncap.ru>; Navoynikova, Yulia [EXT] <Yulia.Navoynikova@mncap.ru>; Orynbaev, Ruslan [EXT] <Ruslan.Orynbaev@mncap.ru>
+Subject: RE: Таксономия 7.1
+
+Артем, проверьте, пожалуйста, еще такой момент:
+При формировании в Custody_UAT_02 отчетов 443/444/447 след. служебное сообщение:
+При запуске задания получения точек входа из ИЦ произошла ошибка: {ОбщийМодуль.ДлительныеОперации.Модуль(166)}: Значение не является значением объектного типа (HTTPСервисАдресСервера).
++ Нет списка точек входа для отчетов.
+ 
+ 
+С уважением, 
+Елена Хоминич. 
+ 
+
+
+From: Kamnev, Artem <Artem.Kamnev@mncap.ru> 
+Sent: Monday, November 24, 2025 3:29 PM
+To: Khominich, Elena [EXT] <Elena.Khominich@mncap.ru>; Saveliev, Maxim <Maxim.Saveliev@mncap.ru>
+Cc: Chmykhalov, Aleksey <Aleksey.Chmykhalov@mncap.ru>; Navoynikova, Yulia [EXT] <Yulia.Navoynikova@mncap.ru>; Orynbaev, Ruslan [EXT] <Ruslan.Orynbaev@mncap.ru>
+Subject: RE: Таксономия 7.1
+
+Коллеги, выполнил публикацию
+
+Best regards,
+Artem Kamnev
+
+From: Khominich, Elena [EXT] <Elena.Khominich@mncap.ru> 
+Sent: Monday, November 24, 2025 3:28 PM
+To: Saveliev, Maxim <Maxim.Saveliev@mncap.ru>; Kamnev, Artem <Artem.Kamnev@mncap.ru>
+Cc: Chmykhalov, Aleksey <Aleksey.Chmykhalov@mncap.ru>; Navoynikova, Yulia [EXT] <Yulia.Navoynikova@mncap.ru>; Orynbaev, Ruslan [EXT] <Ruslan.Orynbaev@mncap.ru>
+Subject: RE: Таксономия 7.1
+
+Максим. Спасибо. Внешние источники – ок.
+
+
+С уважением, 
+Елена Хоминич. 
+ 
+
+From: Saveliev, Maxim <Maxim.Saveliev@mncap.ru> 
+Sent: Monday, November 24, 2025 3:26 PM
+To: Khominich, Elena [EXT] <Elena.Khominich@mncap.ru>; Kamnev, Artem <Artem.Kamnev@mncap.ru>
+Cc: Chmykhalov, Aleksey <Aleksey.Chmykhalov@mncap.ru>; Navoynikova, Yulia [EXT] <Yulia.Navoynikova@mncap.ru>; Orynbaev, Ruslan [EXT] <Ruslan.Orynbaev@mncap.ru>
+Subject: RE: Таксономия 7.1
+
+Лена, внешние источники можем сами поправить 
+Попробуй еще раз
+
+From: Khominich, Elena [EXT] <Elena.Khominich@mncap.ru> 
+Sent: Monday, November 24, 2025 3:20 PM
+To: Kamnev, Artem <Artem.Kamnev@mncap.ru>
+Cc: Saveliev, Maxim <Maxim.Saveliev@mncap.ru>; Chmykhalov, Aleksey <Aleksey.Chmykhalov@mncap.ru>; Navoynikova, Yulia [EXT] <Yulia.Navoynikova@mncap.ru>; Orynbaev, Ruslan [EXT] <Ruslan.Orynbaev@mncap.ru>
+Subject: RE: Таксономия 7.1
+
+Артем, это тоже наверное к Вам:
++ Не удалось получить параметры внешнего источника 'Депозитарий' для кластера серверов smsk02ap315u базы данных backoffice_uat_02.
+
+ 
+
+
+С уважением, 
+Елена Хоминич. 
+ 
+rom: Khominich, Elena [EXT] 
+Sent: Monday, November 24, 2025 3:15 PM
+To: Kamnev, Artem <Artem.Kamnev@mncap.ru>
+Cc: Saveliev, Maxim <Maxim.Saveliev@mncap.ru>; Chmykhalov, Aleksey <Aleksey.Chmykhalov@mncap.ru>; Navoynikova, Yulia [EXT] <Yulia.Navoynikova@mncap.ru>; Orynbaev, Ruslan [EXT] <Ruslan.Orynbaev@mncap.ru>
+Subject: RE: Таксономия 7.1
+
+Артем, добрый день.
+Опубликуйте, пожалуйста, веб сервисы для этих баз
+Srvr="smsk02ap315u";Ref="backoffice_uat_02";
+Srvr="SMSK02AP315U";Ref="Custody_UAT_02";
+
+
+С уважением, 
+Елена Хоминич. 
+ 
+
+From: Chmykhalov, Aleksey <Aleksey.Chmykhalov@mncap.ru> 
+Sent: Monday, November 24, 2025 12:45 PM
+To: Khominich, Elena [EXT] <Elena.Khominich@mncap.ru>; Navoynikova, Yulia [EXT] <Yulia.Navoynikova@mncap.ru>; Orynbaev, Ruslan [EXT] <Ruslan.Orynbaev@mncap.ru>
+Cc: Saveliev, Maxim <Maxim.Saveliev@mncap.ru>; Kamnev, Artem <Artem.Kamnev@mncap.ru>
+Subject: RE: Таксономия 7.1
+
+Привет!
+
+459 отчет вставил в ЮАТ ИЦ-2
+444 отчет вставил в ЮАТ Депо-2
+
+PS Попросите еще Артема, чтобы он опубликовал заново веб сервисы для этих баз
+
+ALEKSEI CHMYKHALOV
+Lead senior developer
+Cross-functional team (SBB, WIM)
+
+
+IT | ООО CБ-Брокер
+Tel.: +7 (495) 380-07-93 (ext.266929)
+Aleksey.Chmykhalov@mncap.ru
+
+From: Khominich, Elena [EXT] <Elena.Khominich@mncap.ru> 
+Sent: Monday, November 24, 2025 12:30 PM
+To: Navoynikova, Yulia [EXT] <Yulia.Navoynikova@mncap.ru>; Chmykhalov, Aleksey <Aleksey.Chmykhalov@mncap.ru>; Orynbaev, Ruslan [EXT] <Ruslan.Orynbaev@mncap.ru>
+Cc: Saveliev, Maxim <Maxim.Saveliev@mncap.ru>
+Subject: Таксономия 7.1
+
+Коллеги, добрый день.
+Базы ЮАТ 2 Обновили с  прода и теперь нет таксономии 7.1
+Пожалуйста, установите, отсутствующие отчеты по новой и депо  для Таксономии 7.1.
+1 С ИЦ: 409, 418, 459, 416
+ДЕПО 436, 444
+
+Базы
+Srvr="smsk02ap315u";Ref="backoffice_uat_02";
+Srvr="SMSK02AP315U";Ref="Custody_UAT_02";
+
+
+
+С уважением, 
+Елена Хоминич. 
+ 
+
