@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DU-OPT-2025 | План оптимизации исполнения сделок</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-card: #1a2234;
+            --bg-hover: #243049;
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-green: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-purple: #8b5cf6;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #2d3a52;
+            --gradient-blue: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+            --gradient-green: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+            --gradient-amber: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+            --shadow-glow: 0 0 40px rgba(59, 130, 246, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(6, 182, 212, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(139, 92, 246, 0.04) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 3rem 0 4rem;
+            position: relative;
+        }
+
+        .epic-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--gradient-blue);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .epic-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 3rem 0;
+        }
+
+        .meta-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .meta-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-blue);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .meta-card .icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .meta-card .label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.25rem;
+        }
+
+        .meta-card .value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .meta-card.highlight {
+            background: var(--gradient-green);
+            border: none;
+        }
+
+        .meta-card.highlight .label,
+        .meta-card.highlight .value {
+            color: #fff;
+        }
+
+        .gantt-section {
+            margin: 4rem 0;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .section-header .line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--border-color), transparent);
+        }
+
+        .gantt-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            overflow-x: auto;
+        }
+
+        .gantt-header {
+            display: grid;
+            grid-template-columns: 280px repeat(16, 1fr);
+            gap: 2px;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .gantt-header .task-label {
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .gantt-header .day {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .gantt-header .day.weekend {
+            color: var(--accent-red);
+            opacity: 0.6;
+        }
+
+        .gantt-header .day .date {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .gantt-row {
+            display: grid;
+            grid-template-columns: 280px repeat(16, 1fr);
+            gap: 2px;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(45, 58, 82, 0.5);
+        }
+
+        .gantt-row:last-child {
+            border-bottom: none;
+        }
+
+        .task-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .task-number {
+            width: 28px;
+            height: 28px;
+            background: var(--bg-hover);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+        }
+
+        .task-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .gantt-cell {
+            height: 36px;
+            position: relative;
+        }
+
+        .gantt-bar {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #fff;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .gantt-bar:hover {
+            transform: translateY(-50%) scale(1.02);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .gantt-bar.phase-1 { background: var(--gradient-blue); }
+        .gantt-bar.phase-2 { background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%); }
+        .gantt-bar.phase-3 { background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%); }
+        .gantt-bar.phase-4 { background: var(--gradient-green); }
+        .gantt-bar.phase-5 { background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%); }
+        .gantt-bar.phase-6 { background: linear-gradient(135deg, #64748b 0%, #475569 100%); }
+
+        .weekend-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(239, 68, 68, 0.05);
+            pointer-events: none;
+        }
+
+        .timeline-section {
+            margin: 4rem 0;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent-blue), var(--accent-cyan), var(--accent-green));
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 1.5rem 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -3rem;
+            top: 2rem;
+            width: 26px;
+            height: 26px;
+            background: var(--bg-card);
+            border: 3px solid var(--accent-blue);
+            border-radius: 50%;
+            transform: translateX(50%);
+        }
+
+        .timeline-item.completed::before {
+            background: var(--accent-green);
+            border-color: var(--accent-green);
+        }
+
+        .timeline-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-card:hover {
+            border-color: var(--accent-blue);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .timeline-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .phase-tag {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .phase-tag.blue { background: rgba(59, 130, 246, 0.2); color: var(--accent-blue); }
+        .phase-tag.purple { background: rgba(139, 92, 246, 0.2); color: var(--accent-purple); }
+        .phase-tag.amber { background: rgba(245, 158, 11, 0.2); color: var(--accent-amber); }
+        .phase-tag.green { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
+        .phase-tag.cyan { background: rgba(6, 182, 212, 0.2); color: var(--accent-cyan); }
+        .phase-tag.gray { background: rgba(100, 116, 139, 0.2); color: var(--text-muted); }
+
+        .timeline-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .timeline-content h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .timeline-tasks {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .timeline-tasks li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            border-bottom: 1px solid rgba(45, 58, 82, 0.3);
+        }
+
+        .timeline-tasks li:last-child {
+            border-bottom: none;
+        }
+
+        .timeline-tasks li::before {
+            content: '>';
+            color: var(--accent-cyan);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+        }
+
+        .timeline-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .meta-item .icon {
+            font-size: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+
+        .stat-card.blue::before { background: var(--gradient-blue); }
+        .stat-card.green::before { background: var(--gradient-green); }
+        .stat-card.amber::before { background: var(--gradient-amber); }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .stat-title {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient-blue);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-card.green .stat-value {
+            background: var(--gradient-green);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .stat-card.amber .stat-value {
+            background: var(--gradient-amber);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid var(--border-color);
+            margin-top: 4rem;
+        }
+
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-brand {
+            font-weight: 600;
+            background: var(--gradient-blue);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .gantt-container {
+                padding: 1rem;
+            }
+
+            .timeline {
+                padding-left: 2rem;
+            }
+        }
+
+        @media print {
+            .bg-pattern {
+                display: none;
+            }
+
+            body {
+                background: #fff;
+                color: #000;
+            }
+
+            .meta-card, .timeline-card, .stat-card, .gantt-container {
+                border: 1px solid #ddd;
+                background: #fff;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+    
+    <div class="container">
+        <header>
+            <div class="epic-badge">DU-OPT-2025</div>
+            <h1>Оптимизация исполнения сделок Т и Т-1</h1>
+            <p class="subtitle">Avancore DU | Комплексный план оптимизации производительности системы исполнения сделок</p>
+        </header>
+
+
+        <!-- Gantt Chart -->
+        <section class="gantt-section">
+            <div class="section-header">
+                <h2>&#128202; Диаграмма Ганта</h2>
+                <div class="line"></div>
+            </div>
+            
+            <div class="gantt-container">
+                <div class="gantt-header">
+                    <div class="task-label">Этап</div>
+                    <div class="day"><div class="date">27</div>чт</div>
+                    <div class="day"><div class="date">28</div>пт</div>
+                    <div class="day weekend"><div class="date">29</div>сб</div>
+                    <div class="day weekend"><div class="date">30</div>вс</div>
+                    <div class="day"><div class="date">01</div>пн</div>
+                    <div class="day"><div class="date">02</div>вт</div>
+                    <div class="day"><div class="date">03</div>ср</div>
+                    <div class="day"><div class="date">04</div>чт</div>
+                    <div class="day"><div class="date">05</div>пт</div>
+                    <div class="day weekend"><div class="date">06</div>сб</div>
+                    <div class="day weekend"><div class="date">07</div>вс</div>
+                    <div class="day"><div class="date">08</div>пн</div>
+                    <div class="day"><div class="date">09</div>вт</div>
+                    <div class="day"><div class="date">10</div>ср</div>
+                    <div class="day"><div class="date">11</div>чт</div>
+                    <div class="day"><div class="date">12</div>пт</div>
+                </div>
+
+                <!-- Phase 1: Preparation -->
+                <div class="gantt-row">
+                    <div class="task-info">
+                        <div class="task-number">1</div>
+                        <div class="task-name">Подготовка инфраструктуры</div>
+                    </div>
+                    <div class="gantt-cell" style="grid-column: span 5;">
+                        <div class="gantt-bar phase-1" style="width: 100%;">15ч | 3 дня</div>
+                    </div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                </div>
+
+                <!-- Phase 2: Baseline -->
+                <div class="gantt-row">
+                    <div class="task-info">
+                        <div class="task-number">2</div>
+                        <div class="task-name">Baseline-замеры</div>
+                    </div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"><div class="weekend-overlay"></div></div>
+                    <div class="gantt-cell"><div class="weekend-overlay"></div></div>
+                    <div class="gantt-cell">
+                        <div class="gantt-bar phase-2" style="width: 100%;">5ч</div>
+                    </div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                </div>
+
+                <!-- Phase 3: BA Analysis -->
+                <div class="gantt-row">
+                    <div class="task-info">
+                        <div class="task-number">3</div>
+                        <div class="task-name">BA-анализ узких мест</div>
+                    </div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"><div class="weekend-overlay"></div></div>
+                    <div class="gantt-cell"><div class="weekend-overlay"></div></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell" style="grid-column: span 3;">
+                        <div class="gantt-bar phase-3" style="width: 100%;">15ч | 3 дня</div>
+                    </div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                </div>
+
+                <!-- Phase 4: Development -->
+                <div class="gantt-row">
+                    <div class="task-info">
+                        <div class="task-number">4</div>
+                        <div class="task-name">Разработка оптимизаций</div>
+                    </div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"><div class="weekend-overlay"></div></div>
+                    <div class="gantt-cell"><div class="weekend-overlay"></div></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell" style="grid-column: span 6;">
+                        <div class="gantt-bar phase-4" style="width: 100%;">20ч | 4 дня</div>
+                    </div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                </div>
+
+                <!-- Phase 5: Final -->
+                <div class="gantt-row">
+                    <div class="task-info">
+                        <div class="task-number">5</div>
+                        <div class="task-name">Финальные замеры</div>
+                    </div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"><div class="weekend-overlay"></div></div>
+                    <div class="gantt-cell"><div class="weekend-overlay"></div></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"><div class="weekend-overlay"></div></div>
+                    <div class="gantt-cell"><div class="weekend-overlay"></div></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell"></div>
+                    <div class="gantt-cell" style="grid-column: span 2;">
+                        <div class="gantt-bar phase-5" style="width: 100%;">10ч | 2 дня</div>
+                    </div>
+                </div>
+
+                <!-- Phase 6: Buffer -->
+                <div class="gantt-row">
+                    <div class="task-info">
+                        <div class="task-number">6</div>
+                        <div class="task-name">Буферный день</div>
+                    </div>
+                    <div class="gantt-cell" colspan="16" style="grid-column: 2 / -1; text-align: right; padding-right: 1rem;">
+                        <span style="font-size: 0.8rem; color: var(--text-muted);">15.12 (пн) - 5ч резерв</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline -->
+        <section class="timeline-section">
+            <div class="section-header">
+                <h2>&#128203; Детализация этапов</h2>
+                <div class="line"></div>
+            </div>
+
+            <div class="timeline">
+                <!-- Phase 1 -->
+                <div class="timeline-item">
+                    <div class="timeline-card">
+                        <div class="timeline-header">
+                            <div class="timeline-title">
+                                <span class="phase-tag blue">Этап 1</span>
+                                <span>Подготовка инфраструктуры тестирования</span>
+                            </div>
+                            <div class="timeline-date">27.11 - 01.12</div>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Цель: Полностью рабочий генератор и регламент для запуска исполнений</h3>
+                            <ul class="timeline-tasks">
+                                <li>Создание обработки-генератора "Перезапуск исполнений за период" (параметры: дата, типы сделок, клиенты)</li>
+                                <li>Доработка регламентного задания "Исполнение сделок" - добавление возможности принудительного запуска за произвольный период</li>
+                                <li>Проверка на тестовом контуре 100 тыс. клиентов</li>
+                            </ul>
+                        </div>
+                        <div class="timeline-meta">
+                            <div class="meta-item"><span class="icon">&#128197;</span> 3 дня</div>
+                            <div class="meta-item"><span class="icon">&#9201;</span> 15 часов</div>
+                            <div class="meta-item"><span class="icon">&#127937;</span> 01 декабря</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 2 -->
+                <div class="timeline-item">
+                    <div class="timeline-card">
+                        <div class="timeline-header">
+                            <div class="timeline-title">
+                                <span class="phase-tag purple">Этап 2</span>
+                                <span>Baseline-замеры текущей производительности</span>
+                            </div>
+                            <div class="timeline-date">01.12</div>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Цель: Зафиксированы точные цифры "до"</h3>
+                            <ul class="timeline-tasks">
+                                <li>Прогоны генератора за один и тот же период</li>
+                                <li>Сбор метрик через отладчик и/или тестовые отчеты</li>
+                                <li>Фиксация времени выполнения, количества действий, топ долгих запросов, топ прочих долгих мест, сравнение метрик работы в параллельном режиме</li>
+                            </ul>
+                        </div>
+                        <div class="timeline-meta">
+                            <div class="meta-item"><span class="icon">&#128197;</span> 1 день</div>
+                            <div class="meta-item"><span class="icon">&#9201;</span> 5 часов</div>
+                            <div class="meta-item"><span class="icon">&#127937;</span> 01 декабря</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 3 -->
+                <div class="timeline-item">
+                    <div class="timeline-card">
+                        <div class="timeline-header">
+                            <div class="timeline-title">
+                                <span class="phase-tag amber">Этап 3</span>
+                                <span>BA-анализ узких мест</span>
+                            </div>
+                            <div class="timeline-date">02.12 - 04.12</div>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Цель: Чёткий приоритизированный список оптимизаций</h3>
+                            <ul class="timeline-tasks">
+                                <li>Анализ параллельности способов изменения режима распределения потоков</li>
+                                <li>Глубокий разбор топ-запросов (поиск возможности выноса во временные таблицы, индексы, параметризация)</li>
+                                <li>Выявление и документирование всех остальных "горячих" мест, всплывших при прогонах</li>
+                            </ul>
+                        </div>
+                        <div class="timeline-meta">
+                            <div class="meta-item"><span class="icon">&#128197;</span> 3 дня</div>
+                            <div class="meta-item"><span class="icon">&#9201;</span> 15 часов</div>
+                            <div class="meta-item"><span class="icon">&#127937;</span> 04 декабря</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 4 -->
+                <div class="timeline-item">
+                    <div class="timeline-card">
+                        <div class="timeline-header">
+                            <div class="timeline-title">
+                                <span class="phase-tag green">Этап 4</span>
+                                <span>Разработка и тестирование оптимизаций</span>
+                            </div>
+                            <div class="timeline-date">05.12 - 10.12</div>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Цель: Все три блока реализованы и протестированы</h3>
+                            <ul class="timeline-tasks">
+                                <li>Реализация управляемой параллельности (фоновые задания / очереди / разделение по типам сделок)</li>
+                                <li>Переписывание тяжёлых запросов (временные таблицы, новые индексы, пакетная обработка)</li>
+                                <li>Доработка остальных выявленных мест (регистры, алгоритмы, кэши)</li>
+                                <li>Промежуточные прогоны после каждой доработки</li>
+                            </ul>
+                        </div>
+                        <div class="timeline-meta">
+                            <div class="meta-item"><span class="icon">&#128197;</span> 4 дня</div>
+                            <div class="meta-item"><span class="icon">&#9201;</span> 20 часов</div>
+                            <div class="meta-item"><span class="icon">&#127937;</span> 10 декабря</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 5 -->
+                <div class="timeline-item">
+                    <div class="timeline-card">
+                        <div class="timeline-header">
+                            <div class="timeline-title">
+                                <span class="phase-tag cyan">Этап 5</span>
+                                <span>Финальные замеры и приёмка</span>
+                            </div>
+                            <div class="timeline-date">11.12 - 12.12</div>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Цель: Достигнуты целевые показатели производительности</h3>
+                            <ul class="timeline-tasks">
+                                <li>Контрольные прогоны генератора</li>
+                                <li>Сравнение с Baseline (таблицы и графики "до / после")</li>
+                                <li>Подготовка итогового отчёта: достигнутый прирост, рекомендации, риски</li>
+                                <li>Демонстрация заказчику / руководителю (по запросу)</li>
+                            </ul>
+                        </div>
+                        <div class="timeline-meta">
+                            <div class="meta-item"><span class="icon">&#128197;</span> 2 дня</div>
+                            <div class="meta-item"><span class="icon">&#9201;</span> 10 часов</div>
+                            <div class="meta-item"><span class="icon">&#127937;</span> 12 декабря</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 6 -->
+                <div class="timeline-item">
+                    <div class="timeline-card">
+                        <div class="timeline-header">
+                            <div class="timeline-title">
+                                <span class="phase-tag gray">Буфер</span>
+                                <span>Буферный день</span>
+                            </div>
+                            <div class="timeline-date">15.12</div>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Цель: буферное время</h3>
+                            <ul class="timeline-tasks">
+                                <li>Любые непредвиденные доработки</li>
+                                <li>Правки по замечаниям</li>
+                                <li>Финальная полировка документации</li>
+                            </ul>
+                        </div>
+                        <div class="timeline-meta">
+                            <div class="meta-item"><span class="icon">&#128197;</span> 1 день</div>
+                            <div class="meta-item"><span class="icon">&#9201;</span> 5 часов</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats -->
+        <section>
+            <div class="section-header">
+                <h2>&#128200; Статистика проекта</h2>
+                <div class="line"></div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card blue">
+                    <div class="stat-header">
+                        <div class="stat-title">Общее время</div>
+                    </div>
+                    <div class="stat-value">63ч</div>
+                    <div style="color: var(--text-muted); font-size: 0.85rem;">58ч работа + 5ч буфер</div>
+                </div>
+                <div class="stat-card green">
+                    <div class="stat-header">
+                        <div class="stat-title">Рабочих дней</div>
+                    </div>
+                    <div class="stat-value">12</div>
+                    <div style="color: var(--text-muted); font-size: 0.85rem;">+ 1 буферный день</div>
+                </div>
+                <div class="stat-card amber">
+                    <div class="stat-header">
+                        <div class="stat-title">Календарных дней</div>
+                    </div>
+                    <div class="stat-value">16</div>
+                    <div style="color: var(--text-muted); font-size: 0.85rem;">27.11 - 12.12.2025</div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p class="footer-text">
+                <span class="footer-brand">DU-OPT-2025</span> | 
+                Оптимизация исполнения сделок Т и Т-1 в Avancore DU<br>
+                Гарантированная сдача: <strong>12 декабря 2025</strong>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
