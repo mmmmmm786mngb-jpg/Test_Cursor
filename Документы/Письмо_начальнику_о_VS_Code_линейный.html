@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Письмо начальнику о VS Code</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 11pt;
+            line-height: 1.8;
+            color: #222222;
+            background-color: #ffffff;
+            max-width: 620px;
+            margin: 50px auto;
+            padding: 25px;
+        }
+        
+        .greeting {
+            margin-bottom: 20px;
+            font-size: 13pt;
+        }
+        
+        .paragraph {
+            margin: 16px 0;
+            text-align: left;
+        }
+        
+        .highlight {
+            background-color: #fffde7;
+            padding: 12px 15px;
+            border-left: 3px solid #ffc107;
+            margin: 20px 0;
+        }
+        
+        .proposal {
+            background-color: #e8f5e9;
+            padding: 12px 15px;
+            border-left: 3px solid #4caf50;
+            margin: 20px 0;
+        }
+        
+        .closing-section {
+            margin-top: 40px;
+            border-top: 1px solid #cccccc;
+            padding-top: 25px;
+        }
+        
+        .closing {
+            margin-bottom: 18px;
+        }
+        
+        .signature {
+            margin-top: 15px;
+        }
+        
+        .signature-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .signature-info {
+            margin: 3px 0;
+            font-size: 10pt;
+            color: #555;
+        }
+        
+        .contacts-section {
+            margin-top: 40px;
+            border-top: 1px solid #cccccc;
+            padding-top: 25px;
+            font-size: 10pt;
+        }
+        
+        .contacts-title {
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        
+        .contact-info {
+            margin: 4px 0;
+            color: #555;
+        }
+        
+        .contact-name {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .ps {
+            margin-top: 25px;
+            padding: 10px 15px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            font-style: italic;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+    <div class="greeting"><strong>Привет!</strong></div>
+    
+    <p class="paragraph">Есть небольшой вопрос по поводу расширения 1С BS для VS Code.</p>
+    
+    <p class="paragraph"><strong>Суть:</strong> Я лично VS Code официально не использую и не знаю, разрешен ли он вообще в нашей организации. Последние полгода даже неофициально им не пользовался. Плюс VS Code после установки требует десятки расширений.</p>
+    
+    <div class="highlight">
+        <strong>Вопрос:</strong> Может, пока не стоит поднимать тему про расширение 1С BS?<br>
+        1С-ники его не используют, и мне оно по факту тоже не нужно.
+    </div>
+    
+    <p class="paragraph"><strong>Почему важно:</strong> Если я напишу Егору — он начнет задавать много вопросов и проводить проверки. При этом я не смогу объяснить, зачем мне это расширение, потому что реально оно мне не требуется.</p>
+    
+    <p class="paragraph">Единственный сценарий использования — если официально разрешат Cursor, что пока под вопросом.</p>
+    
+    <div class="proposal">
+        <strong>Предложение:</strong> Подождать, пока:<br>
+        • будет принято решение по Cursor<br>
+        • настроена синхронизация GIT ВМ Яндекс ↔ GIT корпоративной сети<br><br>
+        А потом уже сформируем список дополнительных «хотелок».
+    </div>
+    
+    <p class="paragraph ps"><strong>PS:</strong> Если всё-таки нужно написать Егору — есть какой-нибудь шаблон запроса?</p>
+    
+    <div class="closing-section">
+        <div class="closing"><strong>С уважением,</strong></div>
+        
+        <div class="signature">
+            <div class="signature-name">Алексей Чмыхалов</div>
+            <div class="signature-info">Lead senior developer</div>
+            <div class="signature-info">Cross-functional team (SBB, WIM)</div>
+            <div class="signature-info"><strong>IT | ООО СБ-Брокер</strong></div>
+            <div class="signature-info">Tel.: +7 (495) 380-07-93 (ext. 266929)</div>
+            <div class="signature-info">Aleksey.Chmykhalov@mncap.ru</div>
+        </div>
+    </div>
+    
+    <div class="contacts-section">
+        <div class="contacts-title">Справка о контактах</div>
+        <div class="contact-name">Егор Цюрюпа</div>
+        <div class="contact-info"><strong>Подразделение:</strong> ИТ Безопасность и архитектура</div>
+        <div class="contact-info"><strong>Адрес:</strong> Москва, Волочаевская ул., д.5, стр.3 111033</div>
+        <div class="contact-info"><strong>Тел.:</strong> +7 (495) 130 3033</div>
+        <div class="contact-info"><strong>Внутр.:</strong> 264074</div>
+        <div class="contact-info"><strong>Корп. моб.тел.:</strong> +7 (925) 999 2318</div>
+        <div class="contact-info"><strong>Офис:</strong> ул. проспект 60-летия Октября</div>
+        <div class="contact-info"><strong>CWC-статус:</strong> Infrastructure</div>
+    </div>
+</body>
+</html>
