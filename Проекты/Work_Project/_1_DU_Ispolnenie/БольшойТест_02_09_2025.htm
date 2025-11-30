@@ -1,0 +1,965 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=utf-8"/>
+<TITLE></TITLE>
+<STYLE TYPE="text/css">
+body { background: #ffffff; margin: 0; font-family: Arial; font-size: 8pt; font-style: normal; }
+tr.R0{ height: 33px; }
+tr.R0 td.R0C0{ font-family: Arial; font-size: 10pt; font-style: normal; background-color: #f4ecc5; text-align: left; vertical-align: top; border-left: #ccc085 1px solid; border-top: #ccc085 1px solid; border-bottom: #ccc085 1px solid; border-right: #ccc085 1px solid; }
+tr.R0 td.R30C2{ font-family: Arial; font-size: 10pt; font-style: normal; font-weight: bold; color: #003f2f; background-color: #d6e5cb; text-align: left; vertical-align: top; border-left: #b3ac86 1px solid; border-top: #b3ac86 1px solid; border-bottom: #b3ac86 1px solid; border-right: #b3ac86 1px solid; }
+tr.R0 td.R46C0{ font-family: Arial; font-size: 10pt; font-style: normal; font-weight: bold; color: #00005c; background-color: #cbe4e5; text-align: left; vertical-align: top; border-left: #b3ac86 1px solid; border-top: #b3ac86 1px solid; border-bottom: #b3ac86 1px solid; border-right: #b3ac86 1px solid; }
+tr.R1{ height: 15px; }
+tr.R1 td.R17C0{ font-family: Arial; font-size: 8pt; font-style: normal; background-color: #f8f2d8; text-align: left; vertical-align: top; padding-left: 2px; border-left: #ccc085 1px solid; border-top: #ccc085 1px solid; border-bottom: #ccc085 1px solid; border-right: #ccc085 1px solid; }
+tr.R1 td.R17C2{ font-family: Arial; font-size: 8pt; font-style: normal; background-color: #f8f2d8; text-align: right; vertical-align: top; border-left: #ccc085 1px solid; border-top: #ccc085 1px solid; border-bottom: #ccc085 1px solid; border-right: #ccc085 1px solid; }
+tr.R1 td.R18C0{ text-align: left; vertical-align: top; padding-left: 11px; border-left: #ccc085 1px solid; border-top: #ccc085 1px solid; border-bottom: #ccc085 1px solid; border-right: #ccc085 1px solid; }
+tr.R1 td.R18C1{ text-align: left; vertical-align: top; border-left: #ccc085 1px solid; border-top: #ccc085 1px solid; border-bottom: #ccc085 1px solid; border-right: #ccc085 1px solid; }
+tr.R1 td.R1C0{ text-align: right; vertical-align: top; padding-left: 2px; border-left: #ccc085 1px solid; border-top: #ccc085 1px solid; border-bottom: #ccc085 1px solid; border-right: #ccc085 1px solid; }
+tr.R1 td.R32C0{ text-align: left; vertical-align: top; padding-left: 11px; border-left: #acc8bd 1px solid; border-top: #acc8bd 1px solid; border-bottom: #acc8bd 1px solid; border-right: #acc8bd 1px solid; }
+tr.R1 td.R32C1{ text-align: left; vertical-align: top; border-left: #acc8bd 1px solid; border-top: #acc8bd 1px solid; border-bottom: #acc8bd 1px solid; border-right: #acc8bd 1px solid; }
+tr.R1 td.R32C2{ text-align: left; vertical-align: top; border-left: #acc8bd 1px solid; border-top: #acc8bd 1px solid; border-bottom: #acc8bd 1px solid; border-right: #acc8bd 1px solid; }
+tr.R1 td.R32C3{ text-align: right; vertical-align: top; border-left: #acc8bd 1px solid; border-top: #acc8bd 1px solid; border-bottom: #acc8bd 1px solid; border-right: #acc8bd 1px solid; }
+tr.R1 td.R4C0{ text-align: left; vertical-align: top; padding-left: 2px; border-left: #ccc085 1px solid; border-top: #ccc085 1px solid; border-bottom: #ccc085 1px solid; border-right: #ccc085 1px solid; }
+tr.R1 td.R4C1{ text-align: right; vertical-align: top; border-left: #ccc085 1px solid; border-top: #ccc085 1px solid; border-bottom: #ccc085 1px solid; border-right: #ccc085 1px solid; }
+tr.R1 td.R62C0{ font-family: Arial; font-size: 8pt; font-style: normal; text-align: left; vertical-align: top; padding-left: 2px; border-left: #ccc085 1px solid; border-top: #ccc085 1px solid; border-bottom: #ccc085 1px solid; border-right: #ccc085 1px solid; }
+tr.R1 td.R62C1{ font-family: Arial; font-size: 8pt; font-style: normal; text-align: left; vertical-align: top; border-left: #ccc085 1px solid; border-top: #ccc085 1px solid; border-bottom: #ccc085 1px solid; border-right: #ccc085 1px solid; }
+tr.R1 td.R62C7{ font-family: Arial; font-size: 8pt; font-style: normal; text-align: right; vertical-align: top; border-left: #ccc085 1px solid; border-top: #ccc085 1px solid; border-bottom: #ccc085 1px solid; border-right: #ccc085 1px solid; }
+tr.R13{ height: 28px; }
+tr.R13 td.R13C0{ font-family: Arial; font-size: 16pt; font-style: normal; font-weight: bold; text-align: left; vertical-align: top; }
+tr.R13 td.R25C0{ font-family: Arial; font-size: 16pt; font-style: normal; font-weight: bold; color: #003f2f; text-align: left; vertical-align: top; }
+tr.R13 td.R43C0{ font-family: Arial; font-size: 16pt; font-style: normal; font-weight: bold; color: #00005c; text-align: left; vertical-align: top; }
+tr.R15{ height: 17px; }
+tr.R15 td.R15C0{ font-family: Arial; font-size: 10pt; font-style: normal; background-color: #f4ecc5; text-align: left; vertical-align: top; border-left: #ccc085 1px solid; border-top: #ccc085 1px solid; border-bottom: #ccc085 1px solid; border-right: #ccc085 1px solid; }
+tr.R15 td.R23C0{ font-family: Arial; font-size: 10pt; font-style: normal; background-color: #f4ecc5; text-align: left; vertical-align: top; border-left: #ccc085 1px solid; border-top: #ccc085 1px solid; border-bottom: #ccc085 1px solid; border-right: #ccc085 1px solid; }
+tr.R15 td.R23C2{ font-family: Arial; font-size: 10pt; font-style: normal; background-color: #f4ecc5; text-align: right; vertical-align: top; border-left: #ccc085 1px solid; border-top: #ccc085 1px solid; border-bottom: #ccc085 1px solid; border-right: #ccc085 1px solid; }
+tr.R15 td.R28C0{ font-family: Arial; font-size: 10pt; font-style: normal; font-weight: bold; color: #003f2f; background-color: #d6e5cb; text-align: left; vertical-align: top; border-left: #b3ac86 1px solid; border-top: #b3ac86 1px solid; border-bottom: #b3ac86 1px solid; border-right: #b3ac86 1px solid; }
+tr.R15 td.R28C4{ font-family: Arial; font-size: 10pt; font-style: normal; font-weight: bold; color: #003f2f; background-color: #d6e5cb; text-align: left; vertical-align: top; border-left: #b3ac86 1px solid; border-top: #b3ac86 1px solid; border-bottom: #b3ac86 1px solid; border-right: #b3ac86 1px solid; }
+tr.R15 td.R31C0{ font-family: Arial; font-size: 10pt; font-style: normal; font-weight: bold; color: #003f2f; background-color: #e4f0dd; text-align: left; vertical-align: top; padding-left: 2px; border-left: #acc8bd 1px solid; border-top: #acc8bd 1px solid; border-bottom: #acc8bd 1px solid; border-right: #acc8bd 1px solid; }
+tr.R15 td.R31C2{ font-family: Arial; font-size: 10pt; font-style: normal; font-weight: bold; color: #003f2f; background-color: #e4f0dd; text-align: left; vertical-align: top; border-left: #acc8bd 1px solid; border-top: #acc8bd 1px solid; border-bottom: #acc8bd 1px solid; border-right: #acc8bd 1px solid; }
+tr.R15 td.R31C3{ font-family: Arial; font-size: 10pt; font-style: normal; font-weight: bold; color: #003f2f; background-color: #e4f0dd; text-align: right; vertical-align: top; border-left: #acc8bd 1px solid; border-top: #acc8bd 1px solid; border-bottom: #acc8bd 1px solid; border-right: #acc8bd 1px solid; }
+tr.R15 td.R41C2{ font-family: Arial; font-size: 10pt; font-style: normal; font-weight: bold; color: #003f2f; background-color: #d6e5cb; text-align: right; vertical-align: top; border-left: #b3ac86 1px solid; border-top: #b3ac86 1px solid; border-bottom: #b3ac86 1px solid; border-right: #b3ac86 1px solid; }
+tr.R15 td.R45C0{ font-family: Arial; font-size: 10pt; font-style: normal; font-weight: bold; color: #00005c; background-color: #cbe4e5; text-align: left; vertical-align: top; border-left: #b3ac86 1px solid; border-top: #b3ac86 1px solid; border-bottom: #b3ac86 1px solid; border-right: #b3ac86 1px solid; }
+tr.R15 td.R47C0{ font-family: Arial; font-size: 10pt; font-style: normal; font-weight: bold; color: #00005c; background-color: #ddeff0; text-align: left; vertical-align: top; padding-left: 2px; border-left: #acc8bd 1px solid; border-top: #acc8bd 1px solid; border-bottom: #acc8bd 1px solid; border-right: #acc8bd 1px solid; }
+tr.R15 td.R47C2{ font-family: Arial; font-size: 10pt; font-style: normal; font-weight: bold; color: #00005c; background-color: #ddeff0; text-align: right; vertical-align: top; border-left: #acc8bd 1px solid; border-top: #acc8bd 1px solid; border-bottom: #acc8bd 1px solid; border-right: #acc8bd 1px solid; }
+tr.R15 td.R59C0{ font-family: Arial; font-size: 10pt; font-style: normal; font-weight: bold; color: #00005c; background-color: #cbe4e5; text-align: left; vertical-align: top; border-left: #b3ac86 1px solid; border-top: #b3ac86 1px solid; border-bottom: #b3ac86 1px solid; border-right: #b3ac86 1px solid; }
+tr.R15 td.R59C2{ font-family: Arial; font-size: 10pt; font-style: normal; font-weight: bold; color: #00005c; background-color: #cbe4e5; text-align: right; vertical-align: top; border-left: #b3ac86 1px solid; border-top: #b3ac86 1px solid; border-bottom: #b3ac86 1px solid; border-right: #b3ac86 1px solid; }
+tr.R2{ height: 13px; }
+tr.R2 td.R26C0{ font-family: Arial; font-size: 16pt; font-style: normal; font-weight: bold; color: #003f2f; text-align: left; vertical-align: top; }
+tr.R2 td.R2C0{ text-align: left; vertical-align: top; }
+tr.R3{ height: 49px; }
+tr.R3 td.R3C0{ font-family: Arial; font-size: 10pt; font-style: normal; background-color: #f4ecc5; text-align: left; vertical-align: top; border-left: #ccc085 1px solid; border-top: #ccc085 1px solid; border-bottom: #ccc085 1px solid; border-right: #ccc085 1px solid; }
+table {table-layout: fixed; padding: 0; padding-left: 2px; vertical-align:bottom; border-collapse:collapse;width: 100%; font-family: Arial; font-size: 8pt; font-style: normal; }
+td { padding: 0; padding-left: 2px; overflow:hidden; vertical-align: bottom;}
+</STYLE>
+</HEAD>
+<BODY STYLE="background: #ffffff; margin: 0; font-family: Arial; font-size: 8pt; font-style: normal; ">
+<TABLE style="width:100%; height:0px; " CELLSPACING=0>
+<COL WIDTH=79>
+<COL>
+<TR CLASS=R0>
+<TD CLASS="R0C0">Всего договоров</TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R1C0">1 312</TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+</TABLE>
+<TABLE style="width:100%; height:0px; " CELLSPACING=0>
+<COL WIDTH=63>
+<COL>
+<TR CLASS=R2>
+<TD CLASS="R2C0"><DIV STYLE="position:relative; height:13px;width: 100%; overflow:hidden;"><SPAN></SPAN></DIV></TD>
+<TD><DIV STYLE="position:relative; height:13px;width: 100%; overflow:hidden;"><SPAN></SPAN></DIV></TD>
+<TD><DIV STYLE="width:100%;height:13px;overflow:hidden;">&nbsp;</DIV></TD>
+</TR>
+</TABLE>
+<TABLE style="width:100%; height:0px; " CELLSPACING=0>
+<COL WIDTH=245>
+<COL WIDTH=78>
+<COL>
+<TR CLASS=R3>
+<TD CLASS="R3C0">Тип актива</TD>
+<TD CLASS="R3C0">Всего активов по типу</TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R4C0">Акции АО иностранных гос-в</TD>
+<TD CLASS="R4C1"><SPAN STYLE="white-space:nowrap;max-width:0px;">1</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R4C0">Гос. ц/б  РФ</TD>
+<TD CLASS="R4C1"><SPAN STYLE="white-space:nowrap;max-width:0px;">4</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R4C0">Гос.облигации субъектов РФ</TD>
+<TD CLASS="R4C1"><SPAN STYLE="white-space:nowrap;max-width:0px;">3</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R4C0">КСУ (GC Bonds)</TD>
+<TD CLASS="R4C1"><SPAN STYLE="white-space:nowrap;max-width:0px;">1</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R4C0">Муницип. облигации субъектов РФ</TD>
+<TD CLASS="R4C1"><SPAN STYLE="white-space:nowrap;max-width:0px;">2</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R4C0">Облигации российских хоз. обществ</TD>
+<TD CLASS="R4C1"><SPAN STYLE="white-space:nowrap;max-width:0px;">23</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R4C0">Обыкновенные акции АО РФ</TD>
+<TD CLASS="R4C1"><SPAN STYLE="white-space:nowrap;max-width:0px;">25</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R4C0">Привилегированные акции АО РФ</TD>
+<TD CLASS="R4C1"><SPAN STYLE="white-space:nowrap;max-width:0px;">3</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+</TABLE>
+<TABLE style="width:100%; height:0px; " CELLSPACING=0>
+<COL WIDTH=63>
+<COL>
+<TR CLASS=R2>
+<TD CLASS="R2C0"><DIV STYLE="position:relative; height:13px;width: 100%; overflow:hidden;"><SPAN></SPAN></DIV></TD>
+<TD><DIV STYLE="position:relative; height:13px;width: 100%; overflow:hidden;"><SPAN></SPAN></DIV></TD>
+<TD><DIV STYLE="width:100%;height:13px;overflow:hidden;">&nbsp;</DIV></TD>
+</TR>
+</TABLE>
+<TABLE style="width:100%; height:0px; " CELLSPACING=0>
+<COL WIDTH=344>
+<COL>
+<TR CLASS=R13>
+<TD CLASS="R13C0"><SPAN STYLE="white-space:nowrap;max-width:0px;">Статистика&nbsp;по&nbsp;видам&nbsp;операций</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+</TABLE>
+<TABLE style="width:100%; height:0px; " CELLSPACING=0>
+<COL WIDTH=63>
+<COL>
+<TR CLASS=R2>
+<TD CLASS="R2C0"><DIV STYLE="position:relative; height:13px;width: 100%; overflow:hidden;"><SPAN></SPAN></DIV></TD>
+<TD><DIV STYLE="position:relative; height:13px;width: 100%; overflow:hidden;"><SPAN></SPAN></DIV></TD>
+<TD><DIV STYLE="width:100%;height:13px;overflow:hidden;">&nbsp;</DIV></TD>
+</TR>
+</TABLE>
+<TABLE style="width:100%; height:0px; " CELLSPACING=0>
+<COL WIDTH=119>
+<COL WIDTH=91>
+<COL WIDTH=102>
+<COL>
+<TR CLASS=R15>
+<TD CLASS="R15C0" COLSPAN=2>Тип бизнес процесса</TD>
+<TD CLASS="R15C0" ROWSPAN=2>Количество регистраторов</TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R0>
+<TD CLASS="R0C0">Вид операции</TD>
+<TD CLASS="R0C0">Тип бизнес процесса</TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R17C0" COLSPAN=2>Сделки T+n</TD>
+<TD CLASS="R17C2"><SPAN STYLE="white-space:nowrap;max-width:0px;">28 017</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R18C0">Поступление ц/б</TD>
+<TD CLASS="R18C1">Сделки T+n</TD>
+<TD CLASS="R4C1"><SPAN STYLE="white-space:nowrap;max-width:0px;">431</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R18C0">Списание ц/б</TD>
+<TD CLASS="R18C1">Сделки T+n</TD>
+<TD CLASS="R4C1"><SPAN STYLE="white-space:nowrap;max-width:0px;">27 586</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R17C0" COLSPAN=2>Сделки РЕПО</TD>
+<TD CLASS="R17C2"><SPAN STYLE="white-space:nowrap;max-width:0px;">4 882</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R18C0">Прямой РЕПО</TD>
+<TD CLASS="R18C1">Сделки РЕПО</TD>
+<TD CLASS="R4C1"><SPAN STYLE="white-space:nowrap;max-width:0px;">32</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R18C0">Обратный РЕПО</TD>
+<TD CLASS="R18C1">Сделки РЕПО</TD>
+<TD CLASS="R4C1"><SPAN STYLE="white-space:nowrap;max-width:0px;">4 850</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R15>
+<TD CLASS="R23C0" COLSPAN=2><SPAN STYLE="white-space:nowrap;max-width:0px;">Итого</SPAN></TD>
+<TD CLASS="R23C2"><SPAN STYLE="white-space:nowrap;max-width:0px;">32 899</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+</TABLE>
+<TABLE style="width:100%; height:0px; " CELLSPACING=0>
+<COL WIDTH=63>
+<COL>
+<TR CLASS=R2>
+<TD CLASS="R2C0"><DIV STYLE="position:relative; height:13px;width: 100%; overflow:hidden;"><SPAN></SPAN></DIV></TD>
+<TD><DIV STYLE="position:relative; height:13px;width: 100%; overflow:hidden;"><SPAN></SPAN></DIV></TD>
+<TD><DIV STYLE="width:100%;height:13px;overflow:hidden;">&nbsp;</DIV></TD>
+</TR>
+</TABLE>
+<TABLE style="width:100%; height:0px; " CELLSPACING=0>
+<COL WIDTH=329>
+<COL>
+<TR CLASS=R13>
+<TD CLASS="R25C0"><SPAN STYLE="white-space:nowrap;max-width:0px;">Статистика&nbsp;по&nbsp;объему&nbsp;сделок</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R2>
+<TD CLASS="R26C0"><DIV STYLE="position:relative; height:13px;width: 100%; overflow:hidden;"><SPAN></SPAN></DIV></TD>
+<TD><DIV STYLE="position:relative; height:13px;width: 100%; overflow:hidden;"><SPAN></SPAN></DIV></TD>
+<TD><DIV STYLE="width:100%;height:13px;overflow:hidden;">&nbsp;</DIV></TD>
+</TR>
+</TABLE>
+<TABLE style="width:100%; height:0px; " CELLSPACING=0>
+<COL WIDTH=63>
+<COL>
+<TR CLASS=R2>
+<TD CLASS="R2C0"><DIV STYLE="position:relative; height:13px;width: 100%; overflow:hidden;"><SPAN></SPAN></DIV></TD>
+<TD><DIV STYLE="position:relative; height:13px;width: 100%; overflow:hidden;"><SPAN></SPAN></DIV></TD>
+<TD><DIV STYLE="width:100%;height:13px;overflow:hidden;">&nbsp;</DIV></TD>
+</TR>
+</TABLE>
+<TABLE style="width:100%; height:0px; " CELLSPACING=0>
+<COL WIDTH=203>
+<COL WIDTH=273>
+<COL WIDTH=113>
+<COL WIDTH=113>
+<COL WIDTH=113>
+<COL>
+<TR CLASS=R15>
+<TD CLASS="R28C0" COLSPAN=2>Точка маршрута</TD>
+<TD CLASS="R28C0">01.09.2025</TD>
+<TD CLASS="R28C0">02.09.2025</TD>
+<TD CLASS="R28C4" ROWSPAN=2><SPAN STYLE="white-space:nowrap;max-width:0px;">Итого</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R15>
+<TD CLASS="R28C0" ROWSPAN=2>Тип регистратора</TD>
+<TD CLASS="R28C0" ROWSPAN=2>Точка маршрута</TD>
+<TD CLASS="R28C0">02.09.2025</TD>
+<TD CLASS="R28C0">02.09.2025</TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R0>
+<TD CLASS="R30C2">Количество регистраторов</TD>
+<TD CLASS="R30C2">Количество регистраторов</TD>
+<TD CLASS="R30C2">Количество регистраторов</TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R15>
+<TD CLASS="R31C0" COLSPAN=2>1-я часть РЕПО</TD>
+<TD CLASS="R31C2"><SPAN></SPAN></TD>
+<TD CLASS="R31C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">1 229</SPAN></TD>
+<TD CLASS="R31C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">1 229</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R32C0">Сделка РЕПО (1 нога)</TD>
+<TD CLASS="R32C1">1-я часть РЕПО</TD>
+<TD CLASS="R32C2"><SPAN></SPAN></TD>
+<TD CLASS="R32C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">1 229</SPAN></TD>
+<TD CLASS="R32C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">1 229</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R15>
+<TD CLASS="R31C0" COLSPAN=2>Оплата 1-й части сделки через брокера</TD>
+<TD CLASS="R31C2"><SPAN></SPAN></TD>
+<TD CLASS="R31C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">1 229</SPAN></TD>
+<TD CLASS="R31C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">1 229</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R32C0">Операция по счету брокера</TD>
+<TD CLASS="R32C1">Оплата 1-й части сделки через брокера</TD>
+<TD CLASS="R32C2"><SPAN></SPAN></TD>
+<TD CLASS="R32C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">1 229</SPAN></TD>
+<TD CLASS="R32C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">1 229</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R15>
+<TD CLASS="R31C0" COLSPAN=2>Закрытие плановой позиции</TD>
+<TD CLASS="R31C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">28 017</SPAN></TD>
+<TD CLASS="R31C2"><SPAN></SPAN></TD>
+<TD CLASS="R31C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">28 017</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R32C0">Перерегистрация ц/б</TD>
+<TD CLASS="R32C1">Закрытие плановой позиции</TD>
+<TD CLASS="R32C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">28 017</SPAN></TD>
+<TD CLASS="R32C2"><SPAN></SPAN></TD>
+<TD CLASS="R32C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">28 017</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R15>
+<TD CLASS="R31C0" COLSPAN=2>Оплата 2-й части сделки через брокера</TD>
+<TD CLASS="R31C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">1 212</SPAN></TD>
+<TD CLASS="R31C2"><SPAN></SPAN></TD>
+<TD CLASS="R31C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">1 212</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R32C0">Операция по счету брокера</TD>
+<TD CLASS="R32C1">Оплата 2-й части сделки через брокера</TD>
+<TD CLASS="R32C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">1 212</SPAN></TD>
+<TD CLASS="R32C2"><SPAN></SPAN></TD>
+<TD CLASS="R32C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">1 212</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R15>
+<TD CLASS="R31C0" COLSPAN=2>2-я часть РЕПО</TD>
+<TD CLASS="R31C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">1 212</SPAN></TD>
+<TD CLASS="R31C2"><SPAN></SPAN></TD>
+<TD CLASS="R31C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">1 212</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R32C0">Сделка РЕПО (2 нога)</TD>
+<TD CLASS="R32C1">2-я часть РЕПО</TD>
+<TD CLASS="R32C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">1 212</SPAN></TD>
+<TD CLASS="R32C2"><SPAN></SPAN></TD>
+<TD CLASS="R32C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">1 212</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R15>
+<TD CLASS="R28C4" COLSPAN=2><SPAN STYLE="white-space:nowrap;max-width:0px;">Итого</SPAN></TD>
+<TD CLASS="R41C2"><SPAN STYLE="white-space:nowrap;max-width:0px;">30 441</SPAN></TD>
+<TD CLASS="R41C2"><SPAN STYLE="white-space:nowrap;max-width:0px;">2 458</SPAN></TD>
+<TD CLASS="R41C2"><SPAN STYLE="white-space:nowrap;max-width:0px;">32 899</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+</TABLE>
+<TABLE style="width:100%; height:0px; " CELLSPACING=0>
+<COL WIDTH=63>
+<COL>
+<TR CLASS=R2>
+<TD CLASS="R2C0"><DIV STYLE="position:relative; height:13px;width: 100%; overflow:hidden;"><SPAN></SPAN></DIV></TD>
+<TD><DIV STYLE="position:relative; height:13px;width: 100%; overflow:hidden;"><SPAN></SPAN></DIV></TD>
+<TD><DIV STYLE="width:100%;height:13px;overflow:hidden;">&nbsp;</DIV></TD>
+</TR>
+</TABLE>
+<TABLE style="width:100%; height:0px; " CELLSPACING=0>
+<COL WIDTH=255>
+<COL>
+<TR CLASS=R13>
+<TD CLASS="R43C0"><SPAN STYLE="white-space:nowrap;max-width:0px;">Статистика&nbsp;по&nbsp;активам</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+</TABLE>
+<TABLE style="width:100%; height:0px; " CELLSPACING=0>
+<COL WIDTH=63>
+<COL>
+<TR CLASS=R2>
+<TD CLASS="R2C0"><DIV STYLE="position:relative; height:13px;width: 100%; overflow:hidden;"><SPAN></SPAN></DIV></TD>
+<TD><DIV STYLE="position:relative; height:13px;width: 100%; overflow:hidden;"><SPAN></SPAN></DIV></TD>
+<TD><DIV STYLE="width:100%;height:13px;overflow:hidden;">&nbsp;</DIV></TD>
+</TR>
+</TABLE>
+<TABLE style="width:100%; height:0px; " CELLSPACING=0>
+<COL WIDTH=259>
+<COL WIDTH=91>
+<COL WIDTH=113>
+<COL>
+<TR CLASS=R15>
+<TD CLASS="R45C0" COLSPAN=2>Тип бизнес процесса</TD>
+<TD CLASS="R45C0" ROWSPAN=2>Количество регистраторов</TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R0>
+<TD CLASS="R46C0">Тип актива</TD>
+<TD CLASS="R46C0">Тип бизнес процесса</TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R15>
+<TD CLASS="R47C0" COLSPAN=2>Сделки T+n</TD>
+<TD CLASS="R47C2"><SPAN STYLE="white-space:nowrap;max-width:0px;">28 017</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R32C0">Акции АО иностранных гос-в</TD>
+<TD CLASS="R32C1">Сделки T+n</TD>
+<TD CLASS="R32C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">12</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R32C0">Гос. ц/б  РФ</TD>
+<TD CLASS="R32C1">Сделки T+n</TD>
+<TD CLASS="R32C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">28</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R32C0">Гос.облигации субъектов РФ</TD>
+<TD CLASS="R32C1">Сделки T+n</TD>
+<TD CLASS="R32C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">40</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R32C0">Муницип. облигации субъектов РФ</TD>
+<TD CLASS="R32C1">Сделки T+n</TD>
+<TD CLASS="R32C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">39</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R32C0">Облигации российских хоз. обществ</TD>
+<TD CLASS="R32C1">Сделки T+n</TD>
+<TD CLASS="R32C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">310</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R32C0">Обыкновенные акции АО РФ</TD>
+<TD CLASS="R32C1">Сделки T+n</TD>
+<TD CLASS="R32C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">27 398</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R32C0">Привилегированные акции АО РФ</TD>
+<TD CLASS="R32C1">Сделки T+n</TD>
+<TD CLASS="R32C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">190</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R15>
+<TD CLASS="R47C0" COLSPAN=2>Сделки РЕПО</TD>
+<TD CLASS="R47C2"><SPAN STYLE="white-space:nowrap;max-width:0px;">4 882</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R32C0">Гос. ц/б  РФ</TD>
+<TD CLASS="R32C1">Сделки РЕПО</TD>
+<TD CLASS="R32C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">2 162</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R32C0">КСУ (GC Bonds)</TD>
+<TD CLASS="R32C1">Сделки РЕПО</TD>
+<TD CLASS="R32C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">2 688</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R32C0">Облигации российских хоз. обществ</TD>
+<TD CLASS="R32C1">Сделки РЕПО</TD>
+<TD CLASS="R32C3"><SPAN STYLE="white-space:nowrap;max-width:0px;">32</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R15>
+<TD CLASS="R59C0" COLSPAN=2><SPAN STYLE="white-space:nowrap;max-width:0px;">Итого</SPAN></TD>
+<TD CLASS="R59C2"><SPAN STYLE="white-space:nowrap;max-width:0px;">32 899</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+</TABLE>
+<TABLE style="width:100%; height:0px; " CELLSPACING=0>
+<COL WIDTH=63>
+<COL>
+<TR CLASS=R2>
+<TD CLASS="R2C0"><DIV STYLE="position:relative; height:13px;width: 100%; overflow:hidden;"><SPAN></SPAN></DIV></TD>
+<TD><DIV STYLE="position:relative; height:13px;width: 100%; overflow:hidden;"><SPAN></SPAN></DIV></TD>
+<TD><DIV STYLE="width:100%;height:13px;overflow:hidden;">&nbsp;</DIV></TD>
+</TR>
+</TABLE>
+<TABLE style="width:100%; height:0px; " CELLSPACING=0>
+<COL WIDTH=84>
+<COL WIDTH=87>
+<COL WIDTH=91>
+<COL WIDTH=273>
+<COL WIDTH=119>
+<COL WIDTH=245>
+<COL WIDTH=189>
+<COL WIDTH=101>
+<COL>
+<TR CLASS=R0>
+<TD CLASS="R0C0">Дата БП</TD>
+<TD CLASS="R0C0">Дата срок исполнения</TD>
+<TD CLASS="R0C0">Тип бизнес процесса</TD>
+<TD CLASS="R0C0">Точка маршрута</TD>
+<TD CLASS="R0C0">Вид операции</TD>
+<TD CLASS="R0C0">Тип актива</TD>
+<TD CLASS="R0C0">Тип регистратора</TD>
+<TD CLASS="R0C0">Количество регистраторов</TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">01.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки T+n</TD>
+<TD CLASS="R62C1">Закрытие плановой позиции</TD>
+<TD CLASS="R62C1">Поступление ц/б</TD>
+<TD CLASS="R62C1">Акции АО иностранных гос-в</TD>
+<TD CLASS="R62C1">Перерегистрация ц/б</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">12</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">01.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки T+n</TD>
+<TD CLASS="R62C1">Закрытие плановой позиции</TD>
+<TD CLASS="R62C1">Поступление ц/б</TD>
+<TD CLASS="R62C1">Гос. ц/б  РФ</TD>
+<TD CLASS="R62C1">Перерегистрация ц/б</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">25</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">01.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки T+n</TD>
+<TD CLASS="R62C1">Закрытие плановой позиции</TD>
+<TD CLASS="R62C1">Поступление ц/б</TD>
+<TD CLASS="R62C1">Гос. ц/б  РФ</TD>
+<TD CLASS="R62C1">Перерегистрация ц/б</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">3</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">01.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки T+n</TD>
+<TD CLASS="R62C1">Закрытие плановой позиции</TD>
+<TD CLASS="R62C1">Поступление ц/б</TD>
+<TD CLASS="R62C1">Облигации российских хоз. обществ</TD>
+<TD CLASS="R62C1">Перерегистрация ц/б</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">44</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">01.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки T+n</TD>
+<TD CLASS="R62C1">Закрытие плановой позиции</TD>
+<TD CLASS="R62C1">Поступление ц/б</TD>
+<TD CLASS="R62C1">Обыкновенные акции АО РФ</TD>
+<TD CLASS="R62C1">Перерегистрация ц/б</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">323</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">01.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки T+n</TD>
+<TD CLASS="R62C1">Закрытие плановой позиции</TD>
+<TD CLASS="R62C1">Поступление ц/б</TD>
+<TD CLASS="R62C1">Привилегированные акции АО РФ</TD>
+<TD CLASS="R62C1">Перерегистрация ц/б</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">24</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">01.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки T+n</TD>
+<TD CLASS="R62C1">Закрытие плановой позиции</TD>
+<TD CLASS="R62C1">Списание ц/б</TD>
+<TD CLASS="R62C1">Гос.облигации субъектов РФ</TD>
+<TD CLASS="R62C1">Перерегистрация ц/б</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">37</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">01.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки T+n</TD>
+<TD CLASS="R62C1">Закрытие плановой позиции</TD>
+<TD CLASS="R62C1">Списание ц/б</TD>
+<TD CLASS="R62C1">Гос.облигации субъектов РФ</TD>
+<TD CLASS="R62C1">Перерегистрация ц/б</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">3</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">01.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки T+n</TD>
+<TD CLASS="R62C1">Закрытие плановой позиции</TD>
+<TD CLASS="R62C1">Списание ц/б</TD>
+<TD CLASS="R62C1">Муницип. облигации субъектов РФ</TD>
+<TD CLASS="R62C1">Перерегистрация ц/б</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">5</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">01.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки T+n</TD>
+<TD CLASS="R62C1">Закрытие плановой позиции</TD>
+<TD CLASS="R62C1">Списание ц/б</TD>
+<TD CLASS="R62C1">Муницип. облигации субъектов РФ</TD>
+<TD CLASS="R62C1">Перерегистрация ц/б</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">34</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">01.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки T+n</TD>
+<TD CLASS="R62C1">Закрытие плановой позиции</TD>
+<TD CLASS="R62C1">Списание ц/б</TD>
+<TD CLASS="R62C1">Облигации российских хоз. обществ</TD>
+<TD CLASS="R62C1">Перерегистрация ц/б</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">266</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">01.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки T+n</TD>
+<TD CLASS="R62C1">Закрытие плановой позиции</TD>
+<TD CLASS="R62C1">Списание ц/б</TD>
+<TD CLASS="R62C1">Обыкновенные акции АО РФ</TD>
+<TD CLASS="R62C1">Перерегистрация ц/б</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">27 073</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">01.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки T+n</TD>
+<TD CLASS="R62C1">Закрытие плановой позиции</TD>
+<TD CLASS="R62C1">Списание ц/б</TD>
+<TD CLASS="R62C1">Обыкновенные акции АО РФ</TD>
+<TD CLASS="R62C1">Перерегистрация ц/б</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">2</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">01.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки T+n</TD>
+<TD CLASS="R62C1">Закрытие плановой позиции</TD>
+<TD CLASS="R62C1">Списание ц/б</TD>
+<TD CLASS="R62C1">Привилегированные акции АО РФ</TD>
+<TD CLASS="R62C1">Перерегистрация ц/б</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">166</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">01.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки РЕПО</TD>
+<TD CLASS="R62C1">Оплата 2-й части сделки через брокера</TD>
+<TD CLASS="R62C1">Прямой РЕПО</TD>
+<TD CLASS="R62C1">Облигации российских хоз. обществ</TD>
+<TD CLASS="R62C1">Операция по счету брокера</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">2</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">01.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки РЕПО</TD>
+<TD CLASS="R62C1">Оплата 2-й части сделки через брокера</TD>
+<TD CLASS="R62C1">Прямой РЕПО</TD>
+<TD CLASS="R62C1">Облигации российских хоз. обществ</TD>
+<TD CLASS="R62C1">Операция по счету брокера</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">3</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">01.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки РЕПО</TD>
+<TD CLASS="R62C1">Оплата 2-й части сделки через брокера</TD>
+<TD CLASS="R62C1">Обратный РЕПО</TD>
+<TD CLASS="R62C1">Гос. ц/б  РФ</TD>
+<TD CLASS="R62C1">Операция по счету брокера</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">528</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">01.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки РЕПО</TD>
+<TD CLASS="R62C1">Оплата 2-й части сделки через брокера</TD>
+<TD CLASS="R62C1">Обратный РЕПО</TD>
+<TD CLASS="R62C1">КСУ (GC Bonds)</TD>
+<TD CLASS="R62C1">Операция по счету брокера</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">678</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">01.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки РЕПО</TD>
+<TD CLASS="R62C1">Оплата 2-й части сделки через брокера</TD>
+<TD CLASS="R62C1">Обратный РЕПО</TD>
+<TD CLASS="R62C1">КСУ (GC Bonds)</TD>
+<TD CLASS="R62C1">Операция по счету брокера</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">1</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">01.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки РЕПО</TD>
+<TD CLASS="R62C1">2-я часть РЕПО</TD>
+<TD CLASS="R62C1">Прямой РЕПО</TD>
+<TD CLASS="R62C1">Облигации российских хоз. обществ</TD>
+<TD CLASS="R62C1">Сделка РЕПО (2 нога)</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">3</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">01.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки РЕПО</TD>
+<TD CLASS="R62C1">2-я часть РЕПО</TD>
+<TD CLASS="R62C1">Прямой РЕПО</TD>
+<TD CLASS="R62C1">Облигации российских хоз. обществ</TD>
+<TD CLASS="R62C1">Сделка РЕПО (2 нога)</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">2</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">01.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки РЕПО</TD>
+<TD CLASS="R62C1">2-я часть РЕПО</TD>
+<TD CLASS="R62C1">Обратный РЕПО</TD>
+<TD CLASS="R62C1">Гос. ц/б  РФ</TD>
+<TD CLASS="R62C1">Сделка РЕПО (2 нога)</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">528</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">01.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки РЕПО</TD>
+<TD CLASS="R62C1">2-я часть РЕПО</TD>
+<TD CLASS="R62C1">Обратный РЕПО</TD>
+<TD CLASS="R62C1">КСУ (GC Bonds)</TD>
+<TD CLASS="R62C1">Сделка РЕПО (2 нога)</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">1</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">01.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки РЕПО</TD>
+<TD CLASS="R62C1">2-я часть РЕПО</TD>
+<TD CLASS="R62C1">Обратный РЕПО</TD>
+<TD CLASS="R62C1">КСУ (GC Bonds)</TD>
+<TD CLASS="R62C1">Сделка РЕПО (2 нога)</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">678</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">02.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки РЕПО</TD>
+<TD CLASS="R62C1">1-я часть РЕПО</TD>
+<TD CLASS="R62C1">Прямой РЕПО</TD>
+<TD CLASS="R62C1">Облигации российских хоз. обществ</TD>
+<TD CLASS="R62C1">Сделка РЕПО (1 нога)</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">5</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">02.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки РЕПО</TD>
+<TD CLASS="R62C1">1-я часть РЕПО</TD>
+<TD CLASS="R62C1">Прямой РЕПО</TD>
+<TD CLASS="R62C1">Облигации российских хоз. обществ</TD>
+<TD CLASS="R62C1">Сделка РЕПО (1 нога)</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">6</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">02.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки РЕПО</TD>
+<TD CLASS="R62C1">1-я часть РЕПО</TD>
+<TD CLASS="R62C1">Обратный РЕПО</TD>
+<TD CLASS="R62C1">Гос. ц/б  РФ</TD>
+<TD CLASS="R62C1">Сделка РЕПО (1 нога)</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">553</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">02.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки РЕПО</TD>
+<TD CLASS="R62C1">1-я часть РЕПО</TD>
+<TD CLASS="R62C1">Обратный РЕПО</TD>
+<TD CLASS="R62C1">КСУ (GC Bonds)</TD>
+<TD CLASS="R62C1">Сделка РЕПО (1 нога)</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">2</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">02.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки РЕПО</TD>
+<TD CLASS="R62C1">1-я часть РЕПО</TD>
+<TD CLASS="R62C1">Обратный РЕПО</TD>
+<TD CLASS="R62C1">КСУ (GC Bonds)</TD>
+<TD CLASS="R62C1">Сделка РЕПО (1 нога)</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">663</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">02.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки РЕПО</TD>
+<TD CLASS="R62C1">Оплата 1-й части сделки через брокера</TD>
+<TD CLASS="R62C1">Прямой РЕПО</TD>
+<TD CLASS="R62C1">Облигации российских хоз. обществ</TD>
+<TD CLASS="R62C1">Операция по счету брокера</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">5</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">02.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки РЕПО</TD>
+<TD CLASS="R62C1">Оплата 1-й части сделки через брокера</TD>
+<TD CLASS="R62C1">Прямой РЕПО</TD>
+<TD CLASS="R62C1">Облигации российских хоз. обществ</TD>
+<TD CLASS="R62C1">Операция по счету брокера</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">6</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">02.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки РЕПО</TD>
+<TD CLASS="R62C1">Оплата 1-й части сделки через брокера</TD>
+<TD CLASS="R62C1">Обратный РЕПО</TD>
+<TD CLASS="R62C1">Гос. ц/б  РФ</TD>
+<TD CLASS="R62C1">Операция по счету брокера</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">553</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">02.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки РЕПО</TD>
+<TD CLASS="R62C1">Оплата 1-й части сделки через брокера</TD>
+<TD CLASS="R62C1">Обратный РЕПО</TD>
+<TD CLASS="R62C1">КСУ (GC Bonds)</TD>
+<TD CLASS="R62C1">Операция по счету брокера</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">2</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R1>
+<TD CLASS="R62C0">02.09.2025</TD>
+<TD CLASS="R62C1">02.09.2025</TD>
+<TD CLASS="R62C1">Сделки РЕПО</TD>
+<TD CLASS="R62C1">Оплата 1-й части сделки через брокера</TD>
+<TD CLASS="R62C1">Обратный РЕПО</TD>
+<TD CLASS="R62C1">КСУ (GC Bonds)</TD>
+<TD CLASS="R62C1">Операция по счету брокера</TD>
+<TD CLASS="R62C7"><SPAN STYLE="white-space:nowrap;max-width:0px;">663</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+<TR CLASS=R15>
+<TD CLASS="R23C0" COLSPAN=7><SPAN STYLE="white-space:nowrap;max-width:0px;">Итого</SPAN></TD>
+<TD CLASS="R23C2"><SPAN STYLE="white-space:nowrap;max-width:0px;">32 899</SPAN></TD>
+<TD><SPAN></SPAN></TD>
+<TD></TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>
