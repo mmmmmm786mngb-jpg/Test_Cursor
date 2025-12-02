@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>План DU-OPT-2025</title>
+</head>
+<body style="font-family: Calibri, Arial, sans-serif; font-size: 11pt; line-height: 1.4; color: #333;">
+
+<h2 style="color: #1a5276; margin-bottom: 5px;">ПЛАН РАБОТ ПО ЭПИКУ DU-OPT-2025</h2>
+<p style="font-size: 12pt; color: #555; margin-top: 0;">«Оптимизация исполнения сделок Т и Т–1 в Avancore DU»</p>
+
+<table style="font-size: 10pt; margin-bottom: 20px;">
+    <tr><td style="padding: 2px 10px 2px 0;"><strong>Исполнитель:</strong></td><td>Senior 1C Developer</td></tr>
+    <tr><td style="padding: 2px 10px 2px 0;"><strong>Период:</strong></td><td>27 ноября – 16 декабря 2025</td></tr>
+    <tr><td style="padding: 2px 10px 2px 0;"><strong>Объём:</strong></td><td>58 часов + 10 часов буфер = 68 ч</td></tr>
+    <tr><td style="padding: 2px 10px 2px 0;"><strong>Сдача:</strong></td><td><strong style="color: #27ae60;">16 декабря 2025</strong></td></tr>
+</table>
+
+<table style="border-collapse: collapse; width: 100%; font-size: 10pt;">
+    <thead>
+        <tr style="background-color: #2c3e50; color: white;">
+            <th style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; width: 30px;">№</th>
+            <th style="border: 1px solid #bdc3c7; padding: 8px; text-align: left;">Этап</th>
+            <th style="border: 1px solid #bdc3c7; padding: 8px; text-align: left;">Цель и результат</th>
+            <th style="border: 1px solid #bdc3c7; padding: 8px; text-align: left;">Планируемые действия</th>
+            <th style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; width: 50px;">Дней</th>
+            <th style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; width: 50px;">Часов</th>
+            <th style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; width: 90px;">Начало</th>
+            <th style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; width: 90px;">Окончание</th>
+            <th style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; width: 70px;">Отчёт</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="background-color: #eaf2f8;">
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;"><strong>1</strong></td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; vertical-align: top;"><strong>Подготовка инфраструктуры тестирования</strong></td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; vertical-align: top;">Полностью рабочий генератор и регламент для запуска исполнений за любой исторический период</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; vertical-align: top;">
+                1.1 Создание обработки-генератора «Перезапуск исполнений за период»<br>
+                1.2 Доработка регламентного задания «Исполнение сделок»<br>
+                1.3 Проверка на тестовом контуре 100 тыс. клиентов
+            </td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">3</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">15</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">27.11.2025 (чт)</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">01.12.2025 (пн)</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;"><strong style="color: #27ae60;">01.12</strong></td>
+        </tr>
+        <tr style="background-color: #ffffff;">
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;"><strong>2</strong></td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; vertical-align: top;"><strong>Baseline-замеры текущей производительности</strong></td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; vertical-align: top;">Зафиксированы точные цифры «до»</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; vertical-align: top;">
+                2.1 Прогоны генератора за один и тот же период<br>
+                2.2 Сбор метрик через отладчик и/или тестовые отчеты<br>
+                2.3 Фиксация времени выполнения, количества действий, топ долгих запросов, топ прочих долгих мест, сравнение метрик работы в параллельном режиме
+            </td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">1</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">5</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">02.12.2025 (вт)</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">02.12.2025 (вт)</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;"><strong style="color: #27ae60;">02.12</strong></td>
+        </tr>
+        <tr style="background-color: #eaf2f8;">
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;"><strong>3</strong></td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; vertical-align: top;"><strong>BA-анализ узких мест</strong></td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; vertical-align: top;">Чёткий приоритизированный список оптимизаций</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; vertical-align: top;">
+                3.1 Анализ параллельности: создание потоков, администрирование выполнения и способов изменения режима распределения потоков<br>
+                3.2 Детальный разбор топ-запросов<br>
+                3.3 Фиксирование всех прочих «медленных» мест с анализом причин
+            </td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">3</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">15</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">03.12.2025 (ср)</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">05.12.2025 (пт)</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;"><strong style="color: #27ae60;">05.12</strong></td>
+        </tr>
+        <tr style="background-color: #fef9e7;">
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;"><strong>—</strong></td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; vertical-align: top;"><strong>Буфер 1</strong></td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; vertical-align: top;">Буферное время</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; vertical-align: top;">
+                Резерв на непредвиденные задержки этапов 1-3
+            </td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">1</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">5</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">09.12.2025 (вт)</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">09.12.2025 (вт)</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">—</td>
+        </tr>
+        <tr style="background-color: #ffffff;">
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;"><strong>4</strong></td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; vertical-align: top;"><strong>Разработка и тестирование оптимизаций</strong></td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; vertical-align: top;">Все три блока реализованы и протестированы</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; vertical-align: top;">
+                4.1 Реализация управляемой параллельности<br>
+                4.2 Переписывание тяжёлых запросов (временные таблицы, индексы)<br>
+                4.3 Доработка остальных выявленных мест<br>
+                4.4 Промежуточные прогоны после каждой доработки
+            </td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">4</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">20</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">08.12.2025 (пн)</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">12.12.2025 (пт)</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;"><strong style="color: #27ae60;">12.12</strong></td>
+        </tr>
+        <tr style="background-color: #eaf2f8;">
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;"><strong>5</strong></td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; vertical-align: top;"><strong>Финальные замеры и приёмка</strong></td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; vertical-align: top;">Достигнуты целевые показатели производительности</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; vertical-align: top;">
+                5.1 Контрольные прогоны генератора<br>
+                5.2 Сравнение с Baseline (таблицы и графики «до / после»)<br>
+                5.3 Подготовка итогового отчёта<br>
+                5.4 Оформление в Jira 2х подзадач: на собственные доработки и на задачу Аванкор
+            </td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">2</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">10</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">15.12.2025 (пн)</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">16.12.2025 (вт)</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;"><strong style="color: #27ae60;">16.12</strong></td>
+        </tr>
+        <tr style="background-color: #fef9e7;">
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;"><strong>—</strong></td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; vertical-align: top;"><strong>Буфер 2</strong></td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; vertical-align: top;">Буферное время</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; vertical-align: top;">
+                Любые непредвиденные доработки, правки по замечаниям
+            </td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">1</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">5</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">17.12.2025 (ср)</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">17.12.2025 (ср)</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center; vertical-align: top;">—</td>
+        </tr>
+        <tr style="background-color: #2c3e50; color: white; font-weight: bold;">
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center;" colspan="4">ИТОГО</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center;">15</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center;">75</td>
+            <td style="border: 1px solid #bdc3c7; padding: 8px; text-align: center;" colspan="3">Сдача: 16.12.2025</td>
+        </tr>
+    </tbody>
+</table>
+
+<p style="margin-top: 20px; font-size: 10pt; color: #7f8c8d;">
+    <em>За 20 календарных дней с момента старта (15 рабочих дней)</em>
+</p>
+
+<h3 style="color: #1a5276; margin-top: 30px; margin-bottom: 15px;">Диаграмма Ганта</h3>
+
+<table style="border-collapse: collapse; font-size: 9pt; width: 100%;">
+    <thead>
+        <tr style="background-color: #ecf0f1;">
+            <th style="border: 1px solid #bdc3c7; padding: 5px; text-align: left; width: 180px;">Этап</th>
+            <th style="border: 1px solid #bdc3c7; padding: 3px; text-align: center; width: 22px;">27</th>
+            <th style="border: 1px solid #bdc3c7; padding: 3px; text-align: center; width: 22px;">28</th>
+            <th style="border: 1px solid #bdc3c7; padding: 3px; text-align: center; width: 22px; background-color: #f5f5f5;">29</th>
+            <th style="border: 1px solid #bdc3c7; padding: 3px; text-align: center; width: 22px; background-color: #f5f5f5;">30</th>
+            <th style="border: 1px solid #bdc3c7; padding: 3px; text-align: center; width: 22px;">01</th>
+            <th style="border: 1px solid #bdc3c7; padding: 3px; text-align: center; width: 22px;">02</th>
+            <th style="border: 1px solid #bdc3c7; padding: 3px; text-align: center; width: 22px;">03</th>
+            <th style="border: 1px solid #bdc3c7; padding: 3px; text-align: center; width: 22px;">04</th>
+            <th style="border: 1px solid #bdc3c7; padding: 3px; text-align: center; width: 22px;">05</th>
+            <th style="border: 1px solid #bdc3c7; padding: 3px; text-align: center; width: 22px; background-color: #f5f5f5;">06</th>
+            <th style="border: 1px solid #bdc3c7; padding: 3px; text-align: center; width: 22px; background-color: #f5f5f5;">07</th>
+            <th style="border: 1px solid #bdc3c7; padding: 3px; text-align: center; width: 22px;">08</th>
+            <th style="border: 1px solid #bdc3c7; padding: 3px; text-align: center; width: 22px; background-color: #fef9e7;">09</th>
+            <th style="border: 1px solid #bdc3c7; padding: 3px; text-align: center; width: 22px;">10</th>
+            <th style="border: 1px solid #bdc3c7; padding: 3px; text-align: center; width: 22px;">11</th>
+            <th style="border: 1px solid #bdc3c7; padding: 3px; text-align: center; width: 22px;">12</th>
+            <th style="border: 1px solid #bdc3c7; padding: 3px; text-align: center; width: 22px; background-color: #f5f5f5;">13</th>
+            <th style="border: 1px solid #bdc3c7; padding: 3px; text-align: center; width: 22px; background-color: #f5f5f5;">14</th>
+            <th style="border: 1px solid #bdc3c7; padding: 3px; text-align: center; width: 22px;">15</th>
+            <th style="border: 1px solid #bdc3c7; padding: 3px; text-align: center; width: 22px;">16</th>
+            <th style="border: 1px solid #bdc3c7; padding: 3px; text-align: center; width: 22px;">17</th>
+        </tr>
+        <tr style="background-color: #ecf0f1; font-size: 8pt; color: #7f8c8d;">
+            <th style="border: 1px solid #bdc3c7; padding: 2px;"></th>
+            <th style="border: 1px solid #bdc3c7; padding: 2px;">чт</th>
+            <th style="border: 1px solid #bdc3c7; padding: 2px;">пт</th>
+            <th style="border: 1px solid #bdc3c7; padding: 2px; background-color: #f5f5f5;">сб</th>
+            <th style="border: 1px solid #bdc3c7; padding: 2px; background-color: #f5f5f5;">вс</th>
+            <th style="border: 1px solid #bdc3c7; padding: 2px;">пн</th>
+            <th style="border: 1px solid #bdc3c7; padding: 2px;">вт</th>
+            <th style="border: 1px solid #bdc3c7; padding: 2px;">ср</th>
+            <th style="border: 1px solid #bdc3c7; padding: 2px;">чт</th>
+            <th style="border: 1px solid #bdc3c7; padding: 2px;">пт</th>
+            <th style="border: 1px solid #bdc3c7; padding: 2px; background-color: #f5f5f5;">сб</th>
+            <th style="border: 1px solid #bdc3c7; padding: 2px; background-color: #f5f5f5;">вс</th>
+            <th style="border: 1px solid #bdc3c7; padding: 2px;">пн</th>
+            <th style="border: 1px solid #bdc3c7; padding: 2px; background-color: #fef9e7;">вт</th>
+            <th style="border: 1px solid #bdc3c7; padding: 2px;">ср</th>
+            <th style="border: 1px solid #bdc3c7; padding: 2px;">чт</th>
+            <th style="border: 1px solid #bdc3c7; padding: 2px;">пт</th>
+            <th style="border: 1px solid #bdc3c7; padding: 2px; background-color: #f5f5f5;">сб</th>
+            <th style="border: 1px solid #bdc3c7; padding: 2px; background-color: #f5f5f5;">вс</th>
+            <th style="border: 1px solid #bdc3c7; padding: 2px;">пн</th>
+            <th style="border: 1px solid #bdc3c7; padding: 2px;">вт</th>
+            <th style="border: 1px solid #bdc3c7; padding: 2px;">ср</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="border: 1px solid #bdc3c7; padding: 5px;">1. Подготовка</td>
+            <td style="border: 1px solid #bdc3c7; background-color: #3498db;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #3498db;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #3498db;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #fef9e7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #bdc3c7; padding: 5px;">2. Baseline</td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #9b59b6;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #fef9e7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #bdc3c7; padding: 5px;">3. BA-анализ</td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #e67e22;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #e67e22;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #e67e22;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #fef9e7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #bdc3c7; padding: 5px;">Буфер 1</td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #95a5a6;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #bdc3c7; padding: 5px;">4. Разработка</td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #27ae60;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #fef9e7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #27ae60;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #27ae60;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #27ae60;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #bdc3c7; padding: 5px;">5. Финал</td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #fef9e7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #e74c3c;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #e74c3c;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #bdc3c7; padding: 5px;">Буфер 2</td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #fef9e7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #f5f5f5;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7;"></td>
+            <td style="border: 1px solid #bdc3c7; background-color: #95a5a6;"></td>
+        </tr>
+    </tbody>
+</table>
+
+<p style="margin-top: 10px; font-size: 8pt; color: #7f8c8d;">
+    <span style="display: inline-block; width: 12px; height: 12px; background-color: #3498db; margin-right: 3px; vertical-align: middle;"></span> Подготовка
+    <span style="display: inline-block; width: 12px; height: 12px; background-color: #9b59b6; margin-left: 10px; margin-right: 3px; vertical-align: middle;"></span> Baseline
+    <span style="display: inline-block; width: 12px; height: 12px; background-color: #e67e22; margin-left: 10px; margin-right: 3px; vertical-align: middle;"></span> Анализ
+    <span style="display: inline-block; width: 12px; height: 12px; background-color: #27ae60; margin-left: 10px; margin-right: 3px; vertical-align: middle;"></span> Разработка
+    <span style="display: inline-block; width: 12px; height: 12px; background-color: #e74c3c; margin-left: 10px; margin-right: 3px; vertical-align: middle;"></span> Финал
+    <span style="display: inline-block; width: 12px; height: 12px; background-color: #95a5a6; margin-left: 10px; margin-right: 3px; vertical-align: middle;"></span> Буфер
+    <span style="display: inline-block; width: 12px; height: 12px; background-color: #f5f5f5; border: 1px solid #bdc3c7; margin-left: 10px; margin-right: 3px; vertical-align: middle;"></span> Выходные
+</p>
+
+</body>
+</html>
