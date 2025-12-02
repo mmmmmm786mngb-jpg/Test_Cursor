@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>План работ BA - Минималистичный формат</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #ffffff;
+            color: #333;
+            line-height: 1.8;
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #666;
+        }
+        .task {
+            margin: 30px 0;
+            padding: 20px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .task:last-child {
+            border-bottom: none;
+        }
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 15px;
+        }
+        .task-name {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+        }
+        .task-code {
+            font-size: 12px;
+            color: #999;
+            margin-left: 10px;
+        }
+        .badge {
+            font-size: 10px;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+        .critical { background: #dc3545; color: white; }
+        .high { background: #ff5722; color: white; }
+        .medium-high { background: #ff9800; color: white; }
+        .medium-orange { background: #ff6b00; color: white; }
+        .medium-yellow { background: #ffc107; color: #333; }
+        .low { background: #17a2b8; color: white; }
+        .module {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+        .steps {
+            margin-top: 15px;
+            padding-left: 20px;
+        }
+        .step {
+            margin: 8px 0;
+            font-size: 13px;
+            color: #555;
+        }
+        .step::before {
+            content: "→ ";
+            color: #999;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>План работ BA аналитика</h1>
+    
+    <div class="task">
+        <div class="task-header">
+            <div>
+                <span class="task-name">ПолучитьАвансы()</span>
+                <span class="task-code">996</span>
+            </div>
+            <span class="badge critical">КРИТИЧЕСКОЕ</span>
+        </div>
+        <div class="module">Документ.Сделка | Получение остатков авансов</div>
+        <div class="steps">
+            <div class="step">Изучить запрос</div>
+            <div class="step">Настроить в консоли запросов</div>
+            <div class="step">Анализ плана выполнения</div>
+            <div class="step">Предложить оптимизацию</div>
+            <div class="step">Проверить результат</div>
+        </div>
+    </div>
+    
+    <div class="task">
+        <div class="task-header">
+            <div>
+                <span class="task-name">ТаблицыПоПродажам_БУ()</span>
+                <span class="task-code">1647</span>
+            </div>
+            <span class="badge high">ВЫСОКОЕ</span>
+        </div>
+        <div class="module">Документ.Сделка | Формирование таблиц для продаж</div>
+        <div class="steps">
+            <div class="step">Изучить пакет запросов</div>
+            <div class="step">Воспроизвести в консоли</div>
+            <div class="step">Оптимизация пакета</div>
+        </div>
+    </div>
+    
+    <div class="task">
+        <div class="task-header">
+            <div>
+                <span class="task-name">ТаблицыПоПродажам_БУ() РЕПО</span>
+                <span class="task-code">519</span>
+            </div>
+            <span class="badge medium-high">СРЕДНЕЕ-ВЫСОКОЕ</span>
+        </div>
+        <div class="module">Документ.СделкаРЕПОВтораяНога | Формирование таблиц для РЕПО</div>
+        <div class="steps">
+            <div class="step">Изучить запросы РЕПО</div>
+            <div class="step">Тестирование в консоли</div>
+            <div class="step">Унификация и оптимизация</div>
+        </div>
+    </div>
+    
+    <div class="task">
+        <div class="task-header">
+            <div>
+                <span class="task-name">ЗначенияПараметровДоговораДУ()</span>
+                <span class="task-code">73</span>
+            </div>
+            <span class="badge medium-orange">СРЕДНЕЕ</span>
+        </div>
+        <div class="module">РегистрСведений | Получение параметров договора ДУ (6088 обращений)</div>
+        <div class="steps">
+            <div class="step">Изучить запрос к регистру</div>
+            <div class="step">Тестирование в консоли</div>
+            <div class="step">Предложить кэширование</div>
+            <div class="step">Оптимизация запроса</div>
+        </div>
+    </div>
+    
+    <div class="task">
+        <div class="task-header">
+            <div>
+                <span class="task-name">Подготовка остатков активов</span>
+                <span class="task-code">1549, 1467, 2097</span>
+            </div>
+            <span class="badge medium-yellow">СРЕДНЕЕ</span>
+        </div>
+        <div class="module">Документ.Сделка | 3 функции остатков</div>
+        <div class="steps">
+            <div class="step">Изучить запросы остатков</div>
+            <div class="step">Тестирование в консоли</div>
+            <div class="step">Оптимизация</div>
+        </div>
+    </div>
+    
+    <div class="task">
+        <div class="task-header">
+            <div>
+                <span class="task-name">Получение открытых задач</span>
+                <span class="task-code">1282, 421, 167</span>
+            </div>
+            <span class="badge low">НИЗКОЕ</span>
+        </div>
+        <div class="module">Разные модули | Получение задач по сделкам</div>
+        <div class="steps">
+            <div class="step">Изучить запросы к задачам</div>
+            <div class="step">Тестирование в консоли</div>
+            <div class="step">Унификация и оптимизация</div>
+        </div>
+    </div>
+</body>
+</html>
+

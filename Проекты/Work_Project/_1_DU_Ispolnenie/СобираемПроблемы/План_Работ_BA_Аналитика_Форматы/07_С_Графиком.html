@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>План работ BA - С графиком работы</title>
+    <style>
+        body {
+            font-family: Calibri, Arial, sans-serif;
+            font-size: 11pt;
+            line-height: 1.4;
+            color: #333;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h2 {
+            color: #1a5276;
+            margin-bottom: 5px;
+            font-size: 18pt;
+        }
+        .info-table {
+            font-size: 10pt;
+            margin-bottom: 20px;
+        }
+        .info-table td {
+            padding: 2px 10px 2px 0;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 10pt;
+            margin-bottom: 20px;
+        }
+        thead th {
+            background-color: #2c3e50;
+            color: white;
+            border: 1px solid #bdc3c7;
+            padding: 8px;
+            text-align: center;
+        }
+        tbody td {
+            border: 1px solid #bdc3c7;
+            padding: 8px;
+            vertical-align: top;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #eaf2f8;
+        }
+        .gantt-table {
+            font-size: 9pt;
+            width: 100%;
+        }
+        .gantt-day {
+            width: 22px;
+            text-align: center;
+            padding: 3px;
+            border: 1px solid #bdc3c7;
+        }
+        .weekend {
+            background-color: #f5f5f5;
+        }
+        .buffer {
+            background-color: #fef9e7;
+        }
+        .task-1 { background-color: #3498db; }
+        .task-2 { background-color: #9b59b6; }
+        .task-3 { background-color: #e67e22; }
+        .task-4 { background-color: #27ae60; }
+        .task-5 { background-color: #e74c3c; }
+        .task-buffer { background-color: #95a5a6; }
+        .criticality {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+            color: white;
+        }
+        .critical { background: #dc3545; }
+        .high { background: #ff5722; }
+        .medium-high { background: #ff9800; }
+        .medium-orange { background: #ff6b00; }
+        .medium-yellow { background: #ffc107; color: #333; }
+        .low { background: #17a2b8; }
+    </style>
+</head>
+<body>
+    <h2>ПЛАН РАБОТ BA АНАЛИТИКА</h2>
+    <p style="font-size: 12pt; color: #555; margin-top: 0;">Оптимизация проблемных запросов 1С:Enterprise</p>
+
+    <table class="info-table">
+        <tr><td><strong>Исполнитель:</strong></td><td>BA Аналитик</td></tr>
+        <tr><td><strong>Период:</strong></td><td>03 декабря – 05 декабря 2025</td></tr>
+        <tr><td><strong>Объём:</strong></td><td>15 часов</td></tr>
+        <tr><td><strong>Сдача:</strong></td><td><strong style="color: #27ae60;">05 декабря 2025</strong></td></tr>
+    </table>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 30px;">№</th>
+                <th style="text-align: left;">Задача</th>
+                <th style="text-align: left;">Модуль / Назначение</th>
+                <th style="text-align: left;">План работ</th>
+                <th style="width: 80px;">Критичность</th>
+                <th style="width: 50px;">Часов</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="text-align: center;"><strong>1</strong></td>
+                <td><strong>ПолучитьАвансы()</strong><br>Строка 996</td>
+                <td>Документ.Сделка<br>Получение остатков авансов</td>
+                <td>
+                    1. Изучение запроса<br>
+                    2. Настройка в консоли<br>
+                    3. Анализ выполнения и предложения оптимизации
+                </td>
+                <td style="text-align: center;"><span class="criticality critical">КРИТИЧЕСКОЕ</span></td>
+                <td style="text-align: center;">5</td>
+            </tr>
+            <tr>
+                <td style="text-align: center;"><strong>2</strong></td>
+                <td><strong>ТаблицыПоПродажам_БУ()</strong><br>Строка 1647</td>
+                <td>Документ.Сделка<br>Формирование таблиц для продаж</td>
+                <td>
+                    1. Изучение запроса<br>
+                    2. Настройка в консоли<br>
+                    3. Анализ выполнения и предложения оптимизации
+                </td>
+                <td style="text-align: center;"><span class="criticality high">ВЫСОКОЕ</span></td>
+                <td style="text-align: center;">3</td>
+            </tr>
+            <tr>
+                <td style="text-align: center;"><strong>3</strong></td>
+                <td><strong>ТаблицыПоПродажам_БУ() РЕПО</strong><br>Строка 519</td>
+                <td>Документ.СделкаРЕПОВтораяНога<br>Формирование таблиц для РЕПО</td>
+                <td>
+                    1. Изучение запроса<br>
+                    2. Настройка в консоли<br>
+                    3. Анализ выполнения и предложения оптимизации
+                </td>
+                <td style="text-align: center;"><span class="criticality medium-high">СРЕДНЕЕ-ВЫСОКОЕ</span></td>
+                <td style="text-align: center;">2</td>
+            </tr>
+            <tr>
+                <td style="text-align: center;"><strong>4</strong></td>
+                <td><strong>ЗначенияПараметровДоговораДУ()</strong><br>Строка 73</td>
+                <td>РегистрСведений<br>Получение параметров договора ДУ<br><small>6088 обращений</small></td>
+                <td>
+                    1. Изучение запроса<br>
+                    2. Настройка в консоли<br>
+                    3. Анализ выполнения и предложения оптимизации
+                </td>
+                <td style="text-align: center;"><span class="criticality medium-orange">СРЕДНЕЕ</span></td>
+                <td style="text-align: center;">3</td>
+            </tr>
+            <tr>
+                <td style="text-align: center;"><strong>5</strong></td>
+                <td><strong>Подготовка остатков активов</strong><br>Строки 1549, 1467, 2097</td>
+                <td>Документ.Сделка<br>3 функции остатков</td>
+                <td>
+                    1. Изучение запроса<br>
+                    2. Настройка в консоли<br>
+                    3. Анализ выполнения и предложения оптимизации
+                </td>
+                <td style="text-align: center;"><span class="criticality medium-yellow">СРЕДНЕЕ</span></td>
+                <td style="text-align: center;">1</td>
+            </tr>
+            <tr>
+                <td style="text-align: center;"><strong>6</strong></td>
+                <td><strong>Получение открытых задач</strong><br>Строки 1282, 421, 167</td>
+                <td>Документ.СделкаРЕПОВтораяНога<br>VTB_ОбщийМодуль<br>БизнесПроцесс.СделкиTn<br>Получение задач по сделкам</td>
+                <td>
+                    1. Изучение запроса<br>
+                    2. Настройка в консоли<br>
+                    3. Анализ выполнения и предложения оптимизации
+                </td>
+                <td style="text-align: center;"><span class="criticality low">НИЗКОЕ</span></td>
+                <td style="text-align: center;">1</td>
+            </tr>
+            <tr style="background-color: #2c3e50; color: white; font-weight: bold;">
+                <td style="text-align: center;" colspan="5">ИТОГО</td>
+                <td style="text-align: center;">15</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3 style="color: #1a5276; margin-top: 30px; margin-bottom: 15px;">График работы BA аналитика</h3>
+
+    <table class="gantt-table">
+        <thead>
+            <tr style="background-color: #ecf0f1;">
+                <th style="text-align: left; width: 180px; border: 1px solid #bdc3c7; padding: 5px;">Этап</th>
+                <th class="gantt-day">03</th>
+                <th class="gantt-day">04</th>
+                <th class="gantt-day">05</th>
+            </tr>
+            <tr style="background-color: #ecf0f1; font-size: 8pt; color: #7f8c8d;">
+                <th style="border: 1px solid #bdc3c7; padding: 2px;"></th>
+                <th class="gantt-day">ср</th>
+                <th class="gantt-day">чт</th>
+                <th class="gantt-day">пт</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="border: 1px solid #bdc3c7; padding: 5px;">1. ПолучитьАвансы() (5ч)</td>
+                <td class="gantt-day task-1"></td>
+                <td class="gantt-day task-1"></td>
+                <td class="gantt-day"></td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #bdc3c7; padding: 5px;">2. ТаблицыПоПродажам_БУ() (3ч)</td>
+                <td class="gantt-day"></td>
+                <td class="gantt-day task-2"></td>
+                <td class="gantt-day task-2"></td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #bdc3c7; padding: 5px;">3. ТаблицыПоПродажам_БУ() РЕПО (2ч)</td>
+                <td class="gantt-day"></td>
+                <td class="gantt-day"></td>
+                <td class="gantt-day task-3"></td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #bdc3c7; padding: 5px;">4. ЗначенияПараметровДоговораДУ() (3ч)</td>
+                <td class="gantt-day"></td>
+                <td class="gantt-day task-4"></td>
+                <td class="gantt-day task-4"></td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #bdc3c7; padding: 5px;">5. Остатки активов (1ч)</td>
+                <td class="gantt-day"></td>
+                <td class="gantt-day"></td>
+                <td class="gantt-day task-5"></td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #bdc3c7; padding: 5px;">6. Открытые задачи (1ч)</td>
+                <td class="gantt-day"></td>
+                <td class="gantt-day"></td>
+                <td class="gantt-day task-5"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p style="margin-top: 10px; font-size: 8pt; color: #7f8c8d;">
+        <span style="display: inline-block; width: 12px; height: 12px; background-color: #3498db; margin-right: 3px; vertical-align: middle;"></span> Задача 1
+        <span style="display: inline-block; width: 12px; height: 12px; background-color: #9b59b6; margin-left: 10px; margin-right: 3px; vertical-align: middle;"></span> Задача 2
+        <span style="display: inline-block; width: 12px; height: 12px; background-color: #e67e22; margin-left: 10px; margin-right: 3px; vertical-align: middle;"></span> Задача 3
+        <span style="display: inline-block; width: 12px; height: 12px; background-color: #27ae60; margin-left: 10px; margin-right: 3px; vertical-align: middle;"></span> Задача 4
+        <span style="display: inline-block; width: 12px; height: 12px; background-color: #e74c3c; margin-left: 10px; margin-right: 3px; vertical-align: middle;"></span> Задачи 5-6
+    </p>
+</body>
+</html>
+

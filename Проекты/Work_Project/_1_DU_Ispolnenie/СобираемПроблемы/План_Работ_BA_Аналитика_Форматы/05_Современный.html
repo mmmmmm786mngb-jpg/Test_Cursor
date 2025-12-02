@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>План работ BA - Современный формат</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0a0e27;
+            color: #e0e0e0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4);
+        }
+        .header h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: white;
+        }
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+            color: white;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+        .card {
+            background: #1a1f3a;
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+            border-color: rgba(102, 126, 234, 0.5);
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #fff;
+            flex: 1;
+            margin-right: 15px;
+        }
+        .badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .badge-critical { background: #dc3545; color: white; }
+        .badge-high { background: #ff5722; color: white; }
+        .badge-medium-high { background: #ff9800; color: white; }
+        .badge-medium-orange { background: #ff6b00; color: white; }
+        .badge-medium-yellow { background: #ffc107; color: #1a1f3a; }
+        .badge-low { background: #17a2b8; color: white; }
+        .card-info {
+            background: rgba(102, 126, 234, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 3px solid #667eea;
+        }
+        .info-line {
+            margin: 8px 0;
+            font-size: 13px;
+            color: #b0b0b0;
+        }
+        .info-line strong {
+            color: #667eea;
+            margin-right: 8px;
+        }
+        .steps {
+            margin-top: 20px;
+        }
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            border-left: 3px solid #28a745;
+        }
+        .step-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .step-content {
+            flex: 1;
+        }
+        .step-title {
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        .step-desc {
+            font-size: 12px;
+            color: #888;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>План работ BA аналитика</h1>
+            <p>Оптимизация проблемных запросов 1С:Enterprise</p>
+        </div>
+        
+        <div class="grid">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">ПолучитьАвансы()<br><small style="font-size: 12px; color: #888;">Строка 996</small></div>
+                    <span class="badge badge-critical">Критическое</span>
+                </div>
+                <div class="card-info">
+                    <div class="info-line"><strong>Модуль:</strong> Документ.Сделка</div>
+                    <div class="info-line"><strong>Назначение:</strong> Получение остатков авансов</div>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-icon">1</div>
+                        <div class="step-content">
+                            <div class="step-title">Изучить запрос</div>
+                            <div class="step-desc">Проанализировать текст запроса, определить используемые таблицы</div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon">2</div>
+                        <div class="step-content">
+                            <div class="step-title">Настроить в консоли</div>
+                            <div class="step-desc">Воспроизвести запрос "как есть" с тестовыми параметрами</div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon">3</div>
+                        <div class="step-content">
+                            <div class="step-title">Анализ плана</div>
+                            <div class="step-desc">Изучить план выполнения, определить отсутствующие индексы</div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon">4</div>
+                        <div class="step-content">
+                            <div class="step-title">Оптимизация</div>
+                            <div class="step-desc">Разработать оптимизированный вариант запроса</div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon">5</div>
+                        <div class="step-content">
+                            <div class="step-title">Проверка</div>
+                            <div class="step-desc">Сравнить время выполнения оптимизированного запроса</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">ТаблицыПоПродажам_БУ()<br><small style="font-size: 12px; color: #888;">Строка 1647</small></div>
+                    <span class="badge badge-high">Высокое</span>
+                </div>
+                <div class="card-info">
+                    <div class="info-line"><strong>Модуль:</strong> Документ.Сделка</div>
+                    <div class="info-line"><strong>Назначение:</strong> Формирование таблиц для продаж</div>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-icon">1</div>
+                        <div class="step-content">
+                            <div class="step-title">Изучить пакет</div>
+                            <div class="step-desc">Проанализировать все запросы в пакете</div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon">2</div>
+                        <div class="step-content">
+                            <div class="step-title">Воспроизвести</div>
+                            <div class="step-desc">Настроить каждый запрос в консоли</div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon">3</div>
+                        <div class="step-content">
+                            <div class="step-title">Оптимизация</div>
+                            <div class="step-desc">Предложить оптимизацию пакета</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">ТаблицыПоПродажам_БУ() РЕПО<br><small style="font-size: 12px; color: #888;">Строка 519</small></div>
+                    <span class="badge badge-medium-high">Средне-высокое</span>
+                </div>
+                <div class="card-info">
+                    <div class="info-line"><strong>Модуль:</strong> Документ.СделкаРЕПОВтораяНога</div>
+                    <div class="info-line"><strong>Назначение:</strong> Формирование таблиц для РЕПО</div>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-icon">1</div>
+                        <div class="step-content">
+                            <div class="step-title">Изучить РЕПО</div>
+                            <div class="step-desc">Проанализировать пакет запросов для РЕПО</div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon">2</div>
+                        <div class="step-content">
+                            <div class="step-title">Тестирование</div>
+                            <div class="step-desc">Воспроизвести с тестовыми параметрами</div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon">3</div>
+                        <div class="step-content">
+                            <div class="step-title">Унификация</div>
+                            <div class="step-desc">Унифицировать с запросом из задачи 2</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">ЗначенияПараметровДоговораДУ()<br><small style="font-size: 12px; color: #888;">Строка 73</small></div>
+                    <span class="badge badge-medium-orange">Среднее</span>
+                </div>
+                <div class="card-info">
+                    <div class="info-line"><strong>Модуль:</strong> РегистрСведений</div>
+                    <div class="info-line"><strong>Особенность:</strong> 6088 обращений</div>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-icon">1</div>
+                        <div class="step-content">
+                            <div class="step-title">Изучить запрос</div>
+                            <div class="step-desc">Проанализировать запрос к регистру</div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon">2</div>
+                        <div class="step-content">
+                            <div class="step-title">Тестирование</div>
+                            <div class="step-desc">Воспроизвести с различными договорами</div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon">3</div>
+                        <div class="step-content">
+                            <div class="step-title">Кэширование</div>
+                            <div class="step-desc">Разработать механизм кэширования</div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon">4</div>
+                        <div class="step-content">
+                            <div class="step-title">Оптимизация</div>
+                            <div class="step-desc">Оптимизировать сам запрос</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Подготовка остатков активов<br><small style="font-size: 12px; color: #888;">Строки 1549, 1467, 2097</small></div>
+                    <span class="badge badge-medium-yellow">Среднее</span>
+                </div>
+                <div class="card-info">
+                    <div class="info-line"><strong>Модуль:</strong> Документ.Сделка</div>
+                    <div class="info-line"><strong>Функции:</strong> 3 функции остатков</div>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-icon">1</div>
+                        <div class="step-content">
+                            <div class="step-title">Изучить запросы</div>
+                            <div class="step-desc">Проанализировать запросы остатков</div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon">2</div>
+                        <div class="step-content">
+                            <div class="step-title">Тестирование</div>
+                            <div class="step-desc">Воспроизвести с тестовыми параметрами</div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon">3</div>
+                        <div class="step-content">
+                            <div class="step-title">Оптимизация</div>
+                            <div class="step-desc">Предложить оптимизацию</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Получение открытых задач<br><small style="font-size: 12px; color: #888;">Строки 1282, 421, 167</small></div>
+                    <span class="badge badge-low">Низкое</span>
+                </div>
+                <div class="card-info">
+                    <div class="info-line"><strong>Модули:</strong> Разные модули</div>
+                    <div class="info-line"><strong>Особенность:</strong> Редкие вызовы, долгое время</div>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-icon">1</div>
+                        <div class="step-content">
+                            <div class="step-title">Изучить запросы</div>
+                            <div class="step-desc">Проанализировать запросы к задачам</div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon">2</div>
+                        <div class="step-content">
+                            <div class="step-title">Тестирование</div>
+                            <div class="step-desc">Воспроизвести с тестовыми параметрами</div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon">3</div>
+                        <div class="step-content">
+                            <div class="step-title">Унификация</div>
+                            <div class="step-desc">Унифицировать запросы для РЕПО и Tn</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

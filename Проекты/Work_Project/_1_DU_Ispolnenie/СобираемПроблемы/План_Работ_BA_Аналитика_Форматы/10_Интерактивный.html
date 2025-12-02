@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>План работ BA - Интерактивный формат</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .header {
+            background: rgba(255,255,255,0.95);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .filters {
+            background: rgba(255,255,255,0.95);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: #667eea;
+            color: white;
+        }
+        .tasks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 25px;
+        }
+        .task-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 3px solid transparent;
+        }
+        .task-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        .task-card.expanded {
+            border-color: #667eea;
+        }
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        .task-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            flex: 1;
+        }
+        .badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .badge-critical { background: #dc3545; color: white; }
+        .badge-high { background: #ff5722; color: white; }
+        .badge-medium-high { background: #ff9800; color: white; }
+        .badge-medium-orange { background: #ff6b00; color: white; }
+        .badge-medium-yellow { background: #ffc107; color: #333; }
+        .badge-low { background: #17a2b8; color: white; }
+        .task-info {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .task-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .task-card.expanded .task-details {
+            max-height: 1000px;
+        }
+        .steps {
+            margin-top: 15px;
+        }
+        .step {
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+        }
+        .step-number {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background: #28a745;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 25px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .step-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .step-desc {
+            font-size: 12px;
+            color: #666;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 style="font-size: 32px; color: #667eea; margin-bottom: 10px;">План работ BA аналитика</h1>
+            <p style="font-size: 16px; color: #666;">Оптимизация проблемных запросов 1С:Enterprise</p>
+        </div>
+        
+        <div class="filters">
+            <span style="font-weight: bold; color: #333;">Фильтр по критичности:</span>
+            <button class="filter-btn active" onclick="filterTasks('all')">Все</button>
+            <button class="filter-btn" onclick="filterTasks('critical')">Критическое</button>
+            <button class="filter-btn" onclick="filterTasks('high')">Высокое</button>
+            <button class="filter-btn" onclick="filterTasks('medium')">Среднее</button>
+            <button class="filter-btn" onclick="filterTasks('low')">Низкое</button>
+        </div>
+        
+        <div class="tasks-grid">
+            <div class="task-card" data-criticality="critical" onclick="toggleCard(this)">
+                <div class="task-header">
+                    <div class="task-title">ПолучитьАвансы()<br><small style="font-size: 12px; color: #888;">Строка 996</small></div>
+                    <span class="badge badge-critical">КРИТИЧЕСКОЕ</span>
+                </div>
+                <div class="task-info">
+                    <strong>Модуль:</strong> Документ.Сделка<br>
+                    <strong>Назначение:</strong> Получение остатков авансов<br>
+                    <strong>Время:</strong> 5 часов | <strong>Дни:</strong> 03-04.12.2025
+                </div>
+                <div class="task-details">
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <div class="step-title">Изучить запрос</div>
+                            <div class="step-desc">Проанализировать текст запроса, определить используемые таблицы, условия фильтрации и группировки</div>
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <div class="step-title">Настроить в консоли запросов</div>
+                            <div class="step-desc">Воспроизвести запрос "как есть" с тестовыми параметрами (договор ДУ, контрагент, валюта, дата)</div>
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <div class="step-title">Анализ плана выполнения</div>
+                            <div class="step-desc">Изучить план выполнения запроса, определить отсутствующие индексы, узкие места в запросе</div>
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <div class="step-title">Предложить оптимизацию</div>
+                            <div class="step-desc">Разработать оптимизированный вариант запроса: добавить индексы, переработать условия, использовать временные таблицы</div>
+                        </div>
+                        <div class="step">
+                            <span class="step-number">5</span>
+                            <div class="step-title">Проверить результат</div>
+                            <div class="step-desc">Сравнить время выполнения оптимизированного запроса с оригинальным, убедиться в корректности результатов</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="task-card" data-criticality="high" onclick="toggleCard(this)">
+                <div class="task-header">
+                    <div class="task-title">ТаблицыПоПродажам_БУ()<br><small style="font-size: 12px; color: #888;">Строка 1647</small></div>
+                    <span class="badge badge-high">ВЫСОКОЕ</span>
+                </div>
+                <div class="task-info">
+                    <strong>Модуль:</strong> Документ.Сделка<br>
+                    <strong>Назначение:</strong> Формирование таблиц для продаж<br>
+                    <strong>Время:</strong> 3 часа | <strong>Дни:</strong> 04-05.12.2025
+                </div>
+                <div class="task-details">
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <div class="step-title">Изучить пакет запросов</div>
+                            <div class="step-desc">Проанализировать все запросы в пакете, определить их взаимосвязи и последовательность выполнения</div>
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <div class="step-title">Воспроизвести в консоли</div>
+                            <div class="step-desc">Настроить каждый запрос из пакета в консоли запросов с тестовыми данными документа продажи</div>
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <div class="step-title">Оптимизация пакета</div>
+                            <div class="step-desc">Предложить оптимизацию: объединение запросов, использование временных таблиц, оптимизация условий</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="task-card" data-criticality="medium" onclick="toggleCard(this)">
+                <div class="task-header">
+                    <div class="task-title">ТаблицыПоПродажам_БУ() РЕПО<br><small style="font-size: 12px; color: #888;">Строка 519</small></div>
+                    <span class="badge badge-medium-high">СРЕДНЕЕ-ВЫСОКОЕ</span>
+                </div>
+                <div class="task-info">
+                    <strong>Модуль:</strong> Документ.СделкаРЕПОВтораяНога<br>
+                    <strong>Назначение:</strong> Формирование таблиц для РЕПО<br>
+                    <strong>Время:</strong> 2 часа | <strong>День:</strong> 05.12.2025
+                </div>
+                <div class="task-details">
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <div class="step-title">Изучить запросы РЕПО</div>
+                            <div class="step-desc">Проанализировать пакет запросов для второй ноги сделки РЕПО, сравнить с аналогичным запросом</div>
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <div class="step-title">Тестирование в консоли</div>
+                            <div class="step-desc">Воспроизвести запросы с тестовыми параметрами документа РЕПО</div>
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <div class="step-title">Унификация и оптимизация</div>
+                            <div class="step-desc">Предложить унификацию с запросом из задачи 2 и оптимизацию с учетом специфики РЕПО</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="task-card" data-criticality="medium" onclick="toggleCard(this)">
+                <div class="task-header">
+                    <div class="task-title">ЗначенияПараметровДоговораДУ()<br><small style="font-size: 12px; color: #888;">Строка 73</small></div>
+                    <span class="badge badge-medium-orange">СРЕДНЕЕ</span>
+                </div>
+                <div class="task-info">
+                    <strong>Модуль:</strong> РегистрСведений<br>
+                    <strong>Особенность:</strong> 6088 обращений<br>
+                    <strong>Время:</strong> 3 часа | <strong>Дни:</strong> 04-05.12.2025
+                </div>
+                <div class="task-details">
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <div class="step-title">Изучить запрос к регистру</div>
+                            <div class="step-desc">Проанализировать запрос к регистру сведений, определить условия фильтрации по договору и дате</div>
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <div class="step-title">Тестирование в консоли</div>
+                            <div class="step-desc">Воспроизвести запрос с различными договорами ДУ и датами в консоли запросов</div>
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <div class="step-title">Предложить кэширование</div>
+                            <div class="step-desc">Разработать механизм кэширования результатов запроса в памяти на период сеанса</div>
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <div class="step-title">Оптимизация запроса</div>
+                            <div class="step-desc">Оптимизировать сам запрос: проверить индексы регистра, упростить условия фильтрации</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="task-card" data-criticality="medium" onclick="toggleCard(this)">
+                <div class="task-header">
+                    <div class="task-title">Подготовка остатков активов<br><small style="font-size: 12px; color: #888;">Строки 1549, 1467, 2097</small></div>
+                    <span class="badge badge-medium-yellow">СРЕДНЕЕ</span>
+                </div>
+                <div class="task-info">
+                    <strong>Модуль:</strong> Документ.Сделка<br>
+                    <strong>Функции:</strong> 3 функции остатков<br>
+                    <strong>Время:</strong> 1 час | <strong>День:</strong> 05.12.2025
+                </div>
+                <div class="task-details">
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <div class="step-title">Изучить запросы остатков</div>
+                            <div class="step-desc">Проанализировать запросы к регистрам бухгалтерии и накопления для получения остатков активов</div>
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <div class="step-title">Тестирование в консоли</div>
+                            <div class="step-desc">Воспроизвести каждый запрос с тестовыми параметрами (актив, дата, договор ДУ)</div>
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <div class="step-title">Оптимизация</div>
+                            <div class="step-desc">Предложить оптимизацию: проверка индексов, упрощение условий, возможность объединения запросов</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="task-card" data-criticality="low" onclick="toggleCard(this)">
+                <div class="task-header">
+                    <div class="task-title">Получение открытых задач<br><small style="font-size: 12px; color: #888;">Строки 1282, 421, 167</small></div>
+                    <span class="badge badge-low">НИЗКОЕ</span>
+                </div>
+                <div class="task-info">
+                    <strong>Модули:</strong> Разные модули<br>
+                    <strong>Особенность:</strong> Редкие вызовы, долгое время<br>
+                    <strong>Время:</strong> 1 час | <strong>День:</strong> 05.12.2025
+                </div>
+                <div class="task-details">
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <div class="step-title">Изучить запросы к задачам</div>
+                            <div class="step-desc">Проанализировать запросы к объекту "Задача" для получения списка открытых задач по сделкам</div>
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <div class="step-title">Тестирование в консоли</div>
+                            <div class="step-desc">Воспроизвести запросы с тестовыми параметрами (дата, тип сделки, договор ДУ)</div>
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <div class="step-title">Унификация и оптимизация</div>
+                            <div class="step-desc">Предложить унификацию запросов для РЕПО и Tn, оптимизацию условий фильтрации</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function toggleCard(card) {
+            card.classList.toggle('expanded');
+        }
+        
+        function filterTasks(filter) {
+            const cards = document.querySelectorAll('.task-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            cards.forEach(card => {
+                const criticality = card.getAttribute('data-criticality');
+                if (filter === 'all' || 
+                    (filter === 'critical' && criticality === 'critical') ||
+                    (filter === 'high' && criticality === 'high') ||
+                    (filter === 'medium' && criticality === 'medium') ||
+                    (filter === 'low' && criticality === 'low')) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+

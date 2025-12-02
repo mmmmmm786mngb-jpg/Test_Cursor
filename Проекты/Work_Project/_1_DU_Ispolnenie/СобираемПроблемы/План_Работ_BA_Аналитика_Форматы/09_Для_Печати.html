@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>План работ BA - Для печати</title>
+    <style>
+        @media print {
+            body { margin: 0; padding: 0; }
+            .page-break { page-break-after: always; }
+        }
+        body {
+            font-family: 'Times New Roman', serif;
+            font-size: 11pt;
+            line-height: 1.5;
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 20mm;
+            color: #000;
+        }
+        h1 {
+            font-size: 16pt;
+            text-align: center;
+            margin-bottom: 10mm;
+            border-bottom: 2px solid #000;
+            padding-bottom: 5mm;
+        }
+        .task {
+            margin-bottom: 15mm;
+            page-break-inside: avoid;
+        }
+        .task-header {
+            font-weight: bold;
+            font-size: 12pt;
+            margin-bottom: 3mm;
+        }
+        .task-info {
+            font-size: 10pt;
+            margin-bottom: 5mm;
+            padding: 3mm;
+            border: 1px solid #000;
+        }
+        .criticality {
+            font-weight: bold;
+            display: inline-block;
+            padding: 1mm 3mm;
+            border: 1px solid #000;
+            margin-left: 5mm;
+        }
+        .steps {
+            margin-top: 5mm;
+        }
+        .step {
+            margin: 2mm 0;
+            padding-left: 5mm;
+            font-size: 10pt;
+        }
+        .step-number {
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10mm 0;
+            font-size: 9pt;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 3mm;
+            text-align: left;
+        }
+        th {
+            background: #f0f0f0;
+            font-weight: bold;
+        }
+        .gantt {
+            margin-top: 10mm;
+        }
+        .footer {
+            margin-top: 15mm;
+            font-size: 9pt;
+            text-align: center;
+            border-top: 1px solid #000;
+            padding-top: 3mm;
+        }
+    </style>
+</head>
+<body>
+    <h1>ПЛАН РАБОТ BA АНАЛИТИКА<br>Оптимизация проблемных запросов 1С:Enterprise</h1>
+    
+    <table>
+        <tr>
+            <td><strong>Исполнитель:</strong></td>
+            <td>BA Аналитик</td>
+            <td><strong>Период:</strong></td>
+            <td>03-05 декабря 2025</td>
+        </tr>
+        <tr>
+            <td><strong>Объём:</strong></td>
+            <td>15 часов</td>
+            <td><strong>Сдача:</strong></td>
+            <td>05 декабря 2025</td>
+        </tr>
+    </table>
+    
+    <div class="task">
+        <div class="task-header">
+            Задача 1: ПолучитьАвансы() - строка 996
+            <span class="criticality">КРИТИЧЕСКОЕ</span>
+        </div>
+        <div class="task-info">
+            <strong>Модуль:</strong> Документ.Сделка.МодульОбъекта<br>
+            <strong>Назначение:</strong> Получение остатков авансов для зачета при проведении сделки<br>
+            <strong>Код:</strong> ОстаткиАвансов = Запрос.Выполнить().Выгрузить();<br>
+            <strong>Время:</strong> 5 часов | <strong>Дни:</strong> 03-04.12.2025
+        </div>
+        <div class="steps">
+            <div class="step"><span class="step-number">1.</span> Изучить запрос - проанализировать текст запроса, определить используемые таблицы, условия фильтрации и группировки</div>
+            <div class="step"><span class="step-number">2.</span> Настроить в консоли запросов - воспроизвести запрос "как есть" с тестовыми параметрами (договор ДУ, контрагент, валюта, дата)</div>
+            <div class="step"><span class="step-number">3.</span> Анализ плана выполнения - изучить план выполнения запроса, определить отсутствующие индексы, узкие места в запросе</div>
+            <div class="step"><span class="step-number">4.</span> Предложить оптимизацию - разработать оптимизированный вариант запроса: добавить индексы, переработать условия, использовать временные таблицы при необходимости</div>
+            <div class="step"><span class="step-number">5.</span> Проверить результат - сравнить время выполнения оптимизированного запроса с оригинальным, убедиться в корректности результатов</div>
+        </div>
+    </div>
+    
+    <div class="task">
+        <div class="task-header">
+            Задача 2: ТаблицыПоПродажам_БУ() - строка 1647
+            <span class="criticality">ВЫСОКОЕ</span>
+        </div>
+        <div class="task-info">
+            <strong>Модуль:</strong> Документ.Сделка.МодульОбъекта<br>
+            <strong>Назначение:</strong> Формирование таблиц для проведения документа по продажам в бухгалтерском учете<br>
+            <strong>Код:</strong> Результат = Запрос.ВыполнитьПакет();<br>
+            <strong>Время:</strong> 3 часа | <strong>Дни:</strong> 04-05.12.2025
+        </div>
+        <div class="steps">
+            <div class="step"><span class="step-number">1.</span> Изучить пакет запросов - проанализировать все запросы в пакете, определить их взаимосвязи и последовательность выполнения</div>
+            <div class="step"><span class="step-number">2.</span> Воспроизвести в консоли - настроить каждый запрос из пакета в консоли запросов с тестовыми данными документа продажи</div>
+            <div class="step"><span class="step-number">3.</span> Оптимизация пакета - предложить оптимизацию: объединение запросов, использование временных таблиц, оптимизация условий</div>
+        </div>
+    </div>
+    
+    <div class="task">
+        <div class="task-header">
+            Задача 3: ТаблицыПоПродажам_БУ() - строка 519 (РЕПО)
+            <span class="criticality">СРЕДНЕЕ-ВЫСОКОЕ</span>
+        </div>
+        <div class="task-info">
+            <strong>Модуль:</strong> Документ.СделкаРЕПОВтораяНога.МодульОбъекта<br>
+            <strong>Назначение:</strong> Формирование таблиц для проведения документа по продажам в бухгалтерском учете для РЕПО<br>
+            <strong>Время:</strong> 2 часа | <strong>День:</strong> 05.12.2025
+        </div>
+        <div class="steps">
+            <div class="step"><span class="step-number">1.</span> Изучить запросы РЕПО - проанализировать пакет запросов для второй ноги сделки РЕПО, сравнить с аналогичным запросом в документе "Сделка"</div>
+            <div class="step"><span class="step-number">2.</span> Тестирование в консоли - воспроизвести запросы с тестовыми параметрами документа РЕПО</div>
+            <div class="step"><span class="step-number">3.</span> Унификация и оптимизация - предложить унификацию с запросом из задачи 2 и оптимизацию с учетом специфики РЕПО</div>
+        </div>
+    </div>
+    
+    <div class="task">
+        <div class="task-header">
+            Задача 4: ЗначенияПараметровДоговораДУ() - строка 73
+            <span class="criticality">СРЕДНЕЕ</span>
+        </div>
+        <div class="task-info">
+            <strong>Модуль:</strong> РегистрСведений.ЗначенияПараметровДоговораДУ.МодульМенеджера<br>
+            <strong>Назначение:</strong> Получение значений параметров договора ДУ на дату<br>
+            <strong>Особенность:</strong> Используется очень часто (6088 обращений)<br>
+            <strong>Время:</strong> 3 часа | <strong>Дни:</strong> 04-05.12.2025
+        </div>
+        <div class="steps">
+            <div class="step"><span class="step-number">1.</span> Изучить запрос к регистру - проанализировать запрос к регистру сведений, определить условия фильтрации по договору и дате</div>
+            <div class="step"><span class="step-number">2.</span> Тестирование в консоли - воспроизвести запрос с различными договорами ДУ и датами в консоли запросов</div>
+            <div class="step"><span class="step-number">3.</span> Предложить кэширование - разработать механизм кэширования результатов запроса в памяти на период сеанса, учитывая частоту вызовов</div>
+            <div class="step"><span class="step-number">4.</span> Оптимизация запроса - оптимизировать сам запрос: проверить индексы регистра, упростить условия фильтрации</div>
+        </div>
+    </div>
+    
+    <div class="task">
+        <div class="task-header">
+            Задачи 5-7: Подготовка остатков активов
+            <span class="criticality">СРЕДНЕЕ</span>
+        </div>
+        <div class="task-info">
+            <strong>Модули:</strong> Документ.Сделка (строки 1549, 1467, 2097)<br>
+            <strong>Функции:</strong> ПодготовитьТаблицуОстатковАктива_ВУ(), ПодготовитьТаблицуОстатковАктива_УУ(), ПолучитьСуммуОНВ()<br>
+            <strong>Время:</strong> 1 час | <strong>День:</strong> 05.12.2025
+        </div>
+        <div class="steps">
+            <div class="step"><span class="step-number">1.</span> Изучить запросы остатков - проанализировать запросы к регистрам бухгалтерии и накопления для получения остатков активов</div>
+            <div class="step"><span class="step-number">2.</span> Тестирование в консоли - воспроизвести каждый запрос с тестовыми параметрами (актив, дата, договор ДУ)</div>
+            <div class="step"><span class="step-number">3.</span> Оптимизация - предложить оптимизацию: проверка индексов, упрощение условий, возможность объединения запросов</div>
+        </div>
+    </div>
+    
+    <div class="task">
+        <div class="task-header">
+            Задачи 8-10: Получение открытых задач
+            <span class="criticality">НИЗКОЕ</span>
+        </div>
+        <div class="task-info">
+            <strong>Модули:</strong> Документ.СделкаРЕПОВтораяНога (1282), VTB_ОбщийМодуль (421), БизнесПроцесс.СделкиTn (167)<br>
+            <strong>Особенность:</strong> Вызываются редко, но занимают много времени на одно обращение<br>
+            <strong>Время:</strong> 1 час | <strong>День:</strong> 05.12.2025
+        </div>
+        <div class="steps">
+            <div class="step"><span class="step-number">1.</span> Изучить запросы к задачам - проанализировать запросы к объекту "Задача" для получения списка открытых задач по сделкам</div>
+            <div class="step"><span class="step-number">2.</span> Тестирование в консоли - воспроизвести запросы с тестовыми параметрами (дата, тип сделки, договор ДУ)</div>
+            <div class="step"><span class="step-number">3.</span> Унификация и оптимизация - предложить унификацию запросов для РЕПО и Tn, оптимизацию условий фильтрации</div>
+        </div>
+    </div>
+    
+    <table class="gantt">
+        <thead>
+            <tr>
+                <th>Задача</th>
+                <th>03.12 (ср)</th>
+                <th>04.12 (чт)</th>
+                <th>05.12 (пт)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1. ПолучитьАвансы() (5ч)</td>
+                <td style="background: #3498db;">█████</td>
+                <td style="background: #3498db;">█████</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>2. ТаблицыПоПродажам_БУ() (3ч)</td>
+                <td></td>
+                <td style="background: #9b59b6;">███</td>
+                <td style="background: #9b59b6;">███</td>
+            </tr>
+            <tr>
+                <td>3. ТаблицыПоПродажам_БУ() РЕПО (2ч)</td>
+                <td></td>
+                <td></td>
+                <td style="background: #e67e22;">██</td>
+            </tr>
+            <tr>
+                <td>4. ЗначенияПараметровДоговораДУ() (3ч)</td>
+                <td></td>
+                <td style="background: #27ae60;">███</td>
+                <td style="background: #27ae60;">███</td>
+            </tr>
+            <tr>
+                <td>5-6. Остатки и задачи (2ч)</td>
+                <td></td>
+                <td></td>
+                <td style="background: #e74c3c;">██</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div class="footer">
+        План работ BA аналитика | Период: 03-05 декабря 2025 | Объём: 15 часов
+    </div>
+</body>
+</html>
+

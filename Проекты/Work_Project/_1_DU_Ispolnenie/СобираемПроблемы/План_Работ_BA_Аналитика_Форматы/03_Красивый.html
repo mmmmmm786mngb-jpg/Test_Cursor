@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>План работ BA - Красивый формат</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            background: rgba(255,255,255,0.95);
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .header h1 {
+            font-size: 32px;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .task-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+        .task-card:hover {
+            transform: translateY(-5px);
+        }
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        .task-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+        }
+        .badge {
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+            text-transform: uppercase;
+        }
+        .badge-critical { background: linear-gradient(135deg, #dc3545, #c82333); }
+        .badge-high { background: linear-gradient(135deg, #ff5722, #e64a19); }
+        .badge-medium-high { background: linear-gradient(135deg, #ff9800, #f57c00); }
+        .badge-medium-orange { background: linear-gradient(135deg, #ff6b00, #e65100); }
+        .badge-medium-yellow { background: linear-gradient(135deg, #ffc107, #ffb300); color: #333; }
+        .badge-low { background: linear-gradient(135deg, #17a2b8, #138496); }
+        .task-info {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .info-item {
+            margin: 8px 0;
+            font-size: 14px;
+        }
+        .info-item strong {
+            color: #667eea;
+        }
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .step {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #28a745;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: #28a745;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .step-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .step-desc {
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✨ План работ BA аналитика</h1>
+            <p>Оптимизация проблемных запросов 1С:Enterprise</p>
+        </div>
+        
+        <div class="task-card">
+            <div class="task-header">
+                <div class="task-title">Задача 1: ПолучитьАвансы() - строка 996</div>
+                <span class="badge badge-critical">КРИТИЧЕСКОЕ</span>
+            </div>
+            <div class="task-info">
+                <div class="info-item"><strong>Модуль:</strong> Документ.Сделка.МодульОбъекта</div>
+                <div class="info-item"><strong>Назначение:</strong> Получение остатков авансов для зачета при проведении сделки</div>
+                <div class="info-item"><strong>Код:</strong> ОстаткиАвансов = Запрос.Выполнить().Выгрузить();</div>
+            </div>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Изучить запрос</div>
+                    <div class="step-desc">Проанализировать текст запроса, определить используемые таблицы</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Настроить в консоли</div>
+                    <div class="step-desc">Воспроизвести запрос "как есть" с тестовыми параметрами</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Анализ плана</div>
+                    <div class="step-desc">Изучить план выполнения, определить отсутствующие индексы</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Оптимизация</div>
+                    <div class="step-desc">Разработать оптимизированный вариант запроса</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Проверка</div>
+                    <div class="step-desc">Сравнить время выполнения оптимизированного запроса</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="task-card">
+            <div class="task-header">
+                <div class="task-title">Задача 2: ТаблицыПоПродажам_БУ() - строка 1647</div>
+                <span class="badge badge-high">ВЫСОКОЕ</span>
+            </div>
+            <div class="task-info">
+                <div class="info-item"><strong>Модуль:</strong> Документ.Сделка.МодульОбъекта</div>
+                <div class="info-item"><strong>Назначение:</strong> Формирование таблиц для проведения документа по продажам</div>
+                <div class="info-item"><strong>Код:</strong> Результат = Запрос.ВыполнитьПакет();</div>
+            </div>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Изучить пакет</div>
+                    <div class="step-desc">Проанализировать все запросы в пакете</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Воспроизвести</div>
+                    <div class="step-desc">Настроить каждый запрос в консоли</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Оптимизация</div>
+                    <div class="step-desc">Предложить оптимизацию пакета</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="task-card">
+            <div class="task-header">
+                <div class="task-title">Задача 3: ТаблицыПоПродажам_БУ() - строка 519 (РЕПО)</div>
+                <span class="badge badge-medium-high">СРЕДНЕЕ-ВЫСОКОЕ</span>
+            </div>
+            <div class="task-info">
+                <div class="info-item"><strong>Модуль:</strong> Документ.СделкаРЕПОВтораяНога.МодульОбъекта</div>
+                <div class="info-item"><strong>Назначение:</strong> Формирование таблиц для РЕПО</div>
+            </div>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Изучить РЕПО</div>
+                    <div class="step-desc">Проанализировать пакет запросов для РЕПО</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Тестирование</div>
+                    <div class="step-desc">Воспроизвести с тестовыми параметрами</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Унификация</div>
+                    <div class="step-desc">Унифицировать с запросом из задачи 2</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="task-card">
+            <div class="task-header">
+                <div class="task-title">Задача 4: ЗначенияПараметровДоговораДУ() - строка 73</div>
+                <span class="badge badge-medium-orange">СРЕДНЕЕ</span>
+            </div>
+            <div class="task-info">
+                <div class="info-item"><strong>Модуль:</strong> РегистрСведений.ЗначенияПараметровДоговораДУ</div>
+                <div class="info-item"><strong>Назначение:</strong> Получение значений параметров договора ДУ</div>
+                <div class="info-item"><strong>Особенность:</strong> 6088 обращений</div>
+            </div>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Изучить запрос</div>
+                    <div class="step-desc">Проанализировать запрос к регистру</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Тестирование</div>
+                    <div class="step-desc">Воспроизвести с различными договорами</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Кэширование</div>
+                    <div class="step-desc">Разработать механизм кэширования</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Оптимизация</div>
+                    <div class="step-desc">Оптимизировать сам запрос</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="task-card">
+            <div class="task-header">
+                <div class="task-title">Задачи 5-7: Подготовка остатков активов</div>
+                <span class="badge badge-medium-yellow">СРЕДНЕЕ</span>
+            </div>
+            <div class="task-info">
+                <div class="info-item"><strong>Модули:</strong> Документ.Сделка (строки 1549, 1467, 2097)</div>
+            </div>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Изучить запросы</div>
+                    <div class="step-desc">Проанализировать запросы остатков</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Тестирование</div>
+                    <div class="step-desc">Воспроизвести с тестовыми параметрами</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Оптимизация</div>
+                    <div class="step-desc">Предложить оптимизацию</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="task-card">
+            <div class="task-header">
+                <div class="task-title">Задачи 8-10: Получение открытых задач</div>
+                <span class="badge badge-low">НИЗКОЕ</span>
+            </div>
+            <div class="task-info">
+                <div class="info-item"><strong>Модули:</strong> Разные модули (строки 1282, 421, 167)</div>
+            </div>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Изучить запросы</div>
+                    <div class="step-desc">Проанализировать запросы к задачам</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Тестирование</div>
+                    <div class="step-desc">Воспроизвести с тестовыми параметрами</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Унификация</div>
+                    <div class="step-desc">Унифицировать запросы для РЕПО и Tn</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

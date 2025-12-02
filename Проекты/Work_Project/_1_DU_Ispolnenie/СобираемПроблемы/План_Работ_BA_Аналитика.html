@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>План работ BA аналитика - Оптимизация проблемных запросов</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .task-card {
+            background: #f8f9fa;
+            border-left: 5px solid #667eea;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .task-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .task-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .criticality-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .criticality-critical {
+            background: #dc3545;
+        }
+        
+        .criticality-high {
+            background: #ff5722;
+        }
+        
+        .criticality-medium-high {
+            background: #ff9800;
+        }
+        
+        .criticality-medium-orange {
+            background: #ff6b00;
+        }
+        
+        .criticality-medium-yellow {
+            background: #ffc107;
+            color: #333;
+        }
+        
+        .criticality-low {
+            background: #17a2b8;
+        }
+        
+        .task-info {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .task-info-item {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .task-info-item strong {
+            color: #667eea;
+            min-width: 150px;
+            display: inline-block;
+        }
+        
+        .steps {
+            margin-top: 15px;
+        }
+        
+        .step {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border-left: 3px solid #667eea;
+            position: relative;
+            padding-left: 50px;
+        }
+        
+        .step-number {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            background: #667eea;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        .step-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .step-description {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .summary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 30px;
+        }
+        
+        .summary h2 {
+            margin-bottom: 15px;
+        }
+        
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .stat-item {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>План работ BA аналитика</h1>
+            <p>Оптимизация проблемных запросов 1С:Enterprise</p>
+        </div>
+        
+        <div class="content">
+            
+            <!-- Задача 1: КРИТИЧЕСКОЕ -->
+            <div class="task-card">
+                <div class="task-header">
+                    <div class="task-title">Задача 1: ПолучитьАвансы() - строка 996</div>
+                    <span class="criticality-badge criticality-critical">КРИТИЧЕСКОЕ</span>
+                </div>
+                <div class="task-info">
+                    <div class="task-info-item"><strong>Модуль:</strong> Документ.Сделка.МодульОбъекта</div>
+                    <div class="task-info-item"><strong>Назначение:</strong> Получение остатков авансов для зачета при проведении сделки</div>
+                    <div class="task-info-item"><strong>Код:</strong> ОстаткиАвансов = Запрос.Выполнить().Выгрузить();</div>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Изучить запрос</div>
+                        <div class="step-description">Проанализировать текст запроса в функции ПолучитьАвансы(), определить используемые таблицы, условия фильтрации и группировки</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Настроить в консоли запросов</div>
+                        <div class="step-description">Воспроизвести запрос "как есть" в консоли запросов с тестовыми параметрами (договор ДУ, контрагент, валюта, дата)</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Анализ плана выполнения</div>
+                        <div class="step-description">Изучить план выполнения запроса, определить отсутствующие индексы, узкие места в запросе</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-title">Предложить оптимизацию</div>
+                        <div class="step-description">Разработать оптимизированный вариант запроса: добавить индексы, переработать условия, использовать временные таблицы при необходимости</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-title">Проверить результат</div>
+                        <div class="step-description">Сравнить время выполнения оптимизированного запроса с оригинальным, убедиться в корректности результатов</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Задача 2: ВЫСОКОЕ -->
+            <div class="task-card">
+                <div class="task-header">
+                    <div class="task-title">Задача 2: ТаблицыПоПродажам_БУ() - строка 1647</div>
+                    <span class="criticality-badge criticality-high">ВЫСОКОЕ</span>
+                </div>
+                <div class="task-info">
+                    <div class="task-info-item"><strong>Модуль:</strong> Документ.Сделка.МодульОбъекта</div>
+                    <div class="task-info-item"><strong>Назначение:</strong> Формирование таблиц для проведения документа по продажам в бухгалтерском учете</div>
+                    <div class="task-info-item"><strong>Код:</strong> Результат = Запрос.ВыполнитьПакет();</div>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Изучить пакет запросов</div>
+                        <div class="step-description">Проанализировать все запросы в пакете, определить их взаимосвязи и последовательность выполнения</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Воспроизвести в консоли</div>
+                        <div class="step-description">Настроить каждый запрос из пакета в консоли запросов с тестовыми данными документа продажи</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Оптимизация пакета</div>
+                        <div class="step-description">Предложить оптимизацию: объединение запросов, использование временных таблиц, оптимизация условий</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Задача 3: СРЕДНЕЕ-ВЫСОКОЕ -->
+            <div class="task-card">
+                <div class="task-header">
+                    <div class="task-title">Задача 3: ТаблицыПоПродажам_БУ() - строка 519 (РЕПО)</div>
+                    <span class="criticality-badge criticality-medium-high">СРЕДНЕЕ-ВЫСОКОЕ</span>
+                </div>
+                <div class="task-info">
+                    <div class="task-info-item"><strong>Модуль:</strong> Документ.СделкаРЕПОВтораяНога.МодульОбъекта</div>
+                    <div class="task-info-item"><strong>Назначение:</strong> Формирование таблиц для проведения документа по продажам в бухгалтерском учете для РЕПО</div>
+                    <div class="task-info-item"><strong>Код:</strong> Результат = Запрос.ВыполнитьПакет();</div>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Изучить запросы РЕПО</div>
+                        <div class="step-description">Проанализировать пакет запросов для второй ноги РЕПО, сравнить с аналогичным запросом в документе "Сделка"</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Тестирование в консоли</div>
+                        <div class="step-description">Воспроизвести запросы с тестовыми параметрами документа РЕПО</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Унификация и оптимизация</div>
+                        <div class="step-description">Предложить унификацию с запросом из задачи 2 и оптимизацию с учетом специфики РЕПО</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Задача 4: СРЕДНЕЕ (оранжевый) -->
+            <div class="task-card">
+                <div class="task-header">
+                    <div class="task-title">Задача 4: ЗначенияПараметровДоговораДУ() - строка 73</div>
+                    <span class="criticality-badge criticality-medium-orange">СРЕДНЕЕ</span>
+                </div>
+                <div class="task-info">
+                    <div class="task-info-item"><strong>Модуль:</strong> РегистрСведений.ЗначенияПараметровДоговораДУ.МодульМенеджера</div>
+                    <div class="task-info-item"><strong>Назначение:</strong> Получение значений параметров договора ДУ на дату</div>
+                    <div class="task-info-item"><strong>Код:</strong> Результат = Запрос.Выполнить();</div>
+                    <div class="task-info-item"><strong>Особенность:</strong> Используется очень часто (6088 обращений)</div>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Изучить запрос к регистру</div>
+                        <div class="step-description">Проанализировать запрос к регистру сведений, определить условия фильтрации по договору и дате</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Тестирование в консоли</div>
+                        <div class="step-description">Воспроизвести запрос с различными договорами ДУ и датами в консоли запросов</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Предложить кэширование</div>
+                        <div class="step-description">Разработать механизм кэширования результатов запроса в памяти на период сеанса, учитывая частоту вызовов</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-title">Оптимизация запроса</div>
+                        <div class="step-description">Оптимизировать сам запрос: проверить индексы регистра, упростить условия фильтрации</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Задачи 5-7: СРЕДНЕЕ (желтый) -->
+            <div class="task-card">
+                <div class="task-header">
+                    <div class="task-title">Задачи 5-7: Подготовка остатков активов</div>
+                    <span class="criticality-badge criticality-medium-yellow">СРЕДНЕЕ</span>
+                </div>
+                <div class="task-info">
+                    <div class="task-info-item"><strong>Модули:</strong> Документ.Сделка (строки 1549, 1467, 2097)</div>
+                    <div class="task-info-item"><strong>Функции:</strong> ПодготовитьТаблицуОстатковАктива_ВУ(), ПодготовитьТаблицуОстатковАктива_УУ(), ПолучитьСуммуОНВ()</div>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Изучить запросы остатков</div>
+                        <div class="step-description">Проанализировать запросы к регистрам бухгалтерии и накопления для получения остатков активов</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Тестирование в консоли</div>
+                        <div class="step-description">Воспроизвести каждый запрос с тестовыми параметрами (актив, дата, договор ДУ)</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Оптимизация</div>
+                        <div class="step-description">Предложить оптимизацию: проверка индексов, упрощение условий, возможность объединения запросов</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Задачи 8-10: НИЗКОЕ -->
+            <div class="task-card">
+                <div class="task-header">
+                    <div class="task-title">Задачи 8-10: Получение открытых задач</div>
+                    <span class="criticality-badge criticality-low">НИЗКОЕ</span>
+                </div>
+                <div class="task-info">
+                    <div class="task-info-item"><strong>Модули:</strong> Документ.СделкаРЕПОВтораяНога (1282), VTB_ОбщийМодуль (421), БизнесПроцесс.СделкиTn (167)</div>
+                    <div class="task-info-item"><strong>Особенность:</strong> Вызываются редко, но занимают много времени на одно обращение</div>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Изучить запросы к задачам</div>
+                        <div class="step-description">Проанализировать запросы к объекту "Задача" для получения открытых задач по сделкам</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Тестирование в консоли</div>
+                        <div class="step-description">Воспроизвести запросы с тестовыми параметрами (дата, тип сделки, договор ДУ)</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Унификация и оптимизация</div>
+                        <div class="step-description">Предложить унификацию запросов для РЕПО и Tn, оптимизацию условий фильтрации</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Сводка -->
+            <div class="summary">
+                <h2>Сводка по задачам</h2>
+                <div class="summary-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">10</div>
+                        <div class="stat-label">Всего проблемных строк</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">1</div>
+                        <div class="stat-label">Критическая задача</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">3</div>
+                        <div class="stat-label">Высокий приоритет</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">4</div>
+                        <div class="stat-label">Средний приоритет</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">3</div>
+                        <div class="stat-label">Низкий приоритет</div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>
+

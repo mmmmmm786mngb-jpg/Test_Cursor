@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>План работ BA - Дашборд</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            padding: 20px;
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .stat-title {
+            font-size: 12px;
+            color: #888;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+        }
+        .task-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-left: 5px solid;
+        }
+        .task-critical { border-left-color: #dc3545; }
+        .task-high { border-left-color: #ff5722; }
+        .task-medium-high { border-left-color: #ff9800; }
+        .task-medium-orange { border-left-color: #ff6b00; }
+        .task-medium-yellow { border-left-color: #ffc107; }
+        .task-low { border-left-color: #17a2b8; }
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .task-name {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        .badge-critical { background: #dc3545; color: white; }
+        .badge-high { background: #ff5722; color: white; }
+        .badge-medium-high { background: #ff9800; color: white; }
+        .badge-medium-orange { background: #ff6b00; color: white; }
+        .badge-medium-yellow { background: #ffc107; color: #333; }
+        .badge-low { background: #17a2b8; color: white; }
+        .task-info {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .steps-list {
+            list-style: none;
+        }
+        .step-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 13px;
+        }
+        .step-item:last-child {
+            border-bottom: none;
+        }
+        .step-number {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background: #28a745;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 20px;
+            font-size: 11px;
+            margin-right: 10px;
+        }
+        .progress-bar {
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #28a745;
+            transition: width 0.3s;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>План работ BA аналитика - Дашборд</h1>
+    
+    <div class="dashboard">
+        <div class="stat-card">
+            <div class="stat-title">Всего задач</div>
+            <div class="stat-value">6</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-title">Критических</div>
+            <div class="stat-value" style="color: #dc3545;">1</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-title">Высокий приоритет</div>
+            <div class="stat-value" style="color: #ff5722;">2</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-title">Общее время</div>
+            <div class="stat-value">15 ч</div>
+        </div>
+        
+        <div class="task-card task-critical">
+            <div class="task-header">
+                <div class="task-name">ПолучитьАвансы()</div>
+                <span class="badge badge-critical">КРИТИЧЕСКОЕ</span>
+            </div>
+            <div class="task-info">Документ.Сделка | Строка 996 | 5 часов</div>
+            <ul class="steps-list">
+                <li class="step-item"><span class="step-number">1</span> Изучить запрос</li>
+                <li class="step-item"><span class="step-number">2</span> Настроить в консоли</li>
+                <li class="step-item"><span class="step-number">3</span> Анализ плана</li>
+                <li class="step-item"><span class="step-number">4</span> Оптимизация</li>
+                <li class="step-item"><span class="step-number">5</span> Проверка</li>
+            </ul>
+            <div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
+        </div>
+        
+        <div class="task-card task-high">
+            <div class="task-header">
+                <div class="task-name">ТаблицыПоПродажам_БУ()</div>
+                <span class="badge badge-high">ВЫСОКОЕ</span>
+            </div>
+            <div class="task-info">Документ.Сделка | Строка 1647 | 3 часа</div>
+            <ul class="steps-list">
+                <li class="step-item"><span class="step-number">1</span> Изучить пакет</li>
+                <li class="step-item"><span class="step-number">2</span> Воспроизвести</li>
+                <li class="step-item"><span class="step-number">3</span> Оптимизация</li>
+            </ul>
+            <div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
+        </div>
+        
+        <div class="task-card task-medium-high">
+            <div class="task-header">
+                <div class="task-name">ТаблицыПоПродажам_БУ() РЕПО</div>
+                <span class="badge badge-medium-high">СРЕДНЕЕ-ВЫСОКОЕ</span>
+            </div>
+            <div class="task-info">Документ.СделкаРЕПОВтораяНога | Строка 519 | 2 часа</div>
+            <ul class="steps-list">
+                <li class="step-item"><span class="step-number">1</span> Изучить РЕПО</li>
+                <li class="step-item"><span class="step-number">2</span> Тестирование</li>
+                <li class="step-item"><span class="step-number">3</span> Унификация</li>
+            </ul>
+            <div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
+        </div>
+        
+        <div class="task-card task-medium-orange">
+            <div class="task-header">
+                <div class="task-name">ЗначенияПараметровДоговораДУ()</div>
+                <span class="badge badge-medium-orange">СРЕДНЕЕ</span>
+            </div>
+            <div class="task-info">РегистрСведений | Строка 73 | 3 часа | 6088 обращений</div>
+            <ul class="steps-list">
+                <li class="step-item"><span class="step-number">1</span> Изучить запрос</li>
+                <li class="step-item"><span class="step-number">2</span> Тестирование</li>
+                <li class="step-item"><span class="step-number">3</span> Кэширование</li>
+                <li class="step-item"><span class="step-number">4</span> Оптимизация</li>
+            </ul>
+            <div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
+        </div>
+        
+        <div class="task-card task-medium-yellow">
+            <div class="task-header">
+                <div class="task-name">Остатки активов</div>
+                <span class="badge badge-medium-yellow">СРЕДНЕЕ</span>
+            </div>
+            <div class="task-info">Документ.Сделка | Строки 1549, 1467, 2097 | 1 час</div>
+            <ul class="steps-list">
+                <li class="step-item"><span class="step-number">1</span> Изучить запросы</li>
+                <li class="step-item"><span class="step-number">2</span> Тестирование</li>
+                <li class="step-item"><span class="step-number">3</span> Оптимизация</li>
+            </ul>
+            <div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
+        </div>
+        
+        <div class="task-card task-low">
+            <div class="task-header">
+                <div class="task-name">Открытые задачи</div>
+                <span class="badge badge-low">НИЗКОЕ</span>
+            </div>
+            <div class="task-info">Разные модули | Строки 1282, 421, 167 | 1 час</div>
+            <ul class="steps-list">
+                <li class="step-item"><span class="step-number">1</span> Изучить запросы</li>
+                <li class="step-item"><span class="step-number">2</span> Тестирование</li>
+                <li class="step-item"><span class="step-number">3</span> Унификация</li>
+            </ul>
+            <div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
+        </div>
+    </div>
+</body>
+</html>
+

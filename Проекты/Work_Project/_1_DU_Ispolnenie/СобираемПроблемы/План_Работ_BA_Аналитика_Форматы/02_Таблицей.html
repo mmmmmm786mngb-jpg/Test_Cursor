@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>План работ BA - Табличный формат</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #fff;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        th {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+        }
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            vertical-align: top;
+        }
+        tr:hover {
+            background: #f5f5f5;
+        }
+        .criticality {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            color: white;
+        }
+        .critical { background: #dc3545; }
+        .high { background: #ff5722; }
+        .medium-high { background: #ff9800; }
+        .medium-orange { background: #ff6b00; }
+        .medium-yellow { background: #ffc107; color: #333; }
+        .low { background: #17a2b8; }
+        .steps {
+            font-size: 12px;
+            line-height: 1.6;
+        }
+        .step {
+            margin: 5px 0;
+            padding-left: 15px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>План работ BA аналитика - Табличный формат</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 5%;">№</th>
+                <th style="width: 25%;">Задача</th>
+                <th style="width: 15%;">Критичность</th>
+                <th style="width: 20%;">Модуль / Назначение</th>
+                <th style="width: 35%;">План работ</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td><strong>ПолучитьАвансы()</strong><br>Строка 996</td>
+                <td><span class="criticality critical">КРИТИЧЕСКОЕ</span></td>
+                <td>Документ.Сделка<br>Получение остатков авансов</td>
+                <td class="steps">
+                    <div class="step">1. Изучить запрос</div>
+                    <div class="step">2. Настроить в консоли запросов</div>
+                    <div class="step">3. Анализ плана выполнения</div>
+                    <div class="step">4. Предложить оптимизацию</div>
+                    <div class="step">5. Проверить результат</div>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td><strong>ТаблицыПоПродажам_БУ()</strong><br>Строка 1647</td>
+                <td><span class="criticality high">ВЫСОКОЕ</span></td>
+                <td>Документ.Сделка<br>Формирование таблиц для продаж</td>
+                <td class="steps">
+                    <div class="step">1. Изучить пакет запросов</div>
+                    <div class="step">2. Воспроизвести в консоли</div>
+                    <div class="step">3. Оптимизация пакета</div>
+                </td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td><strong>ТаблицыПоПродажам_БУ()</strong><br>Строка 519 (РЕПО)</td>
+                <td><span class="criticality medium-high">СРЕДНЕЕ-ВЫСОКОЕ</span></td>
+                <td>Документ.СделкаРЕПОВтораяНога<br>Формирование таблиц для РЕПО</td>
+                <td class="steps">
+                    <div class="step">1. Изучить запросы РЕПО</div>
+                    <div class="step">2. Тестирование в консоли</div>
+                    <div class="step">3. Унификация и оптимизация</div>
+                </td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td><strong>ЗначенияПараметровДоговораДУ()</strong><br>Строка 73</td>
+                <td><span class="criticality medium-orange">СРЕДНЕЕ</span></td>
+                <td>РегистрСведений.ЗначенияПараметровДоговораДУ<br>Получение параметров договора ДУ<br><small>6088 обращений</small></td>
+                <td class="steps">
+                    <div class="step">1. Изучить запрос к регистру</div>
+                    <div class="step">2. Тестирование в консоли</div>
+                    <div class="step">3. Предложить кэширование</div>
+                    <div class="step">4. Оптимизация запроса</div>
+                </td>
+            </tr>
+            <tr>
+                <td>5-7</td>
+                <td><strong>Подготовка остатков активов</strong><br>Строки 1549, 1467, 2097</td>
+                <td><span class="criticality medium-yellow">СРЕДНЕЕ</span></td>
+                <td>Документ.Сделка<br>Подготовка таблиц остатков</td>
+                <td class="steps">
+                    <div class="step">1. Изучить запросы остатков</div>
+                    <div class="step">2. Тестирование в консоли</div>
+                    <div class="step">3. Оптимизация</div>
+                </td>
+            </tr>
+            <tr>
+                <td>8-10</td>
+                <td><strong>Получение открытых задач</strong><br>Строки 1282, 421, 167</td>
+                <td><span class="criticality low">НИЗКОЕ</span></td>
+                <td>Разные модули<br>Получение задач по сделкам</td>
+                <td class="steps">
+                    <div class="step">1. Изучить запросы к задачам</div>
+                    <div class="step">2. Тестирование в консоли</div>
+                    <div class="step">3. Унификация и оптимизация</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
+

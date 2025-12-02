@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>План работ BA - Подробный формат</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px;
+            background: #fafafa;
+            line-height: 1.8;
+        }
+        .task {
+            background: white;
+            margin: 30px 0;
+            padding: 40px;
+            border: 1px solid #ddd;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        .task-header {
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+        .task-number {
+            font-size: 14px;
+            color: #667eea;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .task-title {
+            font-size: 24px;
+            color: #333;
+            margin: 10px 0;
+        }
+        .criticality {
+            display: inline-block;
+            padding: 6px 15px;
+            border-radius: 5px;
+            font-size: 13px;
+            margin-top: 10px;
+        }
+        .critical { background: #dc3545; color: white; }
+        .high { background: #ff5722; color: white; }
+        .medium-high { background: #ff9800; color: white; }
+        .medium-orange { background: #ff6b00; color: white; }
+        .medium-yellow { background: #ffc107; color: #333; }
+        .low { background: #17a2b8; color: white; }
+        .section {
+            margin: 25px 0;
+        }
+        .section-title {
+            font-size: 18px;
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+            padding-left: 15px;
+        }
+        .info-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-left: 4px solid #28a745;
+            margin: 15px 0;
+        }
+        .info-item {
+            margin: 10px 0;
+        }
+        .info-item strong {
+            color: #495057;
+            min-width: 150px;
+            display: inline-block;
+        }
+        .step {
+            background: white;
+            border: 1px solid #dee2e6;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 5px solid #28a745;
+        }
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .step-number {
+            background: #28a745;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        .step-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+        .step-description {
+            margin-top: 10px;
+            color: #666;
+            font-size: 14px;
+        }
+        .step-details {
+            margin-top: 10px;
+            padding-left: 50px;
+            font-size: 13px;
+            color: #555;
+            font-style: italic;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>План работ BA аналитика - Подробный формат</h1>
+    
+    <div class="task">
+        <div class="task-header">
+            <div class="task-number">Задача 1</div>
+            <div class="task-title">ПолучитьАвансы() - строка 996</div>
+            <span class="criticality critical">КРИТИЧЕСКОЕ</span>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Информация о задаче</div>
+            <div class="info-box">
+                <div class="info-item"><strong>Модуль:</strong> Документ.Сделка.МодульОбъекта</div>
+                <div class="info-item"><strong>Путь к файлу:</strong> Documents\Сделка\Ext\ObjectModule.bsl</div>
+                <div class="info-item"><strong>Функция:</strong> ПолучитьАвансы()</div>
+                <div class="info-item"><strong>Строка кода:</strong> 996</div>
+                <div class="info-item"><strong>Назначение функции:</strong> Получение остатков авансов для зачета при проведении сделки</div>
+                <div class="info-item"><strong>Проблемный код:</strong> ОстаткиАвансов = Запрос.Выполнить().Выгрузить();</div>
+                <div class="info-item"><strong>Описание проблемы:</strong> Сложный запрос к регистру бухгалтерии для получения остатков авансов по договору ДУ, контрагенту и валюте. Включает группировку и фильтрацию по счетам авансов и дополнительных расходов.</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">План работ</div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Изучить запрос</div>
+                </div>
+                <div class="step-description">Проанализировать текст запроса в функции ПолучитьАвансы()</div>
+                <div class="step-details">Определить используемые таблицы, условия фильтрации и группировки. Изучить структуру регистра бухгалтерии, понять логику получения остатков авансов.</div>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Настроить в консоли запросов</div>
+                </div>
+                <div class="step-description">Воспроизвести запрос "как есть" в консоли запросов с тестовыми параметрами</div>
+                <div class="step-details">Использовать тестовые данные: договор ДУ, контрагент, валюта, дата. Зафиксировать время выполнения запроса в исходном виде для последующего сравнения.</div>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Анализ плана выполнения</div>
+                </div>
+                <div class="step-description">Изучить план выполнения запроса, определить отсутствующие индексы, узкие места</div>
+                <div class="step-details">Проанализировать план выполнения в консоли запросов. Определить операции, которые занимают наибольшее время. Проверить использование индексов. Выявить полные сканирования таблиц.</div>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Предложить оптимизацию</div>
+                </div>
+                <div class="step-description">Разработать оптимизированный вариант запроса</div>
+                <div class="step-details">Предложить варианты оптимизации: добавление индексов на используемые поля, переработать условия фильтрации для лучшего использования индексов, использовать временные таблицы при необходимости, упростить группировку.</div>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Проверить результат</div>
+                </div>
+                <div class="step-description">Сравнить время выполнения оптимизированного запроса с оригинальным</div>
+                <div class="step-details">Выполнить оптимизированный запрос с теми же тестовыми параметрами. Сравнить время выполнения. Убедиться в корректности результатов (должны совпадать с оригинальным запросом). Задокументировать улучшение производительности.</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="task">
+        <div class="task-header">
+            <div class="task-number">Задача 2</div>
+            <div class="task-title">ТаблицыПоПродажам_БУ() - строка 1647</div>
+            <span class="criticality high">ВЫСОКОЕ</span>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Информация о задаче</div>
+            <div class="info-box">
+                <div class="info-item"><strong>Модуль:</strong> Документ.Сделка.МодульОбъекта</div>
+                <div class="info-item"><strong>Назначение:</strong> Формирование таблиц для проведения документа по продажам в бухгалтерском учете</div>
+                <div class="info-item"><strong>Код:</strong> Результат = Запрос.ВыполнитьПакет();</div>
+                <div class="info-item"><strong>Описание:</strong> Пакетный запрос для получения остатков активов, переоценки, списания активов при проведении документов продажи ценных бумаг. Может включать расчет НКД для облигаций.</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">План работ</div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Изучить пакет запросов</div>
+                </div>
+                <div class="step-description">Проанализировать все запросы в пакете, определить их взаимосвязи и последовательность выполнения</div>
+                <div class="step-details">Изучить каждый запрос в пакете отдельно. Понять, какие данные передаются между запросами. Определить зависимости между запросами.</div>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Воспроизвести в консоли</div>
+                </div>
+                <div class="step-description">Настроить каждый запрос из пакета в консоли запросов с тестовыми данными документа продажи</div>
+                <div class="step-details">Выполнить каждый запрос отдельно с тестовыми параметрами. Зафиксировать время выполнения каждого запроса. Определить наиболее медленные запросы в пакете.</div>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Оптимизация пакета</div>
+                </div>
+                <div class="step-description">Предложить оптимизацию: объединение запросов, использование временных таблиц, оптимизация условий</div>
+                <div class="step-details">Рассмотреть возможность объединения нескольких запросов в один. Использовать временные таблицы для промежуточных результатов. Оптимизировать условия фильтрации в каждом запросе.</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="task">
+        <div class="task-header">
+            <div class="task-number">Задача 3</div>
+            <div class="task-title">ТаблицыПоПродажам_БУ() - строка 519 (РЕПО)</div>
+            <span class="criticality medium-high">СРЕДНЕЕ-ВЫСОКОЕ</span>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Информация о задаче</div>
+            <div class="info-box">
+                <div class="info-item"><strong>Модуль:</strong> Документ.СделкаРЕПОВтораяНога.МодульОбъекта</div>
+                <div class="info-item"><strong>Назначение:</strong> Формирование таблиц для проведения документа по продажам в бухгалтерском учете для РЕПО</div>
+                <div class="info-item"><strong>Код:</strong> Результат = Запрос.ВыполнитьПакет();</div>
+                <div class="info-item"><strong>Описание:</strong> Пакетный запрос для получения остатков активов, переоценки, списания активов для второй ноги сделки РЕПО. Аналогично функции в документе "Сделка", но с учетом специфики РЕПО.</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">План работ</div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Изучить запросы РЕПО</div>
+                </div>
+                <div class="step-description">Проанализировать пакет запросов для второй ноги сделки РЕПО, сравнить с аналогичным запросом в документе "Сделка"</div>
+                <div class="step-details">Сравнить структуру запросов для РЕПО и обычных сделок. Определить отличия и общие части. Понять специфику обработки РЕПО.</div>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Тестирование в консоли</div>
+                </div>
+                <div class="step-description">Воспроизвести запросы с тестовыми параметрами документа РЕПО</div>
+                <div class="step-details">Выполнить каждый запрос из пакета с тестовыми данными документа РЕПО. Зафиксировать время выполнения.</div>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Унификация и оптимизация</div>
+                </div>
+                <div class="step-description">Предложить унификацию с запросом из задачи 2 и оптимизацию с учетом специфики РЕПО</div>
+                <div class="step-details">Разработать общую структуру запросов, которая может использоваться как для обычных сделок, так и для РЕПО. Оптимизировать с учетом особенностей РЕПО.</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="task">
+        <div class="task-header">
+            <div class="task-number">Задача 4</div>
+            <div class="task-title">ЗначенияПараметровДоговораДУ() - строка 73</div>
+            <span class="criticality medium-orange">СРЕДНЕЕ</span>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Информация о задаче</div>
+            <div class="info-box">
+                <div class="info-item"><strong>Модуль:</strong> РегистрСведений.ЗначенияПараметровДоговораДУ.МодульМенеджера</div>
+                <div class="info-item"><strong>Назначение:</strong> Получение значений параметров договора ДУ на дату</div>
+                <div class="info-item"><strong>Код:</strong> Результат = Запрос.Выполнить();</div>
+                <div class="info-item"><strong>Особенность:</strong> Используется очень часто (6088 обращений), вызывается из множества мест при проведении документов</div>
+                <div class="info-item"><strong>Описание:</strong> Запрос к регистру сведений для получения актуальных значений параметров договора ДУ на указанную дату. Параметры включают настройки учета, методы списания, счета учета и другие параметры, влияющие на проведение документов.</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">План работ</div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Изучить запрос к регистру</div>
+                </div>
+                <div class="step-description">Проанализировать запрос к регистру сведений, определить условия фильтрации по договору и дате</div>
+                <div class="step-details">Изучить структуру регистра сведений. Понять, как определяется актуальность значений на дату. Проанализировать условия фильтрации.</div>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Тестирование в консоли</div>
+                </div>
+                <div class="step-description">Воспроизвести запрос с различными договорами ДУ и датами в консоли запросов</div>
+                <div class="step-details">Выполнить запрос с различными комбинациями договоров и дат. Зафиксировать время выполнения для разных случаев.</div>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Предложить кэширование</div>
+                </div>
+                <div class="step-description">Разработать механизм кэширования результатов запроса в памяти на период сеанса, учитывая частоту вызовов</div>
+                <div class="step-details">Разработать структуру кэша: ключ (договор ДУ + дата), значение (результат запроса). Определить стратегию инвалидации кэша. Учесть, что параметры могут изменяться в течение сеанса.</div>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Оптимизация запроса</div>
+                </div>
+                <div class="step-description">Оптимизировать сам запрос: проверить индексы регистра, упростить условия фильтрации</div>
+                <div class="step-details">Проверить наличие индексов на поля, используемые в условиях фильтрации. Упростить условия, если возможно. Оптимизировать получение актуальных значений на дату.</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="task">
+        <div class="task-header">
+            <div class="task-number">Задачи 5-7</div>
+            <div class="task-title">Подготовка остатков активов</div>
+            <span class="criticality medium-yellow">СРЕДНЕЕ</span>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Информация о задачах</div>
+            <div class="info-box">
+                <div class="info-item"><strong>Модули:</strong> Документ.Сделка (строки 1549, 1467, 2097)</div>
+                <div class="info-item"><strong>Функции:</strong> ПодготовитьТаблицуОстатковАктива_ВУ(), ПодготовитьТаблицуОстатковАктива_УУ(), ПолучитьСуммуОНВ()</div>
+                <div class="info-item"><strong>Назначение:</strong> Получение остатков актива из регистров для валютного учета, управленческого учета и расчета налоговых обязательств</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">План работ</div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Изучить запросы остатков</div>
+                </div>
+                <div class="step-description">Проанализировать запросы к регистрам бухгалтерии и накопления для получения остатков активов</div>
+                <div class="step-details">Изучить каждый из трех запросов отдельно. Понять структуру регистров. Определить условия фильтрации и группировки.</div>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Тестирование в консоли</div>
+                </div>
+                <div class="step-description">Воспроизвести каждый запрос с тестовыми параметрами (актив, дата, договор ДУ)</div>
+                <div class="step-details">Выполнить каждый запрос с различными комбинациями параметров. Зафиксировать время выполнения.</div>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Оптимизация</div>
+                </div>
+                <div class="step-description">Предложить оптимизацию: проверка индексов, упрощение условий, возможность объединения запросов</div>
+                <div class="step-details">Проверить индексы на используемых полях. Упростить условия фильтрации. Рассмотреть возможность объединения запросов, если они выполняются последовательно для одних и тех же данных.</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="task">
+        <div class="task-header">
+            <div class="task-number">Задачи 8-10</div>
+            <div class="task-title">Получение открытых задач</div>
+            <span class="criticality low">НИЗКОЕ</span>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Информация о задачах</div>
+            <div class="info-box">
+                <div class="info-item"><strong>Модули:</strong> Документ.СделкаРЕПОВтораяНога (1282), VTB_ОбщийМодуль (421), БизнесПроцесс.СделкиTn (167)</div>
+                <div class="info-item"><strong>Функции:</strong> ПодготовитьТаблицуОстатковАктива_ВУ(), ПолучитьОткрытыеЗадачиПоСделкеРЕПО(), ПолучитьОткрытыеЗадачиПоСделкеTn()</div>
+                <div class="info-item"><strong>Особенность:</strong> Вызываются редко (2 обращения), но занимают много времени на одно обращение (~3 секунды)</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">План работ</div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Изучить запросы к задачам</div>
+                </div>
+                <div class="step-description">Проанализировать запросы к объекту "Задача" для получения списка открытых задач по сделкам</div>
+                <div class="step-details">Изучить все три запроса. Сравнить запросы для РЕПО и Tn - они должны быть очень похожи. Понять структуру объекта "Задача" и условия фильтрации.</div>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Тестирование в консоли</div>
+                </div>
+                <div class="step-description">Воспроизвести запросы с тестовыми параметрами (дата, тип сделки, договор ДУ)</div>
+                <div class="step-details">Выполнить каждый запрос с тестовыми данными. Зафиксировать время выполнения. Определить узкие места.</div>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Унификация и оптимизация</div>
+                </div>
+                <div class="step-description">Предложить унификацию запросов для РЕПО и Tn, оптимизацию условий фильтрации</div>
+                <div class="step-details">Разработать общую функцию для получения открытых задач, которая может работать как для РЕПО, так и для Tn. Оптимизировать условия фильтрации. Проверить индексы на полях объекта "Задача".</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

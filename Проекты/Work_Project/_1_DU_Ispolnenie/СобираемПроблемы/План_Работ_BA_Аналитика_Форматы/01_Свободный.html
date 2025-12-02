@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>План работ BA - Свободный формат</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .task {
+            background: white;
+            margin: 20px 0;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            float: left;
+            width: 48%;
+            margin-right: 2%;
+        }
+        .task:nth-child(even) {
+            margin-right: 0;
+        }
+        .task-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .criticality {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        .critical { background: #dc3545; color: white; }
+        .high { background: #ff5722; color: white; }
+        .medium-high { background: #ff9800; color: white; }
+        .medium-orange { background: #ff6b00; color: white; }
+        .medium-yellow { background: #ffc107; color: #333; }
+        .low { background: #17a2b8; color: white; }
+        .info {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+        }
+        .step {
+            margin: 12px 0;
+            padding: 10px;
+            background: #fff;
+            border-left: 3px solid #28a745;
+        }
+        .step-number {
+            font-weight: bold;
+            color: #28a745;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .clear { clear: both; }
+    </style>
+</head>
+<body>
+    <h1>План работ BA аналитика - Свободный формат</h1>
+    
+    <div class="task">
+        <div class="task-title">Задача 1: ПолучитьАвансы() - строка 996 <span class="criticality critical">КРИТИЧЕСКОЕ</span></div>
+        <div class="info"><strong>Модуль:</strong> Документ.Сделка.МодульОбъекта<br>
+        <strong>Назначение:</strong> Получение остатков авансов для зачета при проведении сделки<br>
+        <strong>Код:</strong> ОстаткиАвансов = Запрос.Выполнить().Выгрузить();</div>
+        <div class="step"><span class="step-number">1.</span> Изучить запрос - проанализировать текст запроса, определить используемые таблицы, условия фильтрации</div>
+        <div class="step"><span class="step-number">2.</span> Настроить в консоли запросов - воспроизвести запрос "как есть" с тестовыми параметрами</div>
+        <div class="step"><span class="step-number">3.</span> Анализ плана выполнения - изучить план выполнения, определить отсутствующие индексы</div>
+        <div class="step"><span class="step-number">4.</span> Предложить оптимизацию - разработать оптимизированный вариант запроса</div>
+        <div class="step"><span class="step-number">5.</span> Проверить результат - сравнить время выполнения оптимизированного запроса</div>
+    </div>
+    
+    <div class="task">
+        <div class="task-title">Задача 2: ТаблицыПоПродажам_БУ() - строка 1647 <span class="criticality high">ВЫСОКОЕ</span></div>
+        <div class="info"><strong>Модуль:</strong> Документ.Сделка.МодульОбъекта<br>
+        <strong>Назначение:</strong> Формирование таблиц для проведения документа по продажам в бухгалтерском учете<br>
+        <strong>Код:</strong> Результат = Запрос.ВыполнитьПакет();</div>
+        <div class="step"><span class="step-number">1.</span> Изучить пакет запросов - проанализировать все запросы в пакете, определить их взаимосвязи</div>
+        <div class="step"><span class="step-number">2.</span> Воспроизвести в консоли - настроить каждый запрос из пакета с тестовыми данными</div>
+        <div class="step"><span class="step-number">3.</span> Оптимизация пакета - предложить оптимизацию: объединение запросов, использование временных таблиц</div>
+    </div>
+    
+    <div class="task">
+        <div class="task-title">Задача 3: ТаблицыПоПродажам_БУ() - строка 519 (РЕПО) <span class="criticality medium-high">СРЕДНЕЕ-ВЫСОКОЕ</span></div>
+        <div class="info"><strong>Модуль:</strong> Документ.СделкаРЕПОВтораяНога.МодульОбъекта<br>
+        <strong>Назначение:</strong> Формирование таблиц для проведения документа по продажам в бухгалтерском учете для РЕПО<br>
+        <strong>Код:</strong> Результат = Запрос.ВыполнитьПакет();</div>
+        <div class="step"><span class="step-number">1.</span> Изучить запросы РЕПО - проанализировать пакет запросов для второй ноги РЕПО</div>
+        <div class="step"><span class="step-number">2.</span> Тестирование в консоли - воспроизвести запросы с тестовыми параметрами документа РЕПО</div>
+        <div class="step"><span class="step-number">3.</span> Унификация и оптимизация - предложить унификацию с запросом из задачи 2 и оптимизацию</div>
+    </div>
+    
+    <div class="task">
+        <div class="task-title">Задача 4: ЗначенияПараметровДоговораДУ() - строка 73 <span class="criticality medium-orange">СРЕДНЕЕ</span></div>
+        <div class="info"><strong>Модуль:</strong> РегистрСведений.ЗначенияПараметровДоговораДУ.МодульМенеджера<br>
+        <strong>Назначение:</strong> Получение значений параметров договора ДУ на дату<br>
+        <strong>Код:</strong> Результат = Запрос.Выполнить();<br>
+        <strong>Особенность:</strong> Используется очень часто (6088 обращений)</div>
+        <div class="step"><span class="step-number">1.</span> Изучить запрос к регистру - проанализировать запрос к регистру сведений</div>
+        <div class="step"><span class="step-number">2.</span> Тестирование в консоли - воспроизвести запрос с различными договорами ДУ и датами</div>
+        <div class="step"><span class="step-number">3.</span> Предложить кэширование - разработать механизм кэширования результатов в памяти</div>
+        <div class="step"><span class="step-number">4.</span> Оптимизация запроса - оптимизировать сам запрос: проверить индексы регистра</div>
+    </div>
+    
+    <div class="task">
+        <div class="task-title">Задачи 5-7: Подготовка остатков активов <span class="criticality medium-yellow">СРЕДНЕЕ</span></div>
+        <div class="info"><strong>Модули:</strong> Документ.Сделка (строки 1549, 1467, 2097)<br>
+        <strong>Функции:</strong> ПодготовитьТаблицуОстатковАктива_ВУ(), ПодготовитьТаблицуОстатковАктива_УУ(), ПолучитьСуммуОНВ()</div>
+        <div class="step"><span class="step-number">1.</span> Изучить запросы остатков - проанализировать запросы к регистрам бухгалтерии и накопления</div>
+        <div class="step"><span class="step-number">2.</span> Тестирование в консоли - воспроизвести каждый запрос с тестовыми параметрами</div>
+        <div class="step"><span class="step-number">3.</span> Оптимизация - предложить оптимизацию: проверка индексов, упрощение условий</div>
+    </div>
+    
+    <div class="task">
+        <div class="task-title">Задачи 8-10: Получение открытых задач <span class="criticality low">НИЗКОЕ</span></div>
+        <div class="info"><strong>Модули:</strong> Документ.СделкаРЕПОВтораяНога (1282), VTB_ОбщийМодуль (421), БизнесПроцесс.СделкиTn (167)<br>
+        <strong>Особенность:</strong> Вызываются редко, но занимают много времени на одно обращение</div>
+        <div class="step"><span class="step-number">1.</span> Изучить запросы к задачам - проанализировать запросы к объекту "Задача"</div>
+        <div class="step"><span class="step-number">2.</span> Тестирование в консоли - воспроизвести запросы с тестовыми параметрами</div>
+        <div class="step"><span class="step-number">3.</span> Унификация и оптимизация - предложить унификацию запросов для РЕПО и Tn</div>
+    </div>
+    
+    <div class="clear"></div>
+</body>
+</html>
+
