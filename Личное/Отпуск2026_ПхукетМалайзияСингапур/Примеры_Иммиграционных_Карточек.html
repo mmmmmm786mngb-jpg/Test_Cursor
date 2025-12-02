@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Примеры заполнения иммиграционных карточек</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+        
+        .country-section {
+            margin-bottom: 50px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 30px;
+            background: #f9f9f9;
+        }
+        
+        .country-section h2 {
+            color: #2980b9;
+            margin-bottom: 20px;
+            font-size: 2em;
+            border-bottom: 3px solid #2980b9;
+            padding-bottom: 10px;
+        }
+        
+        .country-section h3 {
+            color: #27ae60;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        .info-box {
+            background: #fff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .info-box.warning {
+            border-left-color: #f39c12;
+            background: #fffbf0;
+        }
+        
+        .info-box.success {
+            border-left-color: #27ae60;
+            background: #f0fff4;
+        }
+        
+        .info-box.error {
+            border-left-color: #e74c3c;
+            background: #fff5f5;
+        }
+        
+        .form-example {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .form-field {
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .form-field label {
+            display: block;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-size: 0.95em;
+        }
+        
+        .form-field .example {
+            color: #27ae60;
+            font-family: 'Courier New', monospace;
+            padding: 8px;
+            background: #e8f5e9;
+            border-radius: 3px;
+            margin-top: 5px;
+            border-left: 3px solid #27ae60;
+        }
+        
+        .form-field .note {
+            color: #7f8c8d;
+            font-size: 0.85em;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .link-box {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        .link-box a {
+            color: #1976d2;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .link-box a:hover {
+            text-decoration: underline;
+        }
+        
+        .checklist {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .checklist li {
+            padding: 10px;
+            margin: 5px 0;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 3px solid #3498db;
+        }
+        
+        .checklist li:before {
+            content: "✓ ";
+            color: #27ae60;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .qr-code-note {
+            background: #e8f5e9;
+            border: 2px solid #27ae60;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            text-align: center;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📋 Примеры заполнения иммиграционных карточек</h1>
+        <p class="subtitle">Подробные инструкции для Таиланда, Малайзии и Сингапура</p>
+        
+        <!-- ТАИЛАНД -->
+        <div class="country-section">
+            <h2>🇹🇭 ТАИЛАНД (Thailand Arrival Card - онлайн)</h2>
+            
+            <div class="info-box error">
+                <strong>🔴 КРИТИЧЕСКИ ВАЖНО:</strong> Карточка прибытия в Таиланд заполняется ОНЛАЙН заранее (можно за несколько дней до прибытия). 
+                Это ОБЯЗАТЕЛЬНЫЙ документ для въезда в Таиланд. Без него вас могут не пустить в страну!
+            </div>
+            
+            <div class="link-box">
+                <strong>🔗 Официальный сайт:</strong> 
+                <a href="https://www.immigration.go.th/" target="_blank">
+                    www.immigration.go.th
+                </a>
+                <div class="note" style="margin-top: 5px;">Или через официальное приложение Thailand e-Arrival Card</div>
+            </div>
+            
+            <h3>📝 Что понадобится для заполнения:</h3>
+            <ul class="checklist">
+                <li>Паспорт (номер, дата выдачи, срок действия)</li>
+                <li>Данные о рейсе (номер рейса, дата и время прибытия)</li>
+                <li>Адрес отеля в Таиланде (полный адрес)</li>
+                <li>Email для получения подтверждения</li>
+                <li>Номер телефона</li>
+            </ul>
+            
+            <h3>📝 Пример заполнения Thailand Arrival Card:</h3>
+            
+            <div class="form-example">
+                <div class="form-field">
+                    <label>Family Name (Фамилия):</label>
+                    <div class="example">CHMYKHALOV</div>
+                    <div class="note">Как в паспорте, ЗАГЛАВНЫМИ БУКВАМИ</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>First Name (Имя):</label>
+                    <div class="example">ALEKSEI</div>
+                    <div class="note">Как в паспорте, ЗАГЛАВНЫМИ БУКВАМИ</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Nationality (Гражданство):</label>
+                    <div class="example">RUSSIAN FEDERATION</div>
+                    <div class="note">Выбрать из списка: Russian Federation</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Passport No. (Номер паспорта):</label>
+                    <div class="example">[Ваш номер паспорта]</div>
+                    <div class="note">Только цифры, без пробелов</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Date of Birth (Дата рождения):</label>
+                    <div class="example">14/09/1974</div>
+                    <div class="note">Формат: ДД/ММ/ГГГГ</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Gender (Пол):</label>
+                    <div class="example">MALE</div>
+                    <div class="note">Выбрать из списка: Male</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Flight Number (Номер рейса):</label>
+                    <div class="example">EY412</div>
+                    <div class="note">Номер рейса из билета: Etihad Airways EY412 (AUH → HKT, 08:40 → 17:55, 24.02.2026)<br>
+                    <strong>Примечание:</strong> Это второй рейс после пересадки в Абу-Даби. Первый рейс: EY844 (SVO → AUH, 23:50, 23.02.2026)</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Arrival Date (Дата прибытия):</label>
+                    <div class="example">24/02/2026</div>
+                    <div class="note">Формат: ДД/ММ/ГГГГ</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Arrival Time (Время прибытия):</label>
+                    <div class="example">17:55</div>
+                    <div class="note">Время по местному времени Таиланда</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Address in Thailand (Адрес в Таиланде):</label>
+                    <div class="example">Natai Beach Resort, 55 Khok Kloi, Takua Thung District, Phuket, Thailand</div>
+                    <div class="note">Полный адрес отеля</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Purpose of Visit (Цель визита):</label>
+                    <div class="example">TOURISM</div>
+                    <div class="note">Выбрать из списка: Tourism</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Length of Stay (Продолжительность пребывания):</label>
+                    <div class="example">4 DAYS</div>
+                    <div class="note">Количество дней пребывания (24.02 - 27.02)</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Email Address:</label>
+                    <div class="example">your.email@example.com</div>
+                    <div class="note">Email для получения подтверждения</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Phone Number:</label>
+                    <div class="example">+79150157444</div>
+                    <div class="note">Международный формат с кодом страны</div>
+                </div>
+            </div>
+            
+            <div class="qr-code-note">
+                <strong>📱 После заполнения:</strong> На email придет подтверждение с QR-кодом. 
+                Сохраните его на телефон или распечатайте - понадобится при прохождении паспортного контроля!
+            </div>
+            
+            <div class="info-box">
+                <strong>💡 Совет:</strong> Заполняйте карточку за 1-3 дня до вылета в Таиланд. 
+                Подтверждение можно показать с телефона или распечатать.
+            </div>
+        </div>
+        
+        <!-- МАЛАЙЗИЯ -->
+        <div class="country-section">
+            <h2>🇲🇾 МАЛАЙЗИЯ (MDAC - Malaysia Digital Arrival Card)</h2>
+            
+            <div class="info-box error">
+                <strong>🔴 КРИТИЧЕСКИ ВАЖНО:</strong> MDAC заполняется ОНЛАЙН заранее (можно за 3 дня до прибытия). 
+                Это ОБЯЗАТЕЛЬНЫЙ документ для въезда в Малайзию. Без него вас могут не пустить в страну!
+            </div>
+            
+            <div class="link-box">
+                <strong>🔗 Официальный сайт:</strong> 
+                <a href="https://imigresen-online.imi.gov.my/mdac/main" target="_blank">
+                    imigresen-online.imi.gov.my/mdac/main
+                </a>
+            </div>
+            
+            <h3>📝 Что понадобится для заполнения:</h3>
+            <ul class="checklist">
+                <li>Паспорт (номер, дата выдачи, срок действия)</li>
+                <li>Данные о рейсе (номер рейса, дата и время прибытия)</li>
+                <li>Адрес отеля в Малайзии (полный адрес)</li>
+                <li>Email для получения подтверждения</li>
+                <li>Номер телефона</li>
+            </ul>
+            
+            <h3>📝 Пример заполнения MDAC:</h3>
+            
+            <div class="form-example">
+                <div class="form-field">
+                    <label>Passport Number (Номер паспорта):</label>
+                    <div class="example">[Ваш номер паспорта]</div>
+                    <div class="note">Только цифры, без пробелов</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Nationality (Гражданство):</label>
+                    <div class="example">RUSSIAN FEDERATION</div>
+                    <div class="note">Выбрать из списка: Russian Federation</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Date of Birth (Дата рождения):</label>
+                    <div class="example">14/09/1974</div>
+                    <div class="note">Формат: ДД/ММ/ГГГГ</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Gender (Пол):</label>
+                    <div class="example">MALE</div>
+                    <div class="note">Выбрать из списка: Male</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Arrival Date (Дата прибытия):</label>
+                    <div class="example">27/02/2026</div>
+                    <div class="note">Формат: ДД/ММ/ГГГГ</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Arrival Port (Аэропорт прибытия):</label>
+                    <div class="example">Kuala Lumpur International Airport (KLIA 1)</div>
+                    <div class="note">Выбрать из списка: KLIA 1</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Flight Number (Номер рейса):</label>
+                    <div class="example">OD541</div>
+                    <div class="note">Batik Air Malaysia OD541 (HKT → KUL)</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Arrival Time (Время прибытия):</label>
+                    <div class="example">16:00</div>
+                    <div class="note">Время по местному времени Малайзии</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Address in Malaysia (Адрес в Малайзии):</label>
+                    <div class="example">EQ Kuala Lumpur, Equatorial Plaza, Jalan Sultan Ismail, 50250 Kuala Lumpur, Malaysia</div>
+                    <div class="note">Полный адрес отеля</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Purpose of Visit (Цель визита):</label>
+                    <div class="example">TOURISM</div>
+                    <div class="note">Выбрать из списка: Tourism</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Length of Stay (Продолжительность пребывания):</label>
+                    <div class="example">3 DAYS</div>
+                    <div class="note">Количество дней пребывания (27.02 - 01.03)</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Email Address:</label>
+                    <div class="example">your.email@example.com</div>
+                    <div class="note">Email для получения подтверждения</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Phone Number:</label>
+                    <div class="example">+79150157444</div>
+                    <div class="note">Международный формат с кодом страны</div>
+                </div>
+            </div>
+            
+            <div class="qr-code-note">
+                <strong>📱 После заполнения:</strong> На email придет подтверждение с QR-кодом. 
+                Сохраните его на телефон или распечатайте - понадобится при прохождении паспортного контроля!
+            </div>
+            
+            <div class="info-box">
+                <strong>💡 Совет:</strong> Заполняйте MDAC за 1-3 дня до вылета в Малайзию. 
+                Если заполните слишком рано (более чем за 3 дня), возможно, придется перезаполнить.
+            </div>
+        </div>
+        
+        <!-- СИНГАПУР -->
+        <div class="country-section">
+            <h2>🇸🇬 СИНГАПУР (SG Arrival Card)</h2>
+            
+            <div class="info-box warning">
+                <strong>⚠️ ВАЖНО:</strong> SG Arrival Card заполняется ОНЛАЙН заранее (можно за 3 дня до прибытия). 
+                Это ОБЯЗАТЕЛЬНЫЙ документ для въезда в Сингапур.
+            </div>
+            
+            <div class="link-box">
+                <strong>🔗 Официальный сайт:</strong> 
+                <a href="https://eservices.ica.gov.sg/sgarrivalcard/" target="_blank">
+                    eservices.ica.gov.sg/sgarrivalcard/
+                </a>
+            </div>
+            
+            <h3>📝 Что понадобится для заполнения:</h3>
+            <ul class="checklist">
+                <li>Паспорт (номер, дата выдачи, срок действия)</li>
+                <li>Данные о рейсе (номер рейса, дата и время прибытия)</li>
+                <li>Адрес отеля в Сингапуре (полный адрес)</li>
+                <li>Email для получения подтверждения</li>
+                <li>Номер телефона</li>
+            </ul>
+            
+            <h3>📝 Пример заполнения SG Arrival Card:</h3>
+            
+            <div class="form-example">
+                <div class="form-field">
+                    <label>Travel Document Type (Тип документа):</label>
+                    <div class="example">PASSPORT</div>
+                    <div class="note">Выбрать из списка: Passport</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Travel Document Number (Номер паспорта):</label>
+                    <div class="example">[Ваш номер паспорта]</div>
+                    <div class="note">Только цифры, без пробелов</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Nationality (Гражданство):</label>
+                    <div class="example">RUSSIAN FEDERATION</div>
+                    <div class="note">Выбрать из списка: Russian Federation</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Date of Birth (Дата рождения):</label>
+                    <div class="example">14/09/1974</div>
+                    <div class="note">Формат: ДД/ММ/ГГГГ</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Gender (Пол):</label>
+                    <div class="example">MALE</div>
+                    <div class="note">Выбрать из списка: Male</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Arrival Date (Дата прибытия):</label>
+                    <div class="example">03/03/2026</div>
+                    <div class="note">Формат: ДД/ММ/ГГГГ</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Arrival Mode (Способ прибытия):</label>
+                    <div class="example">AIR</div>
+                    <div class="note">Выбрать из списка: Air</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Flight Number (Номер рейса):</label>
+                    <div class="example">TR477</div>
+                    <div class="note">Номер рейса из билета: Scoot TR477 (LGK → SIN)</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Last Port of Embarkation (Последний порт отправления):</label>
+                    <div class="example">LANGKAWI</div>
+                    <div class="note">Город отправления: Langkawi (LGK - Langkawi International Airport)</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Address in Singapore (Адрес в Сингапуре):</label>
+                    <div class="example">Swissotel The Stamford Singapore, 2 Stamford Road, Singapore 178882</div>
+                    <div class="note">Полный адрес отеля</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Purpose of Visit (Цель визита):</label>
+                    <div class="example">TOURISM</div>
+                    <div class="note">Выбрать из списка: Tourism</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Length of Stay (Продолжительность пребывания):</label>
+                    <div class="example">4 DAYS</div>
+                    <div class="note">Количество дней пребывания (03.03 - 06.03)</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Email Address:</label>
+                    <div class="example">your.email@example.com</div>
+                    <div class="note">Email для получения подтверждения</div>
+                </div>
+                
+                <div class="form-field">
+                    <label>Phone Number:</label>
+                    <div class="example">+79150157444</div>
+                    <div class="note">Международный формат с кодом страны</div>
+                </div>
+            </div>
+            
+            <div class="qr-code-note">
+                <strong>📱 После заполнения:</strong> На email придет подтверждение. 
+                Сохраните его на телефон или распечатайте - понадобится при прохождении паспортного контроля!
+            </div>
+            
+            <div class="info-box">
+                <strong>💡 Совет:</strong> Заполняйте SG Arrival Card за 1-3 дня до вылета в Сингапур. 
+                Подтверждение можно показать с телефона или распечатать.
+            </div>
+        </div>
+        
+        <!-- ОБЩИЕ СОВЕТЫ -->
+        <div class="country-section">
+            <h2>💡 Общие советы и рекомендации</h2>
+            
+            <div class="info-box success">
+                <h3>✅ Чек-лист перед заполнением:</h3>
+                <ul class="checklist">
+                    <li>Проверьте срок действия паспорта (должен быть действителен минимум 6 месяцев)</li>
+                    <li>Подготовьте данные о рейсах (номера, даты, время)</li>
+                    <li>Подготовьте адреса отелей (полные адреса с почтовыми индексами)</li>
+                    <li>Проверьте правильность написания имени и фамилии (как в паспорте)</li>
+                    <li>Для онлайн-карточек: проверьте email и телефон для получения подтверждений</li>
+                </ul>
+            </div>
+            
+            <div class="info-box warning">
+                <h3>⚠️ Важные напоминания:</h3>
+                <ul class="checklist">
+                    <li><strong>Таиланд (Thailand Arrival Card):</strong> Заполняется ОНЛАЙН за 1-3 дня до прибытия. Сохраните QR-код на телефон!</li>
+                    <li><strong>Малайзия (MDAC):</strong> Заполняется онлайн за 1-3 дня до прибытия. Сохраните QR-код на телефон!</li>
+                    <li><strong>Сингапур (SG Arrival Card):</strong> Заполняется онлайн за 1-3 дня до прибытия. Сохраните подтверждение!</li>
+                    <li>Все данные должны совпадать с данными в паспорте и билетах</li>
+                    <li>При заполнении онлайн используйте латинские буквы (как в паспорте)</li>
+                    <li>Проверьте правильность дат (формат может отличаться в разных формах)</li>
+                    <li>Все три карточки заполняются ОНЛАЙН заранее - не оставляйте на последний момент!</li>
+                </ul>
+            </div>
+            
+            <div class="info-box">
+                <h3>📱 Что взять с собой в поездку:</h3>
+                <ul class="checklist">
+                    <li>Паспорт (оригинал)</li>
+                    <li>Распечатанные или сохраненные на телефон подтверждения онлайн-карточек (Thailand Arrival Card, MDAC, SG Arrival Card) с QR-кодами</li>
+                    <li>Билеты на все рейсы (распечатанные или в приложении)</li>
+                    <li>Подтверждения бронирования отелей (на случай вопросов на границе)</li>
+                    <li>Заряженный телефон с доступом к email для показа подтверждений</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px; color: #7f8c8d; font-size: 0.9em;">
+            <p>Создано для путешествия: Пхукет → Куала-Лумпур → Сингапур</p>
+            <p>Дата создания: 2025</p>
+        </div>
+    </div>
+</body>
+</html>
+

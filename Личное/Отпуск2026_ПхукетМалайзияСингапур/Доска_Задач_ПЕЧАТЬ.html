@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Доска задач - Путешествие (для печати)</title>
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 5mm;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 7pt;
+            line-height: 1.15;
+            background: white;
+        }
+        
+        .page {
+            page-break-after: always;
+            height: 190mm;
+        }
+        
+        .page:last-child {
+            page-break-after: auto;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 3px 0;
+            margin-bottom: 3px;
+            border-bottom: 1px solid #667eea;
+        }
+        
+        .header h1 {
+            font-size: 12pt;
+            color: #667eea;
+            margin: 0;
+        }
+        
+        .header p {
+            font-size: 8pt;
+            color: #666;
+            margin: 2px 0;
+        }
+        
+        .board {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: collapse;
+        }
+        
+        .board-7 .column { width: 14.28%; }
+        .board-5 .column { width: 20%; }
+        
+        .column {
+            display: table-cell;
+            vertical-align: top;
+            border: 0.5pt solid #999;
+            padding: 2px;
+            background: #fafafa;
+        }
+        
+        .col-header {
+            background: #667eea;
+            color: white;
+            padding: 4px;
+            text-align: center;
+            margin-bottom: 3px;
+            border-radius: 3px;
+        }
+        
+        .day {
+            font-size: 8pt;
+            font-weight: bold;
+        }
+        
+        .date {
+            font-size: 7pt;
+        }
+        
+        .hotel {
+            font-size: 6pt;
+            margin-top: 2px;
+            border-top: 0.5pt solid rgba(255,255,255,0.4);
+            padding-top: 2px;
+        }
+        
+        .card {
+            background: white;
+            border: 0.5pt solid #ddd;
+            border-left: 3pt solid #667eea;
+            padding: 3px 4px;
+            margin-bottom: 2px;
+            border-radius: 2px;
+        }
+        
+        .card-title {
+            font-weight: bold;
+            font-size: 7pt;
+            margin-bottom: 1px;
+        }
+        
+        .card-content {
+            font-size: 6pt;
+            color: #333;
+            line-height: 1.2;
+        }
+        
+        .card.flight-out { border-left-color: #dc3545; background: #ffe6e6; }
+        .card.flight-in { border-left-color: #28a745; background: #e6f3e6; }
+        .card.transfer { border-left-color: #ffc107; background: #fff4e6; }
+        .card.hotel-card { border-left-color: #007bff; background: #e7f3ff; }
+        .card.activity { border-left-color: #6f42c1; background: #f3e5f5; }
+        .card.reminder { border-left-color: #6c757d; background: #555; color: white; }
+        .card.reminder .card-title, .card.reminder .card-content { color: white; }
+        
+        .divider {
+            background: #667eea;
+            color: white;
+            text-align: center;
+            padding: 2px;
+            margin: 4px 0 3px 0;
+            font-size: 6pt;
+            font-weight: bold;
+            border-radius: 2px;
+        }
+        
+        .divider.morning { background: #ffc107; color: #333; }
+        .divider.evening { background: #17a2b8; }
+        
+        .legend {
+            margin-top: 5px;
+            padding: 3px;
+            border-top: 0.5pt solid #ccc;
+            font-size: 6pt;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+        
+        .legend-box {
+            width: 12px;
+            height: 8px;
+            border-left: 3px solid;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ==================== СТРАНИЦА 1: 23.02 - 01.03 ==================== -->
+<div class="page">
+    <div class="header">
+        <h1>🌴 Доска задач путешествия (Лист 1/2)</h1>
+        <p>Пхукет → Куала-Лумпур | 23 февраля - 1 марта 2026</p>
+    </div>
+    
+    <div class="board board-7">
+        <!-- Пн 23.02 -->
+        <div class="column">
+            <div class="col-header">
+                <div class="day">Понедельник</div>
+                <div class="date">23.02.2026</div>
+                <div class="hotel">Москва</div>
+            </div>
+            <div class="card reminder">
+                <div class="card-title">⚠️ Thailand Pass</div>
+                <div class="card-content">Заполнить электронную карту прибытия за 1-2 дня до Пхукета</div>
+            </div>
+            <div class="card flight-out">
+                <div class="card-title">✈️ ВЫЛЕТ</div>
+                <div class="card-content">23:50 EY844<br>SVO → AUH<br>Etihad Airways</div>
+            </div>
+        </div>
+        
+        <!-- Вт 24.02 -->
+        <div class="column">
+            <div class="col-header">
+                <div class="day">Вторник</div>
+                <div class="date">24.02.2026</div>
+                <div class="hotel">🏨 Natai Beach Resort</div>
+            </div>
+            <div class="divider morning">☀️ До обеда</div>
+            <div class="card transfer">
+                <div class="card-title">🔄 Пересадка AUH</div>
+                <div class="card-content">Прибытие 06:35<br>Вылет 08:40 → HKT<br>2ч 05мин<br>Бизнес-зал ON PASS</div>
+            </div>
+            <div class="divider evening">🌆 После обеда</div>
+            <div class="card flight-in">
+                <div class="card-title">🛬 ПРИЛЕТ HKT</div>
+                <div class="card-content">17:55 EY412<br>Пхукет</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">📱 SIM-карта</div>
+                <div class="card-content">AIS, 8 дней, ~299 бат<br>Стойки в зоне прилета</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🍽️ Перекус / Еда с собой</div>
+                <div class="card-content">Кафе в аэропорту<br>Для ужина в номере</div>
+            </div>
+            <div class="card transfer">
+                <div class="card-title">🚗 Трансфер Trip</div>
+                <div class="card-content">HKT → Natai Beach<br>~30 км, 40-50 мин</div>
+            </div>
+            <div class="card hotel-card">
+                <div class="card-title">🏨 Заселение</div>
+                <div class="card-content">Natai Beach Resort<br>Вилла рядом с морем</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🍽️ Ужин в номере</div>
+                <div class="card-content">Еда из аэропорта<br>Отдых после перелета</div>
+            </div>
+        </div>
+        
+        <!-- Ср 25.02 -->
+        <div class="column">
+            <div class="col-header">
+                <div class="day">Среда</div>
+                <div class="date">25.02.2026</div>
+                <div class="hotel">🏨 Natai Beach Resort</div>
+            </div>
+            <div class="divider morning">☀️ До обеда</div>
+            <div class="card activity">
+                <div class="card-title">🥐 Завтрак в отеле</div>
+                <div class="card-content">08:00-09:30<br>Шведский стол (включен)</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🏖️ Пляж / бассейн</div>
+                <div class="card-content">09:30-12:00<br>Пляж Natai, купание, загар</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🛁 Отдых в номере</div>
+                <div class="card-content">12:00-13:30<br>Душ, отдых, подготовка</div>
+            </div>
+            <div class="divider evening">🌆 После обеда</div>
+            <div class="card activity">
+                <div class="card-title">💆 Массаж</div>
+                <div class="card-content">13:30-15:45<br>3 Trees Massage & Spa<br>Grab ~1000-1200 бат, ~55-60 мин</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🍗 Закупка ужина</div>
+                <div class="card-content">15:45-16:40<br>Bake Restaurant (курица гриль)<br>Pizza on Fire (пицца)</div>
+            </div>
+            <div class="card transfer">
+                <div class="card-title">🚗 Grab обратно</div>
+                <div class="card-content">16:40-17:50<br>~1000-1200 бат<br>Прибытие к закату</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🌅 Ужин на закате</div>
+                <div class="card-content">18:00-19:00<br>В номере с видом на море<br>Закат 18:40</div>
+            </div>
+            <div class="card reminder">
+                <div class="card-title">⚠️ Заполнить MDAC</div>
+                <div class="card-content">21:00-21:30<br>Карточка прибытия в Малайзию</div>
+            </div>
+        </div>
+        
+        <!-- Чт 26.02 -->
+        <div class="column">
+            <div class="col-header">
+                <div class="day">Четверг</div>
+                <div class="date">26.02.2026</div>
+                <div class="hotel">🏨 Natai Beach Resort</div>
+            </div>
+            <div class="divider morning">☀️ Раннее утро</div>
+            <div class="card activity">
+                <div class="card-title">🏝️ Симиланские острова</div>
+                <div class="card-content">05:30-17:30<br>Экскурсия на целый день<br>Снорклинг, пляжи, кораллы</div>
+            </div>
+            <div class="divider evening">🌆 Вечер</div>
+            <div class="card activity">
+                <div class="card-title">🌅 Ужин в номере</div>
+                <div class="card-content">18:00-19:30<br>Остатки курицы и пиццы<br>Вид на закат (18:40)</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">📸 Отдых</div>
+                <div class="card-content">20:00-21:00<br>Просмотр фото<br>Прогулка по пляжу</div>
+            </div>
+        </div>
+        
+        <!-- Пт 27.02 -->
+        <div class="column">
+            <div class="col-header">
+                <div class="day">Пятница</div>
+                <div class="date">27.02.2026</div>
+                <div class="hotel">🏨 → Куала-Лумпур</div>
+            </div>
+            <div class="divider morning">☀️ До обеда</div>
+            <div class="card activity">
+                <div class="card-title">🥐 Завтрак в отеле</div>
+                <div class="card-content">07:30-08:00<br>Шведский стол (включен)</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🏖️ Пляж / бассейн</div>
+                <div class="card-content">08:00-09:30<br>Последние фото на пляже Natai</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🧳 Сборы и чек-аут</div>
+                <div class="card-content">09:30-10:00<br>Душ, сборы, чек-аут 10:00</div>
+            </div>
+            <div class="card transfer">
+                <div class="card-title">🚗 Трансфер Trip</div>
+                <div class="card-content">10:15-11:00<br>До аэропорта HKT ~45 мин</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🛫 Регистрация</div>
+                <div class="card-content">11:00-12:00<br>Self Check-in, Дьюти-фри</div>
+            </div>
+            <div class="divider evening">🌆 После обеда</div>
+            <div class="card flight-out">
+                <div class="card-title">✈️ ВЫЛЕТ</div>
+                <div class="card-content">13:20 OD541<br>HKT → KUL 16:00 (1ч 40мин)</div>
+            </div>
+            <div class="card flight-in">
+                <div class="card-title">🛬 ПРИЛЕТ KUL</div>
+                <div class="card-content">16:00 OD541<br>Куала-Лумпур</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🧾 Паспортный контроль</div>
+                <div class="card-content">16:00-16:30<br>MDAC (QR-код)</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">💱 Обмен валюты + SIM</div>
+                <div class="card-content">16:30-16:45<br>100-150 USD → MYR<br>SIM Hotlink (30 ГБ, 7 дней)</div>
+            </div>
+            <div class="card transfer">
+                <div class="card-title">🚗 Трансфер Trip</div>
+                <div class="card-content">16:45-18:00<br>KUL → EQ Hotel<br>~60 км, 50-60 мин</div>
+            </div>
+            <div class="card hotel-card">
+                <div class="card-title">🏨 Заселение</div>
+                <div class="card-content">18:00-18:15<br>EQ Kuala Lumpur<br>Вид на Петронас</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🍔 Ужин Five Guys</div>
+                <div class="card-content">19:00-19:30<br>Suria KLCC, Level 2</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🏙️ Башни Петронас</div>
+                <div class="card-content">19:30-20:30<br>Skybridge (41 эт) + Смотровая (86 эт)</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">💧 Шоу фонтанов</div>
+                <div class="card-content">20:30-21:30<br>KLCC Park 21:00</div>
+            </div>
+        </div>
+        
+        <!-- Сб 28.02 -->
+        <div class="column">
+            <div class="col-header">
+                <div class="day">Суббота</div>
+                <div class="date">28.02.2026</div>
+                <div class="hotel">🏨 EQ Kuala Lumpur</div>
+            </div>
+            <div class="divider morning">☀️ До обеда</div>
+            <div class="card activity">
+                <div class="card-title">🥐 Завтрак в отеле</div>
+                <div class="card-content">08:00-09:00<br>Буфет</div>
+            </div>
+            <div class="card transfer">
+                <div class="card-title">🚗 Такси/Grab</div>
+                <div class="card-content">09:00-09:30<br>До Zoo Negara<br>~20-30 MYR, 15-20 мин</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🦁 Zoo Negara</div>
+                <div class="card-content">09:30-12:00<br>Зоопарк (2.5 часа)<br>~50 MYR/чел</div>
+            </div>
+            <div class="card transfer">
+                <div class="card-title">🚗 Такси/Grab</div>
+                <div class="card-content">12:00-12:30<br>Возврат в отель</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">💤 Отдых в номере</div>
+                <div class="card-content">12:30-14:00<br>Душ, отдых</div>
+            </div>
+            <div class="divider evening">🌆 После обеда</div>
+            <div class="card activity">
+                <div class="card-title">🚶 Пешком к аквариуму</div>
+                <div class="card-content">14:00-14:15<br>~800 м, под крышей</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🐠 Aquaria KLCC</div>
+                <div class="card-content">14:15-16:15<br>Аквариум (2 часа)<br>~50 MYR/чел</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🌳 KLCC Park</div>
+                <div class="card-content">16:20-17:50<br>Прогулка (1.5 часа)<br>Фото у Петронас</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🛒 Покупка ужина</div>
+                <div class="card-content">17:50-18:00<br>Pizza Milano + пиво</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🍽️ Ужин на закате</div>
+                <div class="card-content">18:00-20:00<br>В номере, закат 19:25</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🎵 Sky51</div>
+                <div class="card-content">20:00+<br>51-й этаж отеля<br>Живая музыка, коктейли</div>
+            </div>
+        </div>
+        
+        <!-- Вс 01.03 -->
+        <div class="column">
+            <div class="col-header">
+                <div class="day">Воскресенье</div>
+                <div class="date">01.03.2026</div>
+                <div class="hotel">🏨 → Лангкави</div>
+            </div>
+            <div class="divider morning">☀️ До обеда</div>
+            <div class="card activity">
+                <div class="card-title">🥐 Завтрак в отеле</div>
+                <div class="card-content">07:00-08:00<br>Nipah</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🚶 Saloma Bridge</div>
+                <div class="card-content">08:00-08:45<br>Пешком ~3 км<br>Пешеходный мост</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🏛️ Dataran Merdeka</div>
+                <div class="card-content">08:45-09:15<br>Историческая площадь</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🦜 KL Bird Park</div>
+                <div class="card-content">09:45-10:45<br>Парк птиц (1 час)<br>~90 MYR/чел</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🚶 Возврат в отель</div>
+                <div class="card-content">10:45-11:45<br>Пешком/такси</div>
+            </div>
+            <div class="card hotel-card">
+                <div class="card-title">🧳 Checkout</div>
+                <div class="card-content">11:45-12:00<br>EQ Kuala Lumpur</div>
+            </div>
+            <div class="divider evening">🌆 После обеда</div>
+            <div class="card transfer">
+                <div class="card-title">🚗 Трансфер в аэропорт</div>
+                <div class="card-content">12:00-13:00<br>~RM80-100, 45-60 мин</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🛫 Регистрация</div>
+                <div class="card-content">13:00+<br>KUL T1</div>
+            </div>
+            <div class="card flight-out">
+                <div class="card-title">✈️ ВЫЛЕТ</div>
+                <div class="card-content">15:00 OD2205<br>KUL → LGK (1ч 05мин)</div>
+            </div>
+            <div class="card flight-in">
+                <div class="card-title">🛬 ПРИЛЕТ LGK</div>
+                <div class="card-content">16:05 OD2205<br>Лангкави</div>
+            </div>
+            <div class="card transfer">
+                <div class="card-title">🚕 Трансфер Trip</div>
+                <div class="card-content">→ Pelangi Beach<br>15-20 мин</div>
+            </div>
+            <div class="card hotel-card">
+                <div class="card-title">🏨 Заселение</div>
+                <div class="card-content">Pelangi Beach Resort<br>Pantai Cenang</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🏖️ Пляж Cenang</div>
+                <div class="card-content">17:00-18:30<br>Купание при закате</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🍽️ Ужин на закате</div>
+                <div class="card-content">18:30-20:00<br>Закат 19:15</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🌙 Вечерняя прогулка</div>
+                <div class="card-content">20:00-22:30<br>Пляж/набережная</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="legend">
+        <div class="legend-item"><div class="legend-box" style="background:#ffe6e6;border-left-color:#dc3545"></div>Вылет</div>
+        <div class="legend-item"><div class="legend-box" style="background:#e6f3e6;border-left-color:#28a745"></div>Прилет</div>
+        <div class="legend-item"><div class="legend-box" style="background:#fff4e6;border-left-color:#ffc107"></div>Трансфер</div>
+        <div class="legend-item"><div class="legend-box" style="background:#e7f3ff;border-left-color:#007bff"></div>Отель</div>
+        <div class="legend-item"><div class="legend-box" style="background:#f3e5f5;border-left-color:#6f42c1"></div>Активность</div>
+        <div class="legend-item"><div class="legend-box" style="background:#555;border-left-color:#6c757d"></div>Важно!</div>
+    </div>
+</div>
+
+<!-- ==================== СТРАНИЦА 2: 02.03 - 06.03 ==================== -->
+<div class="page">
+    <div class="header">
+        <h1>🌴 Доска задач путешествия (Лист 2/2)</h1>
+        <p>Лангкави → Сингапур → Москва | 2 - 6 марта 2026</p>
+    </div>
+    
+    <div class="board board-5">
+        <!-- Пн 02.03 -->
+        <div class="column">
+            <div class="col-header">
+                <div class="day">Понедельник</div>
+                <div class="date">02.03.2026</div>
+                <div class="hotel">🏨 Pelangi Beach Resort Langkawi</div>
+            </div>
+            <div class="card reminder">
+                <div class="card-title">⚠️ SG Arrival Card</div>
+                <div class="card-content">Заполнить электронную карту прибытия за 1-2 дня до Сингапура</div>
+            </div>
+            <div class="divider morning">☀️ До обеда</div>
+            <div class="card activity">
+                <div class="card-title">🥐 Завтрак в отеле</div>
+                <div class="card-content">08:00-08:30<br>Шведский стол</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🏖️ Пляж Pantai Cenang</div>
+                <div class="card-content">08:30-11:30<br>Купание, прогулка, релакс</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🛁 Отдых в номере</div>
+                <div class="card-content">11:30-13:45<br>Подготовка к выезду</div>
+            </div>
+            <div class="divider evening">🌆 После обеда</div>
+            <div class="card transfer">
+                <div class="card-title">🚗 Выезд из отеля</div>
+                <div class="card-content">13:45-14:30<br>Grab до Langkawi SkyCab<br>~25 RM наличкой</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🚠 Langkawi SkyCab + SkyBridge</div>
+                <div class="card-content">14:30-16:30<br>Канатная дорога<br>Панорамные виды<br>85-155 MYR</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">💧 Водопад Seven Wells</div>
+                <div class="card-content">16:30-17:15<br>Спуск по тропе, купание</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🍽️ Ужин с видом на закат</div>
+                <div class="card-content">17:30-19:00<br>SkyBistro / The Loaf<br>Закат 19:15</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🌙 Возвращение в отель</div>
+                <div class="card-content">19:00-19:30<br>Grab ~25 RM</div>
+            </div>
+        </div>
+        
+        <!-- Вт 03.03 -->
+        <div class="column">
+            <div class="col-header">
+                <div class="day">Вторник</div>
+                <div class="date">03.03.2026</div>
+                <div class="hotel">🏨 → Сингапур</div>
+            </div>
+            <div class="divider morning">☀️ До обеда</div>
+            <div class="card activity">
+                <div class="card-title">🥐 Завтрак в отеле</div>
+                <div class="card-content">08:00-08:45<br>Шведский стол</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🏖️ Пляж + Бассейн</div>
+                <div class="card-content">08:45-10:00 Пляж Pantai Cenang<br>10:00-11:00 Lagoon Pool</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🛁 Душ, сборы</div>
+                <div class="card-content">11:00-12:00<br>Отдых в номере</div>
+            </div>
+            <div class="card hotel-card">
+                <div class="card-title">🧳 Чек-аут</div>
+                <div class="card-content">12:00<br>Pelangi Beach Resort</div>
+            </div>
+            <div class="card transfer">
+                <div class="card-title">🚐 Трансфер Trip</div>
+                <div class="card-content">12:30-12:50<br>До аэропорта LGK<br>Водитель с табличкой</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🛫 Аэропорт LGK</div>
+                <div class="card-content">12:50-15:40<br>Регистрация TR477<br>Duty Free</div>
+            </div>
+            <div class="card flight-out">
+                <div class="card-title">✈️ ВЫЛЕТ</div>
+                <div class="card-content">15:40 TR477<br>LGK → SIN (1ч 45мин)<br>Scoot</div>
+            </div>
+            <div class="divider evening">🌆 После обеда</div>
+            <div class="card flight-in">
+                <div class="card-title">🛬 ПРИЛЕТ SIN</div>
+                <div class="card-content">17:25 TR477<br>Сингапур Changi</div>
+            </div>
+            <div class="card transfer">
+                <div class="card-title">🚇 Метро</div>
+                <div class="card-content">Changi Airport → Pan Pacific<br>~45 мин</div>
+            </div>
+            <div class="card hotel-card">
+                <div class="card-title">🏨 Заселение</div>
+                <div class="card-content">Pan Pacific Singapore<br>7 Raffles Boulevard</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🌉 Кларк-Ки + Лодочки</div>
+                <div class="card-content">Речная прогулка<br>Singapore River Cruise</div>
+            </div>
+        </div>
+        
+        <!-- Ср 04.03 -->
+        <div class="column">
+            <div class="col-header">
+                <div class="day">Среда</div>
+                <div class="date">04.03.2026</div>
+                <div class="hotel">🏨 Pan Pacific Singapore</div>
+            </div>
+            <div class="divider morning">☀️ До обеда</div>
+            <div class="card activity">
+                <div class="card-title">🦜 Mandai Bird Paradise</div>
+                <div class="card-content">Парк птиц<br>Крупнейший в Азии</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🏙️ Marina Bay Sands SkyPark</div>
+                <div class="card-content">Смотровая площадка<br>Вид на весь Сингапур</div>
+            </div>
+            <div class="divider evening">🌆 После обеда</div>
+            <div class="card activity">
+                <div class="card-title">🌳 Gardens by the Bay</div>
+                <div class="card-content">Сады у залива<br>Supertree Grove</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🌉 Helix Bridge</div>
+                <div class="card-content">Прогулка по мосту<br>Вид на Marina Bay</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">✨ Световое шоу</div>
+                <div class="card-content">Garden Rhapsody<br>19:45 / 20:45</div>
+            </div>
+        </div>
+        
+        <!-- Чт 05.03 -->
+        <div class="column">
+            <div class="col-header">
+                <div class="day">Четверг</div>
+                <div class="date">05.03.2026</div>
+                <div class="hotel">🏨 Pan Pacific Singapore</div>
+            </div>
+            <div class="divider morning">☀️ До обеда</div>
+            <div class="card activity">
+                <div class="card-title">🏝️ Остров Сентоза</div>
+                <div class="card-content">Singapore Cable Car<br>Канатная дорога</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🏖️ Пляж Tanjong Beach</div>
+                <div class="card-content">Отдых на Сентозе<br>Лучший пляж острова</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🎭 Madame Tussauds</div>
+                <div class="card-content">Музей восковых фигур</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🌉 Fort Siloso Skywalk</div>
+                <div class="card-content">Пешеходный мост<br>Вид на джунгли</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🪂 Mega Adventure Park</div>
+                <div class="card-content">ZIP-Line<br>450 м над джунглями</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🛍️ Шоппинг в VivoCity</div>
+                <div class="card-content">Торговый центр<br>У станции HarbourFront</div>
+            </div>
+            <div class="divider evening">🌆 После обеда</div>
+            <div class="card activity">
+                <div class="card-title">🍽️ Dusk Restaurant & Bar</div>
+                <div class="card-content">Mount Faber<br>Ужин с видом на закат<br>18:00-19:30, закат ≈18:45</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">💫 Spectra Light & Water Show</div>
+                <div class="card-content">20:00<br>Шоу фонтанов у MBS</div>
+            </div>
+        </div>
+        
+        <!-- Пт 06.03 -->
+        <div class="column">
+            <div class="col-header">
+                <div class="day">Пятница</div>
+                <div class="date">06.03.2026</div>
+                <div class="hotel">🏨 → Москва</div>
+            </div>
+            <div class="divider morning">☀️ До обеда</div>
+            <div class="card activity">
+                <div class="card-title">🏊 Утром бассейн</div>
+                <div class="card-content">Купаемся, загораем<br>Отдыхаем, пьем</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🚶 Orchard Road</div>
+                <div class="card-content">Шоппинг-улица<br>ION Orchard<br>Emerald Hill</div>
+            </div>
+            <div class="card activity">
+                <div class="card-title">🚇 Метро в аэропорт</div>
+                <div class="card-content">Promenade MRT → Downtown Line → Expo → East West Line → Changi Airport<br>≈45 мин</div>
+            </div>
+            <div class="divider evening">🌆 После обеда</div>
+            <div class="card activity">
+                <div class="card-title">💦 Jewel Changi Airport</div>
+                <div class="card-content">Rain Vortex<br>Водопад 40м<br>Обед в Jewel</div>
+            </div>
+            <div class="card flight-out">
+                <div class="card-title">✈️ ВЫЛЕТ</div>
+                <div class="card-content">19:25 EY499<br>SIN → AUH (7ч 55мин)<br>Бизнес-зал ON PASS</div>
+            </div>
+            <div class="card transfer">
+                <div class="card-title">🔄 Пересадка AUH</div>
+                <div class="card-content">Прибытие ~03:20 (07.03)<br>Вылет ~06:55 → SVO<br>3ч 35мин<br>Бизнес-зал ON PASS</div>
+            </div>
+            <div class="card flight-in">
+                <div class="card-title">🛬 ПРИЛЕТ SVO</div>
+                <div class="card-content">07:45 EY841<br>07.03.2026<br>Москва Шереметьево</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="legend">
+        <div class="legend-item"><div class="legend-box" style="background:#ffe6e6;border-left-color:#dc3545"></div>Вылет</div>
+        <div class="legend-item"><div class="legend-box" style="background:#e6f3e6;border-left-color:#28a745"></div>Прилет</div>
+        <div class="legend-item"><div class="legend-box" style="background:#fff4e6;border-left-color:#ffc107"></div>Трансфер</div>
+        <div class="legend-item"><div class="legend-box" style="background:#e7f3ff;border-left-color:#007bff"></div>Отель</div>
+        <div class="legend-item"><div class="legend-box" style="background:#f3e5f5;border-left-color:#6f42c1"></div>Активность</div>
+        <div class="legend-item"><div class="legend-box" style="background:#555;border-left-color:#6c757d"></div>Важно!</div>
+    </div>
+</div>
+
+</body>
+</html>
