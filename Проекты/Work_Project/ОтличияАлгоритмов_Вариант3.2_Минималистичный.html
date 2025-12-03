@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отличия алгоритмов многопоточности</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.4;
+            background-color: #ffffff;
+            color: #000000;
+            padding: 15px;
+            font-size: 13px;
+        }
+        .document {
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+        .header {
+            background: #2563eb;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .header h1 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        .header p {
+            font-size: 0.85rem;
+        }
+        .content {
+            padding: 15px;
+        }
+        .section {
+            margin-bottom: 25px;
+        }
+        h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #ccc;
+        }
+        h2.old-algorithm {
+            color: #dc2626;
+        }
+        h2.new-algorithm {
+            color: #059669;
+        }
+        h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            color: #2563eb;
+        }
+        .card {
+            background: #f5f5f5;
+            border-left: 2px solid #2563eb;
+            padding: 10px 12px;
+            margin: 10px 0;
+        }
+        .card.warning {
+            border-left-color: #f59e0b;
+            background: #fff8e1;
+        }
+        .card.success {
+            border-left-color: #10b981;
+            background: #e8f5e9;
+        }
+        ul, ol {
+            margin: 6px 0;
+            padding-left: 20px;
+        }
+        ul ul, ol ol {
+            margin: 3px 0;
+        }
+        li {
+            margin: 3px 0;
+            font-size: 0.9rem;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.85rem;
+        }
+        .comparison-table thead {
+            background: #2563eb;
+            color: white;
+        }
+        .comparison-table th {
+            padding: 8px 10px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        .comparison-table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #ddd;
+            vertical-align: top;
+        }
+        .comparison-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .algorithm-steps {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .algorithm-box {
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+        .algorithm-box.old {
+            border-color: #ef4444;
+            background: #ffebee;
+        }
+        .algorithm-box.new {
+            border-color: #10b981;
+            background: #e8f5e9;
+        }
+        .algorithm-box h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .algorithm-box ol {
+            margin: 0;
+            font-size: 0.85rem;
+        }
+        hr {
+            border: none;
+            height: 1px;
+            background: #ddd;
+            margin: 20px 0;
+        }
+        strong {
+            font-weight: 600;
+        }
+        @media (max-width: 768px) {
+            .algorithm-steps {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="document">
+        <div class="header">
+            <h1>Отличия алгоритмов многопоточности</h1>
+            <p>в обработке внИсполнениеСделокТ+2_ДУ</p>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2 class="old-algorithm">Старый алгоритм (до изменений)</h2>
+
+                <h3>Основные характеристики</h3>
+                <div class="card">
+                    <ul>
+                        <li><strong>Фиксированное количество потоков</strong>: Всегда запускается ровно 6 потоков (или значение из настройки КоличествоПотоков)</li>
+                        <li><strong>Статическое распределение</strong>: Все договоры распределяются по потокам заранее по принципу "наименее загруженный поток"</li>
+                        <li><strong>Одновременный запуск</strong>: Все потоки запускаются сразу и висят до завершения</li>
+                        <li><strong>Простое ожидание</strong>: Фиксированная пауза 5 секунд между проверками состояния</li>
+                    </ul>
+                </div>
+
+                <h3>Проблемы</h3>
+                <div class="card warning">
+                    <ul>
+                        <li>Все потоки запускаются одновременно и "висят" до завершения</li>
+                        <li>Нет адаптации к скорости выполнения</li>
+                        <li>Неэффективное использование ресурсов при неравномерной нагрузке</li>
+                    </ul>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="section">
+                <h2 class="new-algorithm">Новый алгоритм (после изменений)</h2>
+
+                <h3>Основные характеристики</h3>
+                <div class="card success">
+                    <ul>
+                        <li><strong>Динамическое управление потоками</strong>: Количество одновременно работающих потоков изменяется от КоличествоПотоков до 3×КоличествоПотоков в зависимости от скорости выполнения</li>
+                        <li><strong>Статистический анализ весов</strong>: Расчет целевого веса потока по формуле max(Q1 + 3.0×IQR, Медиана × 2.5, Среднее × 1.75)</li>
+                        <li><strong>Умное распределение договоров</strong>: Большие договоры — отдельный поток, маленькие объединяются до целевого веса</li>
+                        <li><strong>Адаптивная пауза</strong>: Динамически изменяется от 0.05 до 2.0 секунд</li>
+                        <li><strong>Мониторинг скорости</strong>: Каждую минуту корректируется количество активных потоков</li>
+                    </ul>
+                </div>
+
+                <h3>Принцип запуска потоков</h3>
+                <div class="algorithm-steps">
+                    <div class="algorithm-box old">
+                        <h4>Старый алгоритм</h4>
+                        <ol>
+                            <li>Распределение: все договоры по КоличествоПотоков потокам заранее</li>
+                            <li>Запуск: <strong>все потоки запускаются сразу</strong> (по количеству из настройки)</li>
+                            <li>Ожидание: фиксированная пауза 5 секунд</li>
+                            <li>Проблема: все потоки "висят" до завершения</li>
+                        </ol>
+                    </div>
+
+                    <div class="algorithm-box new">
+                        <h4>Новый алгоритм</h4>
+                        <ol>
+                            <li>Распределение: все договоры по потокам заранее (таблица потоков)</li>
+                            <li>Первичный запуск: <strong>только первые потоки</strong> (по количеству из настройки)</li>
+                            <li>Цикл ожидания:
+                                <ul>
+                                    <li>Проверка завершенных потоков</li>
+                                    <li>Адаптация целевого количества (КоличествоПотоков ÷ 3×КоличествоПотоков)</li>
+                                    <li><strong>Запуск новых потоков по мере освобождения</strong></li>
+                                    <li>Адаптивная пауза (0.05 ÷ 2.0 сек)</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                <h3>Механизм работы</h3>
+                <div class="card">
+                    <ul>
+                        <li><strong>Спринт-старт</strong>: При большой очереди сразу запускается 1.8×КоличествоПотоков потоков</li>
+                        <li><strong>Адаптивное управление</strong>: При росте скорости — увеличение потоков, при падении — уменьшение</li>
+                        <li><strong>Динамическая пауза</strong>: Автоматически корректируется в зависимости от скорости</li>
+                    </ul>
+                </div>
+
+                <h3>Планируемый прирост производительности</h3>
+                <div class="card success">
+                    <ul>
+                        <li><strong>Ускорение выполнения</strong>: планируется <strong style="color: #059669; font-size: 1.1em;">ускорение в 1.5 раза</strong> по сравнению со старым алгоритмом</li>
+                        <li><strong>Сокращение времени</strong>: ожидаемое сокращение времени выполнения на 30-35%</li>
+                        <li><strong>Эффективность ресурсов</strong>: более эффективное использование ресурсов сервера за счет динамического управления потоками</li>
+                        <li><strong>Масштабируемость</strong>: автоматическая адаптация к изменению нагрузки без ручной настройки</li>
+                    </ul>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="section">
+                <h2>Сравнительная таблица</h2>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Параметр</th>
+                            <th>Старый алгоритм</th>
+                            <th>Новый алгоритм</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Количество потоков</strong></td>
+                            <td>Фиксированное (6)</td>
+                            <td>Динамическое (КоличествоПотоков ÷ 3×КоличествоПотоков)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Распределение</strong></td>
+                            <td>Наименее загруженный</td>
+                            <td>Статистический анализ весов</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Запуск потоков</strong></td>
+                            <td>Все сразу</td>
+                            <td>По мере освобождения</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Пауза между проверками</strong></td>
+                            <td>Фиксированная (5 сек)</td>
+                            <td>Адаптивная (0.05 ÷ 2.0 сек)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Адаптация к скорости</strong></td>
+                            <td>Нет</td>
+                            <td>Да (каждую минуту)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Группировка договоров</strong></td>
+                            <td>По количеству задач в самом начале</td>
+                            <td>По формуле в самом начале (статистический анализ весов)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
