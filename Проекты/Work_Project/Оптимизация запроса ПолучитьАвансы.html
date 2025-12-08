@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Оптимизация: Добавление приведения типов в запросе ПолучитьАвансы</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            font-size: 14px; 
+            line-height: 1.4; 
+            padding: 15px; 
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 { 
+            font-size: 18px; 
+            color: #2c3e50;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 8px;
+        }
+        h2 { 
+            font-size: 15px; 
+            color: #34495e;
+            margin-top: 15px;
+            margin-bottom: 8px;
+        }
+        .goal, .solution {
+            background: #f8f9fa;
+            padding: 12px;
+            margin: 10px 0;
+            border-left: 4px solid #3498db;
+            border-radius: 3px;
+        }
+        .solution {
+            border-left-color: #27ae60;
+        }
+        p { margin: 5px 0; }
+        ul { 
+            margin: 8px 0 8px 20px; 
+            list-style-type: disc;
+        }
+        li { margin: 3px 0; }
+        code { 
+            background: #e8e8e8; 
+            padding: 2px 6px; 
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
+        .critical {
+            background: #f8d7da;
+            padding: 2px 4px;
+            border-radius: 2px;
+            color: #721c24;
+            font-weight: bold;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 12px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.5;
+            margin: 10px 0;
+        }
+        .code-block {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Оптимизация: Добавление приведения типов в запросе ПолучитьАвансы</h1>
+        
+        <div class="goal">
+            <h2>Цель задачи</h2>
+            <p>Оптимизировать производительность запроса при получении остатков авансов для зачета при проведении сделки.</p>
+            <p><strong>Проблема:</strong> В функции <code>ПолучитьАвансы</code> модуля объекта документа "Сделка" в условиях WHERE отсутствует приведение к типу для полей <code>Субконто1</code> и <code>Субконто2</code>, что может приводить к неоптимальному использованию индексов и замедлению выполнения запроса.</p>
+            <p><strong>Критичность:</strong> <span class="critical">▲▲ КРИТИЧЕСКОЕ</span> - задача №1 в сводной таблице оптимизации (строка 996)</p>
+        </div>
+
+        <div class="solution">
+            <h2>Предлагаемое решение</h2>
+            <p>Добавить явное приведение к типу для полей <code>Субконто1</code> и <code>Субконто2</code> в условиях WHERE запроса функции <code>ПолучитьАвансы</code>.</p>
+            <ul>
+                <li>В SELECT уже используется <code>ВЫРАЗИТЬ</code> для Субконто1 (Справочник.Контрагенты) и Субконто2 (Справочник.ДоговорыКонтрагентов)</li>
+                <li>Для согласованности и оптимизации необходимо добавить аналогичное приведение типов в условиях WHERE</li>
+                <li>Приведение типов в WHERE позволяет оптимизатору запросов более эффективно использовать индексы</li>
+            </ul>
+        </div>
+
+        <h2>Технические детали</h2>
+        <ul>
+            <li><strong>Модуль:</strong> <code>Документ.Сделка</code> (Модуль объекта)</li>
+            <li><strong>Функция:</strong> <code>ПолучитьАвансы</code></li>
+            <li><strong>Строка кода:</strong> 996</li>
+            <li><strong>Конфигурация:</strong> <code>C:\CURSOR_Projects\AChmykhalov\Conf\w_d\CF</code></li>
+            <li><strong>Изменения:</strong> Добавить приведение типов для полей Субконто1 (Справочник.Контрагенты) и Субконто2 (Справочник.ДоговорыКонтрагентов) в условиях WHERE запроса</li>
+        </ul>
+        
+        <h2>Изменение в функции ПолучитьАвансы</h2>
+        <p style="margin-top: 8px;"><strong>Было (без приведения типов в WHERE):</strong></p>
+        <pre style="font-size: 11px; padding: 8px;">ВЫБРАТЬ
+    Остатки.Счет КАК Счет,
+    Остатки.Валюта КАК Валюта,
+    ВЫРАЗИТЬ(Остатки.Субконто1 КАК Справочник.Контрагенты) КАК Контрагент,
+    ВЫРАЗИТЬ(Остатки.Субконто2 КАК Справочник.ДоговорыКонтрагентов) КАК ДоговорКонтрагента,
+    ...
+ИЗ
+    РегистрБухгалтерии.Хозрасчетный.Остатки(
+        &МоментВремениОстатков,
+        Счет В (&СчетаАвансов),
+        ,
+        ДоговорДУ = &ДоговорДУ
+            И Субконто1 В (&Контрагент)
+            И Субконто2 В (&ДоговорКонтрагента)
+            И Валюта = &Валюта) КАК Остатки</pre>
+        <p style="margin-top: 8px;"><strong>Стало (с приведением типов в WHERE):</strong></p>
+        <pre style="font-size: 11px; padding: 8px;">ВЫБРАТЬ
+    Остатки.Счет КАК Счет,
+    Остатки.Валюта КАК Валюта,
+    ВЫРАЗИТЬ(Остатки.Субконто1 КАК Справочник.Контрагенты) КАК Контрагент,
+    ВЫРАЗИТЬ(Остатки.Субконто2 КАК Справочник.ДоговорыКонтрагентов) КАК ДоговорКонтрагента,
+    ...
+ИЗ
+    РегистрБухгалтерии.Хозрасчетный.Остатки(
+        &МоментВремениОстатков,
+        Счет В (&СчетаАвансов),
+        ,
+        ДоговорДУ = &ДоговорДУ
+            И (ВЫРАЗИТЬ(Субконто1 КАК Справочник.Контрагенты)) В (&Контрагент)
+            И (ВЫРАЗИТЬ(Субконто2 КАК Справочник.ДоговорыКонтрагентов)) В (&ДоговорКонтрагента)
+            И Валюта = &Валюта) КАК Остатки</pre>
+        
+        <h2>Ожидаемый эффект</h2>
+        <ul>
+            <li>Снижение времени проведения документа "Сделка" при массовых операциях</li>
+        </ul>
+    </div>
+</body>
+</html>
+
