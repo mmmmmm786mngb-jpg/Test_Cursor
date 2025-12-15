@@ -18,3 +18,4 @@ print(f'Директория существует: {os.path.exists(target_dir)}'
 
 
 
+
