@@ -50,3 +50,4 @@ else:
     else:
         print(f'✗ Файл {src_file} не найден в проекте')
 
+

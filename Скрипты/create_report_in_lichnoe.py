@@ -16,3 +16,4 @@ print(f'Целевая директория: {target_dir}')
 print(f'Целевой файл: {target_file}')
 print(f'Директория существует: {os.path.exists(target_dir)}')
 
+
