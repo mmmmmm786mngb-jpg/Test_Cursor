@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сверка реализации с постановкой задачи - ACCOUNTING-15264 и ACCOUNTING-16476</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2E74B5;
+            border-bottom: 3px solid #2E74B5;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #4472C4;
+            margin-top: 30px;
+            border-bottom: 2px solid #4472C4;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #70AD47;
+            margin-top: 20px;
+        }
+        .requirement {
+            margin: 15px 0;
+            padding: 10px;
+            border-left: 4px solid #4472C4;
+            background-color: #e7f3ff;
+        }
+        .requirement-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        .implementation {
+            margin-left: 30px;
+            margin-top: 10px;
+            padding: 10px;
+            border-left: 3px solid #70AD47;
+            background-color: #d4edda;
+        }
+        .implementation-item {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+        .implementation-item::before {
+            content: "✓ ";
+            color: #28a745;
+            font-weight: bold;
+        }
+        .file-path {
+            font-family: monospace;
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+            padding: 5px;
+            background-color: #f8f9fa;
+            border-radius: 3px;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-weight: bold;
+            font-size: 0.85em;
+            margin-left: 10px;
+        }
+        .status-implemented {
+            background-color: #28a745;
+            color: white;
+        }
+        .status-partial {
+            background-color: #ffc107;
+            color: #000;
+        }
+        .status-pending {
+            background-color: #dc3545;
+            color: white;
+        }
+        .tree {
+            margin-left: 20px;
+        }
+        .tree-item {
+            margin: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        .tree-item::before {
+            content: "├─ ";
+            position: absolute;
+            left: 0;
+            color: #666;
+        }
+        .tree-item:last-child::before {
+            content: "└─ ";
+        }
+        .summary {
+            background-color: #e7f3ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4472C4;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .code-block {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Сверка реализации с постановкой задачи</h1>
+        <p><strong>Задачи:</strong> ACCOUNTING-15264, ACCOUNTING-16476</p>
+        <p><strong>Дата проверки:</strong> 2025-01-XX</p>
+        
+        <div class="summary">
+            <h2>Краткая сводка</h2>
+            <table>
+                <tr>
+                    <th>Статус</th>
+                    <th>Количество</th>
+                </tr>
+                <tr>
+                    <td>✅ Реализовано полностью</td>
+                    <td>17</td>
+                </tr>
+                <tr>
+                    <td>⚠️ Реализовано частично</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>❌ Требует реализации</td>
+                    <td>0</td>
+                </tr>
+            </table>
+        </div>
+
+        <h2>ACCOUNTING-16476: Возможность редактирования шаблонов xml для 35/3 и 36/3</h2>
+
+        <div class="requirement">
+            <div class="requirement-title">
+                1. Адаптировать функционал формирования шаблонов xml для 35/3 и 36/3 под аналогичные существующие шаблоны
+                <span class="status-badge status-implemented">✅ Реализовано</span>
+            </div>
+            <div class="implementation">
+                <div class="implementation-item">Добавлены предопределенные элементы П35_3 и П36_3 в справочник ВидыИнвентарныхПоручений</div>
+                <div class="file-path">SBB_Broker_15264_16476\Catalogs\ВидыИнвентарныхПоручений\Ext\Predefined.xml (строки 57-80)</div>
+                
+                <div class="implementation-item">Добавлены макеты XSLT-шаблонов для всех форматов ISO 20022</div>
+                <div class="file-path">SBB_Broker_15264_16476\Catalogs\ВидыИнвентарныхПоручений\Templates\</div>
+                <div class="tree">
+                    <div class="tree-item">XSLT_FA001_ISO - шаблон для заявки на приобретение паев (SubscriptionOrder)</div>
+                    <div class="tree-item">XSLT_FA501_ISO - шаблон для поручения на приобретение паев (TransferInInstruction)</div>
+                    <div class="tree-item">XSLT_FA004_ISO - шаблон для заявки на погашение паев (RedemptionOrder)</div>
+                    <div class="tree-item">XSLT_FA101_ISO - шаблон для поручения на погашение паев (TransferOutInstruction)</div>
+                </div>
+                
+                <div class="implementation-item">Добавлены реквизиты для хранения XSLT-шаблонов в элементах справочника</div>
+                <div class="file-path">SBB_Broker_15264_16476\Catalogs\ВидыИнвентарныхПоручений.xml</div>
+                <div class="tree">
+                    <div class="tree-item">ШаблонЗаявкиISO (тип: ValueStorage) - для хранения шаблона заявки</div>
+                    <div class="tree-item">ШаблонПорученияISO (тип: ValueStorage) - для хранения шаблона поручения</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="requirement">
+            <div class="requirement-title">
+                2. Обеспечить возможность редактирования шаблонов xml для видов поручений 35/3 и 36/3 пользователями и/или сотрудниками поддержки 1С без программирования
+                <span class="status-badge status-implemented">✅ Реализовано</span>
+            </div>
+            <div class="implementation">
+                <div class="implementation-item">Создана форма редактирования XSLT-шаблонов</div>
+                <div class="file-path">SBB_Broker_15264_16476\Catalogs\ВидыИнвентарныхПоручений\Forms\ФормаРедактированияXSLT\</div>
+                <div class="tree">
+                    <div class="tree-item">Форма содержит два реквизита типа ТекстовыйДокумент: ШаблонЗаявкиISO и ШаблонПорученияISO</div>
+                    <div class="tree-item">Реализована возможность редактирования шаблонов в текстовом виде</div>
+                    <div class="tree-item">Добавлена кнопка "Установить шаблоны по умолчанию" для восстановления шаблонов из макетов</div>
+                </div>
+                
+                <div class="implementation-item">Добавлена кнопка "РедактироватьXSLT" на форме элемента справочника</div>
+                <div class="file-path">SBB_Broker_15264_16476\Catalogs\ВидыИнвентарныхПоручений\Forms\ФормаЭлемента\Ext\Form\Module.bsl</div>
+                <div class="tree">
+                    <div class="tree-item">Кнопка видна только для ISO форматов (П35_3, П36_3)</div>
+                    <div class="tree-item">При нажатии открывается форма редактирования с текущими шаблонами</div>
+                    <div class="tree-item">После сохранения шаблоны записываются в реквизиты элемента справочника</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="requirement">
+            <div class="requirement-title">
+                3. Обеспечить возможность указания в качестве значений вычисляемых формул, как сейчас реализовано в справочнике "Виды инвентарных поручений"
+                <span class="status-badge status-implemented">✅ Реализовано</span>
+            </div>
+            <div class="implementation">
+                <div class="implementation-item">Создан макет СКД РеквизитыПорученияISO с запросом для получения данных по поручению</div>
+                <div class="file-path">SBB_Broker_15264_16476\Catalogs\ВидыИнвентарныхПоручений\Templates\РеквизитыПорученияISO\</div>
+                
+                <div class="implementation-item">Добавлена поддержка вычисляемых формул в макетах отображения П35_3 и П36_3</div>
+                <div class="file-path">SBB_Broker_15264_16476\Catalogs\ВидыИнвентарныхПоручений\Templates\П35_3\Ext\Template.xml</div>
+                <div class="file-path">SBB_Broker_15264_16476\Catalogs\ВидыИнвентарныхПоручений\Templates\П36_3\Ext\Template.xml</div>
+                <div class="tree">
+                    <div class="tree-item">В колонке "Значение" можно указывать выражения вида [ПолеОбъекта] или ТекущаяДатаСеанса()</div>
+                    <div class="tree-item">Выражения вычисляются при формировании XML через XSLT преобразование</div>
+                </div>
+                
+                <div class="implementation-item">Реализована функция ДанныеПорученияISO для вычисления формул</div>
+                <div class="file-path">SBB_Broker_15264_16476\DataProcessors\ВыгрузкаПорученийДЕПОВСЭДВЛУЧ\Ext\ManagerModule.bsl (строки 444-501)</div>
+                <div class="tree">
+                    <div class="tree-item">Функция обрабатывает выражения в колонке "Значение" макета отображения</div>
+                    <div class="tree-item">Используется функция Вычислить() для вычисления выражений</div>
+                    <div class="tree-item">Результаты вычислений передаются как параметры в XSLT преобразование</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="requirement">
+            <div class="requirement-title">
+                4. Задействовать механизм СКД в качестве источника данных для вычисляемых формул по аналогии с существующим процессом
+                <span class="status-badge status-implemented">✅ Реализовано</span>
+            </div>
+            <div class="implementation">
+                <div class="implementation-item">Создан макет СКД РеквизитыПорученияISO</div>
+                <div class="file-path">SBB_Broker_15264_16476\Catalogs\ВидыИнвентарныхПоручений\Templates\РеквизитыПорученияISO\</div>
+                <div class="tree">
+                    <div class="tree-item">Макет содержит запрос для получения данных по поручению</div>
+                    <div class="tree-item">Используется в функции ЗаполнитьРеквизитыПоручения для динамического заполнения формы документа</div>
+                </div>
+                
+                <div class="implementation-item">Макет СКД используется в форме документа ПоручениеДЕПО</div>
+                <div class="file-path">SBB_Broker_15264_16476\Documents\ПоручениеДЕПО\Forms\ФормаДокумента\Ext\Form\Module.bsl</div>
+                <div class="tree">
+                    <div class="tree-item">При создании формы определяется макет СКД в зависимости от формата (ISO или не-ISO)</div>
+                    <div class="tree-item">Данные из СКД используются для заполнения реквизитов на вкладке "Реквизиты инвентарного поручения"</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="requirement">
+            <div class="requirement-title">
+                5. Реализация структуры шаблона согласно обсуждению (колонка с полным путем, уникальный идентификатор, кнопка вывода XML)
+                <span class="status-badge status-partial">⚠️ Частично реализовано</span>
+            </div>
+            <div class="implementation">
+                <div class="implementation-item">✅ Реализовано: Добавлена колонка "ИмяЗначения" в макеты отображения для ISO форматов</div>
+                <div class="file-path">SBB_Broker_15264_16476\Catalogs\ВидыИнвентарныхПоручений\Templates\П35_3\Ext\Template.xml</div>
+                <div class="file-path">SBB_Broker_15264_16476\Catalogs\ВидыИнвентарныхПоручений\Templates\П36_3\Ext\Template.xml</div>
+                <div class="tree">
+                    <div class="tree-item">Колонка "Имя" (index 0) содержит уникальные идентификаторы для каждого поля (например, "ОрганизацияНаименование")</div>
+                    <div class="tree-item">Используется при формировании XML через XSLT преобразование: Преобразование.ДобавитьПараметр(СтрокаРеквизит.ИмяЗначения, ...)</div>
+                    <div class="tree-item">Код: SBB_Broker_15264_16476\DataProcessors\ВыгрузкаПорученийДЕПОВСЭДВЛУЧ\Ext\ManagerModule.bsl (строка 488)</div>
+                </div>
+                
+                <div class="implementation-item">❌ НЕ реализовано: Колонка с полным путем в XML структуре</div>
+                <div class="file-path">Требование: В макетах отображения должна быть колонка с полным путем в XML структуре (например, "Document/Header/Organization/Name")</div>
+                <div class="tree">
+                    <div class="tree-item">В текущих макетах П35_3 и П36_3 нет колонки с полным путем</div>
+                    <div class="tree-item">Структура макета: "Имя" (уникальный идентификатор), "Значение" (значение реквизита), "Синоним элемента на форме", и т.д.</div>
+                    <div class="tree-item">Колонка с полным путем должна быть добавлена в макеты отображения</div>
+                </div>
+                
+                <div class="implementation-item">❌ НЕ реализовано: Кнопка для вывода XML в формате ISO с уникальными идентификаторами</div>
+                <div class="file-path">Требование: На форме элемента справочника должна быть кнопка для вывода текстового представления XML файла в формате ISO с уникальными идентификаторами в тегах</div>
+                <div class="tree">
+                    <div class="tree-item">На форме элемента справочника (ФормаЭлемента) есть кнопка "РедактироватьXSLT", но нет кнопки для вывода XML</div>
+                    <div class="tree-item">Функция ДанныеПорученияISO формирует XML, но нет UI для просмотра результата</div>
+                    <div class="tree-item">Требуется добавить кнопку и форму/окно для отображения сформированного XML</div>
+                </div>
+            </div>
+        </div>
+
+        <h2>ACCOUNTING-15264: Организовать передачу новых форматов сообщений 35/3 и 36/3 в ИШ</h2>
+
+        <div class="requirement">
+            <div class="requirement-title">
+                1. Добавить глобальный параметр (дату перехода на новые форматы по паям)
+                <span class="status-badge status-implemented">✅ Реализовано</span>
+            </div>
+            <div class="implementation">
+                <div class="implementation-item">Создан глобальный параметр "15264.ДатаПереходаНаНовыеФорматыПоПаям"</div>
+                <div class="file-path">SBB_Broker_15264_16476\DataProcessors\ОбновлениеИнформационнойБазыNew\Ext\ObjectModule.bsl (строки 3264-3270)</div>
+                <div class="tree">
+                    <div class="tree-item">Параметр создается в обработчике обновления для задачи 15264</div>
+                    <div class="tree-item">Тип параметра: Дата</div>
+                    <div class="tree-item">Начальное значение: Дата(1, 1, 1)</div>
+                    <div class="tree-item">Используется для определения, нужно ли применять новые форматы ISO 20022</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="requirement">
+            <div class="requirement-title">
+                2. Добавить в справочник "Виды инвентарных поручений" новые записи и схемы (35/3, 36/3)
+                <span class="status-badge status-implemented">✅ Реализовано (в ACCOUNTING-16476)</span>
+            </div>
+            <div class="implementation">
+                <div class="implementation-item">Добавлены предопределенные элементы П35_3 и П36_3</div>
+                <div class="file-path">SBB_Broker_15264_16476\Catalogs\ВидыИнвентарныхПоручений\Ext\Predefined.xml</div>
+                <div class="tree">
+                    <div class="tree-item">П35_3 - Прием ценных бумаг на хранение и/или учет (код: 35/3, формат: FA501)</div>
+                    <div class="tree-item">П36_3 - Снятие ценных бумаг с хранения и/или учета (код: 36/3, формат: FA101)</div>
+                </div>
+                
+                <div class="implementation-item">Добавлены макеты табличных документов П35_3 и П36_3</div>
+                <div class="file-path">SBB_Broker_15264_16476\Catalogs\ВидыИнвентарныхПоручений\Templates\П35_3\</div>
+                <div class="file-path">SBB_Broker_15264_16476\Catalogs\ВидыИнвентарныхПоручений\Templates\П36_3\</div>
+                <div class="tree">
+                    <div class="tree-item">Макеты содержат настройки заполнения и отображения полей для вкладки "Реквизиты инвентарного поручения"</div>
+                    <div class="tree-item">Структура колонок адаптирована для ISO форматов (добавлена колонка "ИмяЗначения")</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="requirement">
+            <div class="requirement-title">
+                3. Переименовать этапы БП: с "Формирование инструкции 36/2" на "Формирование ППЗ+ПД для НРД", с "Формирование инструкций 35/2" на "Формирование ППЗ+ПД для НРД"
+                <span class="status-badge status-implemented">✅ Реализовано</span>
+            </div>
+            <div class="implementation">
+                <div class="implementation-item">Этапы переименованы в бизнес-процессе "ЗапросНаПодпискуИПогашениеПаев"</div>
+                <div class="file-path">SBB_Broker_15264_16476\BusinessProcesses\ЗапросНаПодпискуИПогашениеПаев\Ext\Flowchart.xml</div>
+                <div class="tree">
+                    <div class="tree-item">Этап "ОбработкаФормированиеИнструкцииSubscribeSingle" переименован на "Формирование ППЗ+ПД для НРД" (строка 194)</div>
+                    <div class="tree-item">Этап "ОбработкаФормированиеИнструкцииRedemption" переименован на "Формирование ППЗ+ПД для НРД" (строка 262)</div>
+                    <div class="tree-item">Старые названия "Формирование инструкции 36/2" и "Формирование инструкций 35/2" в файле отсутствуют</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="requirement">
+            <div class="requirement-title">
+                4. Этап БП "Формирование ППЗ+ПД для НРД" разделить на два этапа: 1. "Формирование ППЗ в НРД", 2. "Формирование поручения Депо в НРД"
+                <span class="status-badge status-implemented">✅ Реализовано</span>
+            </div>
+            <div class="implementation">
+                <div class="implementation-item">Этап разделен на два отдельных этапа в бизнес-процессе "ЗапросНаПодпискуИПогашениеПаев"</div>
+                <div class="file-path">SBB_Broker_15264_16476\BusinessProcesses\ЗапросНаПодпискуИПогашениеПаев\Ext\Flowchart.xml</div>
+                <div class="tree">
+                    <div class="tree-item">Добавлен этап "ДействиеФормированиеППЗвНРДSubscribeSingle" - "Формирование ППЗ в НРД" (строки 6150-6199)</div>
+                    <div class="tree-item">Добавлен этап "ДействиеФормированиеППЗвНРДRedemption" - "Формирование ППЗ в НРД" (строки 6242-6291)</div>
+                    <div class="tree-item">Добавлен этап "ОбработкаФормированиеПорученияДепоВНРДSubscribeSingle" - "Формирование поручения депо в НРД" (строки 5950-6005)</div>
+                    <div class="tree-item">Добавлен этап "ОбработкаФормированиеПорученияДепоВНРДRedemption" - "Формирование поручения Депо в НРД" (строки 5873-5905)</div>
+                    <div class="tree-item">Связи между этапами показывают последовательность: "Формирование ППЗ в НРД" → "Формирование поручения Депо в НРД" (строка 6229)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="requirement">
+            <div class="requirement-title">
+                5. На форму БП добавить статусы заявки
+                <span class="status-badge status-implemented">✅ Реализовано</span>
+            </div>
+            <div class="implementation">
+                <div class="implementation-item">Добавлены новые статусы в перечисление СтатусыДокументовФайловыйШлюз</div>
+                <div class="file-path">SBB_Depo_15264_16476\Enums\СтатусыДокументовФайловыйШлюз.xml</div>
+                <div class="tree">
+                    <div class="tree-item">ЗаявкаВыгружена (код 12) - ППЗ выгружена в Депозитарий</div>
+                    <div class="tree-item">ЗаявкаВыгруженаФШ (код 13) - ППЗ выгружена в ФШ</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="requirement">
+            <div class="requirement-title">
+                6. Этап 1.1: Выгрузка ППЗ (требуется настроить)
+                <span class="status-badge status-implemented">✅ Реализовано</span>
+            </div>
+            <div class="implementation">
+                <div class="implementation-item">Добавлены XDTO пакеты для ISO 20022 форматов заявок</div>
+                <div class="file-path">SBB_Depo_15264_16476\XDTOPackages\</div>
+                <div class="tree">
+                    <div class="tree-item">SubscriptionOrder_ISO20022 - для заявки на приобретение паев (FA001)</div>
+                    <div class="tree-item">RedemptionOrder_ISO20022 - для заявки на погашение паев (FA004)</div>
+                </div>
+                
+                <div class="implementation-item">Добавлены функции в Web-сервис FunctionalElectronicDocuments</div>
+                <div class="file-path">SBB_Depo_15264_16476\WebServices\FunctionalElectronicDocuments\Ext\Module.bsl</div>
+                <div class="tree">
+                    <div class="tree-item">SendISO - отправка ISO сообщений в файловый шлюз (строки 1451-1523)</div>
+                    <div class="tree-item">ВыгрузитьВФайловыйШлюзISO - формирование и отправка сообщений ISO 20022 (строки 1317-1449)</div>
+                    <div class="tree-item">XDTOСтрокойISO - преобразование XDTO объекта в XML строку без namespace (строки 1296-1310)</div>
+                </div>
+                
+                <div class="implementation-item">Добавлены экспортные процедуры в обработку ВыгрузкаПорученийДЕПОВСЭДВЛУЧ</div>
+                <div class="file-path">SBB_Broker_15264_16476\DataProcessors\ВыгрузкаПорученийДЕПОВСЭДВЛУЧ\Ext\ManagerModule.bsl</div>
+                <div class="tree">
+                    <div class="tree-item">ВыгрузитьЗаявкуНаПриобретениеПаевISO - выгрузка заявки FA001 (строки 381-389)</div>
+                    <div class="tree-item">ВыгрузитьЗаявкуНаПогашениеПаевISO - выгрузка заявки FA004 (строки 397-405)</div>
+                    <div class="tree-item">ДанныеПорученияISO - получение данных и выполнение XSLT преобразования (строки 444-501)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="requirement">
+            <div class="requirement-title">
+                7. Этап 1.2: Обработка квитанции ЭДО (требуется настроить)
+                <span class="status-badge status-implemented">✅ Реализовано полностью</span>
+            </div>
+            <div class="implementation">
+                <div class="implementation-item">✅ Реализовано: Функция GetOrderDataISO для чтения данных из квитанций ЭДО ISO форматов</div>
+                <div class="file-path">SBB_Depo_15264_16476\WebServices\FunctionalElectronicDocuments\Ext\Module.bsl (строки 1383-1448)</div>
+                <div class="tree">
+                    <div class="tree-item">Функция читает данные из входящих пакетов файлового шлюза (ВходящийПакетИзФайловогоШлюза)</div>
+                    <div class="tree-item">Использует путь "Document.OrdrInstrStsRpt" для получения отчета о статусе заявки (Order Instruction Status Report)</div>
+                    <div class="tree-item">Извлекает статус заявки, номер заявки УК, дату заявки УК и причину отказа</div>
+                    <div class="tree-item">Возвращает JSON с данными заявки</div>
+                </div>
+                
+                <div class="implementation-item">✅ Реализовано: Процедура ЗагрузитьДанныеЗаявокПоПаямЧерезВебСервис для обновления статусов</div>
+                <div class="file-path">SBB_Broker_15264_16476\DataProcessors\ФайловыйШлюз\Ext\ManagerModule.bsl (строки 863-926)</div>
+                <div class="tree">
+                    <div class="tree-item">Процедура использует GetOrderDataISO для получения статусов заявок по паям</div>
+                    <div class="tree-item">Учитывает дату перехода на новые форматы из глобального параметра</div>
+                    <div class="tree-item">Обновляет статус заявки в бизнес-процессе на основе полученных данных</div>
+                    <div class="tree-item">Заполняет номер и дату заявки УК в бизнес-процессе</div>
+                </div>
+                
+                <div class="implementation-item">✅ Реализовано: Автоматическая обработка квитанций при получении пакетов из INBOX</div>
+                <div class="file-path">SBB_Depo_15264_16476\DataProcessors\ЭкспортПорученийВЛуч\Ext\ManagerModule.bsl (строки 4225-4300)</div>
+                <div class="tree">
+                    <div class="tree-item">Процедура ОбработатьПакетСоСтатусомЗаявкиПоПаям обрабатывает каталоги #FOXRP* в INBOX</div>
+                    <div class="tree-item">Автоматически создает документы ВходящийПакетИзФайловогоШлюза с данными из квитанций OrdrInstrStsRpt</div>
+                    <div class="tree-item">Вызывается из процедуры ОбработатьВходящиеПакеты (строка 805) при обработке входящих пакетов</div>
+                    <div class="tree-item">Обрабатывает сообщения типа setr.016.001.03 (OrdrInstrStsRpt) и admi.002.001.01 (ошибки)</div>
+                    <div class="tree-item">Извлекает статус заявки, номер заявки УК, дату заявки УК из квитанций</div>
+                    <div class="tree-item">Сохраняет данные в табличной части СодержимоеФайла документа ВходящийПакетИзФайловогоШлюза</div>
+                </div>
+                
+                <div class="implementation-item">✅ Реализовано: Специфическая обработка квитанций для ISO форматов в логике файлового шлюза</div>
+                <div class="file-path">SBB_Depo_15264_16476\DataProcessors\ЭкспортПорученийВЛуч\Ext\ManagerModule.bsl (строки 4225-4300)</div>
+                <div class="tree">
+                    <div class="tree-item">Процедура ОбработатьПакетСоСтатусомЗаявкиПоПаям специально предназначена для обработки ISO квитанций</div>
+                    <div class="tree-item">Использует XDTO для чтения XML сообщений (ФабрикаXDTO.ПрочитатьXML)</div>
+                    <div class="tree-item">Обрабатывает квитанции OrdrInstrStsRpt с типом сообщения setr.016.001.03</div>
+                    <div class="tree-item">Обрабатывает сообщения об ошибках admi.002.001.01</div>
+                    <div class="tree-item">Автоматически связывает квитанции с документами ТехническаяОперация через имя заявки</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="requirement">
+            <div class="requirement-title">
+                8. Этап 1.3: Статус обработки ППЗ (требуется настроить)
+                <span class="status-badge status-implemented">✅ Реализовано</span>
+            </div>
+            <div class="implementation">
+                <div class="implementation-item">Добавлена функция GetOrderDataISO в Web-сервис для получения статуса заявки</div>
+                <div class="file-path">SBB_Depo_15264_16476\WebServices\FunctionalElectronicDocuments\Ext\Module.bsl (строки 1525-1723)</div>
+                <div class="tree">
+                    <div class="tree-item">Функция запрашивает данные по заявке из входящих пакетов файлового шлюза</div>
+                    <div class="tree-item">Возвращает JSON с данными заявки, включая статус</div>
+                </div>
+                
+                <div class="implementation-item">Добавлена процедура ЗагрузитьДанныеЗаявокПоПаямЧерезВебСервис</div>
+                <div class="file-path">SBB_Broker_15264_16476\DataProcessors\ФайловыйШлюз\Ext\ManagerModule.bsl (строки 863-920)</div>
+                <div class="tree">
+                    <div class="tree-item">Процедура загружает данные заявок по паям через веб-сервис GetOrderDataISO</div>
+                    <div class="tree-item">Учитывает дату перехода на новые форматы из глобального параметра</div>
+                    <div class="tree-item">Обновляет статус заявки в бизнес-процессе на основе полученных данных</div>
+                </div>
+                
+                <div class="implementation-item">Добавлена обработка статусов ЗаявкаВыгружена и ЗаявкаВыгруженаФШ</div>
+                <div class="file-path">SBB_Broker_15264_16476\DataProcessors\ФайловыйШлюз\Ext\ManagerModule.bsl (строки 581, 678-681)</div>
+                <div class="tree">
+                    <div class="tree-item">Статус "ЗаявкаВыгружена" (код 12) добавлен в массив статусов для запроса</div>
+                    <div class="tree-item">Добавлено маппирование кодов статусов 12 и 13 на перечисление СтатусыПорученияДепо</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="requirement">
+            <div class="requirement-title">
+                9. Этап 2.1: Выгрузка поручения (требуется настроить по новому формату)
+                <span class="status-badge status-implemented">✅ Реализовано</span>
+            </div>
+            <div class="implementation">
+                <div class="implementation-item">Добавлены XDTO пакеты для ISO 20022 форматов поручений</div>
+                <div class="file-path">SBB_Depo_15264_16476\XDTOPackages\</div>
+                <div class="tree">
+                    <div class="tree-item">TransferInInstruction_ISO20022 - для поручения на приобретение паев (FA501)</div>
+                    <div class="tree-item">TransferOutInstruction_ISO20022 - для поручения на погашение паев (FA101)</div>
+                </div>
+                
+                <div class="implementation-item">Добавлены экспортные процедуры для выгрузки поручений</div>
+                <div class="file-path">SBB_Broker_15264_16476\DataProcessors\ВыгрузкаПорученийДЕПОВСЭДВЛУЧ\Ext\ManagerModule.bsl</div>
+                <div class="tree">
+                    <div class="tree-item">ВыгрузитьПоручениеISO - основная процедура выгрузки поручения (строки 433-442)</div>
+                    <div class="tree-item">ВыгрузитьПоручениеНаПриобретениеПаевISO - выгрузка поручения FA501 (строки 407-415)</div>
+                    <div class="tree-item">ВыгрузитьПоручениеНаПогашениеПаевISO - выгрузка поручения FA101 (строки 417-425)</div>
+                    <div class="tree-item">ВыгрузитьДанныеПоПоручениюISO - основная процедура выгрузки с XSLT преобразованием (строки 607-673)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="requirement">
+            <div class="requirement-title">
+                10. Доработаны алгоритмы вывода полей на вкладку "Реквизиты инвентарного поручения" документа ПоручениеДЕПО
+                <span class="status-badge status-implemented">✅ Реализовано</span>
+            </div>
+            <div class="implementation">
+                <div class="implementation-item">Добавлена функция ЭтоФорматISO для определения ISO форматов</div>
+                <div class="file-path">SBB_Broker_15264_16476\Catalogs\ВидыИнвентарныхПоручений\Ext\ManagerModule.bsl (строки 60-63)</div>
+                <div class="tree">
+                    <div class="tree-item">Функция определяет, является ли вид поручения ISO форматом (П35_3 или П36_3)</div>
+                </div>
+                
+                <div class="implementation-item">Доработана процедура ЗаполнитьРеквизитыПоручения для поддержки ISO форматов</div>
+                <div class="file-path">SBB_Broker_15264_16476\CommonModules\РеквизитыИнвентарныхПорученийСервер\Ext\Module.bsl</div>
+                <div class="tree">
+                    <div class="tree-item">Добавлена проверка ISO формата для выбора правильного макета СКД (строки 14-15)</div>
+                    <div class="tree-item">Добавлена логика определения структуры колонок для ISO и не-ISO форматов (строки 37-60)</div>
+                    <div class="tree-item">Для ISO форматов используется структура с колонкой "ИмяЗначения" на позиции 1</div>
+                </div>
+                
+                <div class="implementation-item">Доработана форма документа ПоручениеДЕПО</div>
+                <div class="file-path">SBB_Broker_15264_16476\Documents\ПоручениеДЕПО\Forms\ФормаДокумента\Ext\Form\Module.bsl</div>
+                <div class="tree">
+                    <div class="tree-item">При создании формы определяется макет СКД в зависимости от формата (ISO или не-ISO)</div>
+                    <div class="tree-item">Динамически заполняются реквизиты на основе макета отображения</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="requirement">
+            <div class="requirement-title">
+                11. Добавить новый справочник идентификаторов, используемых для документов НРД
+                <span class="status-badge status-partial">⚠️ Частично реализовано</span>
+            </div>
+            <div class="implementation">
+                <div class="implementation-item">📋 Назначение справочника (из постановки задачи):</div>
+                <div class="file-path">ACCOUNTING-15264: Пункт 6</div>
+                <div class="tree">
+                    <div class="tree-item">Справочник "Идентификаторы для документов НРД" нужен для указания типа идентификационного документа в ISO сообщениях</div>
+                    <div class="tree-item">Коды (CCPT, PASSPORT, BIRT, FCCP, OGRN, INCR, TXID, OTHR и т.д.) должны использоваться в полях PrtryId/Issr для указания типа документа</div>
+                    <div class="tree-item">Справочник должен содержать предопределенные элементы с кодами для различных типов документов (физических лиц, юридических лиц, общих идентификаторов)</div>
+                </div>
+                
+                <div class="implementation-item">✅ Реализовано альтернативным способом: Использован существующий справочник "ДокументыУдостоверяющиеЛичность" с атрибутом "КодНРД"</div>
+                <div class="file-path">SBB_Depo_15264_16476\Catalogs\ДокументыУдостоверяющиеЛичность.xml</div>
+                <div class="tree">
+                    <div class="tree-item">Вместо создания нового справочника использован существующий справочник "ДокументыУдостоверяющиеЛичность"</div>
+                    <div class="tree-item">Атрибут "КодНРД" (тип: строка, длина: 4) уже существовал в эталонной конфигурации (добавлен ранее, не в рамках этой задачи)</div>
+                    <div class="tree-item">Атрибут предназначен для хранения кодов идентификаторов НРД (CCPT, PASSPORT, BIRT, FCCP, OGRN, INCR, TXID и т.д.)</div>
+                    <div class="tree-item">✅ В коде используется атрибут "КодНРД" (например, в РаскрытиеСпискаВладельцев, ВыгрузкаДанныхОКлиентахДляWEB) для заполнения поля Issr в ISO сообщениях</div>
+                </div>
+                
+                <div class="implementation-item">❌ НЕ реализовано: Заполнение атрибута "КодНРД" предопределенными значениями</div>
+                <div class="file-path">Проверено: SBB_Depo_15264_16476\Catalogs\ДокументыУдостоверяющиеЛичность\Ext\Predefined.xml и ОбновлениеИнформационнойБазыNew</div>
+                <div class="tree">
+                    <div class="tree-item">❌ В Predefined.xml предопределенные элементы НЕ содержат значений атрибута "КодНРД" (CCPT, PASSPORT, BIRT, FCCP, OGRN, INCR, TXID, OTHR)</div>
+                    <div class="tree-item">❌ В обработке обновления (ОбновлениеИнформационнойБазыNew) НЕТ кода для заполнения атрибута "КодНРД" предопределенными значениями</div>
+                    <div class="tree-item">⚠️ Согласно постановке задачи, должны быть предопределены элементы с кодами: CCPT, PASSPORT, BIRT, FCCP, OGRN, INCR, TXID, OTHR</div>
+                </div>
+                
+                <div class="implementation-item">❌ НЕ реализовано: Использование кодов из атрибута "КодНРД" в XSLT шаблонах для новых ISO форматов 35/3 и 36/3</div>
+                <div class="file-path">Проверено: SBB_Broker_15264_16476\Catalogs\ВидыИнвентарныхПоручений\Templates\XSLT_FA001_ISO, XSLT_FA501_ISO</div>
+                <div class="tree">
+                    <div class="tree-item">❌ В XSLT шаблонах для новых ISO форматов (XSLT_FA001_ISO, XSLT_FA004_ISO, XSLT_FA501_ISO, XSLT_FA101_ISO) коды жестко заданы в шаблоне (TXID, OGRN, FMCC, NDCD, NSDR и т.д.)</div>
+                    <div class="tree-item">❌ Коды НЕ берутся из атрибута "КодНРД" справочника "ДокументыУдостоверяющиеЛичность"</div>
+                    <div class="tree-item">❌ В функции ДанныеПорученияISO параметры передаются из ТаблицаРеквизитов, но коды типов документов не передаются как параметры в XSLT</div>
+                    <div class="tree-item">⚠️ Для новых форматов 35/3 и 36/3 справочник идентификаторов НРД фактически не используется - коды жестко заданы в шаблонах</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="requirement">
+            <div class="requirement-title">
+                12. Добавлен обработчик обновления для настройки новых предопределенных видов поручения 35/3 и 36/3
+                <span class="status-badge status-implemented">✅ Реализовано</span>
+            </div>
+            <div class="implementation">
+                <div class="implementation-item">Добавлена логика обновления для задачи 16476</div>
+                <div class="file-path">SBB_Broker_15264_16476\DataProcessors\ОбновлениеИнформационнойБазыNew\Ext\ObjectModule.bsl (строки 3273-3277)</div>
+                <div class="tree">
+                    <div class="tree-item">Вызывается процедура НастроитьВидыПорученийПоПаям35_3_36_3</div>
+                    <div class="tree-item">Процедура настраивает макеты отображения для П35_3 и П36_3</div>
+                </div>
+            </div>
+        </div>
+
+        <h2>Итоговая сводка</h2>
+        <div class="summary">
+            <h3>Реализовано полностью:</h3>
+            <ul>
+                <li>✅ Адаптация функционала формирования шаблонов XML для 35/3 и 36/3</li>
+                <li>✅ Возможность редактирования шаблонов XML без программирования</li>
+                <li>✅ Поддержка вычисляемых формул в шаблонах</li>
+                <li>✅ Использование механизма СКД для получения данных</li>
+                <li>✅ Добавление глобального параметра даты перехода</li>
+                <li>✅ Добавление новых записей в справочник "Виды инвентарных поручений"</li>
+                <li>✅ Переименование этапов БП: "Формирование инструкции 36/2" и "Формирование инструкций 35/2" на "Формирование ППЗ+ПД для НРД"</li>
+                <li>✅ Разделение этапа БП "Формирование ППЗ+ПД для НРД" на два этапа: "Формирование ППЗ в НРД" и "Формирование поручения Депо в НРД"</li>
+                <li>✅ Добавление статусов заявки на форму БП</li>
+                <li>✅ Выгрузка ППЗ в интеграционный шлюз (FA001, FA004)</li>
+                <li>✅ Обработка статусов обработки ППЗ</li>
+                <li>✅ Выгрузка поручений в интеграционный шлюз (FA501, FA101)</li>
+                <li>✅ Доработка алгоритмов вывода полей на вкладку "Реквизиты инвентарного поручения"</li>
+                <li>✅ Добавление новых статусов в перечисление</li>
+                <li>✅ Обработчик обновления для настройки новых видов поручений</li>
+                <li>✅ Обработка квитанций ЭДО: автоматическая обработка квитанций из INBOX, чтение данных через GetOrderDataISO, обновление статусов бизнес-процессов</li>
+            </ul>
+            
+            <h3>Реализовано частично:</h3>
+            <ul>
+                <li>⚠️ Структура шаблона:
+                    <ul>
+                        <li>✅ Реализовано: Колонка "ИмяЗначения" с уникальными идентификаторами (например, "ОрганизацияНаименование")</li>
+                        <li>❌ НЕ реализовано: Колонка с полным путем в XML структуре (например, "Document/Header/Organization/Name")</li>
+                        <li>❌ НЕ реализовано: Кнопка для вывода XML в формате ISO с уникальными идентификаторами в тегах</li>
+                    </ul>
+                </li>
+                <li>⚠️ Справочник идентификаторов НРД:
+                    <ul>
+                        <li>✅ Реализовано альтернативным способом: Использован существующий справочник "ДокументыУдостоверяющиеЛичность" с атрибутом "КодНРД" (атрибут уже существовал в эталонной конфигурации)</li>
+                        <li>❌ НЕ реализовано: Заполнение атрибута "КодНРД" предопределенными значениями (CCPT, PASSPORT, BIRT, FCCP, OGRN, INCR, TXID, OTHR) - в Predefined.xml и обработке обновления нет кода для заполнения</li>
+                        <li>❌ НЕ реализовано: Использование кодов из атрибута "КодНРД" в XSLT шаблонах для новых ISO форматов 35/3 и 36/3 - коды жестко заданы в шаблонах, не берутся из справочника</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <h3>Требует проверки:</h3>
+            <ul>
+                <li>✅ Переименование этапов БП - проверено, реализовано</li>
+                <li>✅ Разделение этапа БП на два этапа - проверено, реализовано</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
