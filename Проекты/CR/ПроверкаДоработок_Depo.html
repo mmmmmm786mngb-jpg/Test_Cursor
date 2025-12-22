@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проверка доработок SBB_Depo - ACCOUNTING-15264 и ACCOUNTING-16476</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2E74B5;
+            border-bottom: 3px solid #2E74B5;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #4472C4;
+            margin-top: 30px;
+            border-bottom: 2px solid #4472C4;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #70AD47;
+            margin-top: 20px;
+        }
+        .change-item {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .change-item.correct {
+            border-left: 4px solid #28a745;
+            background-color: #d4edda;
+        }
+        .change-item.error {
+            border-left: 4px solid #dc3545;
+            background-color: #f8d7da;
+        }
+        .change-item.warning {
+            border-left: 4px solid #ffc107;
+            background-color: #fff3cd;
+        }
+        .change-header {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        .change-file {
+            font-family: monospace;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        .change-lines {
+            font-family: monospace;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .status-correct {
+            background-color: #28a745;
+            color: white;
+        }
+        .status-error {
+            background-color: #dc3545;
+            color: white;
+        }
+        .status-warning {
+            background-color: #ffc107;
+            color: #000;
+        }
+        .code-block {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+        }
+        .check-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .check-list li {
+            padding: 5px 0;
+        }
+        .check-list li:before {
+            content: "• ";
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .check-list li.correct:before {
+            content: "✅ ";
+        }
+        .check-list li.error:before {
+            content: "❌ ";
+        }
+        .check-list li.warning:before {
+            content: "⚠️ ";
+        }
+        .summary {
+            background-color: #e7f3ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4472C4;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Проверка доработок SBB_Depo - ACCOUNTING-15264 и ACCOUNTING-16476</h1>
+        
+        <div class="summary">
+            <h2>Краткая сводка</h2>
+            <p><strong>Дата проверки:</strong> 2025-01-XX</p>
+            <p><strong>Конфигурация:</strong> SBB_Depo</p>
+            <p><strong>Всего доработок:</strong> 7</p>
+            <table>
+                <tr>
+                    <th>Статус</th>
+                    <th>Количество</th>
+                </tr>
+                <tr>
+                    <td>✅ Корректно</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>⚠️ Требует улучшения</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>❌ Ошибки</td>
+                    <td>0</td>
+                </tr>
+            </table>
+        </div>
+
+        <h2>Детальная проверка доработок</h2>
+
+        <!-- Доработка 1: XDTO пакеты -->
+        <div class="change-item correct">
+            <div class="change-header">
+                Доработка 1: Добавлены новые XDTO пакеты для ISO20022
+                <span class="status-badge status-correct">✅ Корректно</span>
+            </div>
+            <div class="change-file">Объекты: ПакетXDTO.SubscriptionOrder_ISO20022, ПакетXDTO.RedemptionOrder_ISO20022, ПакетXDTO.TransferInInstruction_ISO20022, ПакетXDTO.TransferOutInstruction_ISO20022</div>
+            <p><strong>Описание:</strong> Добавлены 4 новых XDTO пакета для работы с ISO20022 сообщениями.</p>
+            <p><strong>Проверка на соответствие стандартам 1С:</strong></p>
+            <ul class="check-list">
+                <li class="correct">Именование соответствует стандартам (PascalCase)</li>
+                <li class="correct">Структура XML корректна</li>
+                <li class="correct">Namespace указан правильно</li>
+                <li class="correct">UUID сгенерированы корректно</li>
+            </ul>
+            <p><strong>Вывод:</strong> Доработка выполнена корректно, соответствует стандартам 1С.</p>
+        </div>
+
+        <!-- Доработка 2: Перечисление -->
+        <div class="change-item correct">
+            <div class="change-header">
+                Доработка 2: Добавлены новые значения в перечисление СтатусыДокументовФайловыйШлюз
+                <span class="status-badge status-correct">✅ Корректно</span>
+            </div>
+            <div class="change-file">Файл: SBB_Depo_15264_16476\Enums\СтатусыДокументовФайловыйШлюз.xml</div>
+            <div class="change-lines">Добавлены значения: ЗаявкаВыгружена (код 12), ЗаявкаВыгруженаФШ (код 13)</div>
+            <p><strong>Описание:</strong> Добавлены два новых предопределенных значения в перечисление для отслеживания статусов заявок.</p>
+            <p><strong>Проверка на соответствие стандартам 1С:</strong></p>
+            <ul class="check-list">
+                <li class="correct">Именование соответствует стандартам (PascalCase)</li>
+                <li class="correct">Синонимы заполнены корректно</li>
+                <li class="correct">UUID сгенерированы корректно</li>
+                <li class="correct">Коды назначены правильно (12, 13)</li>
+            </ul>
+            <p><strong>Вывод:</strong> Доработка выполнена корректно, соответствует стандартам 1С.</p>
+        </div>
+
+        <!-- Доработка 3: Добавление статусов в код -->
+        <div class="change-item correct">
+            <div class="change-header">
+                Доработка 3: Добавлены коды новых статусов в модуль Web-сервиса
+                <span class="status-badge status-correct">✅ Корректно</span>
+            </div>
+            <div class="change-file">Файл: SBB_Depo_15264_16476\WebServices\FunctionalElectronicDocuments\Ext\Module.bsl</div>
+            <div class="change-lines">Строки: 1162-1163</div>
+            <p><strong>Описание:</strong> Добавлены строки кода для маппинга новых статусов на коды.</p>
+            <div class="code-block">
+Коды.Вставить(Перечисления.СтатусыДокументовФайловыйШлюз.ЗаявкаВыгружена, 12);
+Коды.Вставить(Перечисления.СтатусыДокументовФайловыйШлюз.ЗаявкаВыгруженаФШ, 13);
+            </div>
+            <p><strong>Проверка на соответствие стандартам 1С:</strong></p>
+            <ul class="check-list">
+                <li class="correct">Синтаксис корректный</li>
+                <li class="correct">Используется правильное обращение к перечислению</li>
+                <li class="correct">Коды соответствуют значениям в перечислении</li>
+                <li class="correct">Стиль кода соответствует остальному коду модуля</li>
+            </ul>
+            <p><strong>Вывод:</strong> Доработка выполнена корректно, соответствует стандартам 1С.</p>
+        </div>
+
+        <!-- Доработка 4: Функция XDTOСтрокойISO -->
+        <div class="change-item correct">
+            <div class="change-header">
+                Доработка 4: Добавлена функция XDTOСтрокойISO
+                <span class="status-badge status-correct">✅ Корректно</span>
+            </div>
+            <div class="change-file">Файл: SBB_Depo_15264_16476\WebServices\FunctionalElectronicDocuments\Ext\Module.bsl</div>
+            <div class="change-lines">Строки: 1297-1309</div>
+            <p><strong>Описание:</strong> Добавлена функция для преобразования XDTO объекта в XML строку с удалением namespace деклараций.</p>
+            <div class="code-block">
+Функция XDTOСтрокойISO(ОбъектXDTO, ИмяОбъекта, ПространствоИмен)
+	Запись = Новый ЗаписьXML;
+	Запись.УстановитьСтроку("Windows-1251");
+	Запись.ЗаписатьОбъявлениеXML();
+	ФабрикаXDTO.ЗаписатьXML(Запись, ОбъектXDTO, ИмяОбъекта, ПространствоИмен, , НазначениеТипаXML.Неявное);
+	Результат = Запись.Закрыть();
+	
+	СтрокаДляЗамены = СтрШаблон(" xmlns=""%1"" xmlns:xs=""http://www.w3.org/2001/XMLSchema"""
+		+ " xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance""", ПространствоИмен);
+	Результат = СтрЗаменить(Результат, СтрокаДляЗамены, "");
+	
+	Возврат Результат;
+КонецФункции
+            </div>
+            <p><strong>Проверка на соответствие стандартам 1С:</strong></p>
+            <ul class="check-list">
+                <li class="correct">Именование соответствует стандартам (PascalCase)</li>
+                <li class="correct">Синтаксис корректный</li>
+                <li class="correct">Логика работы корректна</li>
+                <li class="correct">Функция не экспортная (правильно, так как используется только внутри модуля)</li>
+                <li class="correct">Документирующий комментарий не требуется для неэкспортных функций</li>
+                <li class="warning">⚠️ Используется кодировка Windows-1251 вместо UTF-8 (может быть требованием интеграции)</li>
+            </ul>
+            <p><strong>Вывод:</strong> Доработка выполнена корректно, соответствует стандартам 1С.</p>
+        </div>
+
+        <!-- Доработка 5: Функция ВыгрузитьВФайловыйШлюзISO -->
+        <div class="change-item correct">
+            <div class="change-header">
+                Доработка 5: Добавлена функция ВыгрузитьВФайловыйШлюзISO
+                <span class="status-badge status-correct">✅ Корректно</span>
+            </div>
+            <div class="change-file">Файл: SBB_Depo_15264_16476\WebServices\FunctionalElectronicDocuments\Ext\Module.bsl</div>
+            <div class="change-lines">Строки: 1318-1363</div>
+            <p><strong>Описание:</strong> Добавлена функция для выгрузки ISO сообщений в файловый шлюз.</p>
+            <p><strong>Проверка на соответствие стандартам 1С:</strong></p>
+            <ul class="check-list">
+                <li class="correct">Именование соответствует стандартам (PascalCase)</li>
+                <li class="correct">Синтаксис корректный</li>
+                <li class="correct">Используется правильная обработка ошибок (Попытка...Исключение...КонецПопытки)</li>
+                <li class="correct">Логирование вызовов реализовано корректно</li>
+                <li class="correct">Проверка функциональной опции выполнена правильно</li>
+                <li class="correct">Используются параметры запроса (безопасно)</li>
+                <li class="correct">Функция не экспортная (правильно, так как используется только внутри модуля)</li>
+                <li class="correct">Документирующий комментарий не требуется для неэкспортных функций</li>
+            </ul>
+            <p><strong>Вывод:</strong> Доработка выполнена корректно, соответствует стандартам 1С.</p>
+        </div>
+
+        <!-- Доработка 6: Функция SendISO -->
+        <div class="change-item warning">
+            <div class="change-header">
+                Доработка 6: Добавлена функция SendISO (Web-сервис операция)
+                <span class="status-badge status-warning">⚠️ Требует улучшения</span>
+            </div>
+            <div class="change-file">Файл: SBB_Depo_15264_16476\WebServices\FunctionalElectronicDocuments\Ext\Module.bsl</div>
+            <div class="change-lines">Строки: 1365-1381</div>
+            <p><strong>Описание:</strong> Добавлена операция Web-сервиса для отправки ISO сообщений.</p>
+            <div class="code-block">
+Функция SendISO(Message, AdditionalParameters)
+	
+	ИмяТипаСообщения = Message.Тип().Имя;
+	ДополнительныеПараметры = ОбщегоНазначенияКлиентСервер.ПрочитатьТекстJSON(AdditionalParameters, "OrderDate");
+	Если ИмяТипаСообщения = "SubscriptionOrder" Или ИмяТипаСообщения = "TransferInInstruction" Тогда
+		ДополнительныеПараметры.OrderTypeId = "35/3";
+	ИначеЕсли ИмяТипаСообщения = "RedemptionOrder" Или ИмяТипаСообщения = "TransferOutInstruction" Тогда
+		ДополнительныеПараметры.OrderTypeId = "36/3";
+	Иначе
+		ТекстОтвета = "Неподдерживаемый тип сообщения: " + ИмяТипаСообщения;
+		Возврат ТекстОтвета;
+	КонецЕсли;
+	ТекстОтвета = ВыгрузитьВФайловыйШлюзISO(Message, ИмяТипаСообщения, ДополнительныеПараметры);
+	
+	Возврат ТекстОтвета;
+	
+КонецФункции
+            </div>
+            <p><strong>Проверка на соответствие стандартам 1С:</strong></p>
+            <ul class="check-list">
+                <li class="error">❌ Отсутствует документирующий комментарий (Описание, Параметры, Возвращаемое значение)</li>
+                <li class="correct">Именование соответствует стандартам (PascalCase для параметров)</li>
+                <li class="correct">Синтаксис корректный (используется "Или" вместо "ИЛИ")</li>
+                <li class="correct">Логика определения типа сообщения корректна</li>
+                <li class="correct">Обработка неподдерживаемых типов реализована</li>
+                <li class="correct">Функция объявлена как операция Web-сервиса в метаданных (ProcedureName: SendISO) - доступна извне без модификатора "Экспорт"</li>
+            </ul>
+            <p><strong>Рекомендация:</strong> Добавить документирующий комментарий перед функцией согласно стандартам 1С.</p>
+        </div>
+
+        <!-- Доработка 7: Функция GetOrderDataISO -->
+        <div class="change-item warning">
+            <div class="change-header">
+                Доработка 7: Добавлена функция GetOrderDataISO (Web-сервис операция)
+                <span class="status-badge status-warning">⚠️ Требует улучшения</span>
+            </div>
+            <div class="change-file">Файл: SBB_Depo_15264_16476\WebServices\FunctionalElectronicDocuments\Ext\Module.bsl</div>
+            <div class="change-lines">Строки: 1383-1448</div>
+            <p><strong>Описание:</strong> Добавлена операция Web-сервиса для получения данных заявки по номеру и дате.</p>
+            <p><strong>Проверка на соответствие стандартам 1С:</strong></p>
+            <ul class="check-list">
+                <li class="error">❌ Отсутствует документирующий комментарий (Описание, Параметры, Возвращаемое значение)</li>
+                <li class="correct">Именование соответствует стандартам (PascalCase для параметров)</li>
+                <li class="correct">Синтаксис запроса корректный</li>
+                <li class="correct">Используются параметры запроса (безопасно, без конкатенации строк)</li>
+                <li class="correct">Запрос оптимизирован (используется ПЕРВЫЕ 1, временные таблицы)</li>
+                <li class="correct">Обработка результата запроса корректна</li>
+                <li class="correct">Используется НачалоДня() для работы с датами</li>
+                <li class="correct">Функция объявлена как операция Web-сервиса в метаданных (ProcedureName: GetOrderDataISO) - доступна извне без модификатора "Экспорт"</li>
+            </ul>
+            <p><strong>Рекомендация:</strong> Добавить документирующий комментарий перед функцией согласно стандартам 1С.</p>
+        </div>
+
+        <h2>Общие выводы</h2>
+        <div class="summary">
+            <p><strong>Положительные моменты:</strong></p>
+            <ul>
+                <li>✅ Все доработки выполнены с соблюдением синтаксиса 1С</li>
+                <li>✅ Именование соответствует стандартам (PascalCase)</li>
+                <li>✅ Используются правильные ключевые слова (Или вместо ИЛИ)</li>
+                <li>✅ Обработка ошибок реализована корректно (Попытка...Исключение)</li>
+                <li>✅ Запросы используют параметры (безопасно)</li>
+                <li>✅ Логирование вызовов реализовано</li>
+            </ul>
+            <p><strong>Требует улучшения:</strong></p>
+            <ul>
+                <li>⚠️ Отсутствуют документирующие комментарии у операций Web-сервиса (SendISO, GetOrderDataISO)</li>
+                <li>⚠️ Комментарии должны содержать: Описание, Параметры (тип и описание), Возвращаемое значение</li>
+            </ul>
+            <p><strong>Примечание об экспортности функций:</strong></p>
+            <ul>
+                <li>✅ <strong>XDTOСтрокойISO</strong> - не экспортная (правильно, используется только внутри модуля)</li>
+                <li>✅ <strong>ВыгрузитьВФайловыйШлюзISO</strong> - не экспортная (правильно, используется только внутри модуля)</li>
+                <li>✅ <strong>SendISO</strong> - объявлена как операция Web-сервиса в метаданных (доступна извне без модификатора "Экспорт")</li>
+                <li>✅ <strong>GetOrderDataISO</strong> - объявлена как операция Web-сервиса в метаданных (доступна извне без модификатора "Экспорт")</li>
+            </ul>
+            <p><strong>Рекомендации:</strong></p>
+            <ul>
+                <li>Добавить документирующие комментарии к операциям Web-сервиса (SendISO, GetOrderDataISO) согласно стандартам 1С</li>
+                <li>Проверить необходимость использования кодировки Windows-1251 в функции XDTOСтрокойISO (возможно, требуется UTF-8)</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
+

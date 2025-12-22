@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проверка соответствия доработок требованиям Sonar для 1С</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2E74B5;
+            border-bottom: 3px solid #2E74B5;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #4472C4;
+            margin-top: 30px;
+            border-bottom: 2px solid #4472C4;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #70AD47;
+            margin-top: 20px;
+        }
+        .rule {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid #4472C4;
+            background-color: #e7f3ff;
+        }
+        .rule-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-weight: bold;
+            font-size: 0.85em;
+            margin-left: 10px;
+        }
+        .status-pass {
+            background-color: #28a745;
+            color: white;
+        }
+        .status-warning {
+            background-color: #ffc107;
+            color: #000;
+        }
+        .status-fail {
+            background-color: #dc3545;
+            color: white;
+        }
+        .check-item {
+            margin: 8px 0;
+            padding: 8px;
+            background-color: #f8f9fa;
+            border-radius: 3px;
+        }
+        .check-item.pass {
+            border-left: 3px solid #28a745;
+        }
+        .check-item.warning {
+            border-left: 3px solid #ffc107;
+        }
+        .check-item.fail {
+            border-left: 3px solid #dc3545;
+        }
+        .file-path {
+            font-family: monospace;
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+            padding: 5px;
+            background-color: #f8f9fa;
+            border-radius: 3px;
+        }
+        .code-example {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+            margin: 15px 0;
+            overflow-x: auto;
+            border-left: 4px solid #4472C4;
+            line-height: 1.6;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            white-space: pre;
+            word-wrap: normal;
+            overflow-wrap: normal;
+        }
+        .code-example .keyword {
+            color: #c678dd;
+            font-weight: bold;
+        }
+        .code-example .string {
+            color: #98c379;
+        }
+        .code-example .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+        .code-example .function {
+            color: #61afef;
+        }
+        .code-example .variable {
+            color: #e06c75;
+        }
+        .code-example .number {
+            color: #d19a66;
+        }
+        .summary {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        .summary-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+        .stat-box {
+            text-align: center;
+            padding: 15px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+        }
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+        }
+        .tree {
+            margin-left: 20px;
+        }
+        .tree-item {
+            margin: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4472C4;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Проверка соответствия доработок требованиям Sonar для 1С</h1>
+        <p><strong>Задачи:</strong> ACCOUNTING-15264, ACCOUNTING-16476</p>
+        <p><strong>Дата проверки:</strong> <span id="current-date"></span></p>
+
+        <div class="summary">
+            <h2>Итоговая статистика</h2>
+            <div class="summary-stats">
+                <div class="stat-box">
+                    <div class="stat-number" style="color: #28a745;" id="pass-count">0</div>
+                    <div class="stat-label">Пройдено</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" style="color: #ffc107;" id="warning-count">0</div>
+                    <div class="stat-label">Предупреждения</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" style="color: #dc3545;" id="fail-count">0</div>
+                    <div class="stat-label">Нарушения</div>
+                </div>
+            </div>
+        </div>
+
+        <h2>1. Именование (Naming Conventions)</h2>
+        <div class="rule">
+            <div class="rule-title">
+                Правило: Имена переменных, процедур и функций должны соответствовать стандартам 1С (PascalCase)
+                <span class="status-badge status-pass">✅ Пройдено</span>
+            </div>
+            <div class="check-item pass">
+                <strong>✅ Проверено:</strong> Все имена переменных, процедур и функций используют PascalCase
+                <div class="file-path">Проверены все измененные файлы</div>
+                <div class="tree">
+                    <div class="tree-item">✅ ЭтоФорматISO - корректное именование</div>
+                    <div class="tree-item">✅ ВыгрузитьЗаявкуНаПриобретениеПаевISO - корректное именование</div>
+                    <div class="tree-item">✅ ДанныеПорученияISO - корректное именование</div>
+                    <div class="tree-item">✅ НовыеПараметрыВыгрузкиISO - корректное именование</div>
+                    <div class="tree-item">✅ XDTOСтрокойISO - корректное именование</div>
+                    <div class="tree-item">✅ ВыгрузитьВФайловыйШлюзISO - корректное именование</div>
+                    <div class="tree-item">✅ ЗагрузитьДанныеЗаявокПоПаямЧерезВебСервис - корректное именование</div>
+                </div>
+            </div>
+        </div>
+
+        <h2>2. Длина строк кода (Line Length)</h2>
+        <div class="rule">
+            <div class="rule-title">
+                Правило: Длина строки не должна превышать 140 символов
+                <span class="status-badge status-pass">✅ Пройдено</span>
+            </div>
+            <div class="check-item pass">
+                <strong>✅ Проверено:</strong> Все строки кода не превышают 140 символов
+                <div class="file-path">Проверены все измененные файлы</div>
+            </div>
+        </div>
+
+        <h2>3. Цикломатическая сложность (Cyclomatic Complexity)</h2>
+        <div class="rule">
+            <div class="rule-title">
+                Правило: Цикломатическая сложность функции/процедуры не должна превышать 10
+                <span class="status-badge status-pass">✅ Пройдено</span>
+            </div>
+            <div class="check-item pass">
+                <strong>✅ Проверено:</strong> Все функции и процедуры имеют приемлемую сложность
+                <div class="file-path">Проверены все измененные функции и процедуры</div>
+                <div class="tree">
+                    <div class="tree-item">✅ ЭтоФорматISO - сложность: 2 (простое условие)</div>
+                    <div class="tree-item">✅ ДанныеПорученияISO - сложность: ~5 (приемлемо)</div>
+                    <div class="tree-item">✅ ВыгрузитьВФайловыйШлюзISO - сложность: ~4 (приемлемо)</div>
+                    <div class="tree-item">✅ GetOrderDataISO - сложность: ~3 (приемлемо)</div>
+                </div>
+            </div>
+        </div>
+
+        <h2>4. Обработка ошибок (Error Handling)</h2>
+        <div class="rule">
+            <div class="rule-title">
+                Правило: Критические операции должны быть обернуты в блоки Попытка...Исключение
+                <span class="status-badge status-pass">✅ Пройдено</span>
+            </div>
+            <div class="check-item pass">
+                <strong>✅ Проверено:</strong> Все критические операции имеют обработку ошибок
+                <div class="file-path">SBB_Broker_15264_16476\DataProcessors\ВыгрузкаПорученийДЕПОВСЭДВЛУЧ\Ext\ManagerModule.bsl</div>
+                <div class="code-example">
+Попытка
+    // Критический код
+Исключение
+    ТекстОшибки = ОбработкаОшибок.ПодробноеПредставлениеОшибки(ИнформацияОбОшибке());
+    ЗаписьЖурналаРегистрации(ИмяСобытияЖР, УровеньЖурналаРегистрации.Ошибка, , , ТекстОшибки);
+КонецПопытки;
+                </div>
+            </div>
+            <div class="check-item pass">
+                <strong>✅ Проверено:</strong> Обработка ошибок в Web-сервисе
+                <div class="file-path">SBB_Depo_15264_16476\WebServices\FunctionalElectronicDocuments\Ext\Module.bsl</div>
+                <div class="tree">
+                    <div class="tree-item">✅ ВыгрузитьВФайловыйШлюзISO - имеет блок Попытка...Исключение</div>
+                    <div class="tree-item">✅ GetOrderDataISO - имеет обработку ошибок через запросы</div>
+                </div>
+            </div>
+        </div>
+
+        <h2>5. Комментирование кода (Code Comments)</h2>
+        <div class="rule">
+            <div class="rule-title">
+                Правило: Экспортные процедуры и функции должны иметь документирующие комментарии
+                <span class="status-badge status-warning">⚠️ Предупреждение</span>
+            </div>
+            <div class="check-item warning">
+                <strong>⚠️ Частично:</strong> Не все экспортные функции имеют полные документирующие комментарии
+                <div class="file-path">SBB_Depo_15264_16476\WebServices\FunctionalElectronicDocuments\Ext\Module.bsl</div>
+                <div class="tree">
+                    <div class="tree-item">⚠️ SendISO - операция Web-сервиса, отсутствуют документирующие комментарии</div>
+                    <div class="tree-item">⚠️ GetOrderDataISO - операция Web-сервиса, отсутствуют документирующие комментарии</div>
+                    <div class="tree-item">✅ ЭтоФорматISO - экспортная функция, имеет документирующий комментарий</div>
+                </div>
+            </div>
+            <div class="check-item pass">
+                <strong>✅ Проверено:</strong> Внутренние (не экспортные) функции не требуют комментариев
+                <div class="file-path">Проверены все не экспортные функции</div>
+                <div class="tree">
+                    <div class="tree-item">✅ XDTOСтрокойISO - не экспортная, комментарии не требуются</div>
+                    <div class="tree-item">✅ ВыгрузитьВФайловыйШлюзISO - не экспортная, комментарии не требуются</div>
+                    <div class="tree-item">✅ НовыеПараметрыВыгрузкиISO - не экспортная, комментарии не требуются</div>
+                </div>
+            </div>
+        </div>
+
+        <h2>6. Разделение клиент/сервер (Client/Server Separation)</h2>
+        <div class="rule">
+            <div class="rule-title">
+                Правило: Четкое разделение клиентского и серверного кода
+                <span class="status-badge status-pass">✅ Пройдено</span>
+            </div>
+            <div class="check-item pass">
+                <strong>✅ Проверено:</strong> Правильное использование директив &НаСервере и &НаКлиенте
+                <div class="file-path">Проверены все измененные формы и модули</div>
+                <div class="tree">
+                    <div class="tree-item">✅ ФормаРедактированияXSLT - правильное разделение клиент/сервер</div>
+                    <div class="tree-item">✅ ФормаЭлемента ВидыИнвентарныхПоручений - правильное разделение</div>
+                    <div class="tree-item">✅ Все серверные процедуры помечены &НаСервере</div>
+                </div>
+            </div>
+        </div>
+
+        <h2>7. Безопасность (Security)</h2>
+        <div class="rule">
+            <div class="rule-title">
+                Правило: Запросы должны использовать параметры, а не конкатенацию строк
+                <span class="status-badge status-pass">✅ Пройдено</span>
+            </div>
+            <div class="check-item pass">
+                <strong>✅ Проверено:</strong> Все запросы используют параметры
+                <div class="file-path">SBB_Depo_15264_16476\WebServices\FunctionalElectronicDocuments\Ext\Module.bsl</div>
+                <div class="code-example">
+Запрос.УстановитьПараметр("НомерДокументаОснования", Number);
+Запрос.УстановитьПараметр("ДатаДокументаОснования", НачалоДня(Date));
+Запрос.УстановитьПараметр("ИмяУзлаСтатусЗаявки", "Document.OrdrInstrStsRpt...");
+                </div>
+            </div>
+            <div class="check-item pass">
+                <strong>✅ Проверено:</strong> Нет конкатенации строк в запросах
+                <div class="file-path">Проверены все измененные запросы</div>
+            </div>
+        </div>
+
+        <h2>8. Неиспользуемый код (Dead Code)</h2>
+        <div class="rule">
+            <div class="rule-title">
+                Правило: Не должно быть неиспользуемого кода
+                <span class="status-badge status-pass">✅ Пройдено</span>
+            </div>
+            <div class="check-item pass">
+                <strong>✅ Проверено:</strong> Весь добавленный код используется
+                <div class="file-path">Проверены все измененные файлы</div>
+                <div class="tree">
+                    <div class="tree-item">✅ Все новые функции вызываются из других мест</div>
+                    <div class="tree-item">✅ Все новые процедуры используются</div>
+                    <div class="tree-item">✅ Все новые атрибуты справочников используются</div>
+                </div>
+            </div>
+        </div>
+
+        <h2>9. Магические числа (Magic Numbers)</h2>
+        <div class="rule">
+            <div class="rule-title">
+                Правило: Избегать магических чисел, использовать константы или переменные
+                <span class="status-badge status-warning">⚠️ Предупреждение</span>
+            </div>
+            <div class="check-item warning">
+                <strong>⚠️ Обнаружено:</strong> Использование магических чисел в коде
+                <div class="file-path">SBB_Broker_15264_16476\DataProcessors\ВыгрузкаПорученийДЕПОВСЭДВЛУЧ\Ext\ManagerModule.bsl</div>
+                <div class="code-example">
+// Строка 552: Для НомерСтроки = 2 По МакетОтображения.ВысотаТаблицы Цикл
+// Магическое число 2 - начало данных (после заголовка)
+                </div>
+                <div class="tree">
+                    <div class="tree-item">⚠️ НомерСтроки = 2 - магическое число (начало данных после заголовка)</div>
+                    <div class="tree-item">⚠️ НомераКолонок["ИмяЗначения"] = 1, ["Значение"] = 2 - магические числа</div>
+                    <div class="tree-item">✅ Рекомендация: Вынести в константы или параметры</div>
+                </div>
+            </div>
+        </div>
+
+        <h2>10. Глубина вложенности (Nesting Depth)</h2>
+        <div class="rule">
+            <div class="rule-title">
+                Правило: Глубина вложенности не должна превышать 4 уровней
+                <span class="status-badge status-pass">✅ Пройдено</span>
+            </div>
+            <div class="check-item pass">
+                <strong>✅ Проверено:</strong> Глубина вложенности в пределах нормы
+                <div class="file-path">Проверены все измененные функции и процедуры</div>
+            </div>
+        </div>
+
+        <h2>11. Использование глобальных переменных</h2>
+        <div class="rule">
+            <div class="rule-title">
+                Правило: Избегать использования глобальных переменных
+                <span class="status-badge status-pass">✅ Пройдено</span>
+            </div>
+            <div class="check-item pass">
+                <strong>✅ Проверено:</strong> Глобальные переменные не используются
+                <div class="file-path">Проверены все измененные модули</div>
+                <div class="tree">
+                    <div class="tree-item">✅ Используются локальные переменные</div>
+                    <div class="tree-item">✅ Используются параметры функций и процедур</div>
+                </div>
+            </div>
+        </div>
+
+        <h2>12. Логирование (Logging)</h2>
+        <div class="rule">
+            <div class="rule-title">
+                Правило: Критические операции должны логироваться
+                <span class="status-badge status-pass">✅ Пройдено</span>
+            </div>
+            <div class="check-item pass">
+                <strong>✅ Проверено:</strong> Логирование реализовано корректно
+                <div class="file-path">Проверены все измененные модули</div>
+                <div class="tree">
+                    <div class="tree-item">✅ Используется ЗаписьЖурналаРегистрации для ошибок</div>
+                    <div class="tree-item">✅ Используется РегистрыСведений.ЖурналРегистрацииВызовов для Web-сервиса</div>
+                    <div class="tree-item">✅ Логирование интеграционных событий реализовано</div>
+                </div>
+            </div>
+        </div>
+
+        <h2>13. Производительность (Performance)</h2>
+        <div class="rule">
+            <div class="rule-title">
+                Правило: Оптимизация запросов и минимизация обращений к базе данных
+                <span class="status-badge status-pass">✅ Пройдено</span>
+            </div>
+            <div class="check-item pass">
+                <strong>✅ Проверено:</strong> Код оптимизирован
+                <div class="file-path">SBB_Broker_15264_16476\CommonModules\РеквизитыИнвентарныхПорученийСервер\Ext\Module.bsl</div>
+                <div class="tree">
+                    <div class="tree-item">✅ Использование локальных переменных для избежания повторных обращений к свойствам</div>
+                    <div class="tree-item">✅ ВидПоручения = Ссылка.ВидПоручения - оптимизация доступа к свойству</div>
+                    <div class="tree-item">✅ Запросы используют параметры и индексы</div>
+                </div>
+            </div>
+        </div>
+
+        <h2>14. Читаемость кода (Code Readability)</h2>
+        <div class="rule">
+            <div class="rule-title">
+                Правило: Код должен быть читаемым и понятным
+                <span class="status-badge status-pass">✅ Пройдено</span>
+            </div>
+            <div class="check-item pass">
+                <strong>✅ Проверено:</strong> Код читаемый и понятный
+                <div class="file-path">Проверены все измененные файлы</div>
+                <div class="tree">
+                    <div class="tree-item">✅ Используются понятные имена переменных и функций</div>
+                    <div class="tree-item">✅ Логика разделена на отдельные функции</div>
+                    <div class="tree-item">✅ Код структурирован и отформатирован</div>
+                </div>
+            </div>
+        </div>
+
+        <h2>Детальная проверка по файлам</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Файл</th>
+                    <th>Правило</th>
+                    <th>Статус</th>
+                    <th>Примечание</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>РеквизитыИнвентарныхПорученийСервер</td>
+                    <td>Именование, Производительность</td>
+                    <td>✅</td>
+                    <td>Оптимизация доступа к свойствам</td>
+                </tr>
+                <tr>
+                    <td>ВидыИнвентарныхПоручений (ManagerModule)</td>
+                    <td>Именование, Комментирование</td>
+                    <td>✅</td>
+                    <td>Экспортная функция имеет комментарий</td>
+                </tr>
+                <tr>
+                    <td>ВыгрузкаПорученийДЕПОВСЭДВЛУЧ</td>
+                    <td>Обработка ошибок, Логирование</td>
+                    <td>✅</td>
+                    <td>Корректная обработка ошибок</td>
+                </tr>
+                <tr>
+                    <td>FunctionalElectronicDocuments</td>
+                    <td>Комментирование, Безопасность</td>
+                    <td>⚠️</td>
+                    <td>Отсутствуют комментарии у операций Web-сервиса</td>
+                </tr>
+                <tr>
+                    <td>ФайловыйШлюз</td>
+                    <td>Обработка ошибок, Логирование</td>
+                    <td>✅</td>
+                    <td>Корректная обработка ошибок</td>
+                </tr>
+                <tr>
+                    <td>ФормаРедактированияXSLT</td>
+                    <td>Разделение клиент/сервер</td>
+                    <td>✅</td>
+                    <td>Правильное разделение</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Рекомендации по улучшению</h2>
+        <div class="summary">
+            <h3>Критичные (требуют исправления):</h3>
+            <ul>
+                <li>✅ Критичных нарушений не обнаружено</li>
+            </ul>
+
+            <h3>Важные (рекомендуется исправить):</h3>
+            <ul>
+                <li>⚠️ <strong>Комментирование Web-сервиса:</strong> Добавить документирующие комментарии к операциям SendISO и GetOrderDataISO</li>
+                <li>⚠️ <strong>Магические числа:</strong> Вынести магические числа (2, 1, 2 для номеров колонок) в константы или параметры</li>
+            </ul>
+
+            <h3>Желательные (можно улучшить):</h3>
+            <ul>
+                <li>✅ Нет дополнительных рекомендаций</li>
+            </ul>
+        </div>
+
+        <h2>Заключение</h2>
+        <div class="summary">
+            <p><strong>Общая оценка:</strong> <span style="color: #28a745; font-weight: bold;">ХОРОШО</span></p>
+            <p>Доработки в целом соответствуют требованиям Sonar для 1С. Обнаружены незначительные замечания, которые не критичны, но рекомендуется исправить для улучшения качества кода.</p>
+            <p><strong>Основные сильные стороны:</strong></p>
+            <ul>
+                <li>✅ Правильное именование всех элементов кода</li>
+                <li>✅ Корректная обработка ошибок</li>
+                <li>✅ Безопасное использование запросов (параметры)</li>
+                <li>✅ Правильное разделение клиент/сервер</li>
+                <li>✅ Оптимизация производительности</li>
+                <li>✅ Корректное логирование</li>
+            </ul>
+            <p><strong>Области для улучшения:</strong></p>
+            <ul>
+                <li>⚠️ Добавить документирующие комментарии к операциям Web-сервиса</li>
+                <li>⚠️ Вынести магические числа в константы</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Подсчет статистики
+        const passItems = document.querySelectorAll('.status-pass').length + document.querySelectorAll('.check-item.pass').length;
+        const warningItems = document.querySelectorAll('.status-warning').length + document.querySelectorAll('.check-item.warning').length;
+        const failItems = document.querySelectorAll('.status-fail').length + document.querySelectorAll('.check-item.fail').length;
+
+        document.getElementById('pass-count').textContent = passItems;
+        document.getElementById('warning-count').textContent = warningItems;
+        document.getElementById('fail-count').textContent = failItems;
+
+        // Установка текущей даты
+        const now = new Date();
+        const dateStr = now.toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' });
+        document.getElementById('current-date').textContent = dateStr;
+    </script>
+</body>
+</html>
+
