@@ -1,0 +1,189 @@
+Работы по оптимизации Исполнений сделок Розница ДУ.
+
+
+Задача исходная:
+
+
+
+Создано 2 подзадачи 
+- на Аванкор (в процессе исследования Аванкором):
+[Аванкор] Оптимизация кода для повышения производительности Исполнений СделокTn
+ Edit
+ Comment
+Assign
+More
+Return to analysis
+ Export
+Details
+Type: Sub-Task
+Status:Escalated to Vendor (View Workflow)
+Priority: Medium
+Resolution:Unresolved
+Affects Version/s:None
+Fix Version/s:None
+Component/s:
+AvancoreDU
+Labels:
+Retail_DU
+External Ref:https://lk.avancore.ru/tasks/ASP-193871
+Paid:
+tbd
+IM Department:IM Back-Office DU
+IM Department (list):IM Back-Office DU
+Description
+Сводная таблица задач по оптимизации
+№	Модуль	Назначение функции	Строка	Решение	Разработано
+1	Документ.Сделка	Получение остатков авансов для зачета при проведении сделки	996	Оптимизация запросаДоработка_996_Получение_остатков_авансов.html	Да
+2	Документ.Сделка	Формирование таблиц для проведения документа по продажам в бухгалтерском учете	1647	Оптимизация запросаДоработка_1647_Формирование_таблиц_для_проведения_БУ.html	Да
+3	РегистрСведений.ЗначенияПараметровДоговораДУ	Получение значений параметров договора ДУ на дату	73	Кэширование параметров договора ДУ Доработка_73_Кэширование_параметров_договора_ДУ.html	Да
+4	Документ.Сделка	Подготовка таблицы остатков актива для валютного учета	1549	Оптимизация запросаДоработка_1549_Подготовка_таблицы_остатков_актива_для_валютного_учета.html	Да
+5	Документ.Сделка	Получение суммы ОНВ (обязательств по налогу на прибыль) для облигаций	2097	Оптимизация запроса Доработка_2097_Получение_суммы_ОНВ_для_облигаций.html	да
+6	БизнесПроцесс.СделкиTn.МодульМенеджера	Получение списка открытых задач по внебиржевым сделкам Tn на дату	167	Индексация ДоговорДУ в БП СделкиTn Доработка_167_Индексация_ДоговорДУ_в_СделкиTn.html	Да
+Options
+Attachments
+Drop files to attach, or browse.
+Structure Settings
+Structure
+IM_priority_peekup
+
+   
+
+
+Summary
+Key
+TP
+Status
+Due Date
+Deadline Date
+Assignee
+Reporter
+Labels
+=IN PROGRESS
+Sub-Task
+[Аванкор] Оптимизация кода для повышения производительности Исполнений СделокTn Сводная таблица задач по оптимизации
+IMAPPS-34560
+Sub-TaskMedium
+Escalated to Vendor
+Chmykhalov, Aleksey
+Chmykhalov, Aleksey
+Ikonnikov, Kirill
+Ikonnikov, Kirill
+Retail_DU
+22m
+3d 4h 10m
+0m
+4.0
+Actions
+InfoOpen
+Showing 2 items
+Activity
+All
+Comments
+Work Log
+History
+Activity
+Transitions
+Ascending order - Click to sort in descending order
+Permalink Edit Delete
+AChmykhalov
+Chmykhalov, Aleksey added a comment - 17/Dec/25 9:14 +0300
+Доработки (кроме индексации) представлены в прилагаемом расширении du1.cfe
+
+Reply
+Permalink Edit Delete
+AChmykhalov
+Chmykhalov, Aleksey added a comment - 17/Dec/25 9:15 +0300
+Сравнительные тесты: Тест_Сравнение_24122025.docx 24_Договора_Старый(МинусПаруНедель)День_Сравнение.docx 24_Договора_АктуальныйДень_Сравнение.docx
+
+
+
+
+
+- на внутреннюю команду:
+
+[вн.команда] Отключить в внешней обработке "внИсполнениеСделокТ+2_ДУ" блокировку количества потоков
+ Edit
+ Comment
+Assign
+More
+Start Analysis
+ Export
+Details
+Type: Sub-Task
+Status:Open (View Workflow)
+Priority: Medium
+Resolution:Unresolved
+Affects Version/s:None
+Fix Version/s:None
+Component/s:
+AvancoreDU
+Labels:
+Retail_DU
+IM Department:IM Back-Office DU
+IM Department (list):IM Back-Office DU
+Description
+Нет необходимости на уровне конфигурации жестко блокировать возможность настройки количества потоков выполняющих параллельное Исполнение Сделок.
+Что сделать: в обработке "внИсполнениеСделокТ+2_ДУ"" у реквизита КоличествоПотоков в полях "Минимальное значение" и "Максимальное значение" установить 0
+
+Options
+Attachments
+Drop files to attach, or browse.
+Structure Settings
+Structure
+IM_priority_peekup
+
+   
+
+
+Summary
+Key
+TP
+Status
+Due Date
+Deadline Date
+Assignee
+Reporter
+Labels
+IT
+=IN PROGRESS
+Sub-Task
+[вн.команда] Отключить в внешней обработке "внИсполнениеСделокТ+2_ДУ" блокировку количества потоковНет необходимости на уровне конфигурации жестко блокировать возможность настройки количества потоков выполняющих параллельное Исполнение Сделок. Что сделать: в обработке "внИсполнениеСделокТ+2_ДУ"" у реквизита КоличествоПотоков в полях "Минимальное значение" и "Максимальное значение" установить 0
+IMAPPS-34559
+Sub-TaskMedium
+Open
+Chmykhalov, Aleksey
+Chmykhalov, Aleksey
+Ikonnikov, Kirill
+Ikonnikov, Kirill
+Retail_DU
+0m
+0m
+0m
+Actions
+InfoOpen
+Showing 2 items
+Activity
+All
+Comments
+Work Log
+History
+Activity
+Transitions
+Ascending order - Click to sort in descending order
+Permalink Edit Delete  
+KIkonnikov
+Ikonnikov, Kirill added a comment - 17/Dec/25 19:15 +0300
+Проясни как снятие ограничения повлияет:
+
+на общую производительность APP-сервера (оптимальное кол-во фоновых заданий в зависимости от кол-ва баз и кол-ва ядер CPU)
+на утилизацию клиентских лицензий 1С
+на дисковую подсистему DB-сервера
+Reply
+Permalink Edit Delete
+AChmykhalov
+Chmykhalov, Aleksey added a comment - 18/Dec/25 9:05 +0300
+Наверно чем больше ядер тем лучше параллельность, и каждый поток утилизирует 1 клиентскую лицензию.
+Просто сейчас в обработке для реквизита КоличествоПотоков запретили больше 8 потоков,
+но сколько потоков реально работают - устанавливается в пользовательском режиме (поэтому нет смысла блокировать в коде).
+Чтобы это зависело Только от настроек (а не от "хардока") я предлагаю разблокировать это поле.
+В моих тестах (на тестовом сервере) 12 потоков очень хорошо работают с новыми оптимизированными запросами, соответственно для некоторых регламентов можно оставить старые настройки, для розницы - чуть повысить количество потоков (но это не обязательно, просто чтобы была такая возможность)
