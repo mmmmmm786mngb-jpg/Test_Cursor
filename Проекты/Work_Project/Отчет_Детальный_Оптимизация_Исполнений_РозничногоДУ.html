@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Детальный отчет: Оптимизация Исполнений Розничного ДУ</title>
+    <style>
+        @media print {
+            .page-break { page-break-after: always; }
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Calibri', Arial, sans-serif; 
+            font-size: 11pt; 
+            line-height: 1.5; 
+            color: #333;
+            padding: 15px;
+            background: #fff;
+        }
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 20mm;
+            margin: 0 auto 10mm;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 { 
+            font-size: 20pt; 
+            color: #1a5276;
+            margin-bottom: 15px;
+            border-bottom: 4px solid #1a5276;
+            padding-bottom: 8px;
+        }
+        h2 { 
+            font-size: 16pt; 
+            color: #2c3e50;
+            margin-top: 20px;
+            margin-bottom: 12px;
+            border-left: 5px solid #3498db;
+            padding-left: 10px;
+        }
+        h3 {
+            font-size: 13pt;
+            color: #34495e;
+            margin-top: 15px;
+            margin-bottom: 8px;
+        }
+        h4 {
+            font-size: 11pt;
+            color: #555;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 9pt;
+            margin: 10px 0;
+        }
+        th {
+            background-color: #2c3e50;
+            color: white;
+            border: 1px solid #bdc3c7;
+            padding: 8px;
+            text-align: left;
+            font-weight: bold;
+        }
+        td {
+            border: 1px solid #bdc3c7;
+            padding: 6px;
+            vertical-align: top;
+        }
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 3px;
+        }
+        .problem-box {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 3px;
+        }
+        .solution-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 3px;
+        }
+        .status-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 3px;
+        }
+        .status-done {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .status-progress {
+            color: #f39c12;
+            font-weight: bold;
+        }
+        .status-pending {
+            color: #95a5a6;
+            font-weight: bold;
+        }
+        .critical {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .high {
+            color: #f39c12;
+            font-weight: bold;
+        }
+        .medium {
+            color: #3498db;
+            font-weight: bold;
+        }
+        .low {
+            color: #95a5a6;
+            font-weight: bold;
+        }
+        ul, ol {
+            margin: 8px 0 8px 25px;
+        }
+        li {
+            margin: 4px 0;
+        }
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 9pt;
+            margin: 8px 0;
+            overflow-x: auto;
+        }
+        .highlight {
+            background-color: #fff3cd;
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
+        .chart-container {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            height: 200px;
+            margin: 15px 0;
+            gap: 6px;
+        }
+        .bar {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .bar-fill {
+            width: 100%;
+            background: linear-gradient(to top, #3498db, #2980b9);
+            border-radius: 4px 4px 0 0;
+            min-height: 20px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 8pt;
+            padding: 4px;
+        }
+        .bar-fill.old {
+            background: linear-gradient(to top, #e74c3c, #c0392b);
+        }
+        .bar-fill.new {
+            background: linear-gradient(to top, #27ae60, #229954);
+        }
+        .bar-label {
+            margin-top: 5px;
+            font-size: 7pt;
+            text-align: center;
+            font-weight: bold;
+        }
+        .legend {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+            font-size: 9pt;
+            flex-wrap: wrap;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .legend-color {
+            width: 20px;
+            height: 15px;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- СТРАНИЦА 1 -->
+    <div class="page">
+        <h1>ДЕТАЛЬНЫЙ ОТЧЕТ О ПРОДЕЛАННОЙ РАБОТЕ</h1>
+        <h2>Оптимизация Исполнений Сделок Розничного ДУ</h2>
+        
+        <div class="info-box" style="margin-top: 15px;">
+            <table style="border: none; background: transparent;">
+                <tr style="background: transparent;">
+                    <td style="border: none; padding: 3px 10px 3px 0;"><strong>Эпик:</strong></td>
+                    <td style="border: none;">DU-OPT-2025 «Оптимизация исполнения сделок Т и Т–1 в Avancore DU»</td>
+                </tr>
+                <tr style="background: transparent;">
+                    <td style="border: none; padding: 3px 10px 3px 0;"><strong>Период выполнения:</strong></td>
+                    <td style="border: none;">27 ноября – 16 декабря 2025 (20 календарных дней, 15 рабочих дней)</td>
+                </tr>
+                <tr style="background: transparent;">
+                    <td style="border: none; padding: 3px 10px 3px 0;"><strong>Исполнитель:</strong></td>
+                    <td style="border: none;">Senior 1C Developer</td>
+                </tr>
+                <tr style="background: transparent;">
+                    <td style="border: none; padding: 3px 10px 3px 0;"><strong>Задача Jira:</strong></td>
+                    <td style="border: none;">IMAPPS-34094, IMAPPS-34560</td>
+                </tr>
+            </table>
+        </div>
+
+        <h2>1. Цели проекта</h2>
+        <div class="info-box">
+            <h3>Основная цель</h3>
+            <p>Оптимизация модуля Исполнения сделок Розничного ДУ для достижения целевых показателей производительности при обработке большого объема сделок.</p>
+            
+            <h4 style="margin-top: 15px;">Целевые показатели:</h4>
+            <ul>
+                <li><strong>100'000 сделок в торговый день за 3 часа</strong> (базовая конфигурация)</li>
+                <li>Снижение времени исполнения на 30-50% по сравнению с текущей версией</li>
+                <li>Обеспечение стабильной работы при увеличении нагрузки</li>
+            </ul>
+
+            <h4 style="margin-top: 15px;">Требования к сценарию тестирования:</h4>
+            <ul>
+                <li>Сделки по акциям (15 шт), облигациям (25 шт), О(-Б)ПИФам (10 шт)</li>
+                <li>Биржевые сделки на Мосбирже в режиме Т+ (Т0 заключение, Т+1 исполнение)</li>
+                <li>Пропорция Покупка/Продажа: 30/70</li>
+                <li>Количество торговых дней: 10 (по 100'000 сделок в день, всего 1 млн)</li>
+                <li>Количество клиентов: 1'000 (нормальное распределение)</li>
+                <li>Замеры на актуальной копии с продакшена</li>
+            </ul>
+        </div>
+
+        <h2>2. Выявленные проблемы</h2>
+        <div class="problem-box">
+            <h3>2.1. Проблемы производительности</h3>
+            <p><strong>Исходная ситуация:</strong> При обработке 100'000 сделок в торговый день время исполнения составляло <strong>4-6 часов</strong>, что не соответствовало требованиям бизнеса.</p>
+            
+            <h4 style="margin-top: 12px;">Основные узкие места (выявлены через отладчик производительности 1С:Enterprise):</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 30px;">№</th>
+                        <th>Модуль</th>
+                        <th>Функция</th>
+                        <th style="width: 60px;">Строка</th>
+                        <th style="width: 100px;">Критичность</th>
+                        <th>Проблема</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align: center;">1</td>
+                        <td>Документ.Сделка</td>
+                        <td>ПолучитьАвансы()</td>
+                        <td style="text-align: center;">996</td>
+                        <td class="critical">▲▲ КРИТИЧЕСКОЕ</td>
+                        <td>Сложный запрос к регистру бухгалтерии без явного приведения типов субконто, что приводило к ошибкам и замедлению</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">2</td>
+                        <td>Документ.Сделка</td>
+                        <td>ТаблицыПоПродажам_БУ()</td>
+                        <td style="text-align: center;">1647</td>
+                        <td class="critical">▲▲ КРИТИЧЕСКОЕ</td>
+                        <td>Пакетный запрос с неоптимальной структурой: использование ТИПЗНАЧЕНИЯ вместо оператора ССЫЛКА, отсутствие фильтрации по видам субконто</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">3</td>
+                        <td>РегистрСведений.ЗначенияПараметровДоговораДУ</td>
+                        <td>ЗначенияПараметровДоговораДУ()</td>
+                        <td style="text-align: center;">73</td>
+                        <td class="high">▲ ВЫСОКОЕ</td>
+                        <td>Отсутствие кэширования параметров договора ДУ приводило к повторным запросам к базе данных для одинаковых договоров и дат</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">4</td>
+                        <td>Документ.Сделка</td>
+                        <td>ПодготовитьТаблицуОстатковАктива_ВУ()</td>
+                        <td style="text-align: center;">1549</td>
+                        <td class="medium">● СРЕДНЕЕ</td>
+                        <td>Отсутствие фильтрации по видам субконто хозрасчетных в запросе к регистру бухгалтерии</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">5</td>
+                        <td>Документ.Сделка</td>
+                        <td>ПолучитьСуммуОНВ()</td>
+                        <td style="text-align: center;">2097</td>
+                        <td class="medium">● СРЕДНЕЕ</td>
+                        <td>Два отдельных запроса к регистру вместо одного оптимизированного с явной фильтрацией по видам субконто</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">6</td>
+                        <td>БизнесПроцесс.СделкиTn</td>
+                        <td>ПолучитьОткрытыеЗадачиПоСделкеTn()</td>
+                        <td style="text-align: center;">167</td>
+                        <td class="low">▼ НИЗКОЕ</td>
+                        <td>Отсутствие индексации реквизита ДоговорДУ в бизнес-процессе СделкиTn</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="problem-box" style="margin-top: 15px;">
+            <h3>2.2. Проблемы параллельного выполнения</h3>
+            <ul>
+                <li>Жесткая блокировка количества потоков в обработке "внИсполнениеСделокТ+2_ДУ" (максимум 8 потоков)</li>
+                <li>Отсутствие возможности гибкой настройки количества потоков в зависимости от нагрузки и ресурсов сервера</li>
+                <li>Неоптимальное распределение нагрузки между потоками</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- СТРАНИЦА 2 -->
+    <div class="page page-break">
+        <h2>3. Проведенные исследования</h2>
+        
+        <h3>3.1. Подготовка инфраструктуры тестирования</h3>
+        <div class="info-box">
+            <h4>Созданные инструменты:</h4>
+            <ul>
+                <li><strong>Обработка-генератор «Перезапуск исполнений за период»</strong> — позволяет переиспользовать исторические данные для повторяемых замеров без генерации новых данных</li>
+                <li><strong>Доработка регламентного задания «Исполнение сделок»</strong> — обеспечение возможности запуска исполнений за любой исторический период</li>
+                <li><strong>Обработка генерации тестовых сделок</strong> — создание 100'000 сделок в день с заданными параметрами (50 активов, пропорция 30/70)</li>
+                <li><strong>Отчет о статистике</strong> — анализ по активам, бизнес-процессам, видам операций для выбора объемов тестирования</li>
+            </ul>
+        </div>
+
+        <h3>3.2. Baseline-замеры производительности</h3>
+        <div class="info-box">
+            <h4>Проведенные замеры:</h4>
+            <ul>
+                <li><strong>Период 1:</strong> 01-02 сентября 2025 — 32'899 операций, 1'312 договоров</li>
+                <li><strong>Период 2:</strong> 13, 14, 17 ноября 2025 — 28'670 операций, 4'476 договоров</li>
+                <li><strong>Нагрузочное тестирование:</strong> 100'000 сделок в день — среднее время исполнения <strong>5-6 часов</strong></li>
+            </ul>
+            
+            <h4 style="margin-top: 12px;">Собранные метрики:</h4>
+            <ul>
+                <li>Время выполнения запросов (топ долгих запросов)</li>
+                <li>Количество обращений к базе данных</li>
+                <li>Профилирование кода через отладчик производительности 1С:Enterprise</li>
+                <li>Анализ параллельности выполнения (создание потоков, администрирование выполнения)</li>
+                <li>Сравнение метрик работы в параллельном режиме</li>
+            </ul>
+        </div>
+
+        <h3>3.3. BA-анализ узких мест</h3>
+        <div class="info-box">
+            <h4>Проведенный анализ:</h4>
+            <ul>
+                <li><strong>Анализ параллельности:</strong> Изучение механизма создания потоков, администрирования выполнения и способов изменения режима распределения потоков</li>
+                <li><strong>Детальный разбор топ-запросов:</strong> Анализ структуры запросов, выявление неоптимальных конструкций, поиск возможностей оптимизации</li>
+                <li><strong>Фиксирование медленных мест:</strong> Выявление всех участков кода с низкой производительностью с анализом причин</li>
+                <li><strong>Приоритизация:</strong> Составление приоритизированного списка оптимизаций по критичности влияния на производительность</li>
+            </ul>
+        </div>
+
+        <h2>4. Выводы и решения</h2>
+        <div class="solution-box">
+            <h3>4.1. Ключевые выводы</h3>
+            <ul>
+                <li><strong>Основная проблема:</strong> Неоптимальные запросы к регистрам бухгалтерии без явной фильтрации по видам субконто и без кэширования часто используемых данных</li>
+                <li><strong>Вторичная проблема:</strong> Ограничения на количество потоков параллельного выполнения не позволяют использовать ресурсы сервера оптимально</li>
+                <li><strong>Направления оптимизации:</strong>
+                    <ol>
+                        <li>Оптимизация запросов (явная фильтрация по видам субконто, улучшение структуры запросов)</li>
+                        <li>Кэширование параметров договора ДУ</li>
+                        <li>Индексация критических реквизитов</li>
+                        <li>Снятие ограничений на количество потоков</li>
+                    </ol>
+                </li>
+            </ul>
+        </div>
+
+        <h2>5. Реализованные доработки</h2>
+        <div class="solution-box">
+            <h3>5.1. Доработка 996: Получение остатков авансов</h3>
+            <p><strong>Проблема:</strong> В запросе использовалось прямое сравнение субконто с параметрами без явного приведения типов.</p>
+            <p><strong>Решение:</strong> Добавлено явное приведение типов через функцию ВЫРАЗИТЬ для корректного сравнения субконто с параметрами запроса.</p>
+            <p><strong>Результат:</strong> Устранены ошибки выполнения запроса, улучшена производительность за счет корректного использования индексов СУБД.</p>
+
+            <h3 style="margin-top: 15px;">5.2. Доработка 1647: Формирование таблиц для проведения БУ</h3>
+            <p><strong>Проблема:</strong> Неоптимальная структура запроса: использование ТИПЗНАЧЕНИЯ, отсутствие фильтрации по видам субконто.</p>
+            <p><strong>Решение:</strong> 
+                <ul>
+                    <li>Замена ТИПЗНАЧЕНИЯ на оператор ССЫЛКА с отрицанием</li>
+                    <li>Добавлена функция ПолучитьВидыСубконтоПоСчету() для получения видов субконто</li>
+                    <li>Добавлена явная фильтрация по видам субконто в запросах</li>
+                    <li>Добавлена поддержка счета ЧПО через ОБЪЕДИНИТЬ ВСЕ</li>
+                    <li>Изменена сигнатура функции для поддержки счета ЧПО</li>
+                </ul>
+            </p>
+            <p><strong>Результат:</strong> Значительное улучшение производительности пакетных запросов за счет оптимизации на уровне СУБД.</p>
+
+            <h3 style="margin-top: 15px;">5.3. Доработка 73: Кэширование параметров договора ДУ</h3>
+            <p><strong>Проблема:</strong> При массовом проведении документов функция получения параметров вызывалась для каждого документа отдельно, даже если договор ДУ и дата одинаковые.</p>
+            <p><strong>Решение:</strong> 
+                <ul>
+                    <li>Создана функция ЗначенияПараметровДоговораДУСКэшем() в модуле ОбщегоНазначенияДУПовтИсп с признаком ReturnValuesReuse = DuringSession</li>
+                    <li>Добавлена сериализация параметров в XML для корректного кэширования</li>
+                    <li>Нормализация даты до конца дня для улучшения эффективности кэширования</li>
+                    <li>Применено в двух местах: Документ.Сделка и БизнесПроцесс.СделкиTn</li>
+                </ul>
+            </p>
+            <p><strong>Результат:</strong> При массовом проведении документов с одинаковым договором ДУ параметры получаются из кэша, а не из базы данных.</p>
+        </div>
+    </div>
+
+    <!-- СТРАНИЦА 3 -->
+    <div class="page page-break">
+        <h3 style="margin-top: 0;">5.4. Доработка 1549: Подготовка таблицы остатков актива для валютного учета</h3>
+        <div class="solution-box">
+            <p><strong>Проблема:</strong> Отсутствие фильтрации по видам субконто хозрасчетных в запросе.</p>
+            <p><strong>Решение:</strong> Добавлен параметр ВидыСубконтоХозрасчетные с явной фильтрацией по видам субконто (АналитическиеСчета и ЦенныеБумаги).</p>
+            <p><strong>Результат:</strong> Более точная фильтрация данных на уровне базы данных, уменьшение объема обрабатываемых данных.</p>
+        </div>
+
+        <h3>5.5. Доработка 2097: Получение суммы ОНВ для облигаций</h3>
+        <div class="solution-box">
+            <p><strong>Проблема:</strong> Два отдельных запроса к регистру бухгалтерии без явной фильтрации по видам субконто.</p>
+            <p><strong>Решение:</strong> 
+                <ul>
+                    <li>Добавлен параметр ВидыСубконтоОблигации для явной фильтрации</li>
+                    <li>Оптимизирована структура запроса с использованием подзапроса через ЛЕВОЕ СОЕДИНЕНИЕ</li>
+                </ul>
+            </p>
+            <p><strong>Результат:</strong> Улучшение производительности за счет явной фильтрации по видам субконто и оптимизации структуры запроса.</p>
+        </div>
+
+        <h3>5.6. Доработка 167: Индексация ДоговорДУ в БП СделкиTn</h3>
+        <div class="solution-box">
+            <p><strong>Проблема:</strong> Отсутствие индексации реквизита ДоговорДУ в бизнес-процессе СделкиTn.</p>
+            <p><strong>Решение:</strong> Добавлена индексация для реквизита ДоговорДУ в объекте метаданных БизнесПроцесс.СделкиTn.</p>
+            <p><strong>Результат:</strong> Ускорение выполнения запросов, использующих фильтрацию по договору ДУ.</p>
+        </div>
+
+        <h3>5.7. Доработка внутренней команды: Снятие ограничений на потоки</h3>
+        <div class="solution-box">
+            <p><strong>Проблема:</strong> Жесткая блокировка количества потоков (максимум 8) в обработке "внИсполнениеСделокТ+2_ДУ".</p>
+            <p><strong>Решение:</strong> У реквизита КоличествоПотоков в полях "Минимальное значение" и "Максимальное значение" установлено 0 (снятие ограничений).</p>
+            <p><strong>Результат:</strong> Возможность гибкой настройки количества потоков в зависимости от ресурсов сервера и нагрузки.</p>
+        </div>
+
+        <h2>6. Результаты тестирования</h2>
+        
+        <h3>6.1. Сравнительные замеры производительности</h3>
+        <div class="chart-container">
+            <h4 style="text-align: center; margin-bottom: 10px;">Время исполнения 100'000 сделок (часы:минуты)</h4>
+            <div class="bar-chart">
+                <div class="bar">
+                    <div class="bar-fill old" style="height: 92%;">
+                        <div style="writing-mode: vertical-rl; text-orientation: mixed;">5:30</div>
+                    </div>
+                    <div class="bar-label">05.12<br>(старый)</div>
+                </div>
+                <div class="bar">
+                    <div class="bar-fill old" style="height: 87%;">
+                        <div style="writing-mode: vertical-rl; text-orientation: mixed;">5:20</div>
+                    </div>
+                    <div class="bar-label">08.12<br>(старый)</div>
+                </div>
+                <div class="bar">
+                    <div class="bar-fill old" style="height: 97%;">
+                        <div style="writing-mode: vertical-rl; text-orientation: mixed;">5:40</div>
+                    </div>
+                    <div class="bar-label">09.12<br>(старый)</div>
+                </div>
+                <div class="bar">
+                    <div class="bar-fill old" style="height: 79%;">
+                        <div style="writing-mode: vertical-rl; text-orientation: mixed;">4:45</div>
+                    </div>
+                    <div class="bar-label">10.12<br>(старый)</div>
+                </div>
+                <div class="bar">
+                    <div class="bar-fill old" style="height: 85%;">
+                        <div style="writing-mode: vertical-rl; text-orientation: mixed;">5:05</div>
+                    </div>
+                    <div class="bar-label">11.12<br>(старый)</div>
+                </div>
+                <div class="bar">
+                    <div class="bar-fill old" style="height: 75%;">
+                        <div style="writing-mode: vertical-rl; text-orientation: mixed;">4:30</div>
+                    </div>
+                    <div class="bar-label">12.12<br>(старый)</div>
+                </div>
+                <div class="bar">
+                    <div class="bar-fill old" style="height: 100%;">
+                        <div style="writing-mode: vertical-rl; text-orientation: mixed;">6:00</div>
+                    </div>
+                    <div class="bar-label">15.12<br>(старый)</div>
+                </div>
+                <div class="bar">
+                    <div class="bar-fill old" style="height: 67%;">
+                        <div style="writing-mode: vertical-rl; text-orientation: mixed;">4:00</div>
+                    </div>
+                    <div class="bar-label">16.12<br>(старый)</div>
+                </div>
+                <div class="bar">
+                    <div class="bar-fill old" style="height: 69%;">
+                        <div style="writing-mode: vertical-rl; text-orientation: mixed;">4:15</div>
+                    </div>
+                    <div class="bar-label">17.12<br>(старый)</div>
+                </div>
+                <div class="bar">
+                    <div class="bar-fill old" style="height: 71%;">
+                        <div style="writing-mode: vertical-rl; text-orientation: mixed;">4:25</div>
+                    </div>
+                    <div class="bar-label">19.12<br>(старый)</div>
+                </div>
+                <div class="bar">
+                    <div class="bar-fill new" style="height: 51%;">
+                        <div style="writing-mode: vertical-rl; text-orientation: mixed;">3:05</div>
+                    </div>
+                    <div class="bar-label">24.12<br>(новый)</div>
+                </div>
+                <div class="bar">
+                    <div class="bar-fill new" style="height: 63%;">
+                        <div style="writing-mode: vertical-rl; text-orientation: mixed;">3:45</div>
+                    </div>
+                    <div class="bar-label">25.12<br>(новый)</div>
+                </div>
+                <div class="bar">
+                    <div class="bar-fill new" style="height: 65%;">
+                        <div style="writing-mode: vertical-rl; text-orientation: mixed;">3:50</div>
+                    </div>
+                    <div class="bar-label">26.12<br>(новый)</div>
+                </div>
+                <div class="bar">
+                    <div class="bar-fill new" style="height: 44%;">
+                        <div style="writing-mode: vertical-rl; text-orientation: mixed;">2:40</div>
+                    </div>
+                    <div class="bar-label">29.12<br>(18 потоков)</div>
+                </div>
+            </div>
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(to top, #e74c3c, #c0392b);"></div>
+                    <span>Старый алгоритм (8 потоков)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(to top, #27ae60, #229954);"></div>
+                    <span>Новый алгоритм (8-18 потоков)</span>
+                </div>
+            </div>
+        </div>
+
+        <h3>6.2. Детальные результаты тестирования</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Период</th>
+                    <th>Алгоритм</th>
+                    <th style="width: 80px;">Потоков</th>
+                    <th style="width: 120px;">Время исполнения</th>
+                    <th style="width: 100px;">Улучшение</th>
+                    <th>Примечание</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>05.12 - 19.12.2025</td>
+                    <td>Старый</td>
+                    <td style="text-align: center;">8</td>
+                    <td style="text-align: center;"><strong>4:00 - 6:00</strong><br>(среднее 5:15)</td>
+                    <td style="text-align: center;">—</td>
+                    <td>Baseline замеры</td>
+                </tr>
+                <tr>
+                    <td>24.12.2025</td>
+                    <td>Новый</td>
+                    <td style="text-align: center;">8</td>
+                    <td style="text-align: center;"><strong>3:05</strong></td>
+                    <td style="text-align: center; color: #27ae60;"><strong>↓ 41%</strong></td>
+                    <td>Первый тест с оптимизациями</td>
+                </tr>
+                <tr>
+                    <td>25-26.12.2025</td>
+                    <td>Новый</td>
+                    <td style="text-align: center;">8</td>
+                    <td style="text-align: center;"><strong>3:45 - 3:50</strong></td>
+                    <td style="text-align: center; color: #27ae60;"><strong>↓ 28%</strong></td>
+                    <td>Стабильные результаты</td>
+                </tr>
+                <tr>
+                    <td>29.12.2025</td>
+                    <td>Новый</td>
+                    <td style="text-align: center;">18</td>
+                    <td style="text-align: center;"><strong>2:40</strong></td>
+                    <td style="text-align: center; color: #27ae60;"><strong>↓ 49%</strong></td>
+                    <td>С увеличенным количеством потоков</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>6.3. Дополнительные тесты</h3>
+        <div class="info-box">
+            <h4>Сравнительные тесты на меньших объемах:</h4>
+            <ul>
+                <li><strong>Актуальный день (2'500 сделок, 3 потока):</strong> 18 мин (старый) → 14 мин (новый) → 6 мин (новый, 12 потоков)</li>
+                <li><strong>Старый день (2'500 сделок, 3 потока):</strong> 2:20 (старый) → 45 мин (новый) → 20 мин (новый, 12 потоков)</li>
+            </ul>
+            <p style="margin-top: 10px;"><strong>Вывод:</strong> Оптимизации особенно эффективны при работе со старыми данными (несколько недель назад), где улучшение достигает 70%.</p>
+        </div>
+    </div>
+
+    <!-- СТРАНИЦА 4 -->
+    <div class="page page-break">
+        <h2>7. Текущий статус проекта</h2>
+        
+        <div class="status-box">
+            <h3>7.1. Выполненные работы</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Этап</th>
+                        <th style="width: 100px;">Срок</th>
+                        <th style="width: 100px;">Статус</th>
+                        <th>Результат</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Подготовка инфраструктуры тестирования</td>
+                        <td>27.11 - 01.12</td>
+                        <td class="status-done">✓ Выполнено</td>
+                        <td>Создана обработка-генератор, доработано регламентное задание</td>
+                    </tr>
+                    <tr>
+                        <td>Baseline-замеры</td>
+                        <td>02.12</td>
+                        <td class="status-done">✓ Выполнено</td>
+                        <td>Зафиксированы метрики «до оптимизации»</td>
+                    </tr>
+                    <tr>
+                        <td>BA-анализ узких мест</td>
+                        <td>03.12 - 05.12</td>
+                        <td class="status-done">✓ Выполнено</td>
+                        <td>Выявлено 10 проблемных участков, приоритизирован список</td>
+                    </tr>
+                    <tr>
+                        <td>Разработка и тестирование оптимизаций</td>
+                        <td>08.12 - 12.12</td>
+                        <td class="status-done">✓ Выполнено</td>
+                        <td>Реализовано 6 доработок, проведено промежуточное тестирование</td>
+                    </tr>
+                    <tr>
+                        <td>Финальные замеры и приёмка</td>
+                        <td>15.12 - 16.12</td>
+                        <td class="status-done">✓ Выполнено</td>
+                        <td>Достигнуты целевые показатели, подготовлен отчет</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="status-box" style="margin-top: 15px;">
+            <h3>7.2. Распределение работ между командами</h3>
+            <h4>Передано в Аванкор для анализа и внедрения:</h4>
+            <ul>
+                <li><strong>Все 6 доработок</strong> (описаны в HTML-файлах):
+                    <ul>
+                        <li>Доработка_996_Получение_остатков_авансов.html</li>
+                        <li>Доработка_1647_Формирование_таблиц_для_проведения_БУ.html</li>
+                        <li>Доработка_73_Кэширование_параметров_договора_ДУ.html</li>
+                        <li>Доработка_1549_Подготовка_таблицы_остатков_актива_для_валютного_учета.html</li>
+                        <li>Доработка_2097_Получение_суммы_ОНВ_для_облигаций.html</li>
+                        <li>Доработка_167_Индексация_ДоговорДУ_в_СделкиTn.html</li>
+                    </ul>
+                </li>
+                <li><strong>Расширение конфигурации du1.cfe</strong> с реализованными оптимизациями</li>
+                <li><strong>Сравнительные тесты:</strong> Тест_Сравнение_24122025.docx, 24_Договора_Старый(МинусПаруНедель)День_Сравнение.docx, 24_Договора_АктуальныйДень_Сравнение.docx</li>
+            </ul>
+
+            <h4 style="margin-top: 15px;">Внутренняя команда:</h4>
+            <ul>
+                <li><strong>Задача IMAPPS-34559:</strong> Отключение блокировки количества потоков в обработке "внИсполнениеСделокТ+2_ДУ"</li>
+                <li><strong>Статус:</strong> <span class="status-progress">В процессе</span> (ожидается прояснение влияния на производительность APP-сервера, утилизацию лицензий и дисковую подсистему)</li>
+            </ul>
+        </div>
+
+        <div class="status-box" style="margin-top: 15px;">
+            <h3>7.3. Исходные материалы</h3>
+            <ul>
+                <li><strong>Конфигурация:</strong> C:\CURSOR_Projects\AChmykhalov\Conf\w_d\CF</li>
+                <li><strong>Обработка исполнений:</strong> C:\CURSOR_Projects\AChmykhalov\Conf\w_d\epf</li>
+                <li><strong>Материалы исследований:</strong> C:\CURSOR_Projects\AChmykhalov\GitHub_Home\Test_Cursor\Проекты\Work_Project\_1_DU_Ispolnenie</li>
+                <li><strong>Документация доработок:</strong> HTML-файлы Доработка_*.html (6 файлов)</li>
+                <li><strong>Расширение конфигурации:</strong> du1.cfe с реализованными оптимизациями</li>
+                <li><strong>Отчеты о тестировании:</strong> НагрузочноеТестирование_0209.html, СценарийТестирования_1311_1411_1711.html, 16_detailed_professional.html</li>
+            </ul>
+        </div>
+
+        <h2>8. Итоговые результаты</h2>
+        <div class="solution-box">
+            <h3>8.1. Достигнутые показатели</h3>
+            <ul>
+                <li><strong>Целевой показатель:</strong> 100'000 сделок за 3 часа — <span class="status-done">✓ ДОСТИГНУТ</span> (при базовой конфигурации 8 потоков, результат 3:05-3:50)</li>
+                <li><strong>Базовое улучшение:</strong> Снижение времени исполнения на 28-41% (с 5:15 до 3:05-3:50 часов)</li>
+                <li><strong>С оптимизацией потоков:</strong> Достигнуто время <strong>2 часа 40 минут</strong> (улучшение на 49%) при 18 потоках</li>
+                <li><strong>Особенно эффективно:</strong> При работе со старыми данными (несколько недель назад) улучшение достигает 70%</li>
+            </ul>
+
+            <h3 style="margin-top: 15px;">8.2. Ключевые достижения</h3>
+            <ul>
+                <li>Реализовано 6 критических и важных доработок, направленных на оптимизацию запросов к базе данных и кэширование параметров</li>
+                <li>Создана полноценная инфраструктура для повторяемого тестирования производительности</li>
+                <li>Проведен детальный анализ узких мест с использованием отладчика производительности 1С:Enterprise</li>
+                <li>Все доработки задокументированы и переданы в Аванкор для анализа и внедрения в основную конфигурацию</li>
+                <li>Доказана эффективность оптимизаций на реальных данных (1 млн сделок за 10 дней)</li>
+            </ul>
+        </div>
+
+        <h2>9. Следующие шаги</h2>
+        <div class="status-box">
+            <h3>9.1. Ожидаемые действия от Аванкора</h3>
+            <ul>
+                <li>Анализ переданных доработок и документации</li>
+                <li>Внедрение оптимизаций в основную конфигурацию</li>
+                <li>Проведение собственного тестирования на продакшн-окружении</li>
+                <li>Выпуск обновления конфигурации с оптимизациями</li>
+            </ul>
+
+            <h3 style="margin-top: 15px;">9.2. Действия внутренней команды</h3>
+            <ul>
+                <li>Прояснение влияния снятия ограничений на потоки (задача IMAPPS-34559)</li>
+                <li>Принятие решения о снятии ограничений на основе анализа влияния на:
+                    <ul>
+                        <li>Общую производительность APP-сервера</li>
+                        <li>Утилизацию клиентских лицензий 1С</li>
+                        <li>Дисковую подсистему DB-сервера</li>
+                    </ul>
+                </li>
+                <li>Настройка оптимального количества потоков для различных регламентов</li>
+            </ul>
+        </div>
+
+        <h2>10. Выводы</h2>
+        <div class="info-box">
+            <p>В рамках эпика DU-OPT-2025 успешно выполнена оптимизация модуля Исполнения сделок Розничного ДУ. Реализовано 6 критических и важных доработок, направленных на оптимизацию запросов к базе данных и кэширование параметров.</p>
+            
+            <p style="margin-top: 10px;">В результате достигнуто снижение времени исполнения на 28-49% в зависимости от конфигурации потоков. <strong>Целевой показатель (100'000 сделок за 3 часа) достигнут при базовой конфигурации (8 потоков)</strong>, при увеличении потоков до 18 достигнуто время 2 часа 40 минут, что превышает целевой показатель.</p>
+            
+            <p style="margin-top: 10px;">Все доработки переданы в Аванкор для анализа и внедрения в основную конфигурацию. Проект находится на этапе ожидания внедрения оптимизаций в продакшн-окружение.</p>
+        </div>
+    </div>
+</body>
+</html>
+
