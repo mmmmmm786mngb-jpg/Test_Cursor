@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>КПЭ ИТ за 1й квартал 2026 года</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: white;
+            color: #333;
+        }
+
+        .container {
+            height: 100vh;
+            width: 100%;
+            margin: 0;
+            padding: 10px;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1 {
+            color: #1e88e5;
+            font-size: 24px;
+            margin: 0 0 8px 0;
+            text-align: center;
+            border-bottom: 2px solid #1e88e5;
+            padding-bottom: 6px;
+            flex-shrink: 0;
+        }
+
+        .table-wrapper {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border: 2px solid #1e88e5;
+            table-layout: fixed;
+        }
+
+        thead {
+            background-color: #1e88e5;
+            color: white;
+        }
+
+        th {
+            padding: 6px 4px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            border: 1px solid #1565c0;
+            word-wrap: break-word;
+            hyphens: auto;
+        }
+
+        td {
+            padding: 4px;
+            border: 1px solid #b0bec5;
+            vertical-align: top;
+            font-size: 13px;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        tbody tr:hover {
+            background-color: #e3f2fd;
+        }
+
+        tbody tr:last-child {
+            background-color: #e8f5e9;
+            font-weight: 600;
+        }
+
+        .col-number {
+            width: 3%;
+            text-align: center;
+        }
+
+        .col-kpi {
+            width: 45%;
+        }
+
+        .col-unit {
+            width: 8%;
+            text-align: center;
+        }
+
+        .col-target {
+            width: 8%;
+            text-align: center;
+        }
+
+        .col-weight {
+            width: 7%;
+            text-align: center;
+        }
+
+        .col-actual {
+            width: 9%;
+            text-align: center;
+        }
+
+        .col-result {
+            width: 8%;
+            text-align: center;
+        }
+
+        .col-weighted {
+            width: 12%;
+            text-align: center;
+        }
+
+        .empty-cell {
+            color: #999;
+            font-style: italic;
+        }
+
+        .kpi-text {
+            line-height: 1.3;
+        }
+
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+                padding: 20px;
+            }
+
+            thead {
+                background-color: #1e88e5 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>КПЭ ИТ за 1й квартал 2026 года</h1>
+        
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="col-number">№</th>
+                        <th class="col-kpi">КПЭ</th>
+                        <th class="col-unit">Единица измерения</th>
+                        <th class="col-target">Целевое значение</th>
+                        <th class="col-weight">Вес КПЭ, %</th>
+                        <th class="col-actual">Фактическое значение</th>
+                        <th class="col-result">Результат, %</th>
+                        <th class="col-weighted">Взвешенный результат, %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-number">1</td>
+                        <td class="col-kpi kpi-text">Количество критических ошибок после внедрения: 0-1 = 100% выполнения, 2-4 = 80% выполнения, >4 = 50% выполнения</td>
+                        <td class="col-unit">%</td>
+                        <td class="col-target">100</td>
+                        <td class="col-weight">20</td>
+                        <td class="col-actual empty-cell">—</td>
+                        <td class="col-result empty-cell">—</td>
+                        <td class="col-weighted empty-cell">—</td>
+                    </tr>
+                    <tr>
+                        <td class="col-number">2</td>
+                        <td class="col-kpi kpi-text">EPIC РозничноеДУ. Исполнение сделок (IMAPPS-34094): Оптимизация исполнения сделок Т и Т-1 в Avancore DU. Реализация управляемой параллельности, оптимизация запросов и алгоритмов. Ожидаемый прирост производительности ≥30%.</td>
+                        <td class="col-unit">%</td>
+                        <td class="col-target">90</td>
+                        <td class="col-weight">30</td>
+                        <td class="col-actual empty-cell">—</td>
+                        <td class="col-result empty-cell">—</td>
+                        <td class="col-weighted empty-cell">—</td>
+                    </tr>
+                    <tr>
+                        <td class="col-number">3</td>
+                        <td class="col-kpi kpi-text">EPIC РозничноеДУ. Загрузка сделок: Оптимизация производительности загрузки сделок из внешней системы. Кэширование справочников, оптимизация запросов проверки существования, добавление индексов. Ожидаемый эффект: ускорение в 3-5 раз.</td>
+                        <td class="col-unit">%</td>
+                        <td class="col-target">90</td>
+                        <td class="col-weight">30</td>
+                        <td class="col-actual empty-cell">—</td>
+                        <td class="col-result empty-cell">—</td>
+                        <td class="col-weighted empty-cell">—</td>
+                    </tr>
+                    <tr>
+                        <td class="col-number">4</td>
+                        <td class="col-kpi kpi-text">Завершить разработку по поставленным задачам XBRL отчетности, и другим задачам СБ-Брокер</td>
+                        <td class="col-unit">%</td>
+                        <td class="col-target">100</td>
+                        <td class="col-weight">10</td>
+                        <td class="col-actual empty-cell">—</td>
+                        <td class="col-result empty-cell">—</td>
+                        <td class="col-weighted empty-cell">—</td>
+                    </tr>
+                    <tr>
+                        <td class="col-number">5</td>
+                        <td class="col-kpi kpi-text">Завершить разработку по поставленным задачам XBRL отчетности, и другим задачам WIM</td>
+                        <td class="col-unit">%</td>
+                        <td class="col-target">100</td>
+                        <td class="col-weight">10</td>
+                        <td class="col-actual empty-cell">—</td>
+                        <td class="col-result empty-cell">—</td>
+                        <td class="col-weighted empty-cell">—</td>
+                    </tr>
+                    <tr>
+                        <td class="col-number"></td>
+                        <td class="col-kpi"><strong>Итого</strong></td>
+                        <td class="col-unit"></td>
+                        <td class="col-target"></td>
+                        <td class="col-weight">100</td>
+                        <td class="col-actual"></td>
+                        <td class="col-result"></td>
+                        <td class="col-weighted"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+
