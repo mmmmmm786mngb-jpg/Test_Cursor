@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отчет о проделанной работе - IMAPPS-34356</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 15px;
+            line-height: 1.7;
+            color: #2c3e50;
+            background: #ffffff;
+            display: flex;
+        }
+        
+        .sidebar {
+            width: 280px;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            padding: 30px 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 1px solid #2a2a2a;
+        }
+        
+        .sidebar h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
+        }
+        
+        .nav-menu {
+            list-style: none;
+        }
+        
+        .nav-menu li {
+            margin-bottom: 8px;
+        }
+        
+        .nav-menu a {
+            color: #b0b0b0;
+            text-decoration: none;
+            display: block;
+            padding: 10px 15px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+        
+        .nav-menu a:hover {
+            background: #2a2a2a;
+            color: #ffffff;
+        }
+        
+        .nav-menu a.active {
+            background: #ffffff;
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+        
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 60px 80px;
+            max-width: 1200px;
+        }
+        
+        .header {
+            margin-bottom: 60px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .header h1 {
+            font-size: 36px;
+            font-weight: 300;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+        
+        .header .subtitle {
+            font-size: 16px;
+            color: #7f8c8d;
+            margin-top: 8px;
+        }
+        
+        .header .task-id {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 6px 16px;
+            background: #1a1a1a;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        
+        .section {
+            margin-bottom: 80px;
+        }
+        
+        .section-title {
+            font-size: 28px;
+            font-weight: 300;
+            color: #1a1a1a;
+            margin-bottom: 35px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .subsection {
+            margin-bottom: 40px;
+        }
+        
+        .subsection-title {
+            font-size: 20px;
+            font-weight: 400;
+            color: #34495e;
+            margin-bottom: 20px;
+            margin-top: 35px;
+        }
+        
+        .text {
+            margin-bottom: 20px;
+            color: #555;
+            line-height: 1.8;
+        }
+        
+        .list {
+            margin-left: 0;
+            margin-bottom: 20px;
+            list-style: none;
+        }
+        
+        .list li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+            color: #555;
+            line-height: 1.8;
+        }
+        
+        .list li::before {
+            content: '—';
+            position: absolute;
+            left: 0;
+            color: #95a5a6;
+        }
+        
+        .table-wrapper {
+            margin: 30px 0;
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            margin: 25px 0;
+        }
+        
+        table thead {
+            background: #f8f9fa;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        table th {
+            padding: 15px 20px;
+            text-align: left;
+            font-weight: 500;
+            color: #34495e;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        table td {
+            padding: 18px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #555;
+        }
+        
+        table tbody tr:hover {
+            background: #fafafa;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .badge-success {
+            background: #27ae60;
+            color: #fff;
+        }
+        
+        .highlight-box {
+            background: #f8f9fa;
+            border-left: 3px solid #1a1a1a;
+            padding: 25px 30px;
+            margin: 30px 0;
+        }
+        
+        .highlight-box strong {
+            color: #1a1a1a;
+            font-weight: 500;
+        }
+        
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 20px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+            font-size: 12px;
+            overflow-x: auto;
+            margin: 20px 0;
+            color: #2c3e50;
+        }
+        
+        .code-block .comment {
+            color: #95a5a6;
+        }
+        
+        .code-block .keyword {
+            color: #e74c3c;
+        }
+        
+        .code-block .string {
+            color: #27ae60;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border: 1px solid #e0e0e0;
+            text-align: center;
+        }
+        
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: 300;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+        
+        .stat-card .label {
+            font-size: 12px;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            margin: 30px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: #e0e0e0;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+            padding-left: 30px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -22px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #1a1a1a;
+            border: 2px solid #ffffff;
+        }
+        
+        .timeline-item-title {
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .footer {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            color: #95a5a6;
+            font-size: 13px;
+        }
+        
+        .type-added {
+            color: #27ae60;
+            font-weight: 500;
+        }
+        
+        .type-modified {
+            color: #f39c12;
+            font-weight: 500;
+        }
+        
+        @media print {
+            .sidebar {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Содержание</h2>
+        <ul class="nav-menu">
+            <li><a href="#section1">1. Постановка задачи</a></li>
+            <li><a href="#section2">2. План работ</a></li>
+            <li><a href="#section3">3. Ход работ</a></li>
+            <li><a href="#section4">4. Результаты тестирования</a></li>
+            <li><a href="#section5">5. Выводы</a></li>
+        </ul>
+    </div>
+    
+    <div class="main-content">
+        <div class="header">
+            <h1>Отчет о проделанной работе</h1>
+            <div class="subtitle">Оптимизация Отчета о финансовом результате по данным ЕПС</div>
+            <div class="task-id">IMAPPS-34356</div>
+        </div>
+        
+        <div class="section" id="section1">
+            <div class="section-title">1. Постановка задачи</div>
+            
+            <div class="subsection">
+                <div class="subsection-title">1.1. Описание проблемы</div>
+                <div class="text">
+                    Отчет "Отчет о финансовом результате по данным ЕПС" (внОтчетОФинансовомРезультате_ЕПС) работал длительное время и создавал повышенную нагрузку на базу данных.
+                </div>
+                <div class="text">
+                    <strong>Параметры запуска отчета:</strong> Отчетность бухгалтерская => Пользовательские отчеты => Отчет о финансовом результате по данным ЕПС
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-title">1.2. Проблемные сценарии</div>
+                <ul class="list">
+                    <li><strong>ДУ 3225</strong> (без расшифровки) в программе PROD_AVC_FIN20 - долгое время формирования (период: 01.01-30.11.25)</li>
+                    <li><strong>ДУ 3546 АО РНПК</strong> (с расшифровкой) - выдавал ошибку при формировании</li>
+                </ul>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-title">1.3. Требования к оптимизации</div>
+                <div class="text">
+                    Необходимо оптимизировать отчет для снижения времени выполнения и нагрузки на базу данных при сохранении функциональности и корректности расчетов.
+                </div>
+            </div>
+        </div>
+        
+        <div class="section" id="section2">
+            <div class="section-title">2. План работ</div>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-item-title">Задача 1: Связаться с Заказчиком</div>
+                    <div class="text">Уточнить параметры запуска отчета (Портфель, Период, Расшифровка) при которых наблюдается значительное проседание по времени</div>
+                    <div class="badge badge-success" style="margin-top: 10px;">Выполнено</div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-item-title">Задача 2: Изучить механизм работы отчета</div>
+                    <div class="text">Провести анализ кода отчета, выявить узкие места производительности</div>
+                    <div class="badge badge-success" style="margin-top: 10px;">Выполнено</div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-item-title">Задача 3: Изучить варианты доработок</div>
+                    <div class="text">
+                        <strong>Вариант А:</strong> Замена универсального построителя запроса для "медленных" показателей на объединенный запрос (1 запрос сразу на несколько мелких условий). Преимущества - изменения только в отчете, недостаток - не универсально, ускоряет только конкретные показатели.
+                    </div>
+                    <div class="text" style="margin-top: 10px;">
+                        <strong>Вариант Б:</strong> Расчет показателей в фоновых потоках (параллельный расчет). Преимущества - ускоряет расчеты в целом, время формирования всего отчета становится практически равным времени расчета самого долгого показателя, недостаток - требуется создание нового общего модуля в конфигурации.
+                    </div>
+                    <div class="badge badge-success" style="margin-top: 10px;">Выполнено</div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-item-title">Задача 4: Реализовать выбранные варианты</div>
+                    <div class="text">Реализовать оба варианта оптимизации для обеспечения максимальной эффективности</div>
+                    <div class="badge badge-success" style="margin-top: 10px;">Выполнено</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section" id="section3">
+            <div class="section-title">3. Ход работ</div>
+            
+            <div class="subsection">
+                <div class="subsection-title">3.1. Анализ кода отчета</div>
+                <div class="text">
+                    В ходе анализа кода были выявлены следующие узкие места производительности:
+                </div>
+                <ul class="list">
+                    <li><strong>ТОП-4 медленных показателя:</strong> П1433 (46.6 сек), П1423 (46.6 сек), П1443 (24 сек), П1413 (23.4 сек) - занимали 59.9% от общего времени выполнения (~140 секунд из 234 секунд)</li>
+                    <li><strong>Последовательное выполнение:</strong> Все показатели рассчитывались последовательно, что приводило к накоплению времени выполнения</li>
+                    <li><strong>Множественные запросы:</strong> Для показателей П1423 и П1433 использовалась функция НесколькоУсловий(), что приводило к выполнению двух отдельных запросов вместо одного объединенного</li>
+                    <li><strong>Раздел 1_4:</strong> Четыре показателя (П1413, П1423, П1433, П1443) выполняли отдельные запросы с общими базовыми условиями</li>
+                </ul>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-title">3.2. Реализованные изменения в коде</div>
+                
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 15%;">Тип изменения</th>
+                                <th style="width: 25%;">Название функции/процедуры</th>
+                                <th style="width: 60%;">Описание изменения</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="type-added">Добавлено</span></td>
+                                <td>АктивныеЗадания</td>
+                                <td>Добавлена переменная типа Соответствие для отслеживания активных фоновых заданий (GUID -> АдресХранилищаРезультата)</td>
+                            </tr>
+                            <tr>
+                                <td><span class="type-modified">Изменено</span></td>
+                                <td>РассчитатьПоказатели()</td>
+                                <td>Все вызовы процедур ЗаполнитьПоказателиГруппа1/2/3/4... заменены на ЗаполнитьПоказателиГруппа1ВФоне/2ВФоне/3ВФоне... для параллельного выполнения расчетов</td>
+                            </tr>
+                            <tr>
+                                <td><span class="type-added">Добавлено</span></td>
+                                <td>ЗаполнитьПоказателиГруппа1ВФоне()<br/>ЗаполнитьПоказателиГруппа2ВФоне()<br/>...ЗаполнитьПоказателиГруппа9ВФоне()</td>
+                                <td>Созданы новые процедуры для запуска расчетов в фоновых заданиях. Каждая процедура формирует параметры, создает временное хранилище для результата и запускает фоновое задание через ФоновыеЗадания.Выполнить()</td>
+                            </tr>
+                            <tr>
+                                <td><span class="type-added">Добавлено</span></td>
+                                <td>ОжидатьЗавершенияФоновыхЗаданий()</td>
+                                <td>Функция ожидает завершения всех фоновых заданий, собирает результаты из временного хранилища, объединяет данные и обрабатывает ошибки. Включает защиту от бесконечного цикла (таймаут 1 час)</td>
+                            </tr>
+                            <tr>
+                                <td><span class="type-modified">Оптимизировано</span></td>
+                                <td>Раздел_1_4</td>
+                                <td>Вместо 4 отдельных запросов для показателей П1413, П1423, П1433, П1443 выполняется один общий запрос ОборотыСчета(ОбщиеУсловия_14()), затем данные фильтруются в памяти через функцию ПодготовитьДанныеРаздела1_4()</td>
+                            </tr>
+                            <tr>
+                                <td><span class="type-added">Добавлено</span></td>
+                                <td>ОбщиеУсловия_14()</td>
+                                <td>Функция формирует общие условия для всех показателей раздела 1_4 (счет 14, символы ОФР, корреспондирующий счет переоценки, КорСубконто = ФинансовыеИнструменты)</td>
+                            </tr>
+                            <tr>
+                                <td><span class="type-added">Добавлено</span></td>
+                                <td>ПодготовитьДанныеРаздела1_4()</td>
+                                <td>Функция фильтрует общие обороты по условиям для каждого показателя (П141, П142, П143, П144) в памяти, используя функцию ОтфильтроватьОбороты()</td>
+                            </tr>
+                            <tr>
+                                <td><span class="type-added">Добавлено</span></td>
+                                <td>ОтфильтроватьОбороты()</td>
+                                <td>Функция фильтрует таблицу оборотов в памяти по заданным условиям, используя временные таблицы и запросы. Поддерживает массивы условий (логика ИЛИ между элементами)</td>
+                            </tr>
+                            <tr>
+                                <td><span class="type-added">Добавлено</span></td>
+                                <td>ЗаполнитьПоказателиГруппа9ВФоне()</td>
+                                <td>Специальная процедура для заполнения показателей раздела 1_4, которая работает с уже подготовленными данными (оборотами, отфильтрованными в памяти)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-title">3.3. Созданные объекты конфигурации</div>
+                <div class="text">
+                    <strong>Общий модуль: VTB_ОбщийМодуль</strong>
+                </div>
+                <ul class="list">
+                    <li><strong>Свойства модуля:</strong> Сервер: true, Внешнее соединение: true, Вызов сервера: true</li>
+                    <li><strong>Процедуры модуля:</strong> ЗаполнитьПоказателиГруппа1() - ЗаполнитьПоказателиГруппа9() - выполняют расчет показателей соответствующих групп в фоновом задании</li>
+                    <li><strong>Особенности реализации:</strong> Все процедуры принимают параметры через XML-строку, результаты сохраняются во временное хранилище, ошибки обрабатываются и возвращаются в структуре результата</li>
+                </ul>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-title">3.4. Исправление проблемы с расшифровкой</div>
+                <div class="text">
+                    В ходе тестирования была выявлена и исправлена ошибка формирования отчета с расшифровкой. Проблема была связана с неправильной обработкой данных расшифровки при определенных условиях.
+                </div>
+                <div class="text">
+                    <strong>Результат исправления:</strong>
+                </div>
+                <ul class="list">
+                    <li><strong>ДУ 3225 без расшифровки:</strong> Отчет формируется за 5 минут 27 секунд (период 01.01.25 – 31.10.25), файлы идентичны до и после оптимизации</li>
+                    <li><strong>ДУ 3225 с расшифровкой:</strong> Отчет формируется за 10 минут 28 секунд (период 01.01.2025 – 31.10.2025), файлы идентичны до и после оптимизации</li>
+                    <li>Расшифровка формируется для ДУ 5549 (PROD_AVC_FIN20) для поиска и исправления ошибок</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section" id="section4">
+            <div class="section-title">4. Результаты тестирования</div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="value">3-5x</div>
+                    <div class="label">Ускорение работы отчета</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value">33 мин</div>
+                    <div class="label">До оптимизации (ДУ 3225, без расшифровки)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value">5.5 мин</div>
+                    <div class="label">После оптимизации (ДУ 3225, без расшифровки)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value">37 мин</div>
+                    <div class="label">До оптимизации (ДУ 3225, с расшифровкой)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value">10.5 мин</div>
+                    <div class="label">После оптимизации (ДУ 3225, с расшифровкой)</div>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-title">4.1. Тестовый сценарий 1: ДУ 3225 без расшифровки</div>
+                <div class="text">
+                    <strong>Параметры:</strong> ДУ 3225, период 01.01.25 – 31.10.25, без расшифровки
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Параметр</th>
+                                <th>До оптимизации</th>
+                                <th>После оптимизации</th>
+                                <th>Улучшение</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Время выполнения</strong></td>
+                                <td>Старт: 13:51:29<br/>Финиш: 14:24<br/><strong>33 минуты</strong></td>
+                                <td>Старт: 07:44:11<br/>Расчет завершен: 07:49:38<br/><strong>5 минут 27 секунд</strong></td>
+                                <td><span class="badge badge-success">Ускорение в ~6 раз</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Сравнение файлов</strong></td>
+                                <td colspan="3">Файлы идентичны (корректность расчетов сохранена)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-title">4.2. Тестовый сценарий 2: ДУ 3225 с расшифровкой</div>
+                <div class="text">
+                    <strong>Параметры:</strong> ДУ 3225, период 01.01.2025 – 31.10.2025, с расшифровкой
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Параметр</th>
+                                <th>До оптимизации</th>
+                                <th>После оптимизации</th>
+                                <th>Улучшение</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Время выполнения</strong></td>
+                                <td>Старт: 13:12:06<br/>Финиш: 13:49<br/><strong>37 минут</strong></td>
+                                <td>Старт: 08:18:09<br/>Расчет завершен: 08:28:37<br/><strong>10 минут 28 секунд</strong></td>
+                                <td><span class="badge badge-success">Ускорение в ~3.5 раза</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Сравнение файлов</strong></td>
+                                <td colspan="3">Файлы идентичны (корректность расчетов сохранена)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-title">4.3. Тестовый сценарий 3: Исправление расшифровки</div>
+                <div class="text">
+                    <strong>Проблема:</strong> Отчет с расшифровкой для ДУ 3546 АО РНПК выдавал ошибку
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Параметр</th>
+                                <th>До исправления</th>
+                                <th>После исправления</th>
+                                <th>Статус</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>ДУ 3546 АО РНПК (с расшифровкой)</strong></td>
+                                <td>Ошибка</td>
+                                <td>Формируется корректно</td>
+                                <td><span class="badge badge-success">Исправлено</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="highlight-box">
+                <strong>Выводы по тестированию:</strong>
+                <ul class="list" style="margin-top: 15px;">
+                    <li>Ускорение работы отчета составляет <strong>3-5 раз</strong> в зависимости от параметров</li>
+                    <li>Корректность расчетов сохранена - файлы до и после оптимизации идентичны</li>
+                    <li>Ошибка формирования отчета с расшифровкой для ДУ 3546 АО РНПК исправлена</li>
+                    <li>Отчет готов к использованию в продуктивной среде</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section" id="section5">
+            <div class="section-title">5. Выводы</div>
+            
+            <div class="subsection">
+                <div class="subsection-title">5.1. Ключевые достижения</div>
+                <ul class="list">
+                    <li><strong>Параллельный расчет показателей:</strong> Все расчеты переведены в фоновый режим, что позволяет выполнять их параллельно и сокращает общее время формирования отчета до времени расчета самого долгого показателя</li>
+                    <li><strong>Оптимизация раздела 1_4:</strong> Вместо 4 отдельных запросов выполняется один общий запрос с последующей фильтрацией в памяти, что значительно снижает нагрузку на базу данных</li>
+                    <li><strong>Универсальность решения:</strong> Реализованы оба варианта оптимизации (объединение запросов и фоновый режим), что обеспечивает максимальную эффективность</li>
+                    <li><strong>Исправление ошибок:</strong> Исправлена ошибка формирования отчета с расшифровкой для ДУ 3546 АО РНПК</li>
+                    <li><strong>Сохранение функциональности:</strong> Все тесты подтвердили идентичность результатов до и после оптимизации</li>
+                </ul>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-title">5.2. Статус готовности</div>
+                <div class="highlight-box">
+                    <strong>Оптимизированный отчет готов к использованию в продуктивной среде.</strong>
+                    <ul class="list" style="margin-top: 15px;">
+                        <li>Все тесты пройдены успешно</li>
+                        <li>Корректность расчетов подтверждена (файлы идентичны)</li>
+                        <li>Ошибка с расшифровкой исправлена</li>
+                        <li>Достигнуто ускорение в 3-5 раз</li>
+                        <li>Нагрузка на базу данных значительно снижена</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div>Отчет подготовлен: <strong>Дата</strong></div>
+            <div style="margin-top: 10px;">Задача: <strong>IMAPPS-34356</strong> | Статус: <strong>IT test</strong></div>
+            <div style="margin-top: 10px;">Время выполнения задачи: 3 дня, 3 часа</div>
+        </div>
+    </div>
+</body>
+</html>
+

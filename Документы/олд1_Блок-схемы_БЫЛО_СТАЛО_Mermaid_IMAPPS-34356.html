@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Блок-схемы БЫЛО-СТАЛО в формате Mermaid - IMAPPS-34356</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: #f8f9fa;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+
+        .header .task-id {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 25px;
+            margin-top: 15px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 60px;
+            page-break-inside: avoid;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 4px solid #667eea;
+        }
+
+        .diagram-container {
+            background: #ffffff;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .diagram-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .mermaid {
+            text-align: center;
+            background: #fafafa;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .info-box {
+            background: #e7f3ff;
+            border-left: 5px solid #17a2b8;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .info-box strong {
+            color: #17a2b8;
+            font-size: 16px;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            text-align: center;
+            color: #666;
+            border-top: 2px solid #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Блок-схемы БЫЛО-СТАЛО</h1>
+            <div class="subtitle">Диаграммы в формате Mermaid</div>
+            <div class="task-id">IMAPPS-34356</div>
+        </div>
+
+        <div class="content">
+            <!-- Диаграмма 1: Общий поток БЫЛО -->
+            <div class="section">
+                <div class="section-title">1. БЫЛО: Синхронный поток выполнения</div>
+                <div class="diagram-container">
+                    <div class="diagram-title">Последовательное выполнение показателей</div>
+                    <div class="mermaid">
+flowchart TD
+    Start([Старт: РассчитатьПоказатели]):::startStyle
+    Init[Инициализация структур данных]:::initStyle
+    P1[Показатель 1: ЗаполнитьПоказателиГруппа1<br/>Условия_111<br/>~2.3 сек]:::wasStyle
+    P2[Показатель 2: ЗаполнитьПоказателиГруппа1<br/>Условия_112<br/>~2.5 сек]:::wasStyle
+    P3[Показатель 3: ЗаполнитьПоказателиГруппа1<br/>Условия_113<br/>~3.1 сек]:::wasStyle
+    P4[Показатель 4: ЗаполнитьПоказателиГруппа3<br/>Условия_141<br/>~23.4 сек]:::wasStyle
+    P5[Показатель 5: ЗаполнитьПоказателиГруппа3<br/>Условия_142<br/>~46.6 сек]:::wasStyle
+    P6[Показатель 6: ЗаполнитьПоказателиГруппа3<br/>Условия_143<br/>~46.6 сек]:::wasStyle
+    P7[Показатель 7: ЗаполнитьПоказателиГруппа3<br/>Условия_144<br/>~24.0 сек]:::wasStyle
+    P8[... еще 82 показателя<br/>~85.5 сек]:::wasStyle
+    Calc[РассчитатьИтоги]:::calcStyle
+    End([Финиш: Возврат результата]):::endStyle
+
+    Start --> Init
+    Init --> P1
+    P1 --> P2
+    P2 --> P3
+    P3 --> P4
+    P4 --> P5
+    P5 --> P6
+    P6 --> P7
+    P7 --> P8
+    P8 --> Calc
+    Calc --> End
+
+    classDef startStyle fill:#3498db,stroke:#2980b9,stroke-width:3px,color:#fff
+    classDef initStyle fill:#95a5a6,stroke:#7f8c8d,stroke-width:2px,color:#fff
+    classDef wasStyle fill:#e74c3c,stroke:#c0392b,stroke-width:2px,color:#fff
+    classDef calcStyle fill:#f39c12,stroke:#d68910,stroke-width:2px,color:#fff
+    classDef endStyle fill:#27ae60,stroke:#229954,stroke-width:3px,color:#fff
+                    </div>
+                    <div class="info-box">
+                        <strong>⏱️ Общее время выполнения: 234 секунды (3 минуты 54 секунды)</strong><br/>
+                        Формула: Σ(время_показателя_i) = 2.3 + 2.5 + 3.1 + 23.4 + 46.6 + 46.6 + 24.0 + 85.5 = 234 сек
+                    </div>
+                </div>
+            </div>
+
+            <!-- Диаграмма 2: Общий поток СТАЛО -->
+            <div class="section">
+                <div class="section-title">2. СТАЛО: Параллельный поток выполнения</div>
+                <div class="diagram-container">
+                    <div class="diagram-title">Параллельное выполнение через фоновые задания</div>
+                    <div class="mermaid">
+flowchart TD
+    Start([Старт: РассчитатьПоказатели]):::startStyle
+    Init[Инициализация структур данных<br/>АктивныеЗадания = Новый Соответствие]:::initStyle
+    
+    subgraph Parallel["🚀 Параллельный запуск фоновых заданий"]
+        direction TB
+        F1[Фон 1: ЗаполнитьПоказателиГруппа1ВФоне<br/>Условия_111<br/>~2.3 сек]:::becameStyle
+        F2[Фон 2: ЗаполнитьПоказателиГруппа1ВФоне<br/>Условия_112<br/>~2.5 сек]:::becameStyle
+        F3[Фон 3: ЗаполнитьПоказателиГруппа1ВФоне<br/>Условия_113<br/>~3.1 сек]:::becameStyle
+        F4[Фон 4: ЗаполнитьПоказателиГруппа9ВФоне<br/>Раздел 1_4 П141<br/>~23.4 сек]:::becameStyle
+        F5[Фон 5: ЗаполнитьПоказателиГруппа9ВФоне<br/>Раздел 1_4 П142<br/>~46.6 сек]:::becameStyle
+        F6[Фон 6: ЗаполнитьПоказателиГруппа9ВФоне<br/>Раздел 1_4 П143<br/>~46.6 сек]:::becameStyle
+        F7[Фон 7: ЗаполнитьПоказателиГруппа9ВФоне<br/>Раздел 1_4 П144<br/>~24.0 сек]:::becameStyle
+        F8[... еще 82 фоновых задания<br/>~85.5 сек]:::becameStyle
+    end
+
+    Wait[⏳ ОжидатьЗавершенияФоновыхЗаданий<br/>Проверка состояния всех заданий]:::waitStyle
+    Merge[🔄 Слияние результатов<br/>ОбъединитьМассивТаблицЗначений<br/>ОбъединитьМассивСтруктур]:::mergeStyle
+    Calc[РассчитатьИтоги]:::calcStyle
+    End([Финиш: Возврат результата]):::endStyle
+
+    Start --> Init
+    Init --> Parallel
+    Parallel --> Wait
+    Wait --> Merge
+    Merge --> Calc
+    Calc --> End
+
+    classDef startStyle fill:#3498db,stroke:#2980b9,stroke-width:3px,color:#fff
+    classDef initStyle fill:#95a5a6,stroke:#7f8c8d,stroke-width:2px,color:#fff
+    classDef becameStyle fill:#27ae60,stroke:#229954,stroke-width:2px,color:#fff
+    classDef waitStyle fill:#9b59b6,stroke:#8e44ad,stroke-width:2px,color:#fff
+    classDef mergeStyle fill:#e67e22,stroke:#d35400,stroke-width:2px,color:#fff
+    classDef calcStyle fill:#f39c12,stroke:#d68910,stroke-width:2px,color:#fff
+    classDef endStyle fill:#27ae60,stroke:#229954,stroke-width:3px,color:#fff
+                    </div>
+                    <div class="info-box">
+                        <strong>⏱️ Общее время выполнения: 46.6 секунд (время самого долгого показателя)</strong><br/>
+                        Формула: MAX(время_показателя_i) = MAX(2.3, 2.5, 3.1, 23.4, 46.6, 46.6, 24.0, 85.5) = 46.6 сек<br/>
+                        🎯 Ускорение: 234 / 46.6 ≈ <strong>5 раз</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Диаграмма 3: Детальная архитектура фонового задания -->
+            <div class="section">
+                <div class="section-title">3. Детальная архитектура фонового задания</div>
+                <div class="diagram-container">
+                    <div class="diagram-title">Процесс выполнения одного фонового задания</div>
+                    <div class="mermaid">
+sequenceDiagram
+    participant Main as Основной поток<br/>(РассчитатьПоказатели)
+    participant Fone as ЗаполнитьПоказателиГруппаXВФоне
+    participant BG as ФоновоеЗадания.Выполнить
+    participant CM as VTB_ОбщийМодуль<br/>ЗаполнитьПоказателиГруппаX
+    participant DB as База данных<br/>(ОборотыСчета)
+    participant Storage as Временное хранилище
+    participant Wait as ОжидатьЗавершенияФоновыхЗаданий
+
+    Main->>Fone: ЗаполнитьПоказателиГруппа1ВФоне(АктивныеЗадания, Условия, ...)
+    Note over Fone: Формирование параметров<br/>ВходящиеПараметры = Структура
+    Fone->>Fone: Создание временного хранилища<br/>АдресХранилищаРезультата
+    Fone->>Fone: Сериализация в XML<br/>XML(ВходящиеПараметры)
+    Fone->>BG: ФоновыеЗадания.Выполнить("VTB_ОбщийМодуль.ЗаполнитьПоказателиГруппа1", ПараметрыФона)
+    Fone->>Main: Добавление в АктивныеЗадания<br/>(GUID → АдресХранилища)
+    
+    par Параллельное выполнение
+        BG->>CM: Запуск фонового задания
+        CM->>CM: Десериализация XML<br/>ДанныеИзXML(ВходящиеПараметрыXML)
+        CM->>DB: ОборотыСчета(Условия)
+        DB-->>CM: Результат запроса
+        CM->>CM: Расчет показателей<br/>ЗаполнитьЗначенияПоказателей
+        CM->>CM: Формирование расшифровки<br/>ЗаполнитьРасшифровкуПоказателей
+        CM->>Storage: ПоместитьВоВременноеХранилище(XML(Результат), Адрес)
+    end
+
+    Main->>Wait: ОжидатьЗавершенияФоновыхЗаданий(АктивныеЗадания, ...)
+    loop Для каждого задания
+        Wait->>BG: Проверка состояния задания
+        BG-->>Wait: Состояние (Завершено/Выполняется/Ошибка)
+        alt Задание завершено
+            Wait->>Storage: ПолучитьИзВременногоХранилища(Адрес)
+            Storage-->>Wait: XML результат
+            Wait->>Wait: Десериализация и добавление в массивы
+        end
+    end
+    Wait-->>Main: РезультатОжидания (массивы результатов)
+    Main->>Main: ОбъединитьМассивТаблицЗначений<br/>ОбъединитьМассивСтруктур
+                    </div>
+                </div>
+            </div>
+
+            <!-- Диаграмма 4: Оптимизация раздела 1_4 -->
+            <div class="section">
+                <div class="section-title">4. Оптимизация раздела 1_4: БЫЛО vs СТАЛО</div>
+                <div class="comparison-grid">
+                    <div class="diagram-container">
+                        <div class="diagram-title" style="color: #e74c3c;">БЫЛО: 4 отдельных запроса</div>
+                        <div class="mermaid">
+flowchart TD
+    Start([Старт раздела 1_4]):::startStyle
+    
+    Q1[Запрос 1: ОборотыСчета<br/>Условия_141<br/>~23.4 сек]:::wasStyle
+    Q2[Запрос 2: ОборотыСчета<br/>Условия_142_а + _б<br/>~46.6 сек]:::wasStyle
+    Q3[Запрос 3: ОборотыСчета<br/>Условия_143_а + _б<br/>~46.6 сек]:::wasStyle
+    Q4[Запрос 4: ОборотыСчета<br/>Условия_144<br/>~24.0 сек]:::wasStyle
+    
+    P1[Показатель П1413]:::calcStyle
+    P2[Показатель П1423]:::calcStyle
+    P3[Показатель П1433]:::calcStyle
+    P4[Показатель П1443]:::calcStyle
+    
+    End([Финиш]):::endStyle
+
+    Start --> Q1
+    Q1 --> P1
+    P1 --> Q2
+    Q2 --> P2
+    P2 --> Q3
+    Q3 --> P3
+    P3 --> Q4
+    Q4 --> P4
+    P4 --> End
+
+    classDef startStyle fill:#3498db,stroke:#2980b9,stroke-width:3px,color:#fff
+    classDef wasStyle fill:#e74c3c,stroke:#c0392b,stroke-width:2px,color:#fff
+    classDef calcStyle fill:#f39c12,stroke:#d68910,stroke-width:2px,color:#fff
+    classDef endStyle fill:#27ae60,stroke:#229954,stroke-width:3px,color:#fff
+                        </div>
+                        <div class="info-box" style="background: #fee; border-left-color: #e74c3c;">
+                            <strong>⏱️ Время: ~140 секунд</strong><br/>
+                            4 запроса × ~35 сек в среднем
+                        </div>
+                    </div>
+
+                    <div class="diagram-container">
+                        <div class="diagram-title" style="color: #27ae60;">СТАЛО: 1 запрос + фильтрация</div>
+                        <div class="mermaid">
+flowchart TD
+    Start([Старт раздела 1_4]):::startStyle
+    
+    Q1[Запрос: ОборотыСчета<br/>ОбщиеУсловия_14<br/>~35 сек]:::becameStyle
+    
+    Filter[ПодготовитьДанныеРаздела1_4<br/>Фильтрация в памяти]:::filterStyle
+    
+    F1[ОтфильтроватьОбороты<br/>Условия_141<br/>П141]:::filterStyle
+    F2[ОтфильтроватьОбороты<br/>Условия_142<br/>П142]:::filterStyle
+    F3[ОтфильтроватьОбороты<br/>Условия_143<br/>П143]:::filterStyle
+    F4[ОтфильтроватьОбороты<br/>Условия_144<br/>П144]:::filterStyle
+    
+    P1[Показатель П1413]:::calcStyle
+    P2[Показатель П1423]:::calcStyle
+    P3[Показатель П1433]:::calcStyle
+    P4[Показатель П1443]:::calcStyle
+    
+    End([Финиш]):::endStyle
+
+    Start --> Q1
+    Q1 --> Filter
+    Filter --> F1
+    Filter --> F2
+    Filter --> F3
+    Filter --> F4
+    F1 --> P1
+    F2 --> P2
+    F3 --> P3
+    F4 --> P4
+    P1 --> End
+    P2 --> End
+    P3 --> End
+    P4 --> End
+
+    classDef startStyle fill:#3498db,stroke:#2980b9,stroke-width:3px,color:#fff
+    classDef becameStyle fill:#27ae60,stroke:#229954,stroke-width:2px,color:#fff
+    classDef filterStyle fill:#3498db,stroke:#2980b9,stroke-width:2px,color:#fff
+    classDef calcStyle fill:#f39c12,stroke:#d68910,stroke-width:2px,color:#fff
+    classDef endStyle fill:#27ae60,stroke:#229954,stroke-width:3px,color:#fff
+                        </div>
+                        <div class="info-box" style="background: #f0fdf4; border-left-color: #27ae60;">
+                            <strong>⏱️ Время: ~35 секунд</strong><br/>
+                            1 запрос + фильтрация в памяти<br/>
+                            🎯 Ускорение: 4 раза
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Диаграмма 5: Переход от БЫЛО к СТАЛО -->
+            <div class="section">
+                <div class="section-title">5. Переход от БЫЛО к СТАЛО</div>
+                <div class="diagram-container">
+                    <div class="diagram-title">Эволюция архитектуры с цветовым кодированием изменений</div>
+                    <div class="mermaid">
+flowchart LR
+    subgraph Old["🔴 БЫЛО: Синхронная архитектура"]
+        direction TB
+        O1[РассчитатьПоказатели]:::oldStyle
+        O2[ЗаполнитьПоказателиГруппа1<br/>синхронно]:::oldStyle
+        O3[ЗаполнитьПоказателиГруппа2<br/>синхронно]:::oldStyle
+        O4[ЗаполнитьПоказателиГруппа3<br/>синхронно]:::oldStyle
+        O5[89 последовательных<br/>вызовов]:::oldStyle
+        O1 --> O2
+        O2 --> O3
+        O3 --> O4
+        O4 --> O5
+    end
+
+    subgraph Transition["🟡 ПЕРЕХОД: Рефакторинг"]
+        direction TB
+        T1[Создание общего модуля<br/>VTB_ОбщийМодуль]:::transitionStyle
+        T2[Добавление процедур<br/>...ВФоне]:::transitionStyle
+        T3[Внедрение временного<br/>хранилища]:::transitionStyle
+        T4[Функция ожидания<br/>завершения]:::transitionStyle
+        T1 --> T2
+        T2 --> T3
+        T3 --> T4
+    end
+
+    subgraph New["🟢 СТАЛО: Асинхронная архитектура"]
+        direction TB
+        N1[РассчитатьПоказатели<br/>с АктивныеЗадания]:::newStyle
+        N2[ЗаполнитьПоказателиГруппа1ВФоне<br/>параллельно]:::newStyle
+        N3[ЗаполнитьПоказателиГруппа2ВФоне<br/>параллельно]:::newStyle
+        N4[ЗаполнитьПоказателиГруппа9ВФоне<br/>для раздела 1_4]:::newStyle
+        N5[89 параллельных<br/>фоновых заданий]:::newStyle
+        N6[ОжидатьЗавершенияФоновыхЗаданий]:::newStyle
+        N7[Объединить результаты]:::newStyle
+        N1 --> N2
+        N1 --> N3
+        N1 --> N4
+        N2 --> N5
+        N3 --> N5
+        N4 --> N5
+        N5 --> N6
+        N6 --> N7
+    end
+
+    Old -->|Рефакторинг| Transition
+    Transition -->|Внедрение| New
+
+    classDef oldStyle fill:#e74c3c,stroke:#c0392b,stroke-width:2px,color:#fff
+    classDef transitionStyle fill:#f39c12,stroke:#d68910,stroke-width:2px,color:#fff
+    classDef newStyle fill:#27ae60,stroke:#229954,stroke-width:2px,color:#fff
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer">
+            <div>Диаграммы в формате <strong>Mermaid</strong></div>
+            <div style="margin-top: 10px;">Задача: <strong>IMAPPS-34356</strong> | Тип: <strong>Блок-схемы БЫЛО-СТАЛО</strong></div>
+            <div style="margin-top: 10px;">Для просмотра требуется подключение к интернету (загрузка библиотеки Mermaid.js)</div>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            },
+            sequence: {
+                diagramMarginX: 50,
+                diagramMarginY: 10,
+                actorMargin: 50,
+                width: 150,
+                height: 65,
+                boxMargin: 10,
+                boxTextMargin: 5,
+                noteMargin: 10,
+                messageMargin: 35
+            },
+            gantt: {
+                useMaxWidth: true,
+                leftPadding: 75,
+                gridLineStartPadding: 35,
+                fontSize: 11,
+                fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+                numberSectionStyles: 4
+            }
+        });
+    </script>
+</body>
+</html>
