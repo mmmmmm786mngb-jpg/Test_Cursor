@@ -9,10 +9,16 @@
   "language-1c-bsl.server.mode": "java-jar",
   "language-1c-bsl.java.executablePath": "C:\\Program Files\\Eclipse Adoptium\\jdk-17.0.16.8-hotspot\\bin\\java.exe",
   "language-1c-bsl.server.jarPath": "C:\\bsl\\bsl-language-server.jar",
-  // Добавлено: корректная передача аргументов JVM
-  // Вместо старой конфликтной строки "language-1c-bsl.languageServerExternalJarJavaOpts": "-Xmx4g"
+  // Добавлено: корректная передача аргументов JVM с настройками кодировки UTF-8
+  // КРИТИЧЕСКИ ВАЖНО: параметры кодировки для исправления кракозябр в логах
   "language-1c-bsl.java.options": [
-    "-Xmx4g"
+    "-Xmx4g",
+    "-Dfile.encoding=UTF-8",
+    "-Dconsole.encoding=UTF-8",
+    "-Dsun.stdout.encoding=UTF-8",
+    "-Dsun.stderr.encoding=UTF-8",
+    "-Duser.language=ru",
+    "-Duser.country=RU"
   ],
   // === ОТКЛЮЧЁННЫЕ (конфликтующие) НАСТРОЙКИ ===
   // ⚠ Эти строки вызывали сбой "Unrecognized option: -" из-за двойного вызова Java
@@ -143,7 +149,9 @@
     "**/*.bak": true
   },
   // === ЛОГИ И ОТЛАДКА ===
-  "language-1c-bsl.trace.client": "verbose",
+  // ВРЕМЕННО: уменьшаем уровень логирования для стабильности
+  // Если проблемы решатся, можно вернуть "verbose"
+  "language-1c-bsl.trace.client": "off",
   "language-1c-bsl.diagnosticLanguage": "ru",
   "language-1c-bsl.language": "ru",
   "workbench.editor.tabActionLocation": "right",
