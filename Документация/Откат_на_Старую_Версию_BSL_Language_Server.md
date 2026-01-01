@@ -129,3 +129,4 @@ https://github.com/1c-syntax/bsl-language-server/releases
 
 
 
+
