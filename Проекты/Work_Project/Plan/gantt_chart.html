@@ -55,11 +55,13 @@
         .legend-color.block-3 { background-color: #1e88e5; }
         .legend-color.reserve { background-color: #f39c12; }
         .legend-color.testing { background-color: #9b59b6; }
+        .legend-color.analysis { background-color: #95a5a6; }
         .block-1 { background-color: #3498db; }
         .block-2 { background-color: #2980b9; }
         .block-3 { background-color: #1e88e5; }
         .reserve { background-color: #f39c12; }
         .testing { background-color: #9b59b6; }
+        .analysis { background-color: #95a5a6; }
         .info-panel {
             margin-top: 30px;
             padding: 20px;
@@ -146,12 +148,23 @@
         .gantt .bar-wrapper .bar-progress.reserve {
             fill: #e67e22 !important;
         }
+        .gantt .bar-wrapper[data-custom-class="analysis"] .bar,
+        .gantt .bar-wrapper.analysis .bar,
+        .gantt .bar-wrapper .bar.analysis,
+        .gantt svg .bar[data-task-class="analysis"] {
+            fill: #95a5a6 !important;
+        }
+        .gantt .bar-wrapper[data-custom-class="analysis"] .bar-progress,
+        .gantt .bar-wrapper.analysis .bar-progress,
+        .gantt .bar-wrapper .bar-progress.analysis {
+            fill: #7f8c8d !important;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>План-график работ: Оптимизация ДУ</h1>
-        <div class="subtitle">Период: 13.01.2026 - 12.02.2026 (3 блока по 1,5 недели, только рабочие дни)</div>
+        <div class="subtitle">Период: 13.01.2026 - 19.02.2026 (3 блока по 1,5 недели, только рабочие дни)</div>
         
         <div class="legend">
             <div class="legend-item">
@@ -173,6 +186,10 @@
             <div class="legend-item">
                 <div class="legend-color reserve"></div>
                 <span>Резерв</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color analysis"></div>
+                <span>Анализ</span>
             </div>
         </div>
 
@@ -297,47 +314,74 @@
                 custom_class: 'reserve'
             },
             
-            // Блок 3: ДУ Регламентные задания и операции (29.01.2026 - 12.02.2026, только рабочие дни)
+            // Блок 3: ДУ Регламентные задания и операции (29.01.2026 - 19.02.2026, только рабочие дни)
             {
                 id: 'block3',
                 name: 'Блок 3: ДУ Регламентные задания и операции',
                 start: '2026-01-29',
-                end: '2026-02-12',
+                end: '2026-02-19',
                 progress: 0,
                 custom_class: 'block-3'
+            },
+            {
+                id: 'task3_0_analysis',
+                name: 'Анализ: Вознаграждение за управление',
+                start: '2026-01-29',
+                end: '2026-01-29',
+                progress: 0,
+                dependencies: '',
+                custom_class: 'analysis'
             },
             {
                 id: 'task3_1',
                 name: 'Вознаграждение за управление',
-                start: '2026-01-29',
-                end: '2026-01-31',
+                start: '2026-01-30',
+                end: '2026-02-03',
                 progress: 0,
-                dependencies: '',
+                dependencies: 'task3_0_analysis',
                 custom_class: 'block-3'
+            },
+            {
+                id: 'task3_1_analysis',
+                name: 'Анализ: Утренние регламентные операции',
+                start: '2026-02-04',
+                end: '2026-02-04',
+                progress: 0,
+                dependencies: 'task3_1',
+                custom_class: 'analysis'
             },
             {
                 id: 'task3_2',
                 name: 'Утренние регламентные операции',
-                start: '2026-02-03',
-                end: '2026-02-05',
+                start: '2026-02-05',
+                end: '2026-02-10',
                 progress: 0,
-                dependencies: 'task3_1',
+                dependencies: 'task3_1_analysis',
                 custom_class: 'block-3'
+            },
+            {
+                id: 'task3_2_analysis',
+                name: 'Анализ: Вечерние регламентные операции',
+                start: '2026-02-11',
+                end: '2026-02-11',
+                progress: 0,
+                dependencies: 'task3_2',
+                custom_class: 'analysis'
             },
             {
                 id: 'task3_3',
                 name: 'Вечерние регламентные операции',
-                start: '2026-02-06',
-                end: '2026-02-10',
+                start: '2026-02-12',
+                end: '2026-02-17',
                 progress: 0,
-                dependencies: 'task3_2',
+                dependencies: 'task3_2_analysis',
                 custom_class: 'block-3'
             },
             {
                 id: 'task3_4',
                 name: 'Тестирование',
-                start: '2026-02-11',
-                end: '2026-02-11',
+                start: '2026-02-18',
+                end: '2026-02-18',
                 progress: 0,
                 dependencies: 'task3_3',
                 custom_class: 'testing'
@@ -345,8 +389,8 @@
             {
                 id: 'task3_5',
                 name: 'РЕЗЕРВ',
-                start: '2026-02-12',
-                end: '2026-02-12',
+                start: '2026-02-19',
+                end: '2026-02-19',
                 progress: 0,
                 dependencies: 'task3_4',
                 custom_class: 'reserve'
@@ -397,7 +441,8 @@
                 'block-2': '#2980b9',
                 'block-3': '#1e88e5',
                 'testing': '#9b59b6',
-                'reserve': '#f39c12'
+                'reserve': '#f39c12',
+                'analysis': '#95a5a6'
             };
             
             const progressColorMap = {
@@ -405,7 +450,8 @@
                 'block-2': '#1976d2',
                 'block-3': '#1565c0',
                 'testing': '#8e44ad',
-                'reserve': '#e67e22'
+                'reserve': '#e67e22',
+                'analysis': '#7f8c8d'
             };
             
             // Находим все строки задач
