@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>План-график работ: Оптимизация ДУ (Альтернативный вид)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 40px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+
+        .timeline {
+            position: relative;
+            margin: 40px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #3498db, #2ecc71, #e74c3c);
+            border-radius: 2px;
+        }
+
+        .block {
+            margin-bottom: 60px;
+            position: relative;
+            padding-left: 50px;
+        }
+
+        .block-header {
+            position: absolute;
+            left: -15px;
+            top: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .block-1 .block-header { background: #3498db; }
+        .block-2 .block-header { background: #2ecc71; }
+        .block-3 .block-header { background: #e74c3c; }
+
+        .block-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .block-date {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-left: 10px;
+            font-weight: normal;
+        }
+
+        .tasks-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .task {
+            background: #f8f9fa;
+            border-left: 4px solid;
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .task:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .task.block-1 { border-left-color: #3498db; }
+        .task.block-2 { border-left-color: #2ecc71; }
+        .task.block-3 { border-left-color: #e74c3c; }
+        .task.testing { border-left-color: #9b59b6; }
+        .task.reserve { border-left-color: #f39c12; }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 10px;
+        }
+
+        .task-name {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 16px;
+            flex: 1;
+        }
+
+        .task-duration {
+            background: rgba(0,0,0,0.05);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            color: #7f8c8d;
+            white-space: nowrap;
+        }
+
+        .task-dates {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-top: 8px;
+        }
+
+        .task-progress {
+            margin-top: 12px;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .task-progress-bar {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.3s;
+        }
+
+        .task.block-1 .task-progress-bar { background: #3498db; }
+        .task.block-2 .task-progress-bar { background: #2ecc71; }
+        .task.block-3 .task-progress-bar { background: #e74c3c; }
+        .task.testing .task-progress-bar { background: #9b59b6; }
+        .task.reserve .task-progress-bar { background: #f39c12; }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 40px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-color {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+        }
+
+        .legend-color.block-1 { background: #3498db; }
+        .legend-color.block-2 { background: #2ecc71; }
+        .legend-color.block-3 { background: #e74c3c; }
+        .legend-color.testing { background: #9b59b6; }
+        .legend-color.reserve { background: #f39c12; }
+
+        .calendar-view {
+            margin-top: 40px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 30px;
+        }
+
+        .calendar-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 8px;
+            font-size: 12px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .calendar-day.weekend {
+            background: #f5f5f5;
+            color: #999;
+        }
+
+        .calendar-day.has-task {
+            border-width: 3px;
+            font-weight: bold;
+        }
+
+        .calendar-day.block-1 { border-color: #3498db; background: #e3f2fd; }
+        .calendar-day.block-2 { border-color: #2ecc71; background: #e8f5e9; }
+        .calendar-day.block-3 { border-color: #e74c3c; background: #ffebee; }
+        .calendar-day.testing { border-color: #9b59b6; background: #f3e5f5; }
+        .calendar-day.reserve { border-color: #f39c12; background: #fff3e0; }
+
+        .day-number {
+            font-size: 14px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .day-tasks {
+            font-size: 9px;
+            color: #7f8c8d;
+            margin-top: 4px;
+            text-align: center;
+        }
+
+        .month-header {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .weekday {
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            color: #7f8c8d;
+            padding: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .tasks-container {
+                grid-template-columns: 1fr;
+            }
+            .calendar-grid {
+                grid-template-columns: repeat(7, minmax(30px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>План-график работ: Оптимизация ДУ</h1>
+        <div class="subtitle">Период: 13.01.2026 - 12.02.2026 (3 блока по 1,5 недели, только рабочие дни)</div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color block-1"></div>
+                <span>Блок 1: Загрузка сделок ДУ</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color block-2"></div>
+                <span>Блок 2: Исполнение сделок в ФИН</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color block-3"></div>
+                <span>Блок 3: ДУ Регламентные задания и операции</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color testing"></div>
+                <span>Тестирование</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color reserve"></div>
+                <span>Резерв</span>
+            </div>
+        </div>
+
+        <div class="timeline" id="timeline"></div>
+
+        <div class="calendar-view">
+            <div class="calendar-title">Календарный вид</div>
+            <div id="calendar"></div>
+        </div>
+    </div>
+
+    <script>
+        // Данные задач
+        const tasks = [
+            // Блок 1
+            { id: 'task1_1', name: 'Оптимизация обогащения данными 1С после GetDeal', 
+              start: '2026-01-13', end: '2026-01-14', block: 1, class: 'block-1', progress: 0 },
+            { id: 'task1_2', name: 'Перевод загрузки сделок в параллельный режим', 
+              start: '2026-01-15', end: '2026-01-16', block: 1, class: 'block-1', progress: 0 },
+            { id: 'task1_3', name: 'Тестирование', 
+              start: '2026-01-17', end: '2026-01-17', block: 1, class: 'testing', progress: 0 },
+            { id: 'task1_4', name: 'РЕЗЕРВ', 
+              start: '2026-01-20', end: '2026-01-20', block: 1, class: 'reserve', progress: 0 },
+            
+            // Блок 2
+            { id: 'task2_1', name: 'Убрать избыточное проведение Перерегистраций', 
+              start: '2026-01-21', end: '2026-01-21', block: 2, class: 'block-2', progress: 0 },
+            { id: 'task2_2', name: 'Оптимизация Исполнения после загрузки', 
+              start: '2026-01-22', end: '2026-01-23', block: 2, class: 'block-2', progress: 0 },
+            { id: 'task2_3', name: 'Проверка отдельной обработки Исполнение', 
+              start: '2026-01-24', end: '2026-01-24', block: 2, class: 'block-2', progress: 0 },
+            { id: 'task2_4', name: 'Тестирование', 
+              start: '2026-01-27', end: '2026-01-27', block: 2, class: 'testing', progress: 0 },
+            { id: 'task2_5', name: 'РЕЗЕРВ', 
+              start: '2026-01-28', end: '2026-01-28', block: 2, class: 'reserve', progress: 0 },
+            
+            // Блок 3
+            { id: 'task3_1', name: 'Вознаграждение за управление', 
+              start: '2026-01-29', end: '2026-01-31', block: 3, class: 'block-3', progress: 0 },
+            { id: 'task3_2', name: 'Утренние регламентные операции', 
+              start: '2026-02-03', end: '2026-02-05', block: 3, class: 'block-3', progress: 0 },
+            { id: 'task3_3', name: 'Вечерние регламентные операции', 
+              start: '2026-02-06', end: '2026-02-10', block: 3, class: 'block-3', progress: 0 },
+            { id: 'task3_4', name: 'Тестирование', 
+              start: '2026-02-11', end: '2026-02-11', block: 3, class: 'testing', progress: 0 },
+            { id: 'task3_5', name: 'РЕЗЕРВ', 
+              start: '2026-02-12', end: '2026-02-12', block: 3, class: 'reserve', progress: 0 }
+        ];
+
+        // Блоки
+        const blocks = [
+            { id: 1, name: 'Блок 1: Загрузка сделок ДУ', start: '2026-01-13', end: '2026-01-20' },
+            { id: 2, name: 'Блок 2: Исполнение сделок в ФИН', start: '2026-01-21', end: '2026-01-28' },
+            { id: 3, name: 'Блок 3: ДУ Регламентные задания и операции', start: '2026-01-29', end: '2026-02-12' }
+        ];
+
+        // Функция форматирования даты
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' });
+        }
+
+        // Функция расчета длительности в днях
+        function getDuration(start, end) {
+            const startDate = new Date(start);
+            const endDate = new Date(end);
+            const diffTime = Math.abs(endDate - startDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+            return diffDays;
+        }
+
+        // Функция проверки рабочего дня
+        function isWorkDay(date) {
+            const day = date.getDay();
+            return day !== 0 && day !== 6; // Понедельник-Пятница
+        }
+
+        // Создание временной шкалы
+        function createTimeline() {
+            const timelineEl = document.getElementById('timeline');
+            
+            blocks.forEach(block => {
+                const blockTasks = tasks.filter(t => t.block === block.id);
+                const blockEl = document.createElement('div');
+                blockEl.className = `block block-${block.id}`;
+                
+                const header = document.createElement('div');
+                header.className = 'block-header';
+                
+                const title = document.createElement('div');
+                title.className = 'block-title';
+                title.innerHTML = `
+                    ${block.name}
+                    <span class="block-date">(${formatDate(block.start)} - ${formatDate(block.end)})</span>
+                `;
+                
+                const tasksContainer = document.createElement('div');
+                tasksContainer.className = 'tasks-container';
+                
+                blockTasks.forEach(task => {
+                    const taskEl = document.createElement('div');
+                    taskEl.className = `task ${task.class}`;
+                    
+                    const duration = getDuration(task.start, task.end);
+                    
+                    taskEl.innerHTML = `
+                        <div class="task-header">
+                            <div class="task-name">${task.name}</div>
+                            <div class="task-duration">${duration} ${duration === 1 ? 'день' : 'дня'}</div>
+                        </div>
+                        <div class="task-dates">${formatDate(task.start)} - ${formatDate(task.end)}</div>
+                        <div class="task-progress">
+                            <div class="task-progress-bar" style="width: ${task.progress}%"></div>
+                        </div>
+                    `;
+                    
+                    tasksContainer.appendChild(taskEl);
+                });
+                
+                blockEl.appendChild(header);
+                blockEl.appendChild(title);
+                blockEl.appendChild(tasksContainer);
+                timelineEl.appendChild(blockEl);
+            });
+        }
+
+        // Создание календаря
+        function createCalendar() {
+            const calendarEl = document.getElementById('calendar');
+            
+            // Месяцы для отображения
+            const months = [
+                { year: 2026, month: 0, name: 'Январь 2026' }, // 0 = январь
+                { year: 2026, month: 1, name: 'Февраль 2026' } // 1 = февраль
+            ];
+            
+            months.forEach(monthData => {
+                const monthEl = document.createElement('div');
+                monthEl.className = 'month';
+                
+                const monthHeader = document.createElement('div');
+                monthHeader.className = 'month-header';
+                monthHeader.textContent = monthData.name;
+                monthEl.appendChild(monthHeader);
+                
+                const weekdays = document.createElement('div');
+                weekdays.className = 'weekdays';
+                ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'].forEach(day => {
+                    const weekday = document.createElement('div');
+                    weekday.className = 'weekday';
+                    weekday.textContent = day;
+                    weekdays.appendChild(weekday);
+                });
+                monthEl.appendChild(weekdays);
+                
+                const calendarGrid = document.createElement('div');
+                calendarGrid.className = 'calendar-grid';
+                
+                const firstDay = new Date(monthData.year, monthData.month, 1);
+                const lastDay = new Date(monthData.year, monthData.month + 1, 0);
+                
+                // Пустые ячейки до первого дня месяца
+                const firstDayOfWeek = (firstDay.getDay() + 6) % 7; // Понедельник = 0
+                for (let i = 0; i < firstDayOfWeek; i++) {
+                    const emptyDay = document.createElement('div');
+                    emptyDay.className = 'calendar-day';
+                    calendarGrid.appendChild(emptyDay);
+                }
+                
+                // Дни месяца
+                for (let day = 1; day <= lastDay.getDate(); day++) {
+                    const date = new Date(monthData.year, monthData.month, day);
+                    const dayEl = document.createElement('div');
+                    
+                    const isWeekend = !isWorkDay(date);
+                    const dateStr = `${monthData.year}-${String(monthData.month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                    const dayTasks = tasks.filter(t => {
+                        const taskStart = new Date(t.start);
+                        const taskEnd = new Date(t.end);
+                        return date >= taskStart && date <= taskEnd && isWorkDay(date);
+                    });
+                    
+                    dayEl.className = 'calendar-day';
+                    if (isWeekend) {
+                        dayEl.classList.add('weekend');
+                    }
+                    if (dayTasks.length > 0) {
+                        dayEl.classList.add('has-task');
+                        dayEl.classList.add(dayTasks[0].class);
+                    }
+                    
+                    dayEl.innerHTML = `
+                        <div class="day-number">${day}</div>
+                        ${dayTasks.length > 0 ? `<div class="day-tasks">${dayTasks.length} задач</div>` : ''}
+                    `;
+                    
+                    calendarGrid.appendChild(dayEl);
+                }
+                
+                monthEl.appendChild(calendarGrid);
+                calendarEl.appendChild(monthEl);
+            });
+        }
+
+        // Инициализация
+        createTimeline();
+        createCalendar();
+    </script>
+</body>
+</html>
+

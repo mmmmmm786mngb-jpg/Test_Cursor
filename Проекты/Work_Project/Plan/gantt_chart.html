@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>План-график работ: Оптимизация ДУ</title>
+    <script src="https://cdn.jsdelivr.net/npm/frappe-gantt@0.6.1/dist/frappe-gantt.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/frappe-gantt@0.6.1/dist/frappe-gantt.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: #ecf0f1;
+            border-radius: 5px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+        }
+        .legend-color.block-1 { background-color: #3498db; }
+        .legend-color.block-2 { background-color: #2980b9; }
+        .legend-color.block-3 { background-color: #1e88e5; }
+        .legend-color.reserve { background-color: #f39c12; }
+        .legend-color.testing { background-color: #9b59b6; }
+        .block-1 { background-color: #3498db; }
+        .block-2 { background-color: #2980b9; }
+        .block-3 { background-color: #1e88e5; }
+        .reserve { background-color: #f39c12; }
+        .testing { background-color: #9b59b6; }
+        .info-panel {
+            margin-top: 30px;
+            padding: 20px;
+            background: #ecf0f1;
+            border-radius: 5px;
+        }
+        .info-panel h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        .info-panel ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .info-panel li {
+            padding: 8px 0;
+            border-bottom: 1px solid #bdc3c7;
+        }
+        .info-panel li:last-child {
+            border-bottom: none;
+        }
+        .task-details {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-left: 20px;
+        }
+        #gantt-container {
+            margin-top: 30px;
+            overflow-x: auto;
+        }
+        /* Стили для цветов задач в диаграмме Ганта */
+        .gantt .bar-wrapper[data-custom-class="block-1"] .bar,
+        .gantt .bar-wrapper.block-1 .bar,
+        .gantt .bar-wrapper .bar.block-1,
+        .gantt svg .bar[data-task-class="block-1"] {
+            fill: #3498db !important;
+        }
+        .gantt .bar-wrapper[data-custom-class="block-2"] .bar,
+        .gantt .bar-wrapper.block-2 .bar,
+        .gantt .bar-wrapper .bar.block-2,
+        .gantt svg .bar[data-task-class="block-2"] {
+            fill: #2980b9 !important;
+        }
+        .gantt .bar-wrapper[data-custom-class="block-3"] .bar,
+        .gantt .bar-wrapper.block-3 .bar,
+        .gantt .bar-wrapper .bar.block-3,
+        .gantt svg .bar[data-task-class="block-3"] {
+            fill: #1e88e5 !important;
+        }
+        .gantt .bar-wrapper[data-custom-class="testing"] .bar,
+        .gantt .bar-wrapper.testing .bar,
+        .gantt .bar-wrapper .bar.testing,
+        .gantt svg .bar[data-task-class="testing"] {
+            fill: #9b59b6 !important;
+        }
+        .gantt .bar-wrapper[data-custom-class="reserve"] .bar,
+        .gantt .bar-wrapper.reserve .bar,
+        .gantt .bar-wrapper .bar.reserve,
+        .gantt svg .bar[data-task-class="reserve"] {
+            fill: #f39c12 !important;
+        }
+        .gantt .bar-wrapper[data-custom-class="block-1"] .bar-progress,
+        .gantt .bar-wrapper.block-1 .bar-progress,
+        .gantt .bar-wrapper .bar-progress.block-1 {
+            fill: #2980b9 !important;
+        }
+        .gantt .bar-wrapper[data-custom-class="block-2"] .bar-progress,
+        .gantt .bar-wrapper.block-2 .bar-progress,
+        .gantt .bar-wrapper .bar-progress.block-2 {
+            fill: #1976d2 !important;
+        }
+        .gantt .bar-wrapper[data-custom-class="block-3"] .bar-progress,
+        .gantt .bar-wrapper.block-3 .bar-progress,
+        .gantt .bar-wrapper .bar-progress.block-3 {
+            fill: #1565c0 !important;
+        }
+        .gantt .bar-wrapper[data-custom-class="testing"] .bar-progress,
+        .gantt .bar-wrapper.testing .bar-progress,
+        .gantt .bar-wrapper .bar-progress.testing {
+            fill: #8e44ad !important;
+        }
+        .gantt .bar-wrapper[data-custom-class="reserve"] .bar-progress,
+        .gantt .bar-wrapper.reserve .bar-progress,
+        .gantt .bar-wrapper .bar-progress.reserve {
+            fill: #e67e22 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>План-график работ: Оптимизация ДУ</h1>
+        <div class="subtitle">Период: 13.01.2026 - 12.02.2026 (3 блока по 1,5 недели, только рабочие дни)</div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color block-1"></div>
+                <span>Блок 1: Загрузка сделок ДУ</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color block-2"></div>
+                <span>Блок 2: Исполнение сделок в ФИН</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color block-3"></div>
+                <span>Блок 3: ДУ Регламентные задания и операции</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color testing"></div>
+                <span>Тестирование</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color reserve"></div>
+                <span>Резерв</span>
+            </div>
+        </div>
+
+        <div id="gantt-container"></div>
+    </div>
+
+    <script>
+        // Функция для расчета следующего рабочего дня (пропускает выходные)
+        function getNextWorkDay(date, days) {
+            let result = new Date(date);
+            let addedDays = 0;
+            while (addedDays < days) {
+                result.setDate(result.getDate() + 1);
+                const dayOfWeek = result.getDay();
+                if (dayOfWeek !== 0 && dayOfWeek !== 6) { // Понедельник-Пятница
+                    addedDays++;
+                }
+            }
+            return result;
+        }
+
+        // Данные для диаграммы Ганта
+        const tasks = [
+            // Блок 1: Загрузка сделок ДУ (13.01.2026 - 20.01.2026, только рабочие дни)
+            {
+                id: 'block1',
+                name: 'Блок 1: Загрузка сделок ДУ',
+                start: '2026-01-13',
+                end: '2026-01-20',
+                progress: 0,
+                custom_class: 'block-1'
+            },
+            {
+                id: 'task1_1',
+                name: 'Оптимизация обогащения данными 1С после GetDeal',
+                start: '2026-01-13',
+                end: '2026-01-14',
+                progress: 0,
+                dependencies: '',
+                custom_class: 'block-1'
+            },
+            {
+                id: 'task1_2',
+                name: 'Перевод загрузки сделок в параллельный режим',
+                start: '2026-01-15',
+                end: '2026-01-16',
+                progress: 0,
+                dependencies: 'task1_1',
+                custom_class: 'block-1'
+            },
+            {
+                id: 'task1_3',
+                name: 'Тестирование',
+                start: '2026-01-17',
+                end: '2026-01-17',
+                progress: 0,
+                dependencies: 'task1_2',
+                custom_class: 'testing'
+            },
+            {
+                id: 'task1_4',
+                name: 'РЕЗЕРВ',
+                start: '2026-01-20',
+                end: '2026-01-20',
+                progress: 0,
+                dependencies: 'task1_3',
+                custom_class: 'reserve'
+            },
+            
+            // Блок 2: Исполнение сделок в ФИН (21.01.2026 - 28.01.2026, только рабочие дни)
+            {
+                id: 'block2',
+                name: 'Блок 2: Исполнение сделок в ФИН',
+                start: '2026-01-21',
+                end: '2026-01-28',
+                progress: 0,
+                custom_class: 'block-2'
+            },
+            {
+                id: 'task2_1',
+                name: 'Убрать избыточное проведение Перерегистраций',
+                start: '2026-01-21',
+                end: '2026-01-21',
+                progress: 0,
+                dependencies: '',
+                custom_class: 'block-2'
+            },
+            {
+                id: 'task2_2',
+                name: 'Оптимизация Исполнения после загрузки',
+                start: '2026-01-22',
+                end: '2026-01-23',
+                progress: 0,
+                dependencies: 'task2_1',
+                custom_class: 'block-2'
+            },
+            {
+                id: 'task2_3',
+                name: 'Проверка отдельной обработки Исполнение',
+                start: '2026-01-24',
+                end: '2026-01-24',
+                progress: 0,
+                dependencies: 'task2_2',
+                custom_class: 'block-2'
+            },
+            {
+                id: 'task2_4',
+                name: 'Тестирование',
+                start: '2026-01-27',
+                end: '2026-01-27',
+                progress: 0,
+                dependencies: 'task2_3',
+                custom_class: 'testing'
+            },
+            {
+                id: 'task2_5',
+                name: 'РЕЗЕРВ',
+                start: '2026-01-28',
+                end: '2026-01-28',
+                progress: 0,
+                dependencies: 'task2_4',
+                custom_class: 'reserve'
+            },
+            
+            // Блок 3: ДУ Регламентные задания и операции (29.01.2026 - 12.02.2026, только рабочие дни)
+            {
+                id: 'block3',
+                name: 'Блок 3: ДУ Регламентные задания и операции',
+                start: '2026-01-29',
+                end: '2026-02-12',
+                progress: 0,
+                custom_class: 'block-3'
+            },
+            {
+                id: 'task3_1',
+                name: 'Вознаграждение за управление',
+                start: '2026-01-29',
+                end: '2026-01-31',
+                progress: 0,
+                dependencies: '',
+                custom_class: 'block-3'
+            },
+            {
+                id: 'task3_2',
+                name: 'Утренние регламентные операции',
+                start: '2026-02-03',
+                end: '2026-02-05',
+                progress: 0,
+                dependencies: 'task3_1',
+                custom_class: 'block-3'
+            },
+            {
+                id: 'task3_3',
+                name: 'Вечерние регламентные операции',
+                start: '2026-02-06',
+                end: '2026-02-10',
+                progress: 0,
+                dependencies: 'task3_2',
+                custom_class: 'block-3'
+            },
+            {
+                id: 'task3_4',
+                name: 'Тестирование',
+                start: '2026-02-11',
+                end: '2026-02-11',
+                progress: 0,
+                dependencies: 'task3_3',
+                custom_class: 'testing'
+            },
+            {
+                id: 'task3_5',
+                name: 'РЕЗЕРВ',
+                start: '2026-02-12',
+                end: '2026-02-12',
+                progress: 0,
+                dependencies: 'task3_4',
+                custom_class: 'reserve'
+            }
+        ];
+
+        // Инициализация диаграммы Ганта
+        const gantt = new Gantt("#gantt-container", tasks, {
+            header_height: 50,
+            column_width: 30,
+            step: 24,
+            view_modes: ['Day', 'Week', 'Month'],
+            view_mode: 'Day',
+            language: 'ru',
+            date_format: 'DD.MM.YYYY',
+            bar_height: 30,
+            padding: 18,
+            on_click: function (task) {
+                console.log("Task clicked:", task);
+            },
+            on_date_change: function(task, start, end) {
+                console.log("Task date changed:", task, start, end);
+            },
+            on_progress_change: function(task, progress) {
+                console.log("Task progress changed:", task, progress);
+            },
+            on_view_change: function(mode) {
+                console.log("View mode changed:", mode);
+            },
+            custom_popup_html: function(task) {
+                const startDate = new Date(task._start);
+                const endDate = new Date(task._end);
+                return `
+                    <div class="details-container" style="padding: 10px;">
+                        <h5 style="margin: 0 0 10px 0;">${task.name}</h5>
+                        <p style="margin: 5px 0;">Начало: ${startDate.toLocaleDateString('ru-RU')}</p>
+                        <p style="margin: 5px 0;">Окончание: ${endDate.toLocaleDateString('ru-RU')}</p>
+                        <p style="margin: 5px 0;">Прогресс: ${task.progress}%</p>
+                    </div>
+                `;
+            }
+        });
+
+        // Применение цветов к задачам после инициализации
+        function applyColors() {
+            const colorMap = {
+                'block-1': '#3498db',
+                'block-2': '#2980b9',
+                'block-3': '#1e88e5',
+                'testing': '#9b59b6',
+                'reserve': '#f39c12'
+            };
+            
+            const progressColorMap = {
+                'block-1': '#2980b9',
+                'block-2': '#1976d2',
+                'block-3': '#1565c0',
+                'testing': '#8e44ad',
+                'reserve': '#e67e22'
+            };
+            
+            // Находим все строки задач
+            const rows = document.querySelectorAll('.gantt .row');
+            
+            rows.forEach(function(row) {
+                // Получаем название задачи из строки
+                const taskLabel = row.querySelector('.bar-label');
+                if (!taskLabel) return;
+                
+                const taskName = taskLabel.textContent.trim();
+                
+                // Находим соответствующую задачу (по полному или частичному совпадению)
+                const task = tasks.find(t => {
+                    return t.name === taskName || 
+                           taskName.includes(t.name.substring(0, 20)) ||
+                           t.name.includes(taskName.substring(0, 20));
+                });
+                
+                if (!task || !task.custom_class) return;
+                
+                // Применяем цвета к полосам
+                const bar = row.querySelector('.bar-wrapper .bar');
+                const barProgress = row.querySelector('.bar-wrapper .bar-progress');
+                const barWrapper = row.querySelector('.bar-wrapper');
+                
+                if (barWrapper) {
+                    barWrapper.setAttribute('data-custom-class', task.custom_class);
+                    barWrapper.classList.add(task.custom_class);
+                }
+                
+                if (bar && colorMap[task.custom_class]) {
+                    bar.setAttribute('fill', colorMap[task.custom_class]);
+                    bar.setAttribute('data-task-class', task.custom_class);
+                    bar.classList.add(task.custom_class);
+                    // Применяем через style для максимальной надежности
+                    bar.style.setProperty('fill', colorMap[task.custom_class], 'important');
+                }
+                
+                if (barProgress && progressColorMap[task.custom_class]) {
+                    barProgress.setAttribute('fill', progressColorMap[task.custom_class]);
+                    barProgress.classList.add(task.custom_class);
+                    barProgress.style.setProperty('fill', progressColorMap[task.custom_class], 'important');
+                }
+            });
+            
+            // Также применяем цвета ко всем SVG элементам напрямую
+            const allBars = document.querySelectorAll('.gantt .bar-wrapper .bar');
+            allBars.forEach(function(bar) {
+                const wrapper = bar.closest('.bar-wrapper');
+                if (wrapper) {
+                    const customClass = wrapper.getAttribute('data-custom-class');
+                    if (customClass && colorMap[customClass]) {
+                        bar.setAttribute('fill', colorMap[customClass]);
+                        bar.style.setProperty('fill', colorMap[customClass], 'important');
+                    }
+                }
+            });
+        }
+
+        // Применяем цвета несколько раз для надежности
+        function applyColorsWithRetry() {
+            applyColors();
+            setTimeout(applyColors, 100);
+            setTimeout(applyColors, 300);
+            setTimeout(applyColors, 500);
+            setTimeout(applyColors, 1000);
+        }
+
+        // Применяем цвета после загрузки
+        setTimeout(applyColorsWithRetry, 100);
+        
+        // Применяем при изменении представления
+        const originalChangeView = gantt.change_view_mode;
+        if (gantt && typeof gantt.change_view_mode === 'function') {
+            gantt.change_view_mode = function(mode) {
+                originalChangeView.call(this, mode);
+                setTimeout(applyColorsWithRetry, 100);
+            };
+        }
+        
+        // Также применяем при любых изменениях через MutationObserver
+        setTimeout(function() {
+            const ganttContainer = document.getElementById('gantt-container');
+            if (ganttContainer) {
+                const observer = new MutationObserver(function(mutations) {
+                    applyColors();
+                });
+                observer.observe(ganttContainer, {
+                    childList: true,
+                    subtree: true,
+                    attributes: true
+                });
+            }
+        }, 500);
+    </script>
+</body>
+</html>
+

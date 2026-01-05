@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>План-график: Вариант 2 - Интерактивные карточки с зависимостями</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 10px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 15px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .legend-color {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .legend-color.block-1 { background: #3498db; }
+        .legend-color.block-2 { background: #2ecc71; }
+        .legend-color.block-3 { background: #e74c3c; }
+        .legend-color.testing { background: #9b59b6; }
+        .legend-color.reserve { background: #f39c12; }
+
+        .blocks-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .block-section {
+            position: relative;
+        }
+
+        .block-title {
+            font-size: 26px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .block-title.block-1 { background: linear-gradient(135deg, #3498db, #2980b9); }
+        .block-title.block-2 { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+        .block-title.block-3 { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+
+        .tasks-flow {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .task-card {
+            flex: 1;
+            min-width: 280px;
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            border-top: 5px solid;
+            cursor: pointer;
+        }
+
+        .task-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .task-card.block-1 { border-top-color: #3498db; }
+        .task-card.block-2 { border-top-color: #2ecc71; }
+        .task-card.block-3 { border-top-color: #e74c3c; }
+        .task-card.testing { border-top-color: #9b59b6; }
+        .task-card.reserve { border-top-color: #f39c12; }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+
+        .task-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        .task-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            white-space: nowrap;
+            margin-left: 10px;
+        }
+
+        .task-badge.block-1 { background: #e3f2fd; color: #1976d2; }
+        .task-badge.block-2 { background: #e8f5e9; color: #388e3c; }
+        .task-badge.block-3 { background: #ffebee; color: #c62828; }
+        .task-badge.testing { background: #f3e5f5; color: #7b1fa2; }
+        .task-badge.reserve { background: #fff3e0; color: #e65100; }
+
+        .task-dates {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+
+        .date-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .date-icon.start { background: #4caf50; }
+        .date-icon.end { background: #f44336; }
+
+        .task-duration {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 12px;
+            background: #f5f5f5;
+            border-radius: 15px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .task-timeline {
+            margin-top: 15px;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .task-timeline-bar {
+            height: 100%;
+            border-radius: 4px;
+            position: relative;
+            transition: width 0.5s ease;
+        }
+
+        .task-timeline-bar.block-1 { background: linear-gradient(90deg, #3498db, #2980b9); }
+        .task-timeline-bar.block-2 { background: linear-gradient(90deg, #2ecc71, #27ae60); }
+        .task-timeline-bar.block-3 { background: linear-gradient(90deg, #e74c3c, #c0392b); }
+        .task-timeline-bar.testing { background: linear-gradient(90deg, #9b59b6, #8e44ad); }
+        .task-timeline-bar.reserve { background: linear-gradient(90deg, #f39c12, #e67e22); }
+
+        .dependency-arrow {
+            position: absolute;
+            width: 30px;
+            height: 2px;
+            background: #95a5a6;
+            top: 50%;
+            right: -25px;
+            transform: translateY(-50%);
+        }
+
+        .dependency-arrow::after {
+            content: '';
+            position: absolute;
+            right: -5px;
+            top: -3px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid #95a5a6;
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+        }
+
+        .task-card.has-dependency::before {
+            content: '';
+            position: absolute;
+            left: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-right: 10px solid #95a5a6;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+        }
+
+        .summary-panel {
+            margin-top: 40px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 12px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .summary-title {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .summary-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .summary-label {
+            font-size: 12px;
+            color: #95a5a6;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .tasks-flow {
+                flex-direction: column;
+            }
+            .task-card {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>План-график работ: Оптимизация ДУ</h1>
+        <div class="subtitle">Вариант 2: Интерактивные карточки с зависимостями | Период: 13.01.2026 - 12.02.2026</div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color block-1"></div>
+                <span>Блок 1: Загрузка сделок ДУ</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color block-2"></div>
+                <span>Блок 2: Исполнение сделок в ФИН</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color block-3"></div>
+                <span>Блок 3: ДУ Регламентные задания</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color testing"></div>
+                <span>Тестирование</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color reserve"></div>
+                <span>Резерв</span>
+            </div>
+        </div>
+
+        <div class="blocks-container" id="blocksContainer"></div>
+
+        <div class="summary-panel" id="summaryPanel"></div>
+    </div>
+
+    <script>
+        const tasks = [
+            { id: 'task1_1', name: 'Оптимизация обогащения данными 1С после GetDeal', 
+              start: '2026-01-13', end: '2026-01-14', block: 1, class: 'block-1', dependency: null },
+            { id: 'task1_2', name: 'Перевод загрузки сделок в параллельный режим', 
+              start: '2026-01-15', end: '2026-01-16', block: 1, class: 'block-1', dependency: 'task1_1' },
+            { id: 'task1_3', name: 'Тестирование', 
+              start: '2026-01-17', end: '2026-01-17', block: 1, class: 'testing', dependency: 'task1_2' },
+            { id: 'task1_4', name: 'РЕЗЕРВ', 
+              start: '2026-01-20', end: '2026-01-20', block: 1, class: 'reserve', dependency: 'task1_3' },
+            { id: 'task2_1', name: 'Убрать избыточное проведение Перерегистраций', 
+              start: '2026-01-21', end: '2026-01-21', block: 2, class: 'block-2', dependency: null },
+            { id: 'task2_2', name: 'Оптимизация Исполнения после загрузки', 
+              start: '2026-01-22', end: '2026-01-23', block: 2, class: 'block-2', dependency: 'task2_1' },
+            { id: 'task2_3', name: 'Проверка отдельной обработки Исполнение', 
+              start: '2026-01-24', end: '2026-01-24', block: 2, class: 'block-2', dependency: 'task2_2' },
+            { id: 'task2_4', name: 'Тестирование', 
+              start: '2026-01-27', end: '2026-01-27', block: 2, class: 'testing', dependency: 'task2_3' },
+            { id: 'task2_5', name: 'РЕЗЕРВ', 
+              start: '2026-01-28', end: '2026-01-28', block: 2, class: 'reserve', dependency: 'task2_4' },
+            { id: 'task3_1', name: 'Вознаграждение за управление', 
+              start: '2026-01-29', end: '2026-01-31', block: 3, class: 'block-3', dependency: null },
+            { id: 'task3_2', name: 'Утренние регламентные операции', 
+              start: '2026-02-03', end: '2026-02-05', block: 3, class: 'block-3', dependency: 'task3_1' },
+            { id: 'task3_3', name: 'Вечерние регламентные операции', 
+              start: '2026-02-06', end: '2026-02-10', block: 3, class: 'block-3', dependency: 'task3_2' },
+            { id: 'task3_4', name: 'Тестирование', 
+              start: '2026-02-11', end: '2026-02-11', block: 3, class: 'testing', dependency: 'task3_3' },
+            { id: 'task3_5', name: 'РЕЗЕРВ', 
+              start: '2026-02-12', end: '2026-02-12', block: 3, class: 'reserve', dependency: 'task3_4' }
+        ];
+
+        const blocks = [
+            { id: 1, name: 'Блок 1: Загрузка сделок ДУ' },
+            { id: 2, name: 'Блок 2: Исполнение сделок в ФИН' },
+            { id: 3, name: 'Блок 3: ДУ Регламентные задания и операции' }
+        ];
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+
+        function getDuration(start, end) {
+            const startDate = new Date(start);
+            const endDate = new Date(end);
+            const diffTime = Math.abs(endDate - startDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+            return diffDays;
+        }
+
+        function getWorkDays(start, end) {
+            const days = [];
+            const startDate = new Date(start);
+            const endDate = new Date(end);
+            const current = new Date(startDate);
+            
+            while (current <= endDate) {
+                const dayOfWeek = current.getDay();
+                if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+                    days.push(new Date(current));
+                }
+                current.setDate(current.getDate() + 1);
+            }
+            return days.length;
+        }
+
+        function createBlocks() {
+            const container = document.getElementById('blocksContainer');
+            
+            blocks.forEach(block => {
+                const blockSection = document.createElement('div');
+                blockSection.className = 'block-section';
+                
+                const blockTitle = document.createElement('div');
+                blockTitle.className = `block-title block-${block.id}`;
+                blockTitle.textContent = block.name;
+                blockSection.appendChild(blockTitle);
+                
+                const tasksFlow = document.createElement('div');
+                tasksFlow.className = 'tasks-flow';
+                
+                const blockTasks = tasks.filter(t => t.block === block.id);
+                blockTasks.forEach((task, index) => {
+                    const taskCard = document.createElement('div');
+                    taskCard.className = `task-card ${task.class}`;
+                    
+                    if (task.dependency) {
+                        taskCard.classList.add('has-dependency');
+                    }
+                    
+                    const duration = getWorkDays(task.start, task.end);
+                    const workDays = getWorkDays(task.start, task.end);
+                    
+                    taskCard.innerHTML = `
+                        <div class="task-header">
+                            <div class="task-name">${task.name}</div>
+                            <span class="task-badge ${task.class}">${task.class.replace('block-', 'Блок ').replace('testing', 'Тест').replace('reserve', 'Резерв')}</span>
+                        </div>
+                        <div class="task-dates">
+                            <span class="date-icon start">S</span>
+                            <span>${formatDate(task.start)}</span>
+                            <span style="margin: 0 10px;">→</span>
+                            <span class="date-icon end">E</span>
+                            <span>${formatDate(task.end)}</span>
+                        </div>
+                        <div class="task-duration">
+                            <span>📅</span>
+                            <span>${workDays} рабочих ${workDays === 1 ? 'день' : 'дней'}</span>
+                        </div>
+                        <div class="task-timeline">
+                            <div class="task-timeline-bar ${task.class}" style="width: 100%"></div>
+                        </div>
+                    `;
+                    
+                    if (index < blockTasks.length - 1) {
+                        const arrow = document.createElement('div');
+                        arrow.className = 'dependency-arrow';
+                        taskCard.appendChild(arrow);
+                    }
+                    
+                    tasksFlow.appendChild(taskCard);
+                });
+                
+                blockSection.appendChild(tasksFlow);
+                container.appendChild(blockSection);
+            });
+        }
+
+        function createSummary() {
+            const summaryPanel = document.getElementById('summaryPanel');
+            
+            const totalTasks = tasks.length;
+            const totalDays = tasks.reduce((sum, task) => sum + getWorkDays(task.start, task.end), 0);
+            const testingTasks = tasks.filter(t => t.class === 'testing').length;
+            const reserveTasks = tasks.filter(t => t.class === 'reserve').length;
+            
+            const summaries = [
+                { title: 'Всего задач', value: totalTasks, label: 'задач в проекте' },
+                { title: 'Рабочих дней', value: totalDays, label: 'дней работы' },
+                { title: 'Тестирований', value: testingTasks, label: 'этапов тестирования' },
+                { title: 'Резервных дней', value: reserveTasks, label: 'дней резерва' }
+            ];
+            
+            summaries.forEach(summary => {
+                const card = document.createElement('div');
+                card.className = 'summary-card';
+                card.innerHTML = `
+                    <div class="summary-title">${summary.title}</div>
+                    <div class="summary-value">${summary.value}</div>
+                    <div class="summary-label">${summary.label}</div>
+                `;
+                summaryPanel.appendChild(card);
+            });
+        }
+
+        createBlocks();
+        createSummary();
+    </script>
+</body>
+</html>
+
