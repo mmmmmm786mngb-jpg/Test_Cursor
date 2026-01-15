@@ -1,0 +1,209 @@
+<h1 style="color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; margin-bottom: 30px;">Отчет: Рефакторинг дублирующего кода в обработке загрузки сделок</h1>
+
+<div style="background: #e8f4f8; border-left: 4px solid #3498db; padding: 20px; margin: 20px 0;">
+<h3>Краткая сводка</h3>
+<p><strong>Объект:</strong> <code>внЗагрузкаСделокDU-NEW</code></p>
+<p><strong>Проблема:</strong> Обнаружено дублирование кода - 2 пары процедур с практически идентичной логикой</p>
+<p><strong>Решение:</strong> Параметризация оригинальных процедур для устранения дублирования</p>
+<p><strong>Статус:</strong> План рефакторинга разработан, готов к реализации</p>
+</div>
+
+<h2 style="color: #34495e; margin-top: 30px; margin-bottom: 15px; border-left: 4px solid #3498db; padding-left: 15px;">1. Проблема</h2>
+
+<div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 20px; margin: 20px 0;">
+<h3>Обнаруженное дублирование кода</h3>
+
+<table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+<thead>
+<tr>
+<th style="background-color: #3498db; color: white; padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Оригинальная процедура</th>
+<th style="background-color: #3498db; color: white; padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Дублирующая процедура</th>
+<th style="background-color: #3498db; color: white; padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Процент совпадения</th>
+<th style="background-color: #3498db; color: white; padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Статус</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;"><code>ЗагрузитьОбъекты</code><br><small>891 строка</small></td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;"><code>ПрочитатьСделкиРЕПО</code><br><small>87 строк</small></td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;"><strong>~99%</strong></td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;"><span style="background: #dc3545; color: white; padding: 4px 8px; border-radius: 3px; font-size: 12px; font-weight: bold;">Требует рефакторинга</span></td>
+</tr>
+<tr>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;"><code>ПрочитатьНаСервере</code><br><small>442 строки</small></td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;"><code>ПрочитатьЗагруженныеСделкиРЕПО</code><br><small>263 строки</small></td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;"><strong>~95%</strong></td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;"><span style="background: #dc3545; color: white; padding: 4px 8px; border-radius: 3px; font-size: 12px; font-weight: bold;">Требует рефакторинга</span></td>
+</tr>
+<tr>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;"><code>СоздатьОбъекты</code><br><small>1981 строка</small></td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;"><code>ОбновитьПартнера</code><br><small>69 строк</small></td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;"><strong>~5-10%</strong></td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;"><span style="background: #28a745; color: white; padding: 4px 8px; border-radius: 3px; font-size: 12px; font-weight: bold;">Не дублирование</span></td>
+</tr>
+</tbody>
+</table>
+
+<h3 style="margin-top: 20px;">Почему это проблема?</h3>
+<ul>
+<li><strong>Усложнение поддержки:</strong> Изменения нужно вносить в двух местах</li>
+<li><strong>Риск рассинхронизации:</strong> При изменении одной процедуры можно забыть обновить дубль</li>
+<li><strong>Увеличение объема кода:</strong> Дублирование ~530 строк кода</li>
+<li><strong>Нарушение принципа DRY:</strong> Don't Repeat Yourself (Не повторяйся). В программировании также используется метафора "сухого кода" (dry code) - чистого, без дублирования, в противовес "мокрому коду" (wet code) с избыточными повторениями</li>
+</ul>
+</div>
+
+<h2 style="color: #34495e; margin-top: 30px; margin-bottom: 15px; border-left: 4px solid #3498db; padding-left: 15px;">2. Решение</h2>
+
+<div style="background: #d4edda; border-left: 4px solid #28a745; padding: 20px; margin: 20px 0;">
+<h3>Стратегия рефакторинга</h3>
+<p>Вместо удаления дублей и создания новых процедур, мы <strong>параметризуем оригинальные процедуры</strong>, добавив параметр режима работы.</p>
+
+<h3 style="margin-top: 20px;">Что будет сделано:</h3>
+<ol>
+<li><strong>Параметризация <code>ЗагрузитьОбъекты</code></strong>
+<ul>
+<li>Добавление параметра <code>РежимЗагрузки</code></li>
+<li>При значении <code>"РЕПО"</code> - работа в режиме РЕПО</li>
+<li>При <code>Неопределено</code> - обычная работа (обратная совместимость)</li>
+</ul>
+</li>
+<li><strong>Параметризация <code>ПрочитатьНаСервере</code></strong>
+<ul>
+<li>Добавление параметра <code>РежимЗагрузки</code></li>
+<li>В режиме РЕПО: фильтр по РЕПО режимам торгов</li>
+<li>В режиме РЕПО: инверсия логики проверки существующих сделок</li>
+</ul>
+</li>
+<li><strong>Удаление дублирующих процедур</strong>
+<ul>
+<li><code>ПрочитатьСделкиРЕПО</code> - будет удалена</li>
+<li><code>ПрочитатьЗагруженныеСделкиРЕПО</code> - будет удалена</li>
+</ul>
+</li>
+</ol>
+</div>
+
+<h2 style="color: #34495e; margin-top: 30px; margin-bottom: 15px; border-left: 4px solid #3498db; padding-left: 15px;">3. План действий</h2>
+
+<div style="background: #f8f9fa; border: 1px solid #dee2e6; padding: 15px; margin: 15px 0;">
+<h3>Последовательность доработки (8 шагов)</h3>
+
+<table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+<thead>
+<tr>
+<th style="background-color: #3498db; color: white; padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Шаг</th>
+<th style="background-color: #3498db; color: white; padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Действие</th>
+<th style="background-color: #3498db; color: white; padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Файл</th>
+<th style="background-color: #3498db; color: white; padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Строка</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;"><strong>1</strong></td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;">Изменение сигнатуры <code>ЗагрузитьОбъекты</code></td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;">ObjectModule.bsl</td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;">891</td>
+</tr>
+<tr>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;"><strong>2</strong></td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;">Передача параметра в <code>ПрочитатьНаСервере</code></td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;">ObjectModule.bsl</td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;">984</td>
+</tr>
+<tr>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;"><strong>3</strong></td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;">Изменение вызова в модуле формы</td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;">Form/Module.bsl</td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;">241</td>
+</tr>
+<tr>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;"><strong>4</strong></td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;">Добавление документации</td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;">ObjectModule.bsl</td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;">891</td>
+</tr>
+<tr>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;"><strong>5</strong></td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;">Изменение сигнатуры <code>ПрочитатьНаСервере</code></td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;">ObjectModule.bsl</td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;">2437</td>
+</tr>
+<tr>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;"><strong>6</strong></td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;">Добавление фильтра по РЕПО режимам</td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;">ObjectModule.bsl</td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;">2544</td>
+</tr>
+<tr>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;"><strong>7</strong></td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;">Инверсия логики проверки существующих сделок</td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;">ObjectModule.bsl</td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;">2550</td>
+</tr>
+<tr>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;"><strong>8</strong></td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;">Удаление дублирующих процедур</td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;">ObjectModule.bsl</td>
+<td style="padding: 12px; border-bottom: 1px solid #ddd;">3524, 3684</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h2 style="color: #34495e; margin-top: 30px; margin-bottom: 15px; border-left: 4px solid #3498db; padding-left: 15px;">4. Ожидаемый результат</h2>
+
+<div style="background: #f8f9fa; border: 1px solid #dee2e6; padding: 15px; margin: 15px 0;">
+<h3>Структура вызовов до рефакторинга:</h3>
+<pre style="background: #2c3e50; color: #ecf0f1; padding: 15px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 14px; overflow-x: auto; margin: 15px 0; white-space: pre;">Кнопка "ПрочитатьСделкиРЕПО"
+  └─> ПрочитатьСделкиРЕПО()          // Дублирующая процедура
+       └─> ПрочитатьЗагруженныеСделкиРЕПО()  // Дублирующая процедура
+
+Кнопка "Прочитать сделки"
+  └─> ЗагрузитьОбъекты()
+       └─> ПрочитатьНаСервере()</pre>
+
+<h3 style="margin-top: 20px;">Структура вызовов после рефакторинга:</h3>
+<pre style="background: #2c3e50; color: #ecf0f1; padding: 15px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 14px; overflow-x: auto; margin: 15px 0; white-space: pre;">Кнопка "ПрочитатьСделкиРЕПО"
+  └─> ЗагрузитьОбъекты(Отказ, "", "РЕПО")    // Оригинальная процедура с параметром
+       └─> ПрочитатьНаСервере(..., "РЕПО")   // Оригинальная процедура с параметром
+
+Кнопка "Прочитать сделки"
+  └─> ЗагрузитьОбъекты(Отказ)                // Оригинальная процедура (без изменений)
+       └─> ПрочитатьНаСервере(...)            // Оригинальная процедура (без изменений)</pre>
+
+<h3 style="margin-top: 20px;">Удаление дублирующих процедур:</h3>
+<p>После успешного тестирования будут удалены две дублирующие процедуры:</p>
+<ul style="margin-top: 10px;">
+<li><strong><code>ПрочитатьСделкиРЕПО</code></strong> - 87 строк кода (строки 3524-3611)</li>
+<li><strong><code>ПрочитатьЗагруженныеСделкиРЕПО</code></strong> - 263 строки кода (строки 3684-3947)</li>
+</ul>
+<p style="margin-top: 15px;"><strong>Итого будет удалено: ~350 строк дублирующего кода</strong></p>
+<p style="margin-top: 10px;">Функциональность этих процедур полностью сохраняется через параметризацию оригинальных процедур <code>ЗагрузитьОбъекты</code> и <code>ПрочитатьНаСервере</code> с параметром <code>"РЕПО"</code>.</p>
+</div>
+
+<h2 style="color: #34495e; margin-top: 30px; margin-bottom: 15px; border-left: 4px solid #3498db; padding-left: 15px;">5. Преимущества решения</h2>
+
+<div style="background: #d4edda; border-left: 4px solid #28a745; padding: 20px; margin: 20px 0;">
+<ul>
+<li><strong>Обратная совместимость:</strong> Существующий код продолжит работать без изменений</li>
+<li><strong>Единая точка изменений:</strong> Все изменения в одном месте</li>
+<li><strong>Упрощение поддержки:</strong> Меньше кода для поддержки</li>
+<li><strong>Снижение рисков:</strong> Невозможна рассинхронизация логики</li>
+<li><strong>Улучшение читаемости:</strong> Понятная структура с явными параметрами</li>
+</ul>
+</div>
+
+<h2 style="color: #34495e; margin-top: 30px; margin-bottom: 15px; border-left: 4px solid #3498db; padding-left: 15px;">6. Примечания</h2>
+
+<div style="background: #f8f9fa; border: 1px solid #dee2e6; padding: 15px; margin: 15px 0;">
+<ul>
+<li>Процедура <code>ОбновитьПартнера</code> <strong>НЕ является дублем</strong> <code>СоздатьОбъекты</code> (совпадение ~5-10%)</li>
+<li>Она решает другую задачу (обновление существующих сделок vs создание новых) и будет оставлена без изменений</li>
+<li>Все изменения будут помечены комментариями <code>// IMAPPS-PARAM: REPO</code> для удобства поиска</li>
+</ul>
+</div>
+
+<div style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #e0e0e0; color: #666; font-size: 14px;">
+<p><strong>Документы:</strong> <code>Документация/Соответствие_Оригинальных_Процедур_И_Дублей.md</code>, <code>Документация/ПланРефакторинга.md</code></p>
+</div>
