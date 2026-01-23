@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Диаграммы архитектуры: Было - Стало</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header .subtitle {
+            font-size: 1.3em;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        nav {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            padding: 20px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        nav li {
+            margin: 0;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        nav a:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .content {
+            padding: 50px 40px;
+        }
+
+        section {
+            margin-bottom: 80px;
+            scroll-margin-top: 120px;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        section:nth-child(1) { animation-delay: 0.1s; }
+        section:nth-child(2) { animation-delay: 0.2s; }
+        section:nth-child(3) { animation-delay: 0.3s; }
+        section:nth-child(4) { animation-delay: 0.4s; }
+        section:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 4px solid #667eea;
+            text-align: center;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        h3 {
+            color: #764ba2;
+            font-size: 1.8em;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .diagram-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            margin: 40px 0;
+        }
+
+        .diagram-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .diagram-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #495057;
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .diagram-title.was {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        }
+
+        .diagram-title.became {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .comparison-row {
+            display: flex;
+            gap: 40px;
+            align-items: stretch;
+        }
+
+        .comparison-item {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .metric-value {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .improvement-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .warning {
+            background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+            color: #212529;
+            border: none;
+        }
+
+        .error {
+            background: linear-gradient(135deg, #dc3545 0%, #bd2130 100%);
+            border: none;
+        }
+
+        .success {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            border: none;
+        }
+
+        .info {
+            background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+            border: none;
+        }
+
+        .code-lines {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        .code-line {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .line-number {
+            color: #6c757d;
+            margin-right: 15px;
+            min-width: 25px;
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .line-content {
+            flex: 1;
+        }
+
+        .comment {
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        .function {
+            color: #0056b3;
+            font-weight: bold;
+        }
+
+        .string {
+            color: #d73a49;
+        }
+
+        .flow-arrows {
+            text-align: center;
+            font-size: 2em;
+            margin: 20px 0;
+            color: #6c757d;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            text-align: center;
+            padding: 30px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .metrics {
+                grid-template-columns: 1fr;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav li {
+                margin: 5px 0;
+            }
+
+            .diagram-section {
+                padding: 20px;
+            }
+
+            .mermaid {
+                min-height: 300px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏗️ Диаграммы архитектуры</h1>
+            <div class="subtitle">Было → Стало: Эволюция системы обработки сделок</div>
+        </header>
+
+        <nav>
+            <ul>
+                <li><a href="#data-loading">Загрузка данных</a></li>
+                <li><a href="#object-creation">Создание объектов</a></li>
+                <li><a href="#caching">Кэширование</a></li>
+                <li><a href="#batching">Система пачек</a></li>
+                <li><a href="#error-handling">Обработка ошибок</a></li>
+            </ul>
+        </nav>
+
+        <div class="content">
+            <section id="data-loading">
+                <h2>1. Загрузка сделок из внешней системы</h2>
+
+                <div class="diagram-container">
+                    <div class="diagram-section">
+                        <div class="diagram-title was">🔴 БЫЛО (версия 4.40)</div>
+                        <div class="mermaid">
+graph TD
+    A[ЗагрузитьОбъекты] --> B[Подключение к веб-сервису ВТБ]
+    B --> C[GetDeals - получение сделок]
+    C --> D[ПрочитатьНаСервере]
+    D --> E{Для каждой сделки}
+    E --> F1[Запрос: НайтиПоНаименованию Биржа]
+    E --> F2[Запрос: НайтиПоНаименованию Валюта]
+    E --> F3[Запрос: ТорговыйКодПоКоду]
+    E --> F4[Запрос: АктивПоКоду]
+    F1 --> G[Обработка данных сделки]
+    F2 --> G
+    F3 --> G
+    F4 --> G
+    G --> H{Следующая сделка?}
+    H -->|Да| E
+    H -->|Нет| I[Завершение]
+
+    style F1 fill:#f8d7da,stroke:#dc3545,stroke-width:2px
+    style F2 fill:#f8d7da,stroke:#dc3545,stroke-width:2px
+    style F3 fill:#f8d7da,stroke:#dc3545,stroke-width:2px
+    style F4 fill:#f8d7da,stroke:#dc3545,stroke-width:2px
+    style E fill:#fff3cd,stroke:#ffc107,stroke-width:2px
+                        </div>
+                        <div class="warning" style="margin-top: 15px;">
+                            <strong>Проблемы:</strong> N запросов к БД для N сделок, отсутствие кэширования, последовательная обработка
+                        </div>
+                    </div>
+
+                    <div class="diagram-section">
+                        <div class="diagram-title became">🟢 СТАЛО (версия 4.41)</div>
+                        <div class="mermaid">
+graph TD
+    A[ЗагрузитьОбъекты] --> B[Подключение к веб-сервису ВТБ]
+    B --> C[GetDeals - получение сделок]
+    C --> D[ПодготовитьКэшЗагрузки]
+    D --> E[Сбор уникальных ключей из всех сделок]
+    E --> F1[Батч-запрос: ТорговыеКоды]
+    E --> F2[Кэширование Активов]
+    E --> F3[Кэш Бирж]
+    E --> F4[Кэш Валют<br/>СоответствиеВалют]
+    F1 --> G[мКэшТорговыхКодов]
+    F2 --> H[мКэшАктивовПоКоду]
+    F3 --> I[мКэшБирж]
+    F4 --> J[СоответствиеВалют]
+    G --> K[ПрочитатьНаСервере]
+    H --> K
+    I --> K
+    J --> K
+    K --> L{Для каждой сделки}
+    L --> M[Чтение из кэша<br/>без запросов к БД]
+    M --> N[Обработка данных сделки]
+    N --> O{Следующая сделка?}
+    O -->|Да| L
+    O -->|Нет| P[Завершение]
+
+    style D fill:#d4edda,stroke:#28a745,stroke-width:2px
+    style E fill:#d4edda,stroke:#28a745,stroke-width:2px
+    style F1 fill:#d1ecf1,stroke:#17a2b8,stroke-width:2px
+    style F2 fill:#d1ecf1,stroke:#17a2b8,stroke-width:2px
+    style F3 fill:#d1ecf1,stroke:#17a2b8,stroke-width:2px
+    style F4 fill:#d1ecf1,stroke:#17a2b8,stroke-width:2px
+    style M fill:#d4edda,stroke:#28a745,stroke-width:2px
+                        </div>
+                        <div class="success" style="margin-top: 15px;">
+                            <strong>Преимущества:</strong> 1 батч-запрос вместо N запросов, 6 уровней кэширования, мгновенное чтение данных
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metrics">
+                    <div class="metric-card">
+                        <div class="metric-value">90%</div>
+                        <div class="metric-label">Снижение запросов к БД</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">6</div>
+                        <div class="metric-label">Уровней кэширования</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">1</div>
+                        <div class="metric-label">Батч-запрос вместо N</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="object-creation">
+                <h2>2. Создание объектов (БП/Документы)</h2>
+
+                <div class="diagram-container">
+                    <div class="diagram-section">
+                        <div class="diagram-title was">🔴 БЫЛО (версия 4.40)</div>
+                        <div class="mermaid">
+graph TD
+    A[СоздатьОбъекты] --> B[Группировка сделок по ДоговорДУ]
+    B --> C[Создание очереди договоров]
+    C --> D[Последовательная обработка]
+    D --> E{Для каждого договора}
+    E --> F[Создание БП/Документа]
+    F --> G[Заполнение реквизитов]
+    G --> H[Запись в БД]
+    H --> I[Длительная операция<br/>блокирует интерфейс]
+    I --> J{Следующий договор?}
+    J -->|Да| E
+    J -->|Нет| K[Вывод результатов]
+
+    style D fill:#f8d7da,stroke:#dc3545,stroke-width:2px
+    style I fill:#f8d7da,stroke:#dc3545,stroke-width:2px
+    style E fill:#fff3cd,stroke:#ffc107,stroke-width:2px
+                        </div>
+                        <div class="error" style="margin-top: 15px;">
+                            <strong>Проблемы:</strong> Последовательная обработка, блокировка интерфейса, долгая обработка больших объемов
+                        </div>
+                    </div>
+
+                    <div class="diagram-section">
+                        <div class="diagram-title became">🟢 СТАЛО (версия 4.41)</div>
+                        <div class="mermaid">
+graph TD
+    A[СоздатьОбъекты] --> B[Группировка сделок по ДоговорДУ]
+    B --> C[РаспределитьДоговорыПоПачкам<br/>Балансировка нагрузки]
+    C --> D[Создание ОчередьПачек]
+    D --> E{Количество пачек > 1?}
+    E -->|Да| F[Параллельный режим<br/>ЗапуститьВФоне = Истина]
+    E -->|Нет| G[Синхронный режим<br/>ЗапуститьНеВФоне = Истина]
+    F --> H[Инициализация пула заданий<br/>Максимум: КоличествоПотоковСозданияСделок]
+    H --> I[Основной цикл управления пулом]
+    I --> J{Есть место в пуле?<br/>И есть пачки в очереди?}
+    J -->|Да| K[Запуск фонового задания через<br/>ДлительныеОперации.ВыполнитьВФоне]
+    K --> L[СоздатьОбъектыПоДоговору<br/>в модуле объекта]
+    L --> M[Десериализация пачки из XML]
+    M --> N{Для каждого договора в пачке}
+    N --> O[Обработка всех сделок договора]
+    O --> P{Следующий договор<br/>в пачке?}
+    P -->|Да| N
+    P -->|Нет| Q[Формирование результата пачки]
+    Q --> R[Сохранение во временное хранилище]
+    R --> S[Возврат результата]
+    J -->|Нет| T[Проверка завершенных заданий]
+    T --> U{Есть завершенные?}
+    U -->|Да| V[Сбор результатов из<br/>временного хранилища]
+    V --> W[Обработка статистики]
+    W --> X[Удаление из пула]
+    X --> I
+    U -->|Нет| Y[Пауза 5 сек<br/>только в параллельном режиме]
+    Y --> I
+    I --> Z{Все пачки обработаны?}
+    Z -->|Нет| I
+    Z -->|Да| AA[Вывод статистики:<br/>Время, Обработано, Ошибки]
+    AA --> BB[Завершение]
+    G --> CC[Синхронное выполнение<br/>одной пачки]
+
+    style C fill:#d1ecf1,stroke:#17a2b8,stroke-width:2px
+    style D fill:#d1ecf1,stroke:#17a2b8,stroke-width:2px
+    style F fill:#fff3cd,stroke:#ffc107,stroke-width:2px
+    style G fill:#fff3cd,stroke:#ffc107,stroke-width:2px
+    style K fill:#d4edda,stroke:#28a745,stroke-width:2px
+    style L fill:#d4edda,stroke:#28a745,stroke-width:2px
+    style N fill:#ffeaa7,stroke:#d69e2e,stroke-width:2px
+    style O fill:#ffeaa7,stroke:#d69e2e,stroke-width:2px
+    style T fill:#d1ecf1,stroke:#17a2b8,stroke-width:2px
+    style V fill:#d1ecf1,stroke:#17a2b8,stroke-width:2px
+    style AA fill:#d4edda,stroke:#28a745,stroke-width:2px
+    style CC fill:#d4edda,stroke:#28a745,stroke-width:2px
+                        </div>
+                        <div class="success" style="margin-top: 15px;">
+                            <strong>Преимущества:</strong> Система пачек с равномерным распределением нагрузки, автоматический выбор синхронного/асинхронного режима, снижение накладных расходов на фоновые задания
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metrics">
+                    <div class="metric-card">
+                        <div class="metric-value">5-10x</div>
+                        <div class="metric-label">Ускорение обработки</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">∞</div>
+                        <div class="metric-label">Масштабируемость</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">Авто</div>
+                        <div class="metric-label">Выбор режима</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="caching">
+                <h2>3. Система кэширования</h2>
+
+                <div class="diagram-section">
+                    <div class="diagram-title">🔧 Детальная архитектура кэширования</div>
+                    <div class="mermaid">
+graph TD
+    A[ПодготовитьКэшЗагрузки] --> B[Инициализация кэшей]
+    B --> C[Кэш ТорговыхКодов]
+    B --> D[Кэш СрочногоРынка]
+    B --> E[Кэш АктивовПоКоду]
+    B --> F[Кэш РежимовТоргов]
+    B --> G[Кэш Бирж]
+    B --> H[Кэш Валют]
+
+    I[Сбор уникальных ключей] --> J[Ключи торговых кодов]
+    I --> K[Ключи активов]
+    I --> L[Наименования бирж]
+    I --> M[Наименования валют]
+    I --> N[Имена режимов торгов]
+
+    J --> O[Батч-запрос ТорговыеКоды]
+    K --> P[Кэширование Активов]
+    L --> Q[Кэширование Бирж]
+    M --> R[Кэширование Валют]
+    N --> S[Кэширование Режимов]
+
+    O --> C
+    P --> E
+    Q --> G
+    R --> H
+    S --> F
+
+    T[ПрочитатьНаСервере] --> U[Обработка сделок]
+    U --> V[Чтение из кэша]
+    V --> W[Обработка завершена]
+
+    style B fill:#d4edda,stroke:#28a745,stroke-width:2px
+    style C fill:#e7f3ff,stroke:#0066cc,stroke-width:2px
+    style D fill:#e7f3ff,stroke:#0066cc,stroke-width:2px
+    style E fill:#e7f3ff,stroke:#0066cc,stroke-width:2px
+    style F fill:#e7f3ff,stroke:#0066cc,stroke-width:2px
+    style G fill:#e7f3ff,stroke:#0066cc,stroke-width:2px
+    style H fill:#fff2cc,stroke:#d69e2e,stroke-width:2px
+    style O fill:#d1ecf1,stroke:#17a2b8,stroke-width:2px
+    style V fill:#d4edda,stroke:#28a745,stroke-width:2px
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Архитектура:</strong> 6 уровней кэширования, батч-запросы, переиспользование существующего кэша валют
+                    </div>
+                </div>
+            </section>
+
+            <section id="batching">
+                <h2>4. Система пачек и балансировка нагрузки</h2>
+
+                <div class="diagram-section">
+                    <div class="diagram-title">📦 Алгоритм распределения по пачкам</div>
+                    <div class="mermaid">
+graph TD
+    A[СделкиПоДоговорам] --> B[РаспределитьДоговорыПоПачкам]
+    B --> C[Создание массива пачек<br/>Количество = МаксимумОдновременныхЗаданий]
+
+    C --> D[Для каждой пачки<br/>структура с Соответствием и счетчиком]
+
+    E[ДоговорыПоРазмеру<br/>Таблица с размерами] --> F[Сортировка по убыванию<br/>большие договоры первыми]
+
+    F --> G{Для каждого договора}
+    G --> H[Найти пачку<br/>с минимальным весом]
+    H --> I[Добавить договор<br/>в найденную пачку]
+    I --> J[Обновить счетчик<br/>сделок в пачке]
+    J --> K{Следующий договор?}
+    K -->|Да| G
+    K -->|Нет| L[Фильтрация пустых пачек]
+
+    L --> M[Создание ОчередьПачек<br/>только непустые пачки]
+
+    M --> N{Количество пачек > 1?}
+    N -->|Да| O[Параллельный режим<br/>Фоновые задания]
+    N -->|Нет| P[Синхронный режим<br/>Одна пачка]
+
+    O --> Q[Запуск нескольких<br/>фоновых заданий]
+    P --> R[Обработка в текущем<br/>потоке выполнения]
+
+    style B fill:#d1ecf1,stroke:#17a2b8,stroke-width:2px
+    style C fill:#d1ecf1,stroke:#17a2b8,stroke-width:2px
+    style F fill:#ffeaa7,stroke:#d69e2e,stroke-width:2px
+    style H fill:#ffeaa7,stroke:#d69e2e,stroke-width:2px
+    style L fill:#d4edda,stroke:#28a745,stroke-width:2px
+    style M fill:#d4edda,stroke:#28a745,stroke-width:2px
+    style O fill:#fff3cd,stroke:#ffc107,stroke-width:2px
+    style P fill:#fff3cd,stroke:#ffc107,stroke-width:2px
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Алгоритм:</strong> Жадное распределение с сортировкой по размеру, автоматический выбор режима выполнения, фильтрация пустых пачек
+                    </div>
+                </div>
+            </section>
+
+            <section id="error-handling">
+                <h2>5. Логирование ошибок</h2>
+
+                <div class="diagram-section">
+                    <div class="diagram-title">🚨 Пути возникновения темы {FAIL}</div>
+                    <div class="mermaid">
+graph TD
+    A[Обработка сделок<br/>в пачках] --> B{Ошибки в сделках?}
+    B -->|Да| C[Добавить в РезультатДоговора.СписокОшибок]
+    B -->|Нет| D[Успешная обработка]
+
+    C --> E["ВсегоОшибок &gt; 0<br/>или ВсегоОшибокВалютныхСделок &gt; 0"]
+    D --> F["ВсегоОшибок = 0<br/>и ВсегоОшибокВалютныхСделок = 0"]
+
+    E --> G["Отказ = Истина<br/>в процедуре СоздатьОбъекты"]
+    F --> H["Отказ = Ложь"]
+
+    G --> I["Задача.ЗавершеноСОшибками = Истина"]
+    H --> J["Задача.ЗавершеноСОшибками = Ложь"]
+
+    I --> K["Тема письма: {FAIL} ..."]
+    J --> L["Тема письма: {OK} ..."]
+
+    K --> M[Высокая важность<br/>письма]
+    L --> N[Обычная важность<br/>письма]
+
+    style B fill:#ffeaa7,stroke:#d69e2e,stroke-width:2px
+    style E fill:#f8d7da,stroke:#dc3545,stroke-width:2px
+    style G fill:#f8d7da,stroke:#dc3545,stroke-width:2px
+    style I fill:#f8d7da,stroke:#dc3545,stroke-width:2px
+    style K fill:#dc3545,stroke:#dc3545,stroke-width:3px
+    style M fill:#dc3545,stroke:#dc3545,stroke-width:2px
+                    </div>
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>Логика {FAIL}:</strong> Тема формируется когда <code>Задача.ЗавершеноСОшибками = Истина</code>, что происходит при <code>Отказ = Истина</code>, устанавливаемом если <code>ВсегоОшибок > 0</code> или <code>ВсегоОшибокВалютныхСделок > 0</code>
+                    </div>
+                </div>
+
+                <h3>5.3. Виды отслеживаемых ошибок</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Тип ошибки</th>
+                            <th>Примеры сообщений</th>
+                            <th>Уровень</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Ошибки проведения документов</strong></td>
+                            <td>"Ошибки проведения:" + детали ошибки</td>
+                            <td>Уровень сделки</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Отсутствие партнера</strong></td>
+                            <td>"Не найден партнер по коду брокера: [код]"</td>
+                            <td>Уровень сделки</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Отсутствие областей учета</strong></td>
+                            <td>"Отсутствуют области учета"</td>
+                            <td>Уровень сделки</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Проблемы с валютами</strong></td>
+                            <td>"Не определена базовая валюта", "Не определена валюта расчетов"</td>
+                            <td>Уровень сделки</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Отсутствие режима торгов</strong></td>
+                            <td>"Не определен режим торгов"</td>
+                            <td>Уровень сделки</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Отсутствие договора ДУ</strong></td>
+                            <td>"Не определен ДоговорДУ"</td>
+                            <td>Уровень сделки</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ошибки подключения</strong></td>
+                            <td>"Ошибка подключения: " + ОписаниеОшибки()</td>
+                            <td>Уровень обработки</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ошибки фоновых заданий</strong></td>
+                            <td>"Ошибка запуска задания", "Ошибка чтения результатов"</td>
+                            <td>Уровень пачки</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Некорректные активы</strong></td>
+                            <td>"Актив [название] - не указан ВидАктива"</td>
+                            <td>Уровень сделки</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info" style="margin-top: 20px;">
+                    <strong>Особенности логирования:</strong>
+                    <ul>
+                        <li>Журнал регистрации не используется - ошибки хранятся только в структурах результатов</li>
+                        <li>Выводится максимум 10 ошибок в интерфейс для предотвращения перегрузки</li>
+                        <li>Полные результаты с ошибками доступны в ЛОГ файле, отправляемому на почту и хранимому в Задаче</li>
+                        <li>Каждая ошибка содержит номер сделки и текст ошибки для точной идентификации</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <p>Диаграммы архитектуры: Было → Стало</p>
+            <p>Оптимизация обработки загрузки сделок | Версия 4.41</p>
+            <p>© 2026 IMAPPS - Отдел разработки</p>
+        </footer>
+    </div>
+
+    <script>
+        // Анимация появления элементов при прокрутке
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Откладываем инициализацию для загрузки Mermaid
+        setTimeout(() => {
+            document.querySelectorAll('section').forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                section.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+                observer.observe(section);
+            });
+        }, 1000);
+
+        // Плавная прокрутка для навигации
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Добавление анимации для метрик
+        const metricCards = document.querySelectorAll('.metric-card');
+        metricCards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+            card.style.transitionDelay = `${index * 0.1}s`;
+
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 1500 + index * 100);
+        });
+    </script>
+</body>
+</html>
