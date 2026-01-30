@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="utf-8">
+	<title>ACCOUNTING-17091. Суть задания простыми словами</title>
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: 'Segoe UI', Tahoma, sans-serif;
+			margin: 0;
+			padding: 0;
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			min-height: 100vh;
+		}
+
+		.container {
+			max-width: 900px;
+			margin: 0 auto;
+			padding: 40px 20px;
+		}
+
+		.card {
+			background: #fff;
+			border-radius: 16px;
+			box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+			padding: 40px;
+			margin-bottom: 24px;
+		}
+
+		h1 {
+			color: #4a148c;
+			font-size: 2em;
+			margin: 0 0 10px 0;
+			text-align: center;
+		}
+
+		.subtitle {
+			color: #7c4dff;
+			font-size: 1.1em;
+			text-align: center;
+			margin-bottom: 30px;
+		}
+
+		h2 {
+			color: #512da8;
+			font-size: 1.4em;
+			margin: 30px 0 15px 0;
+			padding-bottom: 8px;
+			border-bottom: 3px solid #ede7f6;
+		}
+
+		h2:first-of-type {
+			margin-top: 0;
+		}
+
+		p {
+			color: #424242;
+			line-height: 1.7;
+			margin: 12px 0;
+		}
+
+		.highlight {
+			background: linear-gradient(120deg, #e8eaf6 0%, #ede7f6 100%);
+			border-left: 4px solid #7c4dff;
+			padding: 16px 20px;
+			border-radius: 0 8px 8px 0;
+			margin: 20px 0;
+		}
+
+		.highlight p {
+			margin: 0;
+		}
+
+		.participants {
+			display: flex;
+			gap: 16px;
+			flex-wrap: wrap;
+			margin: 20px 0;
+		}
+
+		.participant {
+			flex: 1;
+			min-width: 200px;
+			background: #f3e5f5;
+			border-radius: 12px;
+			padding: 20px;
+			text-align: center;
+		}
+
+		.participant-icon {
+			font-size: 2.5em;
+			margin-bottom: 10px;
+		}
+
+		.participant-title {
+			color: #7b1fa2;
+			font-weight: bold;
+			font-size: 1.1em;
+			margin-bottom: 8px;
+		}
+
+		.participant-desc {
+			color: #616161;
+			font-size: 0.95em;
+		}
+
+		.steps {
+			counter-reset: step;
+			list-style: none;
+			padding: 0;
+		}
+
+		.steps li {
+			position: relative;
+			padding: 20px 20px 20px 70px;
+			margin-bottom: 16px;
+			background: #fafafa;
+			border-radius: 12px;
+			border: 1px solid #e0e0e0;
+		}
+
+		.steps li::before {
+			counter-increment: step;
+			content: counter(step);
+			position: absolute;
+			left: 20px;
+			top: 50%;
+			transform: translateY(-50%);
+			width: 36px;
+			height: 36px;
+			background: linear-gradient(135deg, #7c4dff, #651fff);
+			color: #fff;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-weight: bold;
+			font-size: 1.1em;
+		}
+
+		.steps li strong {
+			color: #512da8;
+		}
+
+		.result-box {
+			background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+			color: #fff;
+			border-radius: 12px;
+			padding: 24px 30px;
+			margin: 24px 0;
+		}
+
+		.result-box h3 {
+			margin: 0 0 12px 0;
+			font-size: 1.2em;
+		}
+
+		.result-box p {
+			margin: 0;
+			color: #e8f5e9;
+		}
+
+		.one-phrase {
+			background: #fff3e0;
+			border: 2px dashed #ff9800;
+			border-radius: 12px;
+			padding: 20px 24px;
+			text-align: center;
+			margin-top: 20px;
+		}
+
+		.one-phrase p {
+			margin: 0;
+			font-size: 1.15em;
+			color: #e65100;
+			font-weight: 500;
+		}
+
+		.comparison {
+			display: flex;
+			gap: 20px;
+			margin: 20px 0;
+			flex-wrap: wrap;
+		}
+
+		.comparison-item {
+			flex: 1;
+			min-width: 250px;
+			padding: 20px;
+			border-radius: 12px;
+		}
+
+		.comparison-item.before {
+			background: #ffebee;
+			border: 2px solid #ef9a9a;
+		}
+
+		.comparison-item.after {
+			background: #e8f5e9;
+			border: 2px solid #a5d6a7;
+		}
+
+		.comparison-item h4 {
+			margin: 0 0 10px 0;
+			font-size: 1.1em;
+		}
+
+		.comparison-item.before h4 {
+			color: #c62828;
+		}
+
+		.comparison-item.after h4 {
+			color: #2e7d32;
+		}
+
+		.comparison-item p {
+			margin: 0;
+			font-size: 0.95em;
+		}
+
+		.footer {
+			text-align: center;
+			color: rgba(255, 255, 255, 0.7);
+			font-size: 0.9em;
+			margin-top: 20px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="card">
+			<h1>ACCOUNTING-17091</h1>
+			<p class="subtitle">Суть задания простыми словами</p>
+
+			<h2>О чём задача?</h2>
+			<div class="highlight">
+				<p>Брокерские отчёты по клиентам (ПИФ и т.п.) формируются и выкладываются в СЭД. Но есть клиенты, чьи
+					ценные бумаги учитываются в <strong>специализированных депозитариях</strong>. Этим депозитариям тоже
+					нужны копии отчётов — не вручную, а <strong>автоматически через систему обмена</strong>
+					(интеграционный шлюз НРД).</p>
+			</div>
+			<p><strong>Цель:</strong> настроить автоматическую отправку отчётов в спец. депозитарии через транзит, без
+				ручной пересылки.</p>
+
+			<h2>Кто участвует?</h2>
+			<div class="participants">
+				<div class="participant">
+					<div class="participant-icon">&#x1F4CA;</div>
+					<div class="participant-title">ИЦ (Информационный центр)</div>
+					<div class="participant-desc">Здесь считаются и хранятся отчёты клиентов, решается — кому что
+						отправить</div>
+				</div>
+				<div class="participant">
+					<div class="participant-icon">&#x1F3E6;</div>
+					<div class="participant-title">Депо (Депозитарий)</div>
+					<div class="participant-desc">Здесь уже есть механизм «упаковать файлы и отправить в шлюз НРД»</div>
+				</div>
+				<div class="participant">
+					<div class="participant-icon">&#x1F4E5;</div>
+					<div class="participant-title">Спец. депозитарий</div>
+					<div class="participant-desc">Получатель: у него учитываются ценные бумаги клиента, ему и нужен
+						отчёт</div>
+				</div>
+			</div>
+
+			<h2>Что нужно сделать?</h2>
+			<ol class="steps">
+				<li>
+					<strong>Вести список клиентов и их спец. депозитариев</strong><br>
+					Заполняется по данным из бизнеса: какой клиент в каком спец. депозитарии и его код в НРД
+				</li>
+				<li>
+					<strong>Добавить галочку «Официальный» на форме отчёта</strong><br>
+					Чтобы отличать «официальный» отчёт (по БП) от уточнённого (вручную)
+				</li>
+				<li>
+					<strong>По расписанию (2 раза в рабочий день) автоматически:</strong><br>
+					Найти «официальные» отчёты за текущий день, подготовить файлы и отправить в Депо
+				</li>
+				<li>
+					<strong>В Депо: принять файлы, упаковать в W-пакет</strong><br>
+					Положить в исходящую папку шлюза НРД, завести техническую операцию и исходящий пакет
+				</li>
+				<li>
+					<strong>Обработать квитанции от шлюза</strong><br>
+					Успех или ошибка — корректно обрабатывать, не «падать», фиксировать статусы
+				</li>
+			</ol>
+
+			<h2>Ограничения</h2>
+			<p>&#x26A0;&#xFE0F; Отправлять нужно <strong>строго тот отчёт</strong>, который уже выложен клиенту в СЭД
+				(официальный за день).</p>
+			<p>&#x26A0;&#xFE0F; Спец. депозитарий клиента <strong>не «угадывать»</strong> — только из списка, который
+				заполняется по договору/доп. соглашению.</p>
+
+			<h2>Итог</h2>
+			<div class="comparison">
+				<div class="comparison-item before">
+					<h4>&#x274C; Было</h4>
+					<p>Отчёты формируются и выкладываются клиентам; в спец. депозитарии при необходимости отправляли
+						вручную или отдельными процессами</p>
+				</div>
+				<div class="comparison-item after">
+					<h4>&#x2705; Станет</h4>
+					<p>Система сама дважды в день отправляет официальные отчёты в нужные спец. депы через транзит ИШ, с
+						фиксацией операций</p>
+				</div>
+			</div>
+
+			<div class="one-phrase">
+				<p><strong>В одной фразе:</strong> автоматическая отправка брокерских отчётов в спец. депозитарии через
+					транзит, без ручной работы.</p>
+			</div>
+		</div>
+
+		<p class="footer">ACCOUNTING-17091 | Отправка брокерских отчётов в спец. депозитарии через транзит ИШ</p>
+	</div>
+</body>
+
+</html>

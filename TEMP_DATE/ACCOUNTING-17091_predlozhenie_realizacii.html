@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="utf-8">
+	<title>ACCOUNTING-17091. Предложение по реализации</title>
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: 'Segoe UI', Tahoma, sans-serif;
+			margin: 0;
+			padding: 0;
+			background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+			min-height: 100vh;
+		}
+
+		.container {
+			max-width: 960px;
+			margin: 0 auto;
+			padding: 40px 20px;
+		}
+
+		.card {
+			background: #fff;
+			border-radius: 16px;
+			box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+			padding: 40px;
+			margin-bottom: 24px;
+		}
+
+		h1 {
+			color: #1565c0;
+			font-size: 1.8em;
+			margin: 0 0 8px 0;
+			text-align: center;
+		}
+
+		.subtitle {
+			color: #42a5f5;
+			font-size: 1.05em;
+			text-align: center;
+			margin-bottom: 30px;
+		}
+
+		h2 {
+			color: #1976d2;
+			font-size: 1.3em;
+			margin: 28px 0 14px 0;
+			padding-bottom: 8px;
+			border-bottom: 3px solid #e3f2fd;
+		}
+
+		h2:first-of-type {
+			margin-top: 0;
+		}
+
+		h3 {
+			color: #1e88e5;
+			font-size: 1.1em;
+			margin: 20px 0 10px 0;
+		}
+
+		p {
+			color: #424242;
+			line-height: 1.7;
+			margin: 10px 0;
+		}
+
+		ul,
+		ol {
+			color: #424242;
+			line-height: 1.8;
+			margin: 10px 0;
+			padding-left: 24px;
+		}
+
+		li {
+			margin-bottom: 6px;
+		}
+
+		code {
+			background: #e3f2fd;
+			color: #1565c0;
+			padding: 2px 6px;
+			border-radius: 4px;
+			font-family: Consolas, monospace;
+			font-size: 0.95em;
+		}
+
+		.highlight {
+			background: linear-gradient(120deg, #e3f2fd 0%, #bbdefb 100%);
+			border-left: 4px solid #1976d2;
+			padding: 16px 20px;
+			border-radius: 0 8px 8px 0;
+			margin: 16px 0;
+		}
+
+		.highlight p {
+			margin: 0;
+		}
+
+		.system-block {
+			border: 2px solid #e0e0e0;
+			border-radius: 12px;
+			padding: 20px;
+			margin: 16px 0;
+		}
+
+		.system-block.ic {
+			border-color: #42a5f5;
+			background: #e3f2fd;
+		}
+
+		.system-block.depo {
+			border-color: #7e57c2;
+			background: #ede7f6;
+		}
+
+		.system-block h3 {
+			margin-top: 0;
+		}
+
+		.system-block.ic h3 {
+			color: #1565c0;
+		}
+
+		.system-block.depo h3 {
+			color: #512da8;
+		}
+
+		.flow {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 12px;
+			margin: 24px 0;
+			flex-wrap: wrap;
+		}
+
+		.flow-box {
+			background: #fff;
+			border: 2px solid #90caf9;
+			border-radius: 10px;
+			padding: 14px 18px;
+			text-align: center;
+			min-width: 140px;
+		}
+
+		.flow-box.ic {
+			border-color: #42a5f5;
+			background: #e3f2fd;
+		}
+
+		.flow-box.depo {
+			border-color: #7e57c2;
+			background: #ede7f6;
+		}
+
+		.flow-box.nrd {
+			border-color: #66bb6a;
+			background: #e8f5e9;
+		}
+
+		.flow-box strong {
+			display: block;
+			margin-bottom: 4px;
+		}
+
+		.flow-arrow {
+			font-size: 1.5em;
+			color: #90a4ae;
+		}
+
+		.pro-con {
+			display: flex;
+			gap: 16px;
+			margin: 16px 0;
+			flex-wrap: wrap;
+		}
+
+		.pro-con>div {
+			flex: 1;
+			min-width: 200px;
+			padding: 16px;
+			border-radius: 10px;
+		}
+
+		.pros {
+			background: #e8f5e9;
+			border: 1px solid #a5d6a7;
+		}
+
+		.cons {
+			background: #fff3e0;
+			border: 1px solid #ffcc80;
+		}
+
+		.pro-con h4 {
+			margin: 0 0 10px 0;
+		}
+
+		.pros h4 {
+			color: #2e7d32;
+		}
+
+		.cons h4 {
+			color: #ef6c00;
+		}
+
+		.pro-con ul {
+			margin: 0;
+			padding-left: 20px;
+		}
+
+		.summary-box {
+			background: linear-gradient(135deg, #43a047 0%, #2e7d32 100%);
+			color: #fff;
+			border-radius: 12px;
+			padding: 20px 24px;
+			margin: 20px 0;
+		}
+
+		.summary-box h3 {
+			color: #fff;
+			margin: 0 0 10px 0;
+		}
+
+		.summary-box p {
+			color: #e8f5e9;
+			margin: 0;
+		}
+
+		pre {
+			background: #263238;
+			color: #aed581;
+			padding: 14px;
+			border-radius: 8px;
+			overflow-x: auto;
+			font-size: 0.9em;
+			margin: 12px 0;
+		}
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin: 12px 0;
+		}
+
+		th,
+		td {
+			border: 1px solid #b0bec5;
+			padding: 10px;
+			text-align: left;
+		}
+
+		th {
+			background: #eceff1;
+			color: #37474f;
+		}
+
+		.footer {
+			text-align: center;
+			color: rgba(255, 255, 255, 0.7);
+			font-size: 0.9em;
+			margin-top: 16px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="card">
+			<h1>ACCOUNTING-17091</h1>
+			<p class="subtitle">Предложение по реализации: отправка отчётов в спец. депозитарии</p>
+
+			<h2>Общая схема</h2>
+			<div class="flow">
+				<div class="flow-box ic">
+					<strong>ИЦ</strong>
+					Регистр + Отчёты<br>
+					<small>Формируем «пакет»</small>
+				</div>
+				<div class="flow-arrow">&#x27A1;</div>
+				<div class="flow-box">
+					<strong>COM / WS</strong>
+					ХранилищеЗначений<br>
+					<small>Передаём в Депо</small>
+				</div>
+				<div class="flow-arrow">&#x27A1;</div>
+				<div class="flow-box depo">
+					<strong>Депо</strong>
+					ТехОперация + W-пакет<br>
+					<small>winf + файлы</small>
+				</div>
+				<div class="flow-arrow">&#x27A1;</div>
+				<div class="flow-box nrd">
+					<strong>ИШ НРД</strong>
+					Транзит<br>
+					<small>Квитанции</small>
+				</div>
+			</div>
+
+			<h2>Сторона ИЦ (SBB_Broker)</h2>
+			<div class="system-block ic">
+				<h3>1. Регистр сведений «Спец. депозитарии клиентов»</h3>
+				<table>
+					<tr>
+						<th>Поле</th>
+						<th>Тип</th>
+						<th>Назначение</th>
+					</tr>
+					<tr>
+						<td>Период</td>
+						<td>Дата</td>
+						<td>Для истории изменений</td>
+					</tr>
+					<tr>
+						<td>Клиент</td>
+						<td>Справочник.Контрагенты</td>
+						<td>Измерение</td>
+					</tr>
+					<tr>
+						<td>Договор</td>
+						<td>Справочник.ДоговорыКонтрагентов</td>
+						<td>Измерение (опц.)</td>
+					</tr>
+					<tr>
+						<td>НаименованиеСпецДепа</td>
+						<td>Строка</td>
+						<td>Для информации</td>
+					</tr>
+					<tr>
+						<td>КодВНРД</td>
+						<td>Строка</td>
+						<td>Код получателя (RECIPIENT)</td>
+					</tr>
+					<tr>
+						<td>Активен</td>
+						<td>Булево</td>
+						<td>Текущий спец. деп клиента</td>
+					</tr>
+				</table>
+
+				<h3>2. Флаг «Официальный» в отчёте</h3>
+				<p>В форме <code>ОтчетКлиентаNew</code> — чекбокс; при формировании передаётся в
+					<code>СформироватьОтчет(..., ЭтоОфициальныйОтчет)</code>, записывается в регистр
+					<code>ОтчетыКлиентов.Официальный</code>.</p>
+
+				<h3>3. Регламентное задание + функция «Получить пакет к отправке»</h3>
+				<p>РЗ (2 раза в день, рабочие дни) вызывает процедуру, которая:</p>
+				<ol>
+					<li>Запрашивает активных клиентов из регистра «Спец. депозитарии клиентов»</li>
+					<li>Для каждого находит <strong>официальный отчёт за текущий день</strong> в регистре «Отчеты
+						клиентов»</li>
+					<li>Формирует <strong>«пакет»</strong> — структура:
+						<ul>
+							<li><code>КодПолучателяНРД</code> — из регистра спец. депов</li>
+							<li><code>НомерДоговора</code> — для имени файла</li>
+							<li><code>ПериодОтчета</code> — для имени файла</li>
+							<li><code>ФайлыОтчета</code> — массив структур {ИмяФайла, ДвоичныеДанные} (pdf, xml, xls)
+							</li>
+						</ul>
+					</li>
+					<li>Упаковывает пакет в <code>ХранилищеЗначения</code> (или структуру)</li>
+					<li>Вызывает функцию отправки в Депо</li>
+				</ol>
+				<pre>// Пример структуры пакета
+Пакет = Новый Структура;
+Пакет.Вставить("КодПолучателяНРД", "REG044100000");
+Пакет.Вставить("НомерДоговора", "1003746");
+Пакет.Вставить("НачалоПериода", '20260129');
+Пакет.Вставить("КонецПериода", '20260129');
+Пакет.Вставить("Файлы", МассивФайлов); // [{Имя, Данные}, ...]</pre>
+
+				<h3>4. Функция отправки в Депо</h3>
+				<p>Два варианта:</p>
+				<ul>
+					<li><strong>COM-соединение</strong> — вызов процедуры общего модуля Депо напрямую</li>
+					<li><strong>Веб-сервис</strong> — расширение <code>FunctionalElectronicDocuments</code> или новый
+						сервис</li>
+				</ul>
+				<p>Передаём: <code>ХранилищеЗначения</code> с пакетом (или XDTO-объект для WS).</p>
+			</div>
+
+			<h2>Сторона Депо (SBB_Depo)</h2>
+			<div class="system-block depo">
+				<h3>5. Приём пакета и формирование W-пакета</h3>
+				<p>Функция принимает пакет от ИЦ и выполняет:</p>
+				<ol>
+					<li><strong>Создаёт ТехническуюОперацию</strong> с признаком/комментарием «Отчёт в спец.
+						депозитарий» (или новый документ по аналогии с РСВ — на выбор)</li>
+					<li><strong>Формирует winf.xml</strong>:
+						<ul>
+							<li><code>ORIGINATOR</code> — код организации в НРД (есть в Депо)</li>
+							<li><code>RECIPIENT</code> — из пакета (<code>КодПолучателяНРД</code>)</li>
+							<li><code>LETTER_ID</code> — GUID ТехОперации</li>
+							<li><code>CONTR_LETTER_ID</code> — номер ТехОперации</li>
+							<li><code>SUBJECT</code> — «NTED#report» (отличие от РСВ)</li>
+							<li><code>DOC</code> — для каждого файла (TRZT, ORIGINAL_FILE_NAME)</li>
+						</ul>
+					</li>
+					<li><strong>Создаёт папку W-пакета</strong> (W + dd + месяц_hex + номер) в OUTBOX</li>
+					<li><strong>Записывает файлы</strong>: winf.xml + файлы отчёта</li>
+					<li><strong>Создаёт ИсходящийПакетВФайловыйШлюз</strong>, запись в РС «Состояния документов в
+						файловом шлюзе»</li>
+				</ol>
+				<p>По сути — аналог <code>СформироватьИсходящийПакетВФайловыйШлюз</code>, но с внешними данными (winf и
+					файлы приходят/формируются, а не из РСВ).</p>
+
+				<h3>6. Квитанции</h3>
+				<p>Существующий механизм в <code>ФайлыНРД</code>:</p>
+				<ul>
+					<li>Поиск ТехОперации по <code>LETTER_ID</code> — <strong>уже работает</strong></li>
+					<li>Запись комментария в ТехОперацию — <strong>уже работает</strong></li>
+					<li>Обновление статуса ИсходящегоПакета и РС — <strong>уже работает</strong></li>
+				</ul>
+				<p><strong>Доработка:</strong> в <code>СтатусКвитанцииВДокументы</code> не вызывать
+					<code>ПолучитьОбъект()</code> для ДокументОснование, если это не РаскрытиеСпискаВладельцев (или
+					пустое). Можно отличать по <code>SUBJECT = NTED#report</code> в winf.</p>
+			</div>
+
+			<h2>Плюсы и нюансы предложения</h2>
+			<div class="pro-con">
+				<div class="pros">
+					<h4>&#x2705; Плюсы</h4>
+					<ul>
+						<li>Максимальное переиспользование существующего механизма W-пакетов</li>
+						<li>Квитанции уже работают (минимум доработок)</li>
+						<li>Чёткое разделение: ИЦ готовит «что отправить», Депо — «как отправить»</li>
+						<li>ХранилищеЗначения — простая передача бинарных данных</li>
+						<li>ТехОперация с признаком — не нужен новый документ</li>
+					</ul>
+				</div>
+				<div class="cons">
+					<h4>&#x26A0; Нюансы</h4>
+					<ul>
+						<li>COM-соединение требует доступности сервера Депо из ИЦ</li>
+						<li>Веб-сервис — нужно передавать бинарные данные (base64)</li>
+						<li>Winf: часть данных из ИЦ, часть из Депо — нужно определить, где формировать</li>
+						<li>Проверить: не сломается ли обработка квитанций для других типов пакетов</li>
+					</ul>
+				</div>
+			</div>
+
+			<h2>Где формировать winf?</h2>
+			<div class="highlight">
+				<p><strong>Вариант A:</strong> В Депо (рекомендуется). ИЦ передаёт только адресацию (КодПолучателяНРД) и
+					файлы. Депо знает код организации (ORIGINATOR), генерирует GUID и номер ТехОперации, формирует winf
+					целиком. Аналогия с РСВ — winf формируется в момент создания W-пакета.</p>
+			</div>
+			<p><strong>Вариант B:</strong> В ИЦ. Тогда ИЦ должен знать код организации в НРД, а Депо должен вернуть
+				номер ТехОперации заранее (два вызова) или ИЦ сам генерирует GUID и передаёт его.</p>
+			<p>Вариант A проще и соответствует текущей архитектуре.</p>
+
+			<h2>Итоговый план</h2>
+			<div class="summary-box">
+				<h3>ИЦ</h3>
+				<p>1. Регистр «Спец. депозитарии клиентов» + формы<br>
+					2. Флаг «Официальный» на форме отчёта<br>
+					3. Функция «ПолучитьПакетДляОтправкиВСпецДеп» — выборка + упаковка<br>
+					4. Функция «ОтправитьПакетВДепо» — COM/WS<br>
+					5. РЗ «Рассылка отчётов в спец. деп» — 2 раза в день</p>
+			</div>
+			<div class="summary-box" style="background: linear-gradient(135deg, #7b1fa2 0%, #512da8 100%);">
+				<h3>Депо</h3>
+				<p>1. Функция «ПринятьПакетОтчётаИзИЦ» — приём, распаковка<br>
+					2. Создание ТехОперации (комментарий «Отчёт в спец. депозитарий»)<br>
+					3. Формирование winf.xml (SUBJECT = NTED#report)<br>
+					4. Создание W-пакета, ИсходящегоПакета, записи РС<br>
+					5. Доработка обработки квитанций — не падать для не-РСВ</p>
+			</div>
+
+		</div>
+
+		<p class="footer">ACCOUNTING-17091 | Предложение по реализации</p>
+	</div>
+</body>
+
+</html>
