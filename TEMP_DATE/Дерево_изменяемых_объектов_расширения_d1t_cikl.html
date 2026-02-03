@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="utf-8">
+  <title>Дерево изменяемых объектов расширения d1t_cikl</title>
+  <style>
+    :root {
+      --p1: #2c5282;
+      --common: #4a5568;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      margin: 1rem 2rem;
+      background: #fafafa;
+      color: #1a202c;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      color: #718096;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    ul.tree {
+      list-style: none;
+      padding-left: 1.2rem;
+      margin: 0.2rem 0;
+    }
+
+    ul.tree ul {
+      padding-left: 1.2rem;
+      border-left: 1px solid #e2e8f0;
+      margin-left: 0.35rem;
+    }
+
+    .branch {
+      margin: 0.25rem 0;
+    }
+
+    .branch>.cap {
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.15rem 0;
+    }
+
+    .branch>.cap:hover {
+      background: #edf2f7;
+      border-radius: 3px;
+    }
+
+    .toggle {
+      font-size: 0.7rem;
+      color: #718096;
+      user-select: none;
+    }
+
+    .name {
+      font-weight: 600;
+    }
+
+    .pts {
+      font-size: 0.75rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    .pts.p1 {
+      background: #bee3f8;
+      color: var(--p1);
+    }
+
+    .pts.common {
+      background: #e2e8f0;
+      color: var(--common);
+    }
+
+    .leaf {
+      padding-left: 1.5rem;
+      margin: 0.15rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .leaf .name {
+      font-weight: 400;
+      font-family: Consolas, monospace;
+      font-size: 0.9rem;
+    }
+
+    .legend {
+      margin-top: 1.5rem;
+      padding: 0.75rem 1rem;
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      font-size: 0.85rem;
+    }
+
+    .legend h3 {
+      margin: 0 0 0.5rem 0;
+      font-size: 0.95rem;
+    }
+
+    .legend span {
+      display: inline-block;
+      margin-right: 0.75rem;
+      margin-bottom: 0.25rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Дерево изменяемых объектов и процедур расширения d1t_cikl</h1>
+  <p class="subtitle">Относительно оригинальной конфигурации 1.5.27.0. Расширение реализует только пункт 1 оптимизации:
+    перенос цикла выполнения регламентных операций с клиента на сервер (длительная операция). Передано вендору Аванкор,
+    задача ASP-196537.</p>
+
+  <ul class="tree">
+    <li class="branch">
+      <span class="cap"><span class="toggle">[+]</span> <span class="name">Расширение d1t_cikl</span> <span
+          class="pts p1">1</span></span>
+      <ul>
+        <li class="branch">
+          <span class="cap"><span class="toggle">[+]</span> <span class="name">Справочники</span></span>
+          <ul>
+            <li class="branch">
+              <span class="cap"><span class="toggle">[+]</span> <span class="name">РегламентныеПериоды</span> <span
+                  class="pts p1">1</span></span>
+              <ul>
+                <li class="branch">
+                  <span class="cap"><span class="toggle">[+]</span> <span class="name">Форма РегламентныйПериод</span>
+                    <span class="pts p1">1</span></span>
+                  <ul>
+                    <li class="leaf"><span class="name">reg_m_СформироватьРегламентныеОперации</span> <span
+                        class="pts p1">1</span></li>
+                    <li class="leaf"><span class="name">СформироватьРегламентныеОперацииНаСервере</span> (функция) <span
+                        class="pts p1">1</span></li>
+                    <li class="leaf"><span class="name">НачатьОтслеживаниеЗадания</span> <span class="pts p1">1</span>
+                    </li>
+                    <li class="leaf"><span class="name">ОбработатьРезультатЗадания</span> <span class="pts p1">1</span>
+                    </li>
+                    <li class="leaf"><span class="name">ЗавершитьОбработкуПослеУспехаНаКлиенте</span> <span
+                        class="pts p1">1</span></li>
+                    <li class="leaf"><span class="name">ПоказатьПредупреждениеОбОшибке</span> <span
+                        class="pts p1">1</span></li>
+                  </ul>
+                </li>
+                <li class="branch">
+                  <span class="cap"><span class="toggle">[+]</span> <span class="name">Модуль менеджера</span> <span
+                      class="pts p1">1</span></span>
+                  <ul>
+                    <li class="leaf"><span class="name">СформироватьРегламентныеОперацииНаСервере</span> (процедура)
+                      <span class="pts p1">1</span></li>
+                    <li class="leaf"><span class="name">СформироватьДокументыЗакрытияПериода</span> <span
+                        class="pts p1">1</span></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+  <div class="legend">
+    <h3>Пункт оптимизации</h3>
+    <span><span class="pts p1">1</span> Перенос цикла на сервер (РегламентныеПериоды): запуск через длительную операцию,
+      тело операции и цикл по договорам в модуле менеджера; в форме — запуск задания, отслеживание прогресса, обработка
+      результата.</span>
+  </div>
+
+  <p class="subtitle" style="margin-top: 1rem;">В расширении d1t_cikl нет изменений в документах и общих модулях;
+    цепочка ФоновыеЗаданияСервер и ПланРегламентныхОперацийДУ используется из базовой конфигурации.</p>
+
+  <script>
+    document.querySelectorAll('.branch > .cap').forEach(function (cap) {
+      cap.addEventListener('click', function () {
+        var ul = this.nextElementSibling;
+        if (!ul) return;
+        var toggle = this.querySelector('.toggle');
+        if (ul.style.display === 'none') {
+          ul.style.display = 'block';
+          if (toggle) toggle.textContent = '[−]';
+        } else {
+          ul.style.display = 'none';
+          if (toggle) toggle.textContent = '[+]';
+        }
+      });
+    });
+    document.querySelectorAll('.branch > ul').forEach(function (ul) {
+      ul.style.display = 'block';
+      var t = ul.previousElementSibling.querySelector('.toggle');
+      if (t) t.textContent = '[−]';
+    });
+  </script>
+</body>
+
+</html>
