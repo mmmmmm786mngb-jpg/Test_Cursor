@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Код-ревью: NRB-3354 - RuData: Загрузка МХ, номер и тип лицевого счета</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #faf8f5 0%, #f0ebe3 100%);
+            color: #4a4a4a;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #b8d4e3 0%, #d4c4e8 100%);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            color: #3d5a80;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            color: #5c6b7a;
+            font-size: 1.1rem;
+        }
+        
+        .header .task-info {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .task-info-item {
+            background: rgba(255,255,255,0.6);
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: #4a4a4a;
+        }
+        
+        .task-info-item strong {
+            color: #5b8a9a;
+        }
+        
+        /* Statistics Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-card.success {
+            border-left: 4px solid #98d4a0;
+        }
+        
+        .stat-card.warning {
+            border-left: 4px solid #f5d89a;
+        }
+        
+        .stat-card.error {
+            border-left: 4px solid #f5a8a8;
+        }
+        
+        .stat-card.info {
+            border-left: 4px solid #a8d5e5;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-card.success .stat-number { color: #5a9a64; }
+        .stat-card.warning .stat-number { color: #c9a227; }
+        .stat-card.error .stat-number { color: #c75050; }
+        .stat-card.info .stat-number { color: #5b8a9a; }
+        
+        .stat-label {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+        
+        /* Section */
+        .section {
+            background: #ffffff;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        
+        .section-header {
+            background: linear-gradient(90deg, #e8e4df 0%, #f5f2ed 100%);
+            padding: 20px 25px;
+            border-bottom: 1px solid #e5e1dc;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .section-header h2 {
+            font-size: 1.3rem;
+            color: #3d5a80;
+        }
+        
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #fff;
+        }
+        
+        .section-icon.task { background: #a8d5e5; color: #3d5a80; }
+        .section-icon.code { background: #d4c4e8; color: #5a4a7a; }
+        .section-icon.review { background: #ffd4a8; color: #8a5a3a; }
+        .section-icon.check { background: #b8e0c8; color: #3a6a4a; }
+        .section-icon.warning { background: #f5d89a; color: #6a5a2a; }
+        
+        .section-content {
+            padding: 25px;
+        }
+        
+        /* Task Table */
+        .task-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        .task-table th,
+        .task-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e5e1dc;
+        }
+        
+        .task-table th {
+            background: #f8f6f4;
+            color: #5b8a9a;
+            font-weight: 600;
+        }
+        
+        .task-table tr:hover {
+            background: rgba(168, 213, 229, 0.15);
+        }
+        
+        /* Status Badges */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .status-badge.done {
+            background: #e8f5eb;
+            color: #3a7a44;
+            border: 1px solid #b8e0c8;
+        }
+        
+        .status-badge.warning {
+            background: #fef8e8;
+            color: #8a6a1a;
+            border: 1px solid #f5d89a;
+        }
+        
+        .status-badge.error {
+            background: #fef0f0;
+            color: #a04040;
+            border: 1px solid #f5a8a8;
+        }
+        
+        /* Code Block */
+        .code-block {
+            background: #f8f6f4;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            border-left: 4px solid #a8d5e5;
+        }
+        
+        .code-block.error-code {
+            border-left-color: #f5a8a8;
+            background: #fef8f8;
+        }
+        
+        .code-block.success-code {
+            border-left-color: #b8e0c8;
+        }
+        
+        .code-block pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #5c6b7a;
+        }
+        
+        /* Review Item */
+        .review-item {
+            background: #f8f6f4;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid transparent;
+        }
+        
+        .review-item.critical {
+            border-left-color: #f5a8a8;
+            background: #fef8f8;
+        }
+        
+        .review-item.warning {
+            border-left-color: #f5d89a;
+            background: #fefcf5;
+        }
+        
+        .review-item.info {
+            border-left-color: #a8d5e5;
+            background: #f5fafc;
+        }
+        
+        .review-item.success {
+            border-left-color: #b8e0c8;
+            background: #f5fcf8;
+        }
+        
+        .review-item-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .review-item-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .review-item.critical .review-item-title { color: #a04040; }
+        .review-item.warning .review-item-title { color: #8a6a1a; }
+        .review-item.info .review-item-title { color: #3d6a7a; }
+        .review-item.success .review-item-title { color: #3a7a44; }
+        
+        .review-item-location {
+            color: #8a8a8a;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .review-item-description {
+            color: #4a4a4a;
+        }
+        
+        /* Object List */
+        .object-list {
+            list-style: none;
+        }
+        
+        .object-list li {
+            padding: 12px 15px;
+            margin: 5px 0;
+            background: #f8f6f4;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .object-type {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            min-width: 120px;
+            text-align: center;
+        }
+        
+        .object-type.new {
+            background: #e8f5eb;
+            color: #3a7a44;
+        }
+        
+        .object-type.modified {
+            background: #e8f4fa;
+            color: #3d6a7a;
+        }
+        
+        .object-type.enum {
+            background: #f0e8f5;
+            color: #5a4a7a;
+        }
+        
+        /* Tree Structure */
+        .tree-container {
+            background: #f8f6f4;
+            border-radius: 10px;
+            padding: 25px;
+        }
+        
+        .tree {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+        
+        .tree ul {
+            list-style: none;
+            padding-left: 25px;
+            margin: 0;
+            border-left: 2px solid #d5d0c8;
+            margin-left: 10px;
+        }
+        
+        .tree li {
+            position: relative;
+            padding: 8px 0 8px 20px;
+        }
+        
+        .tree li::before {
+            content: '';
+            position: absolute;
+            left: -2px;
+            top: 18px;
+            width: 20px;
+            height: 2px;
+            background: #d5d0c8;
+        }
+        
+        .tree > li {
+            padding-left: 0;
+        }
+        
+        .tree > li::before {
+            display: none;
+        }
+        
+        .tree > li + li {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e5e1dc;
+        }
+        
+        .tree-node {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: default;
+        }
+        
+        .tree-node.requirement {
+            background: #fff0e0;
+            color: #8a5a3a;
+            border: 1px solid #ffd4a8;
+        }
+        
+        .tree-node.implementation {
+            background: #e8f5eb;
+            color: #3a6a4a;
+            border: 1px solid #b8e0c8;
+        }
+        
+        .tree-leaf {
+            display: inline-block;
+            color: #5c6b7a;
+            padding: 4px 0;
+        }
+        
+        .tree-leaf.desc {
+            color: #8a8a8a;
+            font-style: italic;
+        }
+        
+        .tree-leaf.code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.85rem;
+            color: #3d6a7a;
+            background: #e8f4fa;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+        
+        .tree-leaf code {
+            background: #e8f4fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: #3d6a7a;
+            font-size: 0.9em;
+        }
+        
+        .tree-node.error {
+            background: #fde8e8;
+            color: #a04040;
+            border: 2px solid #f5a8a8;
+            font-size: 1.1rem;
+        }
+        
+        .tree-node.error-item {
+            background: #fef0f0;
+            color: #a04040;
+            border: 1px solid #f5b8b8;
+        }
+        
+        .tree-node.warning-item {
+            background: #fef8e8;
+            color: #8a6a1a;
+            border: 1px solid #f5d89a;
+        }
+        
+        .tree-leaf.error-location {
+            color: #8a8a8a;
+            font-style: italic;
+        }
+        
+        .tree-leaf.error-text {
+            color: #a04040;
+            font-weight: 500;
+        }
+        
+        .tree-leaf.error-fix {
+            color: #3a7a44;
+            font-weight: 500;
+        }
+        
+        .tree-leaf.error-fix::before {
+            content: '-> ';
+            color: #5a9a64;
+        }
+        
+        /* Summary */
+        .summary-box {
+            background: linear-gradient(135deg, #f5f2ed 0%, #e8e4df 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+        
+        .summary-title {
+            font-size: 1.3rem;
+            color: #3d5a80;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .summary-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .summary-item {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .summary-item h4 {
+            color: #5b8a9a;
+            margin-bottom: 10px;
+        }
+        
+        .summary-item ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        
+        .summary-item li {
+            margin-bottom: 5px;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #8a8a8a;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .task-table {
+                font-size: 0.85rem;
+            }
+            
+            .task-table th,
+            .task-table td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Отчет код-ревью: NRB-3354</h1>
+            <p class="subtitle">RuData: Загрузка в 1С МХ, номер и тип лицевого счета открытого НРД в реестре для Акций и Паёв РФ</p>
+            <div class="task-info">
+                <div class="task-info-item">
+                    <strong>Автор задания:</strong> Zvirak, Sergey [EXT]
+                </div>
+                <div class="task-info-item">
+                    <strong>Дата задания:</strong> 03.02.2026
+                </div>
+                <div class="task-info-item">
+                    <strong>Статус:</strong> In Progress
+                </div>
+                <div class="task-info-item">
+                    <strong>Дата ревью:</strong> 05.02.2026
+                </div>
+            </div>
+        </div>
+        
+        <!-- Statistics -->
+        <div class="stats-grid">
+            <div class="stat-card success">
+                <div class="stat-number">7</div>
+                <div class="stat-label">Выполненных требований</div>
+            </div>
+            <div class="stat-card info">
+                <div class="stat-number">9</div>
+                <div class="stat-label">Изменённых объектов</div>
+            </div>
+            <div class="stat-card error">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Критических замечаний</div>
+            </div>
+            <div class="stat-card warning">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Рекомендаций</div>
+            </div>
+        </div>
+        
+        <!-- Task Requirements Section -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon task">1</div>
+                <h2>Требования задания и соответствие доработок</h2>
+            </div>
+            <div class="section-content">
+                <table class="task-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Требование</th>
+                            <th>Статус</th>
+                            <th>Реализация</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Создать перечисление "Типы лицевых счетов НРД в МХ" со значениями НД и НДЦД</td>
+                            <td><span class="status-badge warning">С замечаниями</span></td>
+                            <td>Создано: Перечисление.ТипыЛицевыхCчетовНРДвМХ (НД, НДЦД)<br><em style="color: #a04040;">Замечание: Латинская "C" вместо кириллической "С" в имени (см. раздел 3)</em></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Добавить заголовок "Внешние места хранения" для таблицы "МестаХранения"</td>
+                            <td><span class="status-badge done">Выполнено</span></td>
+                            <td>Заголовок таблицы установлен</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Заполнить Комментарий табличной части = "Внешние места хранения"</td>
+                            <td><span class="status-badge done">Выполнено</span></td>
+                            <td>Комментарий добавлен</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Добавить Заголовок для таблицы "Места хранения второго уровня"</td>
+                            <td><span class="status-badge done">Выполнено</span></td>
+                            <td>Заголовок и положение заголовка установлены</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Создать реквизит "Номер лицевого счета НРД в МХ" (Строка, длина 20)</td>
+                            <td><span class="status-badge done">Выполнено</span></td>
+                            <td>НомерЛицевогоСчетаНРДвМХ добавлен</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>Создать реквизит "Тип лицевого счета НРД в МХ" (ссылка на перечисление)</td>
+                            <td><span class="status-badge done">Выполнено</span></td>
+                            <td>ТипЛицевогоСчетаНРДвМХ добавлен</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>Вывести реквизиты на форму элемента справочника</td>
+                            <td><span class="status-badge done">Выполнено</span></td>
+                            <td>Поля добавлены на форму</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>Доработать загрузчик: получать данные из registrar_nrd, facialacc_nrd, registraracctype_nrd</td>
+                            <td><span class="status-badge warning">С замечаниями</span></td>
+                            <td>Реализован алгоритм в RuDataAPI<br><em style="color: #a04040;">Замечание: BUG с переменной НомерСтроки (см. раздел 3)</em></td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td>Доработать загрузчик: использовать метод v2/Info/Organizers</td>
+                            <td><span class="status-badge done">Выполнено</span></td>
+                            <td>Функция InfoOrganizers добавлена</td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td>Алгоритм для Акций и Паёв РФ со статусами "В обращении", "Дефолт", "Размещается"</td>
+                            <td><span class="status-badge done">Выполнено</span></td>
+                            <td>Процедура ЗаполнитьМестаХраненияЦБ реализована</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Modified Objects Section -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon code">2</div>
+                <h2>Список изменённых объектов метаданных</h2>
+            </div>
+            <div class="section-content">
+                <ul class="object-list">
+                    <li>
+                        <span class="object-type new">НОВЫЙ</span>
+                        <span>Перечисление.ТипыЛицевыхCчетовНРДвМХ (НД, НДЦД)</span>
+                    </li>
+                    <li>
+                        <span class="object-type modified">ИЗМЕНЁН</span>
+                        <span>Справочник.ЦенныеБумаги.ТабличнаяЧасть.МестаХранения - добавлены 2 реквизита</span>
+                    </li>
+                    <li>
+                        <span class="object-type modified">ИЗМЕНЁН</span>
+                        <span>Справочник.ЦенныеБумаги.Форма.ФормаЭлемента - добавлены поля на форму</span>
+                    </li>
+                    <li>
+                        <span class="object-type modified">ИЗМЕНЁН</span>
+                        <span>ОбщийМакет.СтатикаЦБRuDataAPI - добавлены поля в запрос</span>
+                    </li>
+                    <li>
+                        <span class="object-type modified">ИЗМЕНЁН</span>
+                        <span>ОбщийМакет.СтатикаЭмитентыRuDataAPI - добавлен UNION и параметр</span>
+                    </li>
+                    <li>
+                        <span class="object-type modified">ИЗМЕНЁН</span>
+                        <span>ОбщийМодуль.RuDataAPI - добавлено 10+ функций и процедур</span>
+                    </li>
+                    <li>
+                        <span class="object-type modified">ИЗМЕНЁН</span>
+                        <span>ОбщийМодуль.РегламентныеЗаданияСервер - добавлен параметр</span>
+                    </li>
+                    <li>
+                        <span class="object-type modified">ИЗМЕНЁН</span>
+                        <span>Обработка.СервисыMarketDataAPI - добавлен реквизит</span>
+                    </li>
+                    <li>
+                        <span class="object-type modified">ИЗМЕНЁН</span>
+                        <span>Обработка.СервисыMarketDataAPI.Форма.Форма - доработана форма</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Code Review Issues Section -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon review">3</div>
+                <h2>Замечания код-ревью</h2>
+            </div>
+            <div class="section-content">
+                
+                <!-- Critical Issue 1 -->
+                <div class="review-item critical">
+                    <div class="review-item-header">
+                        <span class="review-item-title">BUG: Неинициализированная переменная НомерСтроки</span>
+                    </div>
+                    <div class="review-item-location">
+                        Расположение: ОбщийМодуль.RuDataAPI, Процедура ДобавитьОбновитьИнформациюОРеестродержателеВМестахХранения
+                    </div>
+                    <div class="review-item-description">
+                        <p>В коде используется переменная <code>НомерСтроки</code>, которая не была инициализирована. Судя по контексту, должна быть переменная <code>ИндексСтроки</code>.</p>
+                    </div>
+                    <div class="code-block error-code">
+                        <pre>Пока ИндексСтроки &lt;= МаксИндексСтроки Цикл
+    ТекСтрока = МестаХранения[ИндексСтроки];
+    Если ТекСтрока.ОсновноеМестоХранения Тогда
+        СтрокаОРеестродержателе = ТекСтрока;
+        Прервать;
+    Иначе
+        НомерСтроки = НомерСтроки + 1;  // BUG! Должно быть: ИндексСтроки = ИндексСтроки + 1;
+    КонецЕсли;
+КонецЦикла;</pre>
+                    </div>
+                    <p style="color: #28a745; margin-top: 10px;"><strong>Исправление:</strong> Заменить <code>НомерСтроки = НомерСтроки + 1;</code> на <code>ИндексСтроки = ИндексСтроки + 1;</code></p>
+                </div>
+                
+                <!-- Critical Issue 2 -->
+                <div class="review-item critical">
+                    <div class="review-item-header">
+                        <span class="review-item-title">Латинская буква "C" в названии перечисления</span>
+                    </div>
+                    <div class="review-item-location">
+                        Расположение: Перечисление.ТипыЛицевыхCчетовНРДвМХ
+                    </div>
+                    <div class="review-item-description">
+                        <p>В названии перечисления <code>ТипыЛицевыхCчетовНРДвМХ</code> используется латинская буква "C" вместо кириллической "С". Это нарушение стандартов именования объектов 1С и может вызывать проблемы при поиске и сопровождении кода.</p>
+                    </div>
+                    <div class="code-block error-code">
+                        <pre>Неправильно: ТипыЛицевых<span style="color:#dc3545;font-weight:bold;">C</span>четовНРДвМХ  (латинская C)
+Правильно:   ТипыЛицевых<span style="color:#28a745;font-weight:bold;">С</span>четовНРДвМХ  (кириллическая С)</pre>
+                    </div>
+                    <p style="color: #ffc107; margin-top: 10px;"><strong>Рекомендация:</strong> Переименовать перечисление, исправив кириллицу.</p>
+                </div>
+                
+                <!-- Warning 1 -->
+                <div class="review-item warning">
+                    <div class="review-item-header">
+                        <span class="review-item-title">Концевые пробелы в коде</span>
+                    </div>
+                    <div class="review-item-location">
+                        Расположение: ОбщийМодуль.RuDataAPI, строки 242, 3469-3475 и др.
+                    </div>
+                    <div class="review-item-description">
+                        <p>В некоторых строках кода присутствуют концевые пробелы (trailing whitespace), что нарушает стандарт "Чистота кода".</p>
+                    </div>
+                    <div class="code-block">
+                        <pre>fintoolids = Новый Массив;··  // &lt;- 2 лишних пробела в конце строки
+...
+ВставитьЭлементСтруктуры(Параметры, ИгнорируемыйКлюч, "ids"······, ...);·  // &lt;- лишний пробел</pre>
+                    </div>
+                </div>
+                
+                <!-- Warning 2 -->
+                <div class="review-item warning">
+                    <div class="review-item-header">
+                        <span class="review-item-title">Отсутствие полной документации для новых функций</span>
+                    </div>
+                    <div class="review-item-location">
+                        Расположение: ОбщийМодуль.RuDataAPI
+                    </div>
+                    <div class="review-item-description">
+                        <p>Некоторые добавленные функции (например, <code>ЭтоРоссийскаяЦБ</code>, <code>ТипЛицевогоСчетаНРДвМХ</code>) не имеют полной документирующей строки с описанием параметров и возвращаемого значения согласно стандарту.</p>
+                    </div>
+                </div>
+                
+                <!-- Warning 3 -->
+                <div class="review-item warning">
+                    <div class="review-item-header">
+                        <span class="review-item-title">Высокая вложенность кода</span>
+                    </div>
+                    <div class="review-item-location">
+                        Расположение: Процедура ЗаполнитьМестаХраненияЦБ
+                    </div>
+                    <div class="review-item-description">
+                        <p>Процедура имеет высокую вложенность условных операторов (до 4 уровней), что затрудняет чтение и сопровождение кода. Рекомендация: провести рефакторинг с выделением отдельных функций.</p>
+                    </div>
+                </div>
+                
+                <!-- Info 1 -->
+                <div class="review-item info">
+                    <div class="review-item-header">
+                        <span class="review-item-title">Дополнительная функциональность</span>
+                    </div>
+                    <div class="review-item-description">
+                        <p>Разработчик добавил дополнительную функциональность, не указанную в задании явно:</p>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>Подсказка для реквизита "ОсновноеМестоХранения": "Это место хранения является реестродержателем для данной ЦБ"</li>
+                            <li>Параметр <code>ОбновитьРеестродержателейЗагружаемыхЦБ</code> для принудительного обновления реестродержателей</li>
+                            <li>Функция <code>Organizers_Фильтр</code> для формирования фильтров API</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Success 1 -->
+                <div class="review-item success">
+                    <div class="review-item-header">
+                        <span class="review-item-title">Хорошая реализация алгоритма</span>
+                    </div>
+                    <div class="review-item-description">
+                        <p>Алгоритм заполнения мест хранения для Акций и Паёв РФ реализован корректно согласно требованиям:</p>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>Проверка на наличие всех данных (registrar_nrd, facialacc_nrd, registraracctype_nrd)</li>
+                            <li>Поиск существующего ЮЛ по коду загрузки RuData</li>
+                            <li>Создание нового ЮЛ при необходимости</li>
+                            <li>Корректная обработка ошибок с отправкой уведомления</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Detailed Changes Mapping -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon check">4</div>
+                <h2>Детальное соответствие требований и реализации</h2>
+            </div>
+            <div class="section-content">
+                <div class="tree-container">
+                    <ul class="tree">
+                        <li>
+                            <span class="tree-node requirement">Требование 1: Перечисление "Типы лицевых счетов НРД в МХ"</span>
+                            <ul>
+                                <li><span class="tree-leaf desc">Создать перечисление со значениями НД и НДЦД</span></li>
+                                <li>
+                                    <span class="tree-node implementation">Реализация</span>
+                                    <ul>
+                                        <li><span class="tree-leaf">Создано: Перечисление.ТипыЛицевыхCчетовНРДвМХ</span></li>
+                                        <li><span class="tree-leaf">Значение НД - добавлено</span></li>
+                                        <li><span class="tree-leaf">Значение НДЦД - добавлено</span></li>
+                                        <li><span class="tree-leaf">Функция ТипЛицевогоСчетаНРДвМХ преобразует строку в значение перечисления</span></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <span class="tree-node requirement">Требование 2-4: Доработка справочника "Ценные бумаги"</span>
+                            <ul>
+                                <li><span class="tree-leaf desc">Добавить заголовки для таблиц, комментарий, новые реквизиты</span></li>
+                                <li>
+                                    <span class="tree-node implementation">Реализация</span>
+                                    <ul>
+                                        <li><span class="tree-leaf">Комментарий ТабличнойЧасти МестаХранения = "Внешние места хранения"</span></li>
+                                        <li><span class="tree-leaf">Заголовок таблицы МестаХранения = "Внешние места хранения"</span></li>
+                                        <li><span class="tree-leaf">Заголовок таблицы МестаХраненияВторогоУровня добавлен</span></li>
+                                        <li><span class="tree-leaf">Реквизит НомерЛицевогоСчетаНРДвМХ (Строка) - добавлен</span></li>
+                                        <li><span class="tree-leaf">Реквизит ТипЛицевогоСчетаНРДвМХ (ПеречислениеСсылка) - добавлен</span></li>
+                                        <li><span class="tree-leaf">Оба поля выведены на форму элемента справочника</span></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <span class="tree-node requirement">Требование 5: Доработка загрузчика - получение данных</span>
+                            <ul>
+                                <li><span class="tree-leaf desc">Получать данные из полей registrar_nrd, facialacc_nrd, registraracctype_nrd</span></li>
+                                <li>
+                                    <span class="tree-node implementation">Реализация</span>
+                                    <ul>
+                                        <li><span class="tree-leaf">В ОбщийМакет.СтатикаЦБRuDataAPI добавлены поля:</span></li>
+                                        <li><span class="tree-leaf code">ЕСТЬNULL(InfoFintoolReferenceData.registrar_nrd, ...) КАК registrar_nrd</span></li>
+                                        <li><span class="tree-leaf code">ЕСТЬNULL(InfoFintoolReferenceData.facialacc_nrd, ...) КАК facialacc_nrd</span></li>
+                                        <li><span class="tree-leaf code">ЕСТЬNULL(InfoFintoolReferenceData.registraracctype_nrd, ...) КАК registraracctype_nrd</span></li>
+                                        <li><span class="tree-leaf code">ЕСТЬNULL(ТаблицаInfoOrganizers.fininstid, ...) КАК fininstidРеестродержателя</span></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <span class="tree-node requirement">Требование 6: Доработка загрузчика - метод v2/Info/Organizers</span>
+                            <ul>
+                                <li><span class="tree-leaf desc">Отбирать данные с фильтром "id_org_role = 11 and fintoolid in ()"</span></li>
+                                <li>
+                                    <span class="tree-node implementation">Реализация</span>
+                                    <ul>
+                                        <li><span class="tree-leaf">Добавлена функция <code>InfoOrganizers</code> в ОбщийМодуль.RuDataAPI</span></li>
+                                        <li><span class="tree-leaf">Добавлена функция <code>Organizers_Фильтр</code> с условием id_org_role = 11</span></li>
+                                        <li><span class="tree-leaf">Добавлена функция <code>ТаблицаРеестродержателейИзInfoOrganizers</code></span></li>
+                                        <li><span class="tree-leaf">Левое соединение с ТаблицаInfoOrganizers в запросе макета</span></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <span class="tree-node requirement">Требование 7: Алгоритм для Акций и Паёв РФ</span>
+                            <ul>
+                                <li><span class="tree-leaf desc">Выполнять новый алгоритм только для Акций и Паёв РФ со статусами "В обращении", "Дефолт", "Размещается"</span></li>
+                                <li>
+                                    <span class="tree-node implementation">Реализация</span>
+                                    <ul>
+                                        <li><span class="tree-leaf">Добавлена процедура <code>ЗаполнитьМестаХраненияЦБ</code></span></li>
+                                        <li><span class="tree-leaf">Проверка: ЭтоАкцияИлиПай = (ЦБ.ТипЦБ = Акция Или ЦБ.ТипЦБ = Пай)</span></li>
+                                        <li><span class="tree-leaf">Добавлена функция <code>ЭтоРоссийскаяЦБ</code> для проверки страны</span></li>
+                                        <li><span class="tree-leaf">Для остальных бумаг - прежний алгоритм из depositary_nrd</span></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <span class="tree-node requirement">Требование 8: Обработка ошибок и уведомления</span>
+                            <ul>
+                                <li><span class="tree-leaf desc">При неверных данных отправлять уведомление в техподдержку</span></li>
+                                <li>
+                                    <span class="tree-node implementation">Реализация</span>
+                                    <ul>
+                                        <li><span class="tree-leaf">При неверном типе ЛС: Ошибки.Вставить("МестаХранения", "неизвестный тип ЛС")</span></li>
+                                        <li><span class="tree-leaf">При не найденном ЮЛ: Ошибки.Вставить("МестаХранения", "не найдено юрлицо-реестродержатель")</span></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <span class="tree-node error">ОШИБКИ В КОДЕ - ТРЕБУЮТ ИСПРАВЛЕНИЯ</span>
+                            <ul>
+                                <li>
+                                    <span class="tree-node error-item">BUG: Неинициализированная переменная</span>
+                                    <ul>
+                                        <li><span class="tree-leaf error-location">Расположение: ОбщийМодуль.RuDataAPI</span></li>
+                                        <li><span class="tree-leaf error-location">Процедура: ДобавитьОбновитьИнформациюОРеестродержателеВМестахХранения</span></li>
+                                        <li><span class="tree-leaf error-text">Ошибка: НомерСтроки = НомерСтроки + 1; (переменная не инициализирована)</span></li>
+                                        <li><span class="tree-leaf error-fix">Исправить на: ИндексСтроки = ИндексСтроки + 1;</span></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <span class="tree-node error-item">Латинская буква в имени перечисления</span>
+                                    <ul>
+                                        <li><span class="tree-leaf error-location">Расположение: Перечисление.ТипыЛицевыхCчетовНРДвМХ</span></li>
+                                        <li><span class="tree-leaf error-text">Ошибка: Латинская "C" вместо кириллической "С"</span></li>
+                                        <li><span class="tree-leaf error-fix">Исправить на: ТипыЛицевыхСчетовНРДвМХ</span></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <span class="tree-node warning-item">Концевые пробелы в коде</span>
+                                    <ul>
+                                        <li><span class="tree-leaf error-location">Расположение: ОбщийМодуль.RuDataAPI, строки 242, 3469-3475</span></li>
+                                        <li><span class="tree-leaf error-fix">Рекомендация: Удалить trailing whitespace</span></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <span class="tree-node warning-item">Отсутствие документации</span>
+                                    <ul>
+                                        <li><span class="tree-leaf error-location">Функции: ЭтоРоссийскаяЦБ, ТипЛицевогоСчетаНРДвМХ</span></li>
+                                        <li><span class="tree-leaf error-fix">Рекомендация: Добавить документирующие комментарии</span></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Summary -->
+        <div class="summary-box">
+            <div class="summary-title">
+                <span>ИТОГИ КОД-РЕВЬЮ</span>
+            </div>
+            <div class="summary-content">
+                <div class="summary-item">
+                    <h4>Соответствие заданию</h4>
+                    <p>Все основные требования задания выполнены. Разработчик реализовал полный алгоритм загрузки данных о реестродержателях для Акций и Паёв РФ, включая интеграцию с методом v2/Info/Organizers.</p>
+                </div>
+                <div class="summary-item">
+                    <h4>Качество кода</h4>
+                    <p>Код написан в целом корректно, но есть критическая ошибка с неинициализированной переменной. Требуется исправление перед внедрением в продукционную среду.</p>
+                </div>
+                <div class="summary-item">
+                    <h4>Рекомендации</h4>
+                    <ul>
+                        <li>Исправить ошибку с переменной НомерСтроки -> ИндексСтроки</li>
+                        <li>Рассмотреть переименование перечисления (латинская C)</li>
+                        <li>Удалить концевые пробелы</li>
+                        <li>Добавить полную документацию к новым функциям</li>
+                    </ul>
+                </div>
+                <div class="summary-item">
+                    <h4>Оценка готовности</h4>
+                    <p style="font-size: 1.2rem; margin-top: 10px;">
+                        <span class="status-badge warning" style="font-size: 1rem;">Требует исправлений</span>
+                    </p>
+                    <p style="margin-top: 10px;">После исправления критической ошибки код готов к тестированию.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>Отчёт код-ревью | NRB-3354 | Дата создания: 05.02.2026</p>
+            <p>Проверил: Cursor AI Code Review System</p>
+        </div>
+    </div>
+</body>
+</html>
