@@ -1,0 +1,42 @@
+ARRIVALS & HOTELS - TRIP 2026 (Phuket - Malaysia - Singapore)
+==============================================================
+
+1. PHUKET (24.02.2026, Tuesday)
+   Flight: EY412 (Etihad Airways) | Arrival: 17:55 | Airport: HKT
+   Hotel: Natai Beach Resort
+   Address: 55 Moo 6, Kok Kloi, Takua Thung District, Phang Nga 82140, Thailand
+
+2. KUALA LUMPUR (27.02.2026, Friday)
+   Flight: OD541 (Batik Air) | Arrival: 16:00 | Airport: KUL T1
+   Hotel: EQ Kuala Lumpur
+   Address: Equatorial Plaza, Jalan Sultan Ismail, 50250 Kuala Lumpur, Malaysia
+
+3. LANGKAWI (01.03.2026, Sunday)
+   Flight: AK6331 (AirAsia) | Arrival: 16:05 | Airport: LGK
+   Hotel: Pelangi Beach Resort & Spa Langkawi
+   Address: Pantai Cenang, 07000 Langkawi, Kedah, Malaysia
+
+4. SINGAPORE (03.03.2026, Tuesday)
+   Flight: TR477 (Scoot) | Arrival: 17:25 | Airport: SIN T1
+   Hotel: Swissotel The Stamford Singapore
+   Address: 2 Stamford Road, Singapore 178882
+
+================================================================================
+DEPARTURES
+================================================================================
+
+1. PHUKET (27.02.2026, Friday)
+   Flight: OD541 (Batik Air) | Departure: 13:20 | Airport: HKT
+   Route: HKT -> KUL
+
+2. KUALA LUMPUR (01.03.2026, Sunday)
+   Flight: AK6331 (AirAsia) | Departure: 15:00 | Airport: KUL (klia2)
+   Route: KUL -> LGK
+
+3. LANGKAWI (03.03.2026, Tuesday)
+   Flight: TR477 (Scoot) | Departure: 15:40 | Airport: LGK
+   Route: LGK -> SIN
+
+4. SINGAPORE (06.03.2026, Friday)
+   Flight: EY499 (Etihad Airways) | Departure: 19:25 | Airport: SIN T2
+   Route: SIN -> AUH (then EY841 AUH -> SVO, arr. 07.03.2026 07:45)
