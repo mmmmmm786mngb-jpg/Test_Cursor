@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Отчет о код-ревью: ACCOUNTING-17154 и ACCOUNTING-17155</title>
+	<style>
+		:root {
+			--bg: #0d1117;
+			--surface: #161b22;
+			--border: #30363d;
+			--text: #e6edf3;
+			--text-muted: #8b949e;
+			--accent: #58a6ff;
+			--success: #28a745;
+			--warning: #d29922;
+			--error: #dc3545;
+			--info: #17a2b8;
+		}
+		* { box-sizing: border-box; }
+		body {
+			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+			background: var(--bg);
+			color: var(--text);
+			line-height: 1.6;
+			margin: 0;
+			padding: 2rem;
+			max-width: 1100px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		h1, h2, h3 { font-weight: 600; margin-top: 1.5em; margin-bottom: 0.5em; }
+		h1 { font-size: 1.75rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+		h2 { font-size: 1.25rem; color: var(--accent); }
+		h3 { font-size: 1.05rem; }
+		a { color: var(--accent); text-decoration: none; }
+		a:hover { text-decoration: underline; }
+		table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+		th, td { border: 1px solid var(--border); padding: 0.5rem 0.75rem; text-align: left; }
+		th { background: var(--surface); color: var(--text-muted); font-weight: 600; }
+		tr:nth-child(even) { background: rgba(255,255,255,0.03); }
+		blockquote {
+			border-left: 4px solid var(--border);
+			margin: 1rem 0;
+			padding: 0.5rem 1rem;
+			background: var(--surface);
+			color: var(--text-muted);
+		}
+		pre, code {
+			font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+			font-size: 0.85rem;
+			background: var(--surface);
+			border: 1px solid var(--border);
+			border-radius: 6px;
+			padding: 0.2em 0.4em;
+		}
+		pre { padding: 1rem; overflow-x: auto; white-space: pre-wrap; }
+		.badge {
+			display: inline-block;
+			padding: 0.2em 0.5em;
+			border-radius: 4px;
+			font-size: 0.75rem;
+			font-weight: 600;
+		}
+		.badge-success { background: rgba(40, 167, 69, 0.25); color: var(--success); }
+		.badge-warning { background: rgba(210, 153, 34, 0.25); color: var(--warning); }
+		.badge-error { background: rgba(220, 53, 69, 0.25); color: var(--error); }
+		.badge-info { background: rgba(23, 162, 184, 0.25); color: var(--info); }
+		.card {
+			background: var(--surface);
+			border: 1px solid var(--border);
+			border-radius: 8px;
+			padding: 1rem 1.25rem;
+			margin: 1rem 0;
+		}
+		.card h3 { margin-top: 0; }
+		.finding { margin: 0.75rem 0; padding: 0.75rem; border-radius: 6px; }
+		.finding-ok { background: rgba(40, 167, 69, 0.12); border-left: 4px solid var(--success); }
+		.finding-minor { background: rgba(210, 153, 34, 0.12); border-left: 4px solid var(--warning); }
+		.finding-major { background: rgba(220, 53, 69, 0.12); border-left: 4px solid var(--error); }
+		.finding-info { background: rgba(23, 162, 184, 0.12); border-left: 4px solid var(--info); }
+		.recommendation-highlight { background: rgba(210, 153, 34, 0.2); border: 1px solid var(--warning); border-radius: 6px; padding: 0.75rem 1rem; margin: 0.5rem 0; font-weight: 500; }
+		.meta { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 2rem; }
+		.toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.5rem; margin: 1.5rem 0; }
+		.toc ul { margin: 0.5rem 0; padding-left: 1.25rem; }
+		.toc a { color: var(--text); }
+		hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+	</style>
+</head>
+<body>
+
+<h1>Отчет о код-ревью</h1>
+<p class="meta">
+	<strong>Задачи:</strong> ACCOUNTING-17154 (SBB/ИЦ), ACCOUNTING-17155 (DEPO) &nbsp;|&nbsp;
+	<strong>Область:</strong> Связанные задачи — отчеты брокера в депозитарий через транзит &nbsp;|&nbsp;
+	<strong>Тип проверки:</strong> Соответствие стандартам, выполнение задач, Sonar
+</p>
+
+<div class="toc">
+	<h2 id="toc">Содержание</h2>
+	<ul>
+		<li><a href="#summary">Краткое резюме</a></li>
+		<li><a href="#17154">ACCOUNTING-17154 (SBB) — детали</a></li>
+		<li><a href="#17155">ACCOUNTING-17155 (DEPO) — детали</a></li>
+		<li><a href="#sonar">Sonar и стандарты</a></li>
+		<li><a href="#recommendations">Рекомендации</a></li>
+	</ul>
+</div>
+
+<h2 id="summary">Краткое резюме</h2>
+
+<table>
+	<thead>
+		<tr>
+			<th>Задача</th>
+			<th>Описание</th>
+			<th>Выполнено</th>
+			<th>Вердикт</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>ACCOUNTING-17154</td>
+			<td>Настроить получение ранее выгруженных отчетов по клиентам для дальнейшей отправки в СД</td>
+			<td>Да</td>
+			<td><span class="badge badge-success">Одобрено с замечаниями</span></td>
+		</tr>
+		<tr>
+			<td>ACCOUNTING-17155</td>
+			<td>Формировать исходящий транзитный пакет и winf.xml</td>
+			<td>Да</td>
+			<td><span class="badge badge-success">Одобрено с замечаниями</span></td>
+		</tr>
+	</tbody>
+</table>
+
+<p>
+	Обе задачи выполнены в соответствии с описанием. Изменения соответствуют стандартам разработки 1С и типовым практикам (именование, разделение клиент/сервер, использование параметров запросов, обработка ошибок). Ниже — детальная проверка по пунктам ТЗ и замечания по улучшению.
+</p>
+
+<hr>
+
+<h2 id="17154">ACCOUNTING-17154 (SBB / Инвестиционный центр)</h2>
+
+<h3>Требования задачи и реализация</h3>
+
+<table>
+	<thead>
+		<tr>
+			<th>Требование</th>
+			<th>Реализация</th>
+			<th>Статус</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>1) Добавить регламентное задание</td>
+			<td>РегламентноеЗадание.РассылкаОтчетовВСпецДеп; обработчик в РегламентныеЗаданияСервер.РассылкаОтчетовВСпецДеп(); настройка в ОбновлениеИнформационнойБазыNew (задача 17154)</td>
+			<td><span class="badge badge-success">OK</span></td>
+		</tr>
+		<tr>
+			<td>2) Добавить РС "Спец. депозитарии клиентов"</td>
+			<td>Регистр сведений СпецДепозитарииКлиентов (измерения: Клиент, Договор; ресурсы: СпецДепозитарий, КодВНРД); формы списка и записи</td>
+			<td><span class="badge badge-success">OK</span></td>
+		</tr>
+		<tr>
+			<td>3) Функция по списку клиентов из нового РС получает отчеты из РС "Отчеты клиентов" и подготавливает для передачи в 1С Депо</td>
+			<td>Обработка РассылкаОтчетовВСпецДеп с вызовом ВыгрузитьОтчетыКлиентов(); регламентное задание и ручной запуск</td>
+			<td><span class="badge badge-success">OK</span></td>
+		</tr>
+		<tr>
+			<td>—</td>
+			<td>В РС ОтчетыКлиентов добавлен реквизит ПереданоСД; при формировании отчета из формы устанавливается флаг Официальный (Документооборот) в РС ОтчетыКлиентов</td>
+			<td><span class="badge badge-success">OK</span></td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Код-ревью — 17154</h3>
+
+<div class="finding finding-ok">
+	<strong>Регламентное задание.</strong> Обработчик проверяет рабочий день через ОбщегоНазначения.РабочийДень — уместно, регламент не выполняется в выходные. Вызов делегирован обработке: Обработки.РассылкаОтчетовВСпецДеп.ВыгрузитьОтчетыКлиентов() — единая точка логики.
+</div>
+
+<div class="finding finding-ok">
+	<strong>ОтчетКлиентаNew.</strong> В форму отчета и в менеджер добавлен параметр ЭтоОфициальныйОтчет (по умолчанию Ложь), значение берется из Отчет.Документооборот. Обратная совместимость сохранена за счет значения по умолчанию.
+</div>
+
+<div class="finding finding-minor">
+	<strong>Документирование.</strong> Для новых экспортных процедур (РассылкаОтчетовВСпецДеп, НастроитьРегламентноеЗаданиеРассылкаОтчетовВСпецДеп) рекомендуется добавить полные документирующие комментарии по стандарту BSL: описание, параметры, возвращаемое значение (для функций), пример вызова.
+</div>
+
+<div class="finding finding-info">
+	<strong>Регламентное задание — расписание.</strong> Интервалы 14:00 и 19:00 заданы через ДобавитьИнтервал(..., Дата(1,1,1,14,0,0), Дата(1,1,1,0,0,0), 0, 0). Следует убедиться, что сигнатура ДобавитьИнтервал и смысл параметров (время начала/конца, повтор) соответствуют принятому в проекте подходу к настройке расписания.
+</div>
+
+<div class="finding finding-ok">
+	<strong>Права.</strong> Обработка РассылкаОтчетовВСпецДеп и РС СпецДепозитарииКлиентов добавлены в роль Просмотровый (ИнвестиционныйЦентр) — видимость объектов учтена.
+</div>
+
+<hr>
+
+<h2 id="17155">ACCOUNTING-17155 (DEPO)</h2>
+
+<h3>Требования задачи и реализация</h3>
+
+<table>
+	<thead>
+		<tr>
+			<th>Требование</th>
+			<th>Реализация</th>
+			<th>Статус</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Настроить формирование winf.xml по шаблону (отличается от шаблона РСВ)</td>
+			<td>Функции ШаблоныСообщенияСпецДеп(), ТекстСообщенияXML(); шаблон COVERING_LETTER с TRANSIT="YES", SUBJECT NTED#report, LETTER_TYPE NDC0STND и др.</td>
+			<td><span class="badge badge-success">OK</span></td>
+		</tr>
+		<tr>
+			<td>Расширить функционал по формированию W-пакетов</td>
+			<td>Имя каталога: префикс "W" + день + месяц (hex) + порядковый номер; создание каталога, winf.xml, упаковка архива</td>
+			<td><span class="badge badge-success">OK</span></td>
+		</tr>
+		<tr>
+			<td>Создавать документы "Техническая операция" и "Исходящий пакет"</td>
+			<td>Документы.ТехническаяОперация.СоздатьДокумент(); Документы.ИсходящийПакетВФайловыйШлюз.СоздатьДокумент(); связь по основанию, регистр СостоянияДокументовВФайловомШлюзе</td>
+			<td><span class="badge badge-success">OK</span></td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Код-ревью — 17155</h3>
+
+<div class="finding finding-ok">
+	<strong>Веб-сервис SendToSpecDep.</strong> Есть проверка функциональной опции ИспользоватьФайловыйШлюзДляОтправкиПоручений, логирование в ЖурналРегистрацииВызовов и СообщенияОбменаСоСмежнымиСистемами, попытка/исключение с фиксацией ошибки и возвратом текста — соответствует практике для внешних вызовов.
+</div>
+
+<div class="finding finding-ok">
+	<strong>Формирование пакета.</strong> Проверка пути и существования каталога, получение порядкового номера через НовыйПорядковыйНомерВТечениеДня, цикл по существованию каталога для уникальности имени, запись winf в кодировке windows-1251 — логика корректна.
+</div>
+
+<div class="finding finding-minor">
+	<strong>Сборка пути.</strong> Используется конкатенация <code>ПутьДляВыгрузки + "\" + ИмяКаталога</code>. В базовой конфигурации Депо уже есть утилиты общего модуля <code>ОбщегоНазначенияКлиентСервер</code>:
+	<ul style="margin: 0.5rem 0 0 1rem;">
+		<li><strong>ПолучитьИмяФайла(ИмяКаталога, ИмяФайла)</strong> — составляет полное имя из пути каталога и имени файла/каталога, сам добавляет разделитель \ или / при необходимости (если в пути уже есть "/", используется "/").</li>
+		<li><strong>ДобавитьКонечныйРазделительПути(ПутьКаталога)</strong> — добавляет в конец пути \ или /; учитывает протокол (например, для "ftp://..." добавляется "/").</li>
+	</ul>
+	Примеры использования в конфигурации: обработка <code>ТранспортСообщенийОбменаFILE</code> (<code>ОбщегоНазначенияКлиентСервер.ПолучитьИмяФайла(Каталог, ИмяФайла)</code>), обработка <code>ЗагрузкаКДИзДепозитария</code> (<code>ОбщегоНазначенияКлиентСервер.ДобавитьКонечныйРазделительПути(КаталогАрхива)</code>, затем конкатенация с именем подкаталога). Рекомендуется заменить конкатенацию на вызов <code>ОбщегоНазначенияКлиентСервер.ПолучитьИмяФайла(ПутьДляВыгрузки, ИмяКаталога)</code> для формирования полного пути каталога.
+</div>
+
+<div class="finding finding-minor">
+	<strong>Документирование.</strong> Функции SendToSpecDep, СформироватьИсходящийПакетВСпецДеп, ПараметрыТранзитаСпецДеп, ШаблоныСообщенияСпецДеп, ТекстСообщенияXML стоит описать в комментариях: назначение, параметры, возвращаемое значение, особые случаи (пустой архив, ошибки записи).
+</div>
+
+<div class="finding finding-info">
+	<strong>Итерация по структуре.</strong> В ТекстСообщенияXML выполняется замена плейсхолдеров по ключам структуры ПараметрыТранзита. Ключ "Файлы" — массив; в шаблоне начала нет плейсхолдера [Файлы], добавление файлов выполняется отдельным циклом — некорректной подстановки нет.
+</div>
+
+<div class="finding finding-ok">
+	<strong>Транзакции и документы.</strong> Создание технической операции и исходящего пакета, запись в регистр состояний и перемещение файла выполняются в ожидаемой последовательности; при ошибке в Попытка/Исключение SendToSpecDep ошибка логируется и возвращается вызывающей стороне.
+</div>
+
+<hr>
+
+<h2 id="sonar">Соответствие Sonar и стандартам</h2>
+
+<table>
+	<thead>
+		<tr>
+			<th>Область</th>
+			<th>Оценка</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Именование (PascalCase)</td>
+			<td>Имена объектов, процедур и переменных выдержаны в PascalCase (РассылкаОтчетовВСпецДеп, СпецДепозитарииКлиентов, ПереданоСД, ЭтоОфициальныйОтчет).</td>
+		</tr>
+		<tr>
+			<td>Ключевые слова (регистр 1С)</td>
+			<td>Используются корректные ключевые слова: Не, КонецЕсли, КонецЦикла, КонецПопытки и т.д.</td>
+		</tr>
+		<tr>
+			<td>Клиент/сервер</td>
+			<td>Регламентное задание и обработка — серверная логика; форма отчета передает параметр на сервер — разделение соблюдено.</td>
+		</tr>
+		<tr>
+			<td>Использование Попытка/Исключение</td>
+			<td>Попытка/Исключение в SendToSpecDep используется по назначению (внешний вызов, работа с файлами и архивом). В остальном — проверки условий без избыточного оборачивания.</td>
+		</tr>
+		<tr>
+			<td>Безопасность запросов</td>
+			<td>В представленных фрагментах запросов с конкатенацией строк не видно; новые участки опираются на параметры и объекты метаданных.</td>
+		</tr>
+		<tr>
+			<td>Комментарии</td>
+			<td>Есть краткие комментарии (например, обработчик рег. задания). Рекомендуется довести до полного BSL-формата для экспортных процедур и функций.</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>
+	Ссылки на Sonar: <br>
+	17154: <a href="https://smsk02ap318t:9443/dashboard?id=backoffice1C&pullRequest=497">backoffice1C PR 497</a>,<br>
+	17155: <a href="https://smsk02ap318t:9443/dashboard?id=custody1C&pullRequest=274">custody1C PR 274</a>.
+</p>
+
+<hr>
+
+<h2 id="recommendations">Рекомендации</h2>
+
+<ol>
+	<li><strong>Документирование.</strong> Добавить полные BSL-комментарии ко всем новым экспортным процедурам и функциям (описание, параметры, возвращаемое значение, примеры).</li>
+	<li><strong>Пути.</strong> В DEPO при сборке путей использовать функции общего модуля <code>ОбщегоНазначенияКлиентСервер</code>: <code>ПолучитьИмяФайла(ПутьДляВыгрузки, ИмяКаталога)</code> или <code>ДобавитьКонечныйРазделительПути(ПутьДляВыгрузки)</code> + имя подкаталога (примеры — в обработках ТранспортСообщенийОбменаFILE, ЗагрузкаКДИзДепозитария).</li>
+	<li>
+		<div class="recommendation-highlight">
+			<strong>Сценарии (важно).</strong> Обязательно проверить путь формирования отчета в фоне: процедура <code>СформироватьОтчетВФоне</code> при необходимости должна так же, как и основная ветка формирования из формы, учитывать признак «официальный отчет» (<code>Отчет.Документооборот</code>) и запись в РС ОтчетыКлиентов. По текущему сравнению доработана только основная ветка; фоновый сценарий может привести к расхождению данных или отсутствию маркировки отчета для отправки в СД.
+		</div>
+	</li>
+</ol>
+
+<hr>
+
+<p class="meta">
+	<strong>Отчет сформирован:</strong> по результатам код-ревью на основе отчета сравнения и стандартов проекта.<br>
+	<strong>Область охвата:</strong> ACCOUNTING-17154 (SBB), ACCOUNTING-17155 (DEPO).<br>
+	<strong>Вердикт:</strong> Обе задачи выполнены, код соответствует стандартам 1С; замечания носят рекомендательный характер (документирование, пути, тесты).
+</p>
+
+</body>
+</html>
