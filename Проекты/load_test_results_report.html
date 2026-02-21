@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Результаты нагрузочного тестирования. Было / Стало</title>
+  <style>
+    :root {
+      --color-bg: #0f1419;
+      --color-surface: #1a2332;
+      --color-surface2: #243044;
+      --color-text: #e6edf3;
+      --color-text-muted: #8b9cb3;
+      --color-success: #28a745;
+      --color-danger: #dc3545;
+      --color-warning: #ffc107;
+      --color-info: #17a2b8;
+      --font-sans: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      --radius: 12px;
+      --shadow: 0 4px 24px rgba(0,0,0,0.25);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 2rem 1rem 4rem;
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--color-text);
+      background: var(--color-bg);
+    }
+    .page-header {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--color-surface2);
+    }
+    .page-header h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin: 0 0 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .page-header p {
+      color: var(--color-text-muted);
+      margin: 0;
+      font-size: 0.95rem;
+    }
+    .toc {
+      max-width: 960px;
+      margin: 0 auto 2.5rem;
+      padding: 1.25rem 1.5rem;
+      background: var(--color-surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--color-surface2);
+    }
+    .toc__title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-text-muted);
+      margin: 0 0 1rem;
+    }
+    .toc__link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      color: var(--color-info);
+      text-decoration: none;
+      border-bottom: 1px solid var(--color-surface2);
+      font-weight: 500;
+    }
+    .toc__link:hover { color: var(--color-text); }
+    .toc__link:last-child { border-bottom: none; }
+    .toc__count {
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      font-weight: 400;
+    }
+    .section {
+      max-width: 960px;
+      margin: 0 auto 3rem;
+    }
+    .section__title {
+      font-size: 1.35rem;
+      font-weight: 600;
+      margin: 0 0 1.5rem;
+      color: var(--color-info);
+    }
+    .cards {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .card {
+      background: var(--color-surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      border: 1px solid var(--color-surface2);
+      border-left-width: 4px;
+      border-left-style: solid;
+    }
+    .card--ok { border-left-color: var(--color-success); }
+    .card--warn { border-left-color: var(--color-warning); }
+    .card--fail { border-left-color: var(--color-danger); }
+    .card--info, .card--unknown { border-left-color: var(--color-info); }
+    .card__header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      background: var(--color-surface2);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .card__title {
+      margin: 0;
+      font-size: 1.05rem;
+      font-weight: 600;
+      flex: 1;
+    }
+    .card__badge {
+      flex-shrink: 0;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .card__badge--ok { background: var(--color-success); color: #fff; }
+    .card__badge--warn { background: var(--color-warning); color: #1a2332; }
+    .card__badge--fail { background: var(--color-danger); color: #fff; }
+    .card__badge--info { background: var(--color-info); color: #fff; }
+    .card__badge--unknown { background: var(--color-text-muted); color: #fff; }
+    .card__body { padding: 1.25rem; }
+    .block--was-stalo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    @media (max-width: 640px) {
+      .block--was-stalo { grid-template-columns: 1fr; }
+    }
+    .block__label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-text-muted);
+      margin-bottom: 0.35rem;
+    }
+    .block__value {
+      font-size: 1rem;
+      font-weight: 500;
+    }
+    .block__col--was .block__value--target { color: var(--color-text-muted); }
+    .block__col--stalo .block__value--result { color: var(--color-text); }
+    .card__meta { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--color-surface2); }
+    .card__meta p { margin: 0 0 0.5rem; font-size: 0.9rem; color: var(--color-text-muted); }
+    .card__meta p:last-child { margin-bottom: 0; }
+    .card__rec strong, .card__ticket strong { color: var(--color-text); }
+    @media print {
+      body { background: #fff; color: #111; }
+      .toc { background: #f5f5f5; border-color: #ddd; }
+      .toc__link { color: #06c; }
+      .section__title { color: #06c; }
+      .card { background: #fff; border: 1px solid #ddd; box-shadow: none; }
+      .card__header { background: #f5f5f5; }
+      .block__col--was .block__value--target { color: #444; }
+      .card__meta p { color: #444; }
+    }
+  </style>
+</head>
+<body>
+  <header class="page-header">
+    <h1>Результаты нагрузочного тестирования</h1>
+    <p>Замеры по блокам оптимизации: Было (цель) / Стало (результат)</p>
+  </header>
+
+  <nav class="toc" aria-label="Содержание">
+    <h2 class="toc__title">Блоки оптимизации</h2>
+    <a class="toc__link" href="#AvancoreDU">Avancore DU (управление активами) <span class="toc__count">13</span></a>
+    <a class="toc__link" href="#AvancoreMO">Avancore MO (Middle Office) <span class="toc__count">5</span></a>
+    <a class="toc__link" href="#AvancoreFIN">Avancore FIN (финансы) <span class="toc__count">3</span></a>
+    <a class="toc__link" href="#AvancoreFO">Avancore FO (Front Office) <span class="toc__count">8</span></a>
+  </nav>
+<section class="section" id="AvancoreDU">
+  <h2 class="section__title">Avancore DU (управление активами)</h2>
+  <div class="cards">
+<article class="card card--info">
+  <header class="card__header">
+    <h3 class="card__title">Автоматическое создание договоров и аналитики ДУ</h3>
+    <span class="card__badge card__badge--info">Результат</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: 150 Договоров ДУ в течении дня</div>
+        <div class="block__value block__value--target">Целевое время: 10 мин</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">6 мин 43 сек</div>
+      </div>
+    </div>
+    <div class="card__meta">
+      <p class="card__ticket"><strong>Задача:</strong> Этап</p>
+    </div>
+  </div>
+</article>
+<article class="card card--info">
+  <header class="card__header">
+    <h3 class="card__title">Автоматическое формирование документов на открытие счетов СБ-Брокер</h3>
+    <span class="card__badge card__badge--info">Результат</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: 10 договоров ДУ в течении 30 мин</div>
+        <div class="block__value block__value--target">Целевое время: 5 мин</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">3 мин</div>
+      </div>
+    </div>
+    <div class="card__meta">
+      <p class="card__ticket"><strong>Задача:</strong> Требования к железу:</p>
+    </div>
+  </div>
+</article>
+<article class="card card--info">
+  <header class="card__header">
+    <h3 class="card__title">Автоматическое формирование документов на открытие счетов ВТБ</h3>
+    <span class="card__badge card__badge--info">Результат</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: 10 договоров ДУ</div>
+        <div class="block__value block__value--target">Целевое время: 10 мин</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">2 мин</div>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="card card--info">
+  <header class="card__header">
+    <h3 class="card__title">Открытие счетов брокера Платформа</h3>
+    <span class="card__badge card__badge--info">Результат</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: 10 счетов</div>
+        <div class="block__value block__value--target">Целевое время: 5 мин</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">7 сек</div>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="card card--info">
+  <header class="card__header">
+    <h3 class="card__title">Обработка файлов ЭДО Транзит</h3>
+    <span class="card__badge card__badge--info">Результат</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: 10 файлов</div>
+        <div class="block__value block__value--target">Целевое время: 1 мин</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">30 сек</div>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="card card--info">
+  <header class="card__header">
+    <h3 class="card__title">Автоматическое заполнение договора ДУ</h3>
+    <span class="card__badge card__badge--info">Результат</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: 150 договоров ДУ</div>
+        <div class="block__value block__value--target">Целевое время: 1 мин</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">8 мин 19 сек</div>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="card card--info">
+  <header class="card__header">
+    <h3 class="card__title">Загрузка сделок</h3>
+    <span class="card__badge card__badge--info">Результат</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: 900 сделок при стандартном операционном flow ; Целевое кол-во 50 тыс клиентов в год с приростом по 50 тыс каждый год ; &gt;100 000 сделок</div>
+        <div class="block__value block__value--target">Целевое время: —</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">20 мин</div>
+      </div>
+    </div>
+    <div class="card__meta">
+      <p class="card__rec"><strong>Рекомендация:</strong> Уменьшить время записи транзакции за счет доп индексов в БД, разбить загрузку на несколько параллельных потоков</p>
+      <p class="card__extra">планируется взять в работу с 12.01.25, требуется завести задачу и согласование возможности взять в работу</p>
+      <p class="card__ticket"><strong>Задача:</strong> Получение из внешней системы Создание бизнес-процессов СделкиTn  в 1С</p>
+    </div>
+  </div>
+</article>
+<article class="card card--info">
+  <header class="card__header">
+    <h3 class="card__title">Исполнение сделок Т-1</h3>
+    <span class="card__badge card__badge--info">Результат</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: 30 000 сделок ; 100 000 сделок</div>
+        <div class="block__value block__value--target">Целевое время: 1 час</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">3 ч. 36 мин. 12 с.</div>
+      </div>
+    </div>
+    <div class="card__meta">
+      <p class="card__rec"><strong>Рекомендация:</strong> Разделить регламенты между клиентами Розничного ДУ и классического Разделить регламенты между клиентами Розничного ДУ и классического</p>
+      <p class="card__extra">Передано в АВАНКОР и ВНУТР. Планируется получение релиза в течении 1-х недель после НГ</p>
+      <p class="card__ticket"><strong>Задача:</strong> Выполнение этапа ОТКРЫТИЕ (Создание Сделок и Оплат)</p>
+    </div>
+  </div>
+</article>
+<article class="card card--info">
+  <header class="card__header">
+    <h3 class="card__title">Исполнение сделок Т</h3>
+    <span class="card__badge card__badge--info">Результат</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: 30 000 сделок ; 100 000 сделок</div>
+        <div class="block__value block__value--target">Целевое время: 30 мин</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">36 мин. 3 с.</div>
+      </div>
+    </div>
+    <div class="card__meta">
+      <p class="card__rec"><strong>Рекомендация:</strong> разбить на несколько параллельных потоков</p>
+      <p class="card__ticket"><strong>Задача:</strong> Выполнение этапа ЗАКРЫТИЕ  (ПРОВЕДЕНЕ Сделок и Оплат)</p>
+    </div>
+  </div>
+</article>
+<article class="card card--info">
+  <header class="card__header">
+    <h3 class="card__title">Регламентное задание Вознаграждение за управление</h3>
+    <span class="card__badge card__badge--info">Результат</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: 25 000 договоров ДУ ; через 3 года более 100 000 договоров ДУ</div>
+        <div class="block__value block__value--target">Целевое время: 2 часа</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">2ч. 13 мин. 9 с.</div>
+      </div>
+    </div>
+    <div class="card__meta">
+      <p class="card__extra">Регламентные операции (ДУ): 3.1 Вознаграждение за управление (кроме Спец. Депозитария) ?</p>
+    </div>
+  </div>
+</article>
+<article class="card card--fail">
+  <header class="card__header">
+    <h3 class="card__title">Вечерние регламентные операции</h3>
+    <span class="card__badge card__badge--fail">Не завершён</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: 25 000 договоров ДУ ; 15 000 договоров ДУ ; через 3 года более 100 000 договоров ДУ</div>
+        <div class="block__value block__value--target">Целевое время: 2ч. 30 мин</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">Не завершился тест</div>
+      </div>
+    </div>
+    <div class="card__meta">
+      <p class="card__rec"><strong>Рекомендация:</strong> Разделить регламенты между клиентами Розничного ДУ и классического Разделить регламенты между клиентами Розничного ДУ и классического разбить на несколько параллельных потоков</p>
+      <p class="card__extra">Регламентные операции (ДУ): 2. &quot;Вечерние&quot; операции (кроме Расчет резерва) ? Это прямо со спр. &quot;РегламентныеПериоды&quot; при двойном щелчке на регл периоде? А как узнать какой список Договров отбирают?</p>
+    </div>
+  </div>
+</article>
+<article class="card card--info">
+  <header class="card__header">
+    <h3 class="card__title">Утренние регламентные операции</h3>
+    <span class="card__badge card__badge--info">Результат</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: 25 000 договоров ДУ ; 15 000 договоров ДУ ; через 3 года более 100 000 договоров ДУ</div>
+        <div class="block__value block__value--target">Целевое время: 1час</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">2 ч. 2 мин. 53 с.</div>
+      </div>
+    </div>
+    <div class="card__meta">
+      <p class="card__rec"><strong>Рекомендация:</strong> не формировать котировки для каждого портфеля, а создавать одну на все портфели</p>
+      <p class="card__extra">Регламентные операции (ДУ): 1. &quot;Утренние&quot; операции ? планируется взять в работу с 26.01.25, требуется завести задачу и согласование возможности взять в работу</p>
+    </div>
+  </div>
+</article>
+<article class="card card--fail">
+  <header class="card__header">
+    <h3 class="card__title">Формирование платежных поручений</h3>
+    <span class="card__badge card__badge--fail">Не завершён</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: 20 000 документов ; 15 000 документов ; 100 000 документов</div>
+        <div class="block__value block__value--target">Целевое время: 1 час</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">Не завершился тест</div>
+      </div>
+    </div>
+  </div>
+</article>
+  </div>
+</section>
+<section class="section" id="AvancoreMO">
+  <h2 class="section__title">Avancore MO (Middle Office)</h2>
+  <div class="cards">
+<article class="card card--info">
+  <header class="card__header">
+    <h3 class="card__title">Обмен ЗагрузкаСтатикиКотирИзДУ в МО</h3>
+    <span class="card__badge card__badge--info">Результат</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: Банковские счета – 300 ; Договоры ДУ – 150 ; Торговые коды – 1350 ; Установка котировок ЦБ - 7500</div>
+        <div class="block__value block__value--target">Целевое время: 30 мин</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">1 ч. 22 мин</div>
+      </div>
+    </div>
+    <div class="card__meta">
+      <p class="card__rec"><strong>Рекомендация:</strong> Обмен сократится за счет уменьшения количества документов установки котировок для портфеля</p>
+    </div>
+  </div>
+</article>
+<article class="card card--info">
+  <header class="card__header">
+    <h3 class="card__title">Обмен ЗагрузкаТранзакцийДУв МО</h3>
+    <span class="card__badge card__badge--info">Результат</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: Операции по счету брокера – 30000 ; Перерегистрация ЦБ – 15000 ; Сделки Т+н - 15000 ; 300 000 транзакций</div>
+        <div class="block__value block__value--target">Целевое время: 2 ч.</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">6 ч. 20 мин</div>
+      </div>
+    </div>
+    <div class="card__meta">
+      <p class="card__rec"><strong>Рекомендация:</strong> Нужно провести повторный тест, на прод процесс выполняется гораздо быстрее</p>
+    </div>
+  </div>
+</article>
+<article class="card card--info">
+  <header class="card__header">
+    <h3 class="card__title">Пересчет по расписанию MV и WAP за 2 раб. дня (фон.) в МО после обмена</h3>
+    <span class="card__badge card__badge--info">Результат</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: Счета мандатов – 7500</div>
+        <div class="block__value block__value--target">Целевое время: 2 ч.</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">3 ч. 28 мин</div>
+      </div>
+    </div>
+    <div class="card__meta">
+      <p class="card__rec"><strong>Рекомендация:</strong> разбить на несколько параллельных потоков</p>
+    </div>
+  </div>
+</article>
+<article class="card card--info">
+  <header class="card__header">
+    <h3 class="card__title">Выгрузка счетов мандатов в фронт систему (1С Фронт Офис)</h3>
+    <span class="card__badge card__badge--info">Результат</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: Счета мандатов – 7500</div>
+        <div class="block__value block__value--target">Целевое время: 30 мин</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">1 ч. 15 мин</div>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="card card--info">
+  <header class="card__header">
+    <h3 class="card__title">Выгрузка позиции в фронт систему (1С Фронт Офис)</h3>
+    <span class="card__badge card__badge--info">Результат</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: Ценные бумаги – 7500 ; Денежные средства – 7500 ; СЧА (РСА) – 7500 ; 100 портфелей</div>
+        <div class="block__value block__value--target">Целевое время: 30мин</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">1ч. 17 мин</div>
+      </div>
+    </div>
+  </div>
+</article>
+  </div>
+</section>
+<section class="section" id="AvancoreFIN">
+  <h2 class="section__title">Avancore FIN (финансы)</h2>
+  <div class="cards">
+<article class="card card--info">
+  <header class="card__header">
+    <h3 class="card__title">Обмен ДУ-Финансы 3.0 многопоточно в ФИН</h3>
+    <span class="card__badge card__badge--info">Результат</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: Аналитические счета – 600 ; Банковские счета – 300 ; Договоры ДУ – 150 ; Договоры контрагентов – 750 ; Счета ДЕПО – 300 ; Торговые коды – 1350 ; Начисление вознаграждений – 7500 ; Операции по счету брокера – 30002 ; Перерегистрация ЦБ – 15000 ; Сделки Т+н - 15000 ; 300 000 транзакций</div>
+        <div class="block__value block__value--target">Целевое время: 2 часа</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">6 потоков 2 ч. 46 мин</div>
+      </div>
+    </div>
+    <div class="card__meta">
+      <p class="card__rec"><strong>Рекомендация:</strong> Критичное  время  5 ч.</p>
+      <p class="card__extra">* Убраны дубли справочников и докуметов при передаче из ДУ в ФИН На листе &quot;ОбменДУФин.СравнениеБылоСтало&quot; приведена диаграмма в которой показано изменение скорости обработки после обмена ДУ - &gt; FIN</p>
+    </div>
+  </div>
+</article>
+<article class="card card--info">
+  <header class="card__header">
+    <h3 class="card__title">Исполнение сделок в ФИН</h3>
+    <span class="card__badge card__badge--info">Результат</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: 15 000 Сделки Tn ; 100 000 сделок</div>
+        <div class="block__value block__value--target">Целевое время: 2 часа</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">13 ч. 33 мин</div>
+      </div>
+    </div>
+    <div class="card__meta">
+      <p class="card__rec"><strong>Рекомендация:</strong> Критичное  время 5 ч. разбить на несколько параллельных потоков</p>
+      <p class="card__extra">* Распараллеливание обработки после загрузки Потока по Портфелям, Ускорен расчет Аванса при проведении Перерегистрации * Распараллеливание обработки после загрузки Потока по Портфелям, Ускорен расчет Аванса при проведении Перерегистрации Планируется взять в работу с 12.01.25, требуется завести задачу и согласование возможности взять в работу</p>
+      <p class="card__ticket"><strong>Задача:</strong> Исполнение: обработка после обмена.  ОТКРЫТИЕ Исполнение: обработка после обмена. ЗАКРЫТИЕ Требуется оптимизация Требуется оптимизация</p>
+    </div>
+  </div>
+</article>
+<article class="card card--info">
+  <header class="card__header">
+    <h3 class="card__title">Расчет НДФЛ в ФИН</h3>
+    <span class="card__badge card__badge--info">Результат</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: 1000 Операций</div>
+        <div class="block__value block__value--target">Целевое время: 1 час</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">2 ч. 33 мин</div>
+      </div>
+    </div>
+    <div class="card__meta">
+      <p class="card__rec"><strong>Рекомендация:</strong> Критичное  время 2ч. 30 мин. разбить на несколько параллельных потоков</p>
+    </div>
+  </div>
+</article>
+  </div>
+</section>
+<section class="section" id="AvancoreFO">
+  <h2 class="section__title">Avancore FO (Front Office)</h2>
+  <div class="cards">
+<article class="card card--info">
+  <header class="card__header">
+    <h3 class="card__title">Инициализация Воркбенч</h3>
+    <span class="card__badge card__badge--info">Результат</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: Портфели – 5 000</div>
+        <div class="block__value block__value--target">Целевое время: —</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">30 сек</div>
+      </div>
+    </div>
+    <div class="card__meta">
+      <p class="card__rec"><strong>Рекомендация:</strong> Делить наборы портфелей на меньшее количество пул (1000 max)</p>
+    </div>
+  </div>
+</article>
+<article class="card card--info">
+  <header class="card__header">
+    <h3 class="card__title">Ребалансировка</h3>
+    <span class="card__badge card__badge--info">Результат</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: Портфели – 5 000</div>
+        <div class="block__value block__value--target">Целевое время: —</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">8 мин</div>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="card card--info">
+  <header class="card__header">
+    <h3 class="card__title">Создание поручений</h3>
+    <span class="card__badge card__badge--info">Результат</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: Поручений – 5 000</div>
+        <div class="block__value block__value--target">Целевое время: —</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">11 мин 30 сек</div>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="card card--info">
+  <header class="card__header">
+    <h3 class="card__title">Проверка лимитов (контроли)</h3>
+    <span class="card__badge card__badge--info">Результат</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: Поручений – 5 000 ; Проверок на поручение – 52</div>
+        <div class="block__value block__value--target">Целевое время: —</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">3 ч. 20 мин</div>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="card card--info">
+  <header class="card__header">
+    <h3 class="card__title">Инициализация Воркбенч</h3>
+    <span class="card__badge card__badge--info">Результат</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: Портфели</div>
+        <div class="block__value block__value--target">Целевое время: —</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">30 сек</div>
+      </div>
+    </div>
+    <div class="card__meta">
+      <p class="card__rec"><strong>Рекомендация:</strong> Тест на ежедневную нагрузку. Нужны уточнения уточнения по объему транзакций в день.</p>
+    </div>
+  </div>
+</article>
+<article class="card card--info">
+  <header class="card__header">
+    <h3 class="card__title">Ребалансировка</h3>
+    <span class="card__badge card__badge--info">Результат</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: Портфели –</div>
+        <div class="block__value block__value--target">Целевое время: —</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">8 мин</div>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="card card--info">
+  <header class="card__header">
+    <h3 class="card__title">Создание поручений</h3>
+    <span class="card__badge card__badge--info">Результат</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: Поручений –</div>
+        <div class="block__value block__value--target">Целевое время: —</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">11 мин 30 сек</div>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="card card--info">
+  <header class="card__header">
+    <h3 class="card__title">Проверка лимитов (контроли)</h3>
+    <span class="card__badge card__badge--info">Результат</span>
+  </header>
+  <div class="card__body">
+    <div class="block block--was-stalo">
+      <div class="block__col block__col--was">
+        <div class="block__label">Было (цель)</div>
+        <div class="block__value block__value--target">Объём: Поручений – ; Проверок на поручение – 52</div>
+        <div class="block__value block__value--target">Целевое время: —</div>
+      </div>
+      <div class="block__col block__col--stalo">
+        <div class="block__label">Стало (результат)</div>
+        <div class="block__value block__value--result">3 ч. 20 мин</div>
+      </div>
+    </div>
+  </div>
+</article>
+  </div>
+</section>
+</body>
+</html>
